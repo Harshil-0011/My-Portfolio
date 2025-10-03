@@ -1,0 +1,67 @@
+/* Soft and cold theme */
+:root {
+  --bg-color: #f0f4f8;
+  --accent-color: #a3c4f3;
+  --text-color: #2d3e50;
+  --light-text: #6c7a89;
+  --white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+header {
+  background: var(--accent-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  color: var(--white);
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  color: var(--white);
+  text-decoration: none;
+}
+
+section {
+  padding: 2rem;
+}
+
+#hero {
+  background: #dceeff;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.project {
+  background: var(--white);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: var(--accent-color);
+  color: var(--white);
+}
