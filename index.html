@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="container header">
+  <header class="header">
     <div class="logo">My Portfolio</div>
-    <nav>
+    <nav class="nav">
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
@@ -18,15 +18,19 @@
   </header>
 
   <main>
-    <section id="hero" class="section full-screen center">
-      <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
-      <p>I'm a web developer/designer based in [Location].</p>
+    <section id="hero" class="fullscreen-section">
+      <div class="content">
+        <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
+        <p>I build modern, minimal web experiences that adapt to any screen size.</p>
+      </div>
     </section>
 
-    <section id="about" class="section full-screen">
-      <div class="container">
+    <section id="about" class="fullscreen-section">
+      <div class="content">
         <h2 class="section-title">About Me</h2>
-        <p>Short description about you. Keep it clean and simple. This section fills the screen height and looks balanced across devices.</p>
+        <p>
+          I'm a passionate front-end developer based in [Location]. I focus on creating user-friendly, accessible, and responsive interfaces.
+        </p>
       </div>
     </section>
 
@@ -36,11 +40,11 @@
         <div class="project-grid">
           <div class="project-card">
             <h3>Project One</h3>
-            <p>Brief description of the project.</p>
+            <p>Description of the project and what it solves.</p>
           </div>
           <div class="project-card">
             <h3>Project Two</h3>
-            <p>Brief description of the project.</p>
+            <p>Description of the project and what it solves.</p>
           </div>
         </div>
       </div>
@@ -54,11 +58,10 @@
     </section>
   </main>
 
-  <footer class="container">
+  <footer class="footer">
     <p>© 2025 Your Name</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-
