@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Portfolio</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="container">
+  <header class="container header">
     <div class="logo">My Portfolio</div>
     <nav>
       <a href="#about">About</a>
@@ -17,34 +17,40 @@
     </nav>
   </header>
 
-  <main class="container">
-    <section id="hero">
-      <h1>Hello, I'm [Your Name]</h1>
+  <main>
+    <section id="hero" class="section full-screen center">
+      <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
       <p>I'm a web developer/designer based in [Location].</p>
     </section>
 
-    <section id="about">
-      <h2>About Me</h2>
-      <p>Short description about you. Keep it clean and simple.</p>
+    <section id="about" class="section full-screen">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <p>Short description about you. Keep it clean and simple. This section fills the screen height and looks balanced across devices.</p>
+      </div>
     </section>
 
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="project-list">
-        <div class="project-card">
-          <h3>Project One</h3>
-          <p>Brief description of the project.</p>
-        </div>
-        <div class="project-card">
-          <h3>Project Two</h3>
-          <p>Brief description of the project.</p>
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="project-grid">
+          <div class="project-card">
+            <h3>Project One</h3>
+            <p>Brief description of the project.</p>
+          </div>
+          <div class="project-card">
+            <h3>Project Two</h3>
+            <p>Brief description of the project.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
+      </div>
     </section>
   </main>
 
@@ -55,4 +61,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
