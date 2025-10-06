@@ -5,7 +5,6 @@
   --color-dark-text: #E1D9CC;
   --border-color-light: #434D59;
   --border-color-dark: #E1D9CC;
-  --accent-color: #999;
   --transition-speed: 0.3s;
 }
 
@@ -31,9 +30,9 @@
 html, body {
   background-color: var(--bg);
   color: var(--text);
+  height: 100%;
   scroll-behavior: smooth;
   transition: background-color var(--transition-speed), color var(--transition-speed);
-  height: 100%;
   overflow-x: hidden;
 }
 
@@ -48,56 +47,62 @@ a:hover {
   border-bottom: 1px solid var(--text);
 }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-header.header {
+.header {
   position: sticky;
   top: 0;
   background-color: var(--bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
   z-index: 1000;
+  flex-wrap: wrap;
 }
 
-nav a {
-  margin-left: 1rem;
-  font-weight: 500;
+.logo {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 #theme-toggle {
   background: none;
   border: 1px solid var(--border);
   padding: 0.4rem 0.6rem;
-  margin-left: 1rem;
+  border-radius: 4px;
   cursor: pointer;
   color: var(--text);
-  border-radius: 4px;
-  transition: background-color var(--transition-speed);
 }
 
-#theme-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+.fullscreen-section {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .section {
-  padding: 4rem 0;
+  padding: 4rem 2rem;
 }
 
-.full-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.center {
-  justify-content: center;
-  text-align: center;
+.content {
+  max-width: 700px;
+  margin: auto;
 }
 
 .section-title {
@@ -139,23 +144,32 @@ nav a {
   border-color: var(--text);
 }
 
-footer {
+.footer {
   text-align: center;
+  padding: 2rem 1rem;
   font-size: 0.9rem;
   border-top: 1px solid var(--border);
-  padding: 2rem 1rem;
 }
 
-/* Animations */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 1s forwards;
-}
+/* RESPONSIVE FIXES */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .fullscreen-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .section {
+    padding: 3rem 1.5rem;
   }
 }
