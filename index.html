@@ -1,169 +1,255 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Harshil Gorasiya — Master's student at Hochschule Heilbronn (HHN). Data science, ML, CV." />
-  <title>Harshil Gorasiya — Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harshil Gorasiya | Portfolio</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      color: #1c1c1c;
+      overflow-x: hidden;
+    }
 
-  <!-- Inter font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    /* Canvas Background */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Frosted Glass Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      background-color: rgba(255, 255, 255, 0.3);
+      z-index: 1;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.35);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    nav h1 {
+      font-size: 1.2rem;
+      color: #1c1c1c;
+      font-weight: 600;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #1c1c1c;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #555;
+    }
+
+    /* Sections */
+    section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      padding: 100px 20px;
+    }
+
+    #home {
+      color: #1c1c1c;
+    }
+
+    h1 span {
+      color: #1c1c1c;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #1c1c1c;
+    }
+
+    section p {
+      max-width: 700px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
 <body>
-  <!-- Full-screen shader canvas (background) -->
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <!-- Shader Background -->
+  <canvas id="myCanvas"></canvas>
+  <div class="overlay"></div>
 
-  <!-- Top navbar -->
-  <header class="topbar">
-    <div class="nav-inner">
-      <div class="brand">Harshil Gorasiya</div>
-      <nav class="nav" aria-label="Primary">
-        <a href="#home" data-nav>Home</a>
-        <a href="#about" data-nav>About</a>
-        <a href="#skills" data-nav>Skills</a>
-        <a href="#projects" data-nav>Projects</a>
-        <a href="#contact" data-nav>Contact</a>
-        <span class="nav-underline" aria-hidden="true"></span>
-      </nav>
-    </div>
-  </header>
+  <!-- Navbar -->
+  <nav>
+    <h1>Harshil Gorasiya</h1>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-  <!-- Page sections (snap container) -->
-  <main class="snap-container" id="snap">
-    <!-- HOME -->
-    <section id="home" class="snap-section">
-      <div class="panel glass">
-        <h1 class="headline">Hi — I’m <strong>Harshil Gorasiya</strong></h1>
-        <p class="sub">Master’s student in Software Engineering at <strong>Hochschule Heilbronn (HHN)</strong>. Budding data scientist focused on machine learning, computer vision, and practical data solutions.</p>
-        <p class="actions">
-          <a class="btn" href="#projects">View Projects</a>
-          <a class="btn outline" href="#contact">Contact</a>
-        </p>
-      </div>
-    </section>
+  <!-- Sections -->
+  <section id="home">
+    <h1>Hello, I’m <span>Harshil Gorasiya</span></h1>
+    <p>Budding Data Scientist & Master’s Student at Hochschule Heilbronn</p>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="snap-section">
-      <div class="panel glass">
-        <h2>About</h2>
-        <p>I’m a <strong>data science enthusiast</strong> who enjoys turning data into actionable insights. Currently studying Software Engineering at <strong>Hochschule Heilbronn (HHN)</strong>, I build practical solutions using data and machine learning.</p>
-        <p>Experience: <strong>Python</strong>, <strong>scikit-learn</strong>, <strong>Matplotlib</strong>, <strong>OpenCV</strong>, <strong>YOLOv8</strong>.</p>
-      </div>
-    </section>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>
+      I’m pursuing a Master’s in Software Engineering at Hochschule Heilbronn.
+      I’m passionate about Machine Learning, Data Science, and transforming data into insights.
+    </p>
+  </section>
 
-    <!-- SKILLS -->
-    <section id="skills" class="snap-section">
-      <div class="panel glass">
-        <h2>Skills</h2>
-        <div class="chips">
-          <span>Python</span><span>C</span><span>C++</span><span>Web Dev</span><span>Unity</span><span>Cloud</span><span>Blockchain</span>
-        </div>
-      </div>
-    </section>
+  <section id="skills">
+    <h2>Skills</h2>
+    <p>Python, C, C++, Web Development, Unity, Cloud Computing, Blockchain</p>
+  </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="snap-section">
-      <div class="panel glass">
-        <h2>Projects</h2>
+  <section id="projects">
+    <h2>Projects</h2>
+    <p>Secure Blockchain-based Voting System • Real-time Vehicle Detection • Age & Gender Recognition</p>
+  </section>
 
-        <div class="project">
-          <h3>Secure blockchain-based voting system</h3>
-          <p class="meta">Python • Django • Blockchain (PoW)</p>
-          <ul>
-            <li>Proof-of-Work blockchain for transparency and tamper resistance.</li>
-            <li>Simple UI for non-technical users; optimized for scale.</li>
-          </ul>
-        </div>
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: harshil.gorasiya.0011@gmail.com</p>
+  </section>
 
-        <div class="project">
-          <h3>Real-time vehicle detection & counting</h3>
-          <p class="meta">Python • YOLOv8 • OpenCV</p>
-          <ul>
-            <li>YOLOv8 model, optimized for real-time on low-powered devices.</li>
-            <li>Full pipeline: data collection → annotation → training → optimization.</li>
-          </ul>
-        </div>
-
-        <div class="project">
-          <h3>Age & gender recognition</h3>
-          <p class="meta">Python • Deep Learning</p>
-          <ul>
-            <li>Network design, training and optimization for speed and accuracy.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="snap-section">
-      <div class="panel glass">
-        <h2>Contact</h2>
-        <p>If you'd like to collaborate or discuss opportunities, send a message — I’m open to working student roles and internships.</p>
-
-        <form id="contactForm" class="contact-form" action="https://formspree.io/f/xanppylk" method="POST" novalidate>
-          <input name="name" type="text" placeholder="Your name" required>
-          <input name="_replyto" type="email" placeholder="Your email" required>
-          <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-          <div class="form-row">
-            <button class="btn" type="submit">Send message</button>
-            <span id="formStatus" role="status" aria-live="polite" class="form-status"></span>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <small>© <span id="year"></span> Harshil Gorasiya — Hochschule Heilbronn (HHN)</small>
-  </footer>
-
-  <!-- Shader (theme-colored) -->
+  <!-- Shader Script -->
   <script id="fragment-shader-2d" type="x-shader/x-fragment">
-#version 300 es
-precision highp float;
-uniform vec2 iResolution; uniform vec2 iMouse; uniform float iTime;
-out vec4 fragColor;
-#define PI 3.14159265359
-void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-  vec2 uv = (fragCoord - iResolution.xy/2.)/iResolution.y;
-  vec2 uv0 = uv;
-  float scale = 25.;
-  uv = round(uv*scale)/scale;
-  float m = .15;
-  float angle = atan(uv.x,uv.y) + iTime*0.35;
-  float r = m/PI*angle;
-  uv.x = length(uv.xy) - r;
-  uv.x = mod(uv.x - m,2.*m) - m;
-  float stripe = abs(uv.x)/m - m;
-  stripe -= .25;
-  uv = uv0;
-  uv = mod(uv - 1./scale/2., 1./scale) - 1./scale/2.;
-  float circle = step(length(uv), max(sqrt(m*stripe/scale/2.), .003));
-  uv = uv0;
-  float row = round(uv.x*scale);
-  float ln = round(uv.y*scale);
-  float sum = mod(mod(row, 3.) + mod(ln,2.) + mod(row - ln, 5.) * mod(row*ln, 3.),4.);
-  // theme colors (linear RGB)
-  vec3 dark = vec3(0.11,0.11,0.11);      // #1c1c1c
-  vec3 soft = vec3(0.918,0.902,0.878); // #eae6e0
-  vec3 light = vec3(1.0,1.0,1.0);      // #ffffff
-  vec3 col;
-  if (sum == 0.) col = mix(dark, soft, 0.45);
-  if (sum == 1.) col = mix(soft, light, 0.65);
-  if (sum == 2.) col = mix(dark, light, 0.22);
-  if (sum == 3.) col = mix(dark, soft, 0.72);
-  float pulse = 0.46 + 0.46 * sin(iTime*0.45 + uv.x*2.8);
-  col = mix(col, soft, 0.08 + 0.18*pulse);
-  // soft vignette to keep center brighter
-  float d = length((fragCoord - iResolution.xy*0.5)/iResolution.y);
-  float vign = smoothstep(0.9, 0.6, d);
-  col *= (1.0 - 0.25 * vign);
-  fragColor = vec4(col * circle, 1.);
-}
-void main(){ mainImage(fragColor, gl_FragCoord.xy); }
+  #version 300 es
+  precision highp float;
+
+  uniform vec2 iResolution;
+  uniform vec2 iMouse;
+  uniform float iTime;
+
+  out vec4 fragColor;
+
+  void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    vec2 uv = (fragCoord - iResolution.xy/2.0)/iResolution.y;
+    vec2 uv0 = uv;
+    float scale = 25.0;
+    uv = round(uv*scale)/scale;
+    float m = 0.15;
+    float angle = atan(uv.x, uv.y) + iTime;
+    float r = m/3.14159265359*angle;
+    uv.x = length(uv.xy) - r;
+    uv.x = mod(uv.x - m, 2.0*m) - m;
+    float stripe = abs(uv.x)/m - m;
+    stripe -= 0.25;
+    uv = uv0;
+    uv = mod(uv - 1.0/scale/2.0, 1.0/scale) - 1.0/scale/2.0;
+    float circle = step(length(uv), max(sqrt(m*stripe/scale/2.0), 0.003));
+
+    // Use theme colors instead of strong RGB
+    vec3 col = mix(vec3(0.11, 0.11, 0.11), vec3(0.9, 0.9, 0.85), circle);
+    fragColor = vec4(col, 1.0);
+  }
+
+  void main() {
+    mainImage(fragColor, gl_FragCoord.xy);
+  }
   </script>
 
-  <script src="script.js"></script>
+  <script>
+    const canvas = document.getElementById('myCanvas');
+    const gl = canvas.getContext('webgl2');
+    const vertexShaderSource = `#version 300 es
+    in vec2 a_position;
+    void main() { gl_Position = vec4(a_position, 0.0, 1.0); }`;
+
+    const fragmentShaderSource = document.getElementById('fragment-shader-2d').textContent.trim();
+
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexShaderSource);
+    gl.compileShader(vertexShader);
+
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentShaderSource);
+    gl.compileShader(fragmentShader);
+
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    gl.useProgram(program);
+
+    const positions = [-1, -1, 1, -1, -1, 1, 1, 1];
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    const positionLocation = gl.getAttribLocation(program, 'a_position');
+    gl.enableVertexAttribArray(positionLocation);
+    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+    const iResolution = gl.getUniformLocation(program, 'iResolution');
+    const iTime = gl.getUniformLocation(program, 'iTime');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function render() {
+      gl.uniform2f(iResolution, canvas.width, canvas.height);
+      gl.uniform1f(iTime, performance.now() * 0.001);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      requestAnimationFrame(render);
+    }
+    render();
+  </script>
 </body>
 </html>
