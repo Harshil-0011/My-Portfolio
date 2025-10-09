@@ -3,134 +3,125 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Portfolio of Harshil Gorasiya — Data Science Enthusiast and Master's Student at Hochschule Heilbronn (HHN)" />
-  <title>Harshil Gorasiya | Portfolio</title>
+  <meta name="description" content="Harshil Gorasiya — Data Science enthusiast and Master's student at Hochschule Heilbronn (HHN)." />
+  <title>Harshil Gorasiya — Portfolio</title>
+
+  <!-- Inter font (modern sans-serif) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="Grid">
+  <!-- Top navigation -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">Harshil Gorasiya</div>
+      <nav class="nav">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Sidebar -->
-    <div class="Cell -2of12 sidebar">
-      <div class="brand" aria-hidden="true"></div>
+  <main class="main-layout">
 
-      <div class="buttons" role="navigation" aria-label="Primary">
-        <button data-target="#hero">home</button>
-        <button data-target="#about">about</button>
-        <button data-target="#projects">projects</button>
-        <button data-target="#contact">contact</button>
-        <button onclick="window.location.href='mailto:harshil.gorasiya.0011@gmail.com'">email</button>
+    <!-- HERO (shader canvas sits only behind this block) -->
+    <section id="hero" class="hero">
+      <canvas id="myCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <h1 class="hero-title">Hi — I’m <span class="name">Harshil Gorasiya</span></h1>
+        <p class="hero-sub">Master’s student in Software Engineering at <strong>Hochschule Heilbronn (HHN)</strong> — budding data scientist focused on machine learning, computer vision, and practical data solutions.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projects">View Projects</a>
+          <a class="btn btn-outline" href="#contact">Contact Me</a>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Main content -->
-    <div class="Cell -10of12 contentSection" id="mainColumn">
+    <!-- About -->
+    <section id="about" class="card fade-in">
+      <h2>About Me</h2>
+      <p>
+        I’m a <strong>data science enthusiast</strong> who enjoys turning data into clear, actionable insights.
+        I’m currently pursuing my Master’s in Software Engineering at <strong>Hochschule Heilbronn (HHN)</strong>.
+      </p>
+      <p>
+        I have hands-on experience with <strong>Python</strong>, <strong>scikit-learn</strong>, <strong>Matplotlib</strong>, and computer-vision tools like <strong>OpenCV</strong> and <strong>YOLOv8</strong>.
+        I’m seeking a <strong>working student position</strong> to contribute to real projects and continue learning in a team environment.
+      </p>
 
-      <!-- Hero (with shader canvas behind it) -->
-      <section class="contentBlock hero-block" id="hero">
-        <!-- canvas is positioned absolutely and sized to hero -->
-        <canvas id="myCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="chips">
+        <span>Python</span><span>C</span><span>C++</span><span>Web Dev</span><span>Unity</span><span>Cloud</span><span>Blockchain</span>
+      </div>
+    </section>
 
-        <!-- overlay ensures text readability -->
-        <div class="hero-overlay"></div>
+    <!-- Projects -->
+    <section id="projects" class="card fade-in">
+      <h2>Featured Projects</h2>
 
-        <div class="hero-content">
-          <h1>Hi — I’m <span class="name">Harshil Gorasiya</span></h1>
-          <p class="lead">A data science enthusiast and Master’s student in Software Engineering at <strong>Hochschule Heilbronn (HHN)</strong>. I use machine learning and data to solve practical problems and build reliable systems.</p>
-          <div class="hero-cta">
-            <a href="#projects" class="btn dark">View Projects</a>
-            <a href="#contact" class="btn light">Contact Me</a>
-          </div>
+      <article class="project">
+        <h3>Secure Blockchain-Based Voting System</h3>
+        <p class="meta">Python • Django • Blockchain (PoW)</p>
+        <ul>
+          <li>Proof-of-Work blockchain to ensure transparency and tamper resistance.</li>
+          <li>User-friendly interface designed for non-technical users.</li>
+          <li>Optimized and scalable architecture for future growth.</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <h3>Real-Time Vehicle Detection & Counting</h3>
+        <p class="meta">Python • YOLOv8 • OpenCV</p>
+        <ul>
+          <li>YOLOv8-based model trained for accurate, real-time detection.</li>
+          <li>Optimized inference for higher FPS on low-powered devices.</li>
+          <li>Full pipeline: collection → annotation → training → optimization.</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <h3>Age & Gender Recognition</h3>
+        <p class="meta">Python • Deep Learning</p>
+        <ul>
+          <li>Network design and training for age and gender estimation.</li>
+          <li>Architectural and training optimizations for performance.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="card fade-in">
+      <h2>Contact</h2>
+      <p>If you’d like to collaborate or discuss opportunities, send a message — I’m open to working student roles and internships.</p>
+
+      <form id="contactForm" class="contact-form" action="https://formspree.io/f/xanppylk" method="POST" novalidate>
+        <label class="sr-only" for="name">Your name</label>
+        <input id="name" name="name" type="text" placeholder="Your name" required>
+
+        <label class="sr-only" for="email">Your email</label>
+        <input id="email" name="_replyto" type="email" placeholder="Your email" required>
+
+        <label class="sr-only" for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Your message" required></textarea>
+
+        <div class="form-row">
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <div id="formStatus" role="status" aria-live="polite" class="form-status"></div>
         </div>
-      </section>
+      </form>
+    </section>
 
-      <!-- About -->
-      <section class="contentBlock fade-in" id="about">
-        <h2>About Me</h2>
-        <div class="contentText">
-          <p>I’m a <strong>data science enthusiast</strong> with a passion for turning information into insight. Currently pursuing my <strong>Master’s in Software Engineering</strong> at <strong>Hochschule Heilbronn (HHN)</strong>, I enjoy solving problems by combining data, logic, and creativity.</p>
+    <!-- Footer -->
+    <footer class="footer fade-in">
+      <small>© <span id="year"></span> Harshil Gorasiya — Hochschule Heilbronn (HHN)</small>
+    </footer>
+  </main>
 
-          <p>I have practical experience with <strong>Python</strong>, <strong>scikit-learn</strong>, and <strong>Matplotlib</strong>, focused on machine learning and data visualization.</p>
-
-          <p>I’m looking for a <strong>working student position</strong> where I can apply my skills, learn from real-world projects, and contribute to a motivated, data-driven team.</p>
-        </div>
-
-        <div class="skills">
-          <span>Python</span><span>C</span><span>C++</span><span>Web Dev</span><span>Unity</span><span>Cloud</span><span>Blockchain</span>
-        </div>
-      </section>
-
-      <!-- Projects -->
-      <section class="contentBlock fade-in" id="projects">
-        <h2>Featured Projects</h2>
-
-        <article class="project">
-          <h3>Secure Blockchain-Based Voting System</h3>
-          <p class="tech">Python • Django • Blockchain (PoW)</p>
-          <ul>
-            <li>Built a secure voting platform using a Proof-of-Work blockchain algorithm.</li>
-            <li>Designed a simple, intuitive interface suitable for non-technical users.</li>
-            <li>Optimized, scalable architecture for reliability and future growth.</li>
-          </ul>
-        </article>
-
-        <article class="project">
-          <h3>Real-Time Vehicle Detection & Counting</h3>
-          <p class="tech">Python • YOLOv8 • OpenCV</p>
-          <ul>
-            <li>Trained a YOLOv8 model for accurate vehicle detection in real time.</li>
-            <li>Optimized inference for higher frame rates on low-powered devices.</li>
-            <li>Built the full pipeline: data collection, annotation, training, and optimization.</li>
-          </ul>
-        </article>
-
-        <article class="project">
-          <h3>Age & Gender Recognition with Deep Learning</h3>
-          <p class="tech">Python • Deep Learning</p>
-          <ul>
-            <li>Designed and trained neural networks to predict age and gender from images.</li>
-            <li>Improved performance via architecture and training optimizations.</li>
-            <li>Applied model evaluation techniques to measure accuracy and runtime.</li>
-          </ul>
-        </article>
-      </section>
-
-      <!-- Contact -->
-      <section class="contentBlock fade-in" id="contact">
-        <h2>Contact Me</h2>
-        <p>If you'd like to collaborate or discuss opportunities, please send a message — I’m open to working student roles and internships.</p>
-
-        <form id="contactForm" class="contact-form" method="POST" action="https://formspree.io/f/xanppylk" novalidate>
-          <input type="text" name="name" placeholder="Your name" required />
-          <input type="email" name="_replyto" placeholder="Your email" required />
-          <textarea name="message" rows="6" placeholder="Your message" required></textarea>
-          <div class="form-actions">
-            <button type="submit" class="btn-submit">send message</button>
-            <div id="formStatus" role="status" aria-live="polite"></div>
-          </div>
-        </form>
-      </section>
-
-      <!-- Links -->
-      <section class="contentBlock fade-in">
-        <h2>Links</h2>
-        <div class="links">
-          <ul>
-            <li>GitHub <span><a href="#" aria-label="link to GitHub">github.com/your-username</a></span></li>
-            <li>LinkedIn <span><a href="#" aria-label="link to LinkedIn">linkedin.com/in/your-profile</a></span></li>
-          </ul>
-        </div>
-      </section>
-
-      <footer class="footerNote">
-        <p>© <span id="year"></span> Harshil Gorasiya — Hochschule Heilbronn (HHN)</p>
-      </footer>
-    </div>
-  </div>
-
-  <div class="line" aria-hidden="true"></div>
-
-  <!-- Fragment shader (GLSL) -->
+  <!-- Fragment shader (GLSL) used by script.js -->
   <script id="fragment-shader-2d" type="x-shader/x-fragment">
 #version 300 es
 precision highp float;
@@ -172,11 +163,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 }
 
 void main() {
-    mainImage(fragColor, gl_FragCoord.xy);
+  mainImage(fragColor, gl_FragCoord.xy);
 }
   </script>
 
   <script src="script.js"></script>
 </body>
 </html>
-
