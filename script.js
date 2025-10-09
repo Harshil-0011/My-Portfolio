@@ -1,105 +1,87 @@
-// ---------------- Shader (hero-only) + WebGL2 bootstrap ----------------
-const canvas = document.getElementById('myCanvas');
+// ---------- Shader background (full-page, WebGL2) ----------
+const canvas = document.getElementById('bgCanvas');
 const fsScript = document.getElementById('fragment-shader-2d');
-let gl = null;
-let program = null;
-let iResolutionLoc = null;
-let iTimeLoc = null;
-let iMouseLoc = null;
+let gl = null, program = null;
+let iResolutionLoc = null, iTimeLoc = null, iMouseLoc = null;
 
-// init WebGL2
-function initWebGL() {
+function initGL(){
   if (!canvas || !fsScript) return false;
-  try { gl = canvas.getContext('webgl2'); } catch(e) { gl = null; }
-  if (!gl) { canvas.style.display = 'none'; return false; }
+  try { gl = canvas.getContext('webgl2'); } catch(e){ gl = null; }
+  if (!gl) { canvas.style.display='none'; return false; }
 
   // vertex shader
-  const vsSource = `#version 300 es
+  const vs = `#version 300 es
   in vec2 a_position;
-  void main(){ gl_Position = vec4(a_position, 0.0, 1.0); }`;
+  void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
 
-  const fsSource = fsScript.textContent.trim();
+  const fs = fsScript.textContent.trim();
 
-  const vs = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vs, vsSource);
-  gl.compileShader(vs);
-  if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
-    console.error('Vertex shader error:', gl.getShaderInfoLog(vs));
-    return false;
+  const vshader = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vshader, vs); gl.compileShader(vshader);
+  if (!gl.getShaderParameter(vshader, gl.COMPILE_STATUS)) {
+    console.error('VS error:', gl.getShaderInfoLog(vshader)); return false;
   }
 
-  const fs = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fs, fsSource);
-  gl.compileShader(fs);
-  if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-    console.error('Fragment shader error:', gl.getShaderInfoLog(fs));
-    return false;
+  const fshader = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fshader, fs); gl.compileShader(fshader);
+  if (!gl.getShaderParameter(fshader, gl.COMPILE_STATUS)) {
+    console.error('FS error:', gl.getShaderInfoLog(fshader)); return false;
   }
 
   program = gl.createProgram();
-  gl.attachShader(program, vs);
-  gl.attachShader(program, fs);
+  gl.attachShader(program, vshader);
+  gl.attachShader(program, fshader);
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error('Program link error:', gl.getProgramInfoLog(program));
-    return false;
+    console.error('Program error:', gl.getProgramInfoLog(program)); return false;
   }
   gl.useProgram(program);
 
-  // full-screen quad
-  const positions = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
-  const posBuf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
-  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
+  // full screen quad
+  const pos = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
   const posLoc = gl.getAttribLocation(program, 'a_position');
   gl.enableVertexAttribArray(posLoc);
   gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-  // locations
+  // uniforms
   iResolutionLoc = gl.getUniformLocation(program, 'iResolution');
   iTimeLoc = gl.getUniformLocation(program, 'iTime');
   iMouseLoc = gl.getUniformLocation(program, 'iMouse');
-
-  // default mouse
   gl.uniform2f(iMouseLoc, 0, 0);
 
   return true;
 }
 
-// size canvas to hero section
-function resizeCanvasToHero() {
-  const hero = document.querySelector('.hero');
-  if (!canvas || !hero) return;
-  const rect = hero.getBoundingClientRect();
+function resizeCanvas(){
   const dpr = Math.max(window.devicePixelRatio || 1, 1);
-  const w = Math.max(1, Math.floor(rect.width * dpr));
-  const h = Math.max(1, Math.floor(rect.height * dpr));
+  const w = Math.max(1, Math.floor(window.innerWidth * dpr));
+  const h = Math.max(1, Math.floor(window.innerHeight * dpr));
   if (canvas.width !== w || canvas.height !== h) {
     canvas.width = w; canvas.height = h;
-    canvas.style.width = rect.width + 'px';
-    canvas.style.height = rect.height + 'px';
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
     if (gl && iResolutionLoc) {
-      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.viewport(0,0,canvas.width,canvas.height);
       gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
     }
   }
 }
 
-// mouse -> shader
-canvas && canvas.addEventListener('mousemove', (ev) => {
+canvas && canvas.addEventListener('mousemove', (e) => {
   if (!gl || !iMouseLoc) return;
   const rect = canvas.getBoundingClientRect();
-  const x = (ev.clientX - rect.left) * (canvas.width / rect.width);
-  const y = canvas.height - (ev.clientY - rect.top) * (canvas.height / rect.height);
+  const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const y = canvas.height - (e.clientY - rect.top) * (canvas.height / rect.height);
   gl.uniform2f(iMouseLoc, x, y);
 });
 
-// render loop
 let start = performance.now();
-function renderLoop() {
+function render(){
   if (!gl || !program) return;
-  resizeCanvasToHero();
+  resizeCanvas();
   const t = (performance.now() - start) * 0.001;
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(0,0,0,0);
@@ -107,67 +89,58 @@ function renderLoop() {
   gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
   gl.uniform1f(iTimeLoc, t);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  requestAnimationFrame(renderLoop);
+  requestAnimationFrame(render);
 }
 
-// init
-const webglAvailable = initWebGL();
-if (webglAvailable) {
-  resizeCanvasToHero();
-  requestAnimationFrame(renderLoop);
-} else {
-  // fallback: keep overlay visible and ensure high contrast
-  document.querySelector('.hero-overlay').style.background = 'linear-gradient(rgba(28,28,28,0.88), rgba(28,28,28,0.88))';
-}
+const webglReady = initGL();
+if (webglReady) { resizeCanvas(); requestAnimationFrame(render); }
+else { canvas.style.display = 'none'; document.querySelectorAll('.hero-overlay').forEach(o=>o.style.background='linear-gradient(rgba(28,28,28,0.88),rgba(28,28,28,0.88))'); }
 
-// ---------------- UI: fade-ins, nav, form submit ---------------
-
-// IntersectionObserver for fade-in
+// ---------- Minimal UI behavior (fade-in, nav, form) ----------
 const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if (e.isIntersecting) e.target.classList.add('visible'); });
-},{ threshold: 0.18 });
-document.querySelectorAll('.fade-in').forEach(el=> io.observe(el));
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.18 });
+document.querySelectorAll('.fade-in, .section').forEach(el => io.observe(el));
 
-// smooth scroll on nav clicks
+// Smooth anchor scrolling
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', (e)=>{
+  a.addEventListener('click', (ev)=>{
     const href = a.getAttribute('href');
     if (href.length > 1) {
-      e.preventDefault();
+      ev.preventDefault();
       const target = document.querySelector(href);
-      if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 });
 
-// Formspree AJAX submission with feedback
+// Formspree AJAX submit
 const form = document.getElementById('contactForm');
-const statusEl = document.getElementById('formStatus');
+const status = document.getElementById('formStatus');
 if (form) {
   form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
-    statusEl.textContent = 'Sending…';
+    status.textContent = 'Sending…';
     const data = new FormData(form);
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      });
+      const res = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data });
       if (res.ok) {
         form.reset();
-        statusEl.textContent = 'Thanks — message sent!';
-        setTimeout(()=> statusEl.textContent = '', 4500);
+        status.textContent = 'Thanks — message sent!';
+        setTimeout(()=> status.textContent = '', 4500);
       } else {
-        const result = await res.json();
-        statusEl.textContent = (result.errors && result.errors[0] && result.errors[0].message) || 'Submission failed.';
+        const j = await res.json();
+        status.textContent = (j.errors && j.errors[0] && j.errors[0].message) || 'Submission failed.';
       }
     } catch (err) {
-      statusEl.textContent = 'Network error — please try again later.';
+      status.textContent = 'Network error — please try again later.';
     }
   });
 }
 
-// dynamic year
-const yearEl = document.getElementById('year');
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+// set year
+const y = document.getElementById('year');
+if (y) y.textContent = new Date().getFullYear();
+
+// resize on window change
+window.addEventListener('resize', resizeCanvas);
