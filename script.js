@@ -1,49 +1,39 @@
-// ----------------- Shader integration for hero canvas -----------------
+// ---------------- Shader (hero-only) + WebGL2 bootstrap ----------------
 const canvas = document.getElementById('myCanvas');
+const fsScript = document.getElementById('fragment-shader-2d');
 let gl = null;
 let program = null;
-let iResolutionLocation = null;
-let iMouseLocation = null;
-let iTimeLocation = null;
+let iResolutionLoc = null;
+let iTimeLoc = null;
+let iMouseLoc = null;
 
-function initGL() {
-  if (!canvas) return;
-  try {
-    gl = canvas.getContext('webgl2');
-  } catch (e) {
-    gl = null;
-  }
-  if (!gl) {
-    // hide canvas if WebGL2 not supported
-    canvas.style.display = 'none';
-    return;
-  }
+// init WebGL2
+function initWebGL() {
+  if (!canvas || !fsScript) return false;
+  try { gl = canvas.getContext('webgl2'); } catch(e) { gl = null; }
+  if (!gl) { canvas.style.display = 'none'; return false; }
 
-  // Vertex shader
+  // vertex shader
   const vsSource = `#version 300 es
   in vec2 a_position;
-  void main() {
-    gl_Position = vec4(a_position, 0.0, 1.0);
-  }`;
+  void main(){ gl_Position = vec4(a_position, 0.0, 1.0); }`;
 
-  // Fragment shader from the page
-  const fsScript = document.getElementById('fragment-shader-2d');
-  const fsSource = fsScript ? fsScript.textContent.trim() : '';
+  const fsSource = fsScript.textContent.trim();
 
   const vs = gl.createShader(gl.VERTEX_SHADER);
   gl.shaderSource(vs, vsSource);
   gl.compileShader(vs);
   if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
-    console.error('Vertex shader compile error:', gl.getShaderInfoLog(vs));
-    return;
+    console.error('Vertex shader error:', gl.getShaderInfoLog(vs));
+    return false;
   }
 
   const fs = gl.createShader(gl.FRAGMENT_SHADER);
   gl.shaderSource(fs, fsSource);
   gl.compileShader(fs);
   if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-    console.error('Fragment shader compile error:', gl.getShaderInfoLog(fs));
-    return;
+    console.error('Fragment shader error:', gl.getShaderInfoLog(fs));
+    return false;
   }
 
   program = gl.createProgram();
@@ -52,131 +42,132 @@ function initGL() {
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     console.error('Program link error:', gl.getProgramInfoLog(program));
-    return;
+    return false;
   }
   gl.useProgram(program);
 
-  // vertex buffer (full-screen quad)
-  const positions = new Float32Array([
-    -1.0, -1.0,
-     1.0, -1.0,
-    -1.0,  1.0,
-     1.0,  1.0,
-  ]);
-  const positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  // full-screen quad
+  const positions = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
+  const posBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
   gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-  const positionAttributeLocation = gl.getAttribLocation(program, 'a_position');
-  gl.enableVertexAttribArray(positionAttributeLocation);
-  gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+  const posLoc = gl.getAttribLocation(program, 'a_position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-  // uniforms
-  iResolutionLocation = gl.getUniformLocation(program, 'iResolution');
-  iMouseLocation = gl.getUniformLocation(program, 'iMouse');
-  iTimeLocation = gl.getUniformLocation(program, 'iTime');
+  // locations
+  iResolutionLoc = gl.getUniformLocation(program, 'iResolution');
+  iTimeLoc = gl.getUniformLocation(program, 'iTime');
+  iMouseLoc = gl.getUniformLocation(program, 'iMouse');
 
-  // mouse fallback
-  gl.uniform2f(iMouseLocation, 0.0, 0.0);
+  // default mouse
+  gl.uniform2f(iMouseLoc, 0, 0);
+
+  return true;
 }
 
-// Resize canvas to match hero size
-function resizeHeroCanvas() {
-  const hero = document.querySelector('.hero-block');
+// size canvas to hero section
+function resizeCanvasToHero() {
+  const hero = document.querySelector('.hero');
   if (!canvas || !hero) return;
   const rect = hero.getBoundingClientRect();
   const dpr = Math.max(window.devicePixelRatio || 1, 1);
-  canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-  canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-  canvas.style.width = rect.width + 'px';
-  canvas.style.height = rect.height + 'px';
+  const w = Math.max(1, Math.floor(rect.width * dpr));
+  const h = Math.max(1, Math.floor(rect.height * dpr));
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w; canvas.height = h;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    if (gl && iResolutionLoc) {
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
+    }
+  }
 }
 
-// mouse coords for shader (flipped Y)
+// mouse -> shader
 canvas && canvas.addEventListener('mousemove', (ev) => {
-  if (!gl || !iMouseLocation) return;
+  if (!gl || !iMouseLoc) return;
   const rect = canvas.getBoundingClientRect();
   const x = (ev.clientX - rect.left) * (canvas.width / rect.width);
   const y = canvas.height - (ev.clientY - rect.top) * (canvas.height / rect.height);
-  gl && gl.uniform2f(iMouseLocation, x, y);
-});
-
-// on resize, recompute canvas
-window.addEventListener('resize', () => {
-  resizeHeroCanvas();
-  if (gl && iResolutionLocation) {
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
-  }
+  gl.uniform2f(iMouseLoc, x, y);
 });
 
 // render loop
-let startTime = performance.now();
-function renderShader() {
+let start = performance.now();
+function renderLoop() {
   if (!gl || !program) return;
-  resizeHeroCanvas();
-  const now = performance.now();
-  const t = (now - startTime) * 0.001;
+  resizeCanvasToHero();
+  const t = (performance.now() - start) * 0.001;
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.clearColor(0,0,0,0);
   gl.clear(gl.COLOR_BUFFER_BIT);
-
-  gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
-  gl.uniform1f(iTimeLocation, t);
-
+  gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
+  gl.uniform1f(iTimeLoc, t);
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  requestAnimationFrame(renderShader);
+  requestAnimationFrame(renderLoop);
 }
 
-// initialize GL then start
-initGL();
-resizeHeroCanvas();
-requestAnimationFrame(renderShader);
+// init
+const webglAvailable = initWebGL();
+if (webglAvailable) {
+  resizeCanvasToHero();
+  requestAnimationFrame(renderLoop);
+} else {
+  // fallback: keep overlay visible and ensure high contrast
+  document.querySelector('.hero-overlay').style.background = 'linear-gradient(rgba(28,28,28,0.88), rgba(28,28,28,0.88))';
+}
 
-// ----------------- UI & behaviour (nav, form, animations) -----------------
-// Intersection Observer for fade-in
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.18 });
-document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+// ---------------- UI: fade-ins, nav, form submit ---------------
 
-// Nav buttons: smooth scroll to anchors
-document.querySelectorAll('.buttons button[data-target]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.getAttribute('data-target');
-    const el = document.querySelector(target);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// IntersectionObserver for fade-in
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if (e.isIntersecting) e.target.classList.add('visible'); });
+},{ threshold: 0.18 });
+document.querySelectorAll('.fade-in').forEach(el=> io.observe(el));
+
+// smooth scroll on nav clicks
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    const href = a.getAttribute('href');
+    if (href.length > 1) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
   });
 });
 
-// Formspree AJAX submit with friendly UI
+// Formspree AJAX submission with feedback
 const form = document.getElementById('contactForm');
 const statusEl = document.getElementById('formStatus');
 if (form) {
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
     statusEl.textContent = 'Sending…';
     const data = new FormData(form);
     try {
       const res = await fetch(form.action, {
         method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: data
+        body: data,
+        headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
         form.reset();
         statusEl.textContent = 'Thanks — message sent!';
-        setTimeout(() => statusEl.textContent = '', 5000);
+        setTimeout(()=> statusEl.textContent = '', 4500);
       } else {
-        const err = await res.json();
-        statusEl.textContent = (err.errors && err.errors[0] && err.errors[0].message) || 'Oops — something went wrong.';
+        const result = await res.json();
+        statusEl.textContent = (result.errors && result.errors[0] && result.errors[0].message) || 'Submission failed.';
       }
     } catch (err) {
-      statusEl.textContent = 'Network error — try again later.';
+      statusEl.textContent = 'Network error — please try again later.';
     }
   });
 }
 
 // dynamic year
-const y = document.getElementById('year');
-if (y) y.textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
