@@ -1,113 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harshil Gorasiya | Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Harshil Gorasiya — Portfolio</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <meta name="description" content="Portfolio of Harshil Gorasiya, aspiring Data Scientist skilled in Machine Learning, Data Analysis, and Software Engineering.">
-  <meta name="keywords" content="Data Science, Machine Learning, Python, Portfolio, Projects, Software Engineering">
-  <meta name="author" content="Harshil Gorasiya">
+  <meta name="description" content="Harshil Gorasiya — Aspiring Data Scientist. Machine Learning, Data Analysis, Projects." />
 </head>
 <body>
-  <!-- Background Canvas -->
-  <canvas id="bgCanvas"></canvas>
+  <!-- Particles canvas -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-  <!-- Top Navbar -->
-  <nav class="top-nav">
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- Navigation Dots -->
-  <div class="nav-dots">
-    <span class="dot active" data-section="home" aria-label="Go to Home"></span>
-    <span class="dot" data-section="about" aria-label="Go to About"></span>
-    <span class="dot" data-section="skills" aria-label="Go to Skills"></span>
-    <span class="dot" data-section="projects" aria-label="Go to Projects"></span>
-    <span class="dot" data-section="contact" aria-label="Go to Contact"></span>
-  </div>
-
-  <!-- Sections -->
-  <section id="home" class="page fade-in">
-    <div class="content">
-      <h1>Harshil Gorasiya</h1>
-      <p>Master's Student at <strong>Hochschule Heilbronn (HHN)</strong></p>
-      <p class="tagline">Aspiring Data Scientist passionate about Machine Learning & Data Analysis.</p>
+  <!-- Top nav -->
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="brand">Harshil Gorasiya</div>
+      <nav>
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section id="about" class="page fade-in">
-    <div class="content">
-      <h2>About Me</h2>
-      <p>
-        I am an <strong>Aspiring Data Scientist</strong> currently pursuing my
-        <strong>Master in Software Engineering</strong> at <strong>Hochschule Heilbronn (HHN)</strong>.
-        I love solving problems with data and turning insights into actionable results.
-        My goal is to apply my skills in a professional environment and contribute to meaningful projects.
-      </p>
-    </div>
-  </section>
-
-  <section id="skills" class="page fade-in">
-    <div class="content">
-      <h2>Skills</h2>
-      <ul>
-        <li><strong>Programming:</strong> Python, SQL, R</li>
-        <li><strong>Libraries & Tools:</strong> pandas, NumPy, scikit-learn, TensorFlow, Keras, matplotlib, seaborn</li>
-        <li><strong>Databases:</strong> MySQL, MongoDB</li>
-        <li><strong>Other Tools:</strong> Git, Jupyter Notebooks, Linux</li>
-        <li><strong>Soft Skills:</strong> Teamwork, Problem Solving, Communication, Time Management</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="projects" class="page fade-in">
-    <div class="content">
-      <h2>Projects</h2>
-      <div class="project">
-        <h3>Secure Blockchain-Based Voting System</h3>
-        <p>Built with Python & Django, implementing Proof-of-Work for secure and transparent voting.</p>
+  <!-- MAIN -->
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-inner">
+        <h1 class="hero-name">
+          <span class="script">Harshil</span>
+          <span class="signature">Gorasiya</span>
+        </h1>
+        <p class="hero-sub">Aspiring Data Scientist — Machine Learning • Data Analysis • Software Engineering</p>
+        <div class="hero-ctas">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn ghost" href="#contact">Contact Me</a>
+        </div>
       </div>
-      <div class="project">
-        <h3>Real-Time Vehicle Detection and Counting System</h3>
-        <p>Developed using YOLOv8 for real-time accuracy and optimized for low-powered devices.</p>
-      </div>
-      <div class="project">
-        <h3>Age and Gender Recognition with Deep Learning</h3>
-        <p>Trained neural networks for precise detection and learned performance optimization techniques.</p>
-      </div>
-    </div>
-  </section>
+      <div class="hero-scroll-hint">Scroll ↓</div>
+    </section>
 
-  <section id="contact" class="page fade-in">
-    <div class="content">
-      <h2>Contact Me</h2>
-      <form action="https://formspree.io/f/xanppylk" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="_replyto" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-      <p class="email">📧 harshil.gorasiya.0011@gmail.com</p>
-    </div>
-  </section>
+    <!-- ABOUT -->
+    <section id="about" class="panel about-panel reveal">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>I’m an aspiring Data Scientist currently pursuing a Master’s in Software Engineering at Hochschule Heilbronn. I enjoy turning data into actionable insights and building ML solutions that solve real problems.</p>
+            <p>I work with Python, pandas, scikit-learn and deep learning tools. I love practical projects that improve accuracy and performance while remaining production-ready.</p>
+            <p>Currently looking for working student or internship roles where I can contribute and grow.</p>
+          </div>
+          <div class="about-card">
+            <ul class="quick-facts">
+              <li><strong>Location:</strong> Heilbronn, Germany</li>
+              <li><strong>Study:</strong> M.Sc. Software Engineering</li>
+              <li><strong>Focus:</strong> Machine Learning, Data Analysis</li>
+              <li><strong>Contact:</strong> harshil.gorasiya.0011@gmail.com</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- Back to Top Button -->
-  <button id="backToTop" title="Back to Top">↑</button>
+    <!-- PROJECTS -->
+    <section id="projects" class="panel projects-panel reveal">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+
+        <div class="project-grid">
+          <!-- card 1 -->
+          <article class="project-card" data-tilt>
+            <div class="card-tag">Blockchain</div>
+            <h3>Secure Blockchain Voting</h3>
+            <p>Python & Django proof-of-work voting system for tamper-evident results and transparency.</p>
+            <div class="card-meta">Python • Django • Crypto</div>
+          </article>
+
+          <!-- card 2 -->
+          <article class="project-card" data-tilt>
+            <div class="card-tag">CV</div>
+            <h3>Real-Time Vehicle Detection</h3>
+            <p>YOLOv8-based real-time detection and counting optimized for edge devices.</p>
+            <div class="card-meta">YOLOv8 • Optimization</div>
+          </article>
+
+          <!-- card 3 -->
+          <article class="project-card" data-tilt>
+            <div class="card-tag">Deep Learning</div>
+            <h3>Age & Gender Recognition</h3>
+            <p>Neural networks for demographic estimation with performance tuning.</p>
+            <div class="card-meta">TensorFlow • Keras</div>
+          </article>
+
+          <!-- card 4 (extra) -->
+          <article class="project-card" data-tilt>
+            <div class="card-tag">Data</div>
+            <h3>Data Analysis Dashboards</h3>
+            <p>Interactive dashboards and ETL pipelines to visualize and clean production datasets.</p>
+            <div class="card-meta">pandas • Dash</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="panel skills-panel reveal">
+      <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-pill">Python</div>
+          <div class="skill-pill">Machine Learning</div>
+          <div class="skill-pill">Deep Learning</div>
+          <div class="skill-pill">SQL / NoSQL</div>
+          <div class="skill-pill">Data Visualization</div>
+          <div class="skill-pill">Git / Linux</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="panel contact-panel reveal">
+      <div class="container contact-grid">
+        <div class="contact-left">
+          <h2 class="section-title">Contact</h2>
+          <p>If you'd like to work together or want to see detailed project code, reach out using the form — or email me directly at <a href="mailto:harshil.gorasiya.0011@gmail.com">harshil.gorasiya.0011@gmail.com</a>.</p>
+        </div>
+        <form class="contact-form" action="https://formspree.io/f/xanppylk" method="POST">
+          <label><input type="text" name="name" placeholder="Your name" required></label>
+          <label><input type="email" name="_replyto" placeholder="Your email" required></label>
+          <label><textarea name="message" placeholder="Your message" rows="6" required></textarea></label>
+          <div class="form-actions">
+            <button class="btn" type="submit">Send Message</button>
+            <button class="btn ghost" type="button" id="copyEmail">Copy Email</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Back to top -->
+  <button id="backToTop" aria-label="Back to top">↑</button>
 
   <!-- Footer -->
-  <footer>
-    <div class="social-links">
-      <a href="https://github.com/harshilgorasiya" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/harshilgorasiya" target="_blank">LinkedIn</a>
-      <a href="mailto:harshil.gorasiya.0011@gmail.com">Email</a>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> Harshil Gorasiya</div>
+      <div class="socials">
+        <a href="https://github.com/harshilgorasiya" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/harshilgorasiya" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </div>
   </footer>
 
