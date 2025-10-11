@@ -11,32 +11,29 @@
       padding: 0;
       box-sizing: border-box;
       font-family: "Poppins", "Segoe UI", sans-serif;
-    }
-    body {
-      margin: 0;
-      color: #1c1c1c;
-      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* Canvas Background */
+    body {
+      color: #1c1c1c;
+      overflow: hidden;
+    }
+
+    /* Shader Background */
     canvas {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 0;
       width: 100vw;
       height: 100vh;
+      z-index: 0;
     }
 
-    /* Frosted Glass Overlay */
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       backdrop-filter: blur(8px);
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgba(255, 255, 255, 0.25);
       z-index: 1;
     }
 
@@ -58,8 +55,8 @@
 
     nav h1 {
       font-size: 1.2rem;
-      color: #1c1c1c;
       font-weight: 600;
+      color: #1c1c1c;
     }
 
     nav ul {
@@ -72,32 +69,36 @@
       text-decoration: none;
       color: #1c1c1c;
       font-weight: 500;
-      transition: color 0.3s ease;
+      transition: 0.3s;
     }
 
     nav ul li a:hover {
-      color: #555;
+      color: #333;
     }
 
-    /* Sections */
-    section {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
+    /* Snap Container */
+    main {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
       position: relative;
       z-index: 5;
+      scrollbar-width: none; /* Firefox */
+    }
+    main::-webkit-scrollbar {
+      display: none; /* Chrome */
+    }
+
+    section {
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       padding: 100px 20px;
-    }
-
-    #home {
-      color: #1c1c1c;
-    }
-
-    h1 span {
-      color: #1c1c1c;
+      text-align: center;
     }
 
     section h2 {
@@ -112,14 +113,85 @@
       color: #333;
     }
 
-    /* Smooth scroll */
-    html {
-      scroll-behavior: smooth;
+    /* Contact Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      margin-top: 20px;
     }
+
+    input, textarea {
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.1);
+      font-size: 1rem;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #1c1c1c;
+    }
+
+    button {
+      background: #1c1c1c;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #333;
+    }
+
+    .success {
+      margin-top: 10px;
+      color: #1c1c1c;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    /* Scroll Dots */
+    .dots {
+      position: fixed;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.3);
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #1c1c1c;
+      transform: scale(1.2);
+    }
+
   </style>
 </head>
 <body>
-  <!-- Shader Background -->
+  <!-- Background -->
   <canvas id="myCanvas"></canvas>
   <div class="overlay"></div>
 
@@ -135,121 +207,148 @@
     </ul>
   </nav>
 
-  <!-- Sections -->
-  <section id="home">
-    <h1>Hello, I’m <span>Harshil Gorasiya</span></h1>
-    <p>Budding Data Scientist & Master’s Student at Hochschule Heilbronn</p>
-  </section>
+  <!-- Snap Sections -->
+  <main id="main">
+    <section id="home">
+      <h2>Hello, I’m <span>Harshil Gorasiya</span></h2>
+      <p>Budding Data Scientist & Master’s Student at Hochschule Heilbronn</p>
+    </section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      I’m pursuing a Master’s in Software Engineering at Hochschule Heilbronn.
-      I’m passionate about Machine Learning, Data Science, and transforming data into insights.
-    </p>
-  </section>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I’m pursuing a Master’s in Software Engineering at Hochschule Heilbronn.
+      I’m passionate about Machine Learning, Data Science, and using data to make smarter decisions.</p>
+    </section>
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <p>Python, C, C++, Web Development, Unity, Cloud Computing, Blockchain</p>
-  </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <p>Python, C, C++, Web Development, Unity, Cloud Computing, Blockchain</p>
+    </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <p>Secure Blockchain-based Voting System • Real-time Vehicle Detection • Age & Gender Recognition</p>
-  </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <p>Secure Blockchain Voting System • Real-time Vehicle Detection • Age & Gender Recognition</p>
+    </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: harshil.gorasiya.0011@gmail.com</p>
-  </section>
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <p>Let’s connect! Fill out the form below 👇</p>
 
-  <!-- Shader Script -->
+      <form id="contactForm" action="https://formspree.io/f/xanppylk" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+        <div class="success" id="successMsg">✅ Message sent successfully!</div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Dot Navigation -->
+  <div class="dots" id="dots">
+    <div class="dot active" data-target="#home"></div>
+    <div class="dot" data-target="#about"></div>
+    <div class="dot" data-target="#skills"></div>
+    <div class="dot" data-target="#projects"></div>
+    <div class="dot" data-target="#contact"></div>
+  </div>
+
+  <!-- Shader -->
   <script id="fragment-shader-2d" type="x-shader/x-fragment">
   #version 300 es
   precision highp float;
-
   uniform vec2 iResolution;
-  uniform vec2 iMouse;
   uniform float iTime;
-
   out vec4 fragColor;
-
   void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = (fragCoord - iResolution.xy/2.0)/iResolution.y;
-    vec2 uv0 = uv;
-    float scale = 25.0;
-    uv = round(uv*scale)/scale;
-    float m = 0.15;
-    float angle = atan(uv.x, uv.y) + iTime;
-    float r = m/3.14159265359*angle;
-    uv.x = length(uv.xy) - r;
-    uv.x = mod(uv.x - m, 2.0*m) - m;
-    float stripe = abs(uv.x)/m - m;
-    stripe -= 0.25;
-    uv = uv0;
-    uv = mod(uv - 1.0/scale/2.0, 1.0/scale) - 1.0/scale/2.0;
-    float circle = step(length(uv), max(sqrt(m*stripe/scale/2.0), 0.003));
-
-    // Use theme colors instead of strong RGB
-    vec3 col = mix(vec3(0.11, 0.11, 0.11), vec3(0.9, 0.9, 0.85), circle);
+    float color = 0.0;
+    color += sin(uv.x*10.0 + iTime)*0.2 + 0.5;
+    color += sin(uv.y*10.0 - iTime)*0.2 + 0.5;
+    vec3 col = mix(vec3(0.11,0.11,0.11), vec3(0.92,0.9,0.86), color);
     fragColor = vec4(col, 1.0);
   }
-
-  void main() {
-    mainImage(fragColor, gl_FragCoord.xy);
-  }
+  void main(){mainImage(fragColor, gl_FragCoord.xy);}
   </script>
 
   <script>
+    /* ===== WebGL Shader Background ===== */
     const canvas = document.getElementById('myCanvas');
     const gl = canvas.getContext('webgl2');
     const vertexShaderSource = `#version 300 es
     in vec2 a_position;
     void main() { gl_Position = vec4(a_position, 0.0, 1.0); }`;
-
     const fragmentShaderSource = document.getElementById('fragment-shader-2d').textContent.trim();
-
-    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(vertexShader, vertexShaderSource);
-    gl.compileShader(vertexShader);
-
-    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(fragmentShader, fragmentShaderSource);
-    gl.compileShader(fragmentShader);
-
+    const vs = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vs, vertexShaderSource);
+    gl.compileShader(vs);
+    const fs = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fs, fragmentShaderSource);
+    gl.compileShader(fs);
     const program = gl.createProgram();
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
     gl.linkProgram(program);
     gl.useProgram(program);
-
-    const positions = [-1, -1, 1, -1, -1, 1, 1, 1];
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-    const positionLocation = gl.getAttribLocation(program, 'a_position');
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-    const iResolution = gl.getUniformLocation(program, 'iResolution');
-    const iTime = gl.getUniformLocation(program, 'iTime');
-
-    function resizeCanvas() {
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+    const posLoc = gl.getAttribLocation(program, 'a_position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    const resLoc = gl.getUniformLocation(program, 'iResolution');
+    const timeLoc = gl.getUniformLocation(program, 'iTime');
+    function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
+    window.addEventListener('resize', resize);
+    resize();
     function render() {
-      gl.uniform2f(iResolution, canvas.width, canvas.height);
-      gl.uniform1f(iTime, performance.now() * 0.001);
+      gl.uniform2f(resLoc, canvas.width, canvas.height);
+      gl.uniform1f(timeLoc, performance.now() * 0.001);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       requestAnimationFrame(render);
     }
     render();
+
+    /* ===== Contact Form Handler ===== */
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('successMsg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        successMsg.style.display = 'block';
+        form.reset();
+        setTimeout(() => (successMsg.style.display = 'none'), 4000);
+      }
+    });
+
+    /* ===== Scroll Dots Navigation ===== */
+    const sections = document.querySelectorAll("section");
+    const dots = document.querySelectorAll(".dot");
+    const main = document.getElementById("main");
+
+    dots.forEach(dot => {
+      dot.addEventListener("click", () => {
+        const target = document.querySelector(dot.dataset.target);
+        target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    main.addEventListener("scroll", () => {
+      let index = sections.length;
+      while(--index && main.scrollTop + 200 < sections[index].offsetTop){}
+      dots.forEach(dot => dot.classList.remove("active"));
+      dots[index].classList.add("active");
+    });
   </script>
 </body>
 </html>
