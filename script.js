@@ -14,9 +14,7 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
 class Particle {
-  constructor() {
-    this.reset();
-  }
+  constructor() { this.reset(); }
   reset() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
@@ -28,8 +26,7 @@ class Particle {
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height)
-      this.reset();
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
   }
   draw() {
     ctx.beginPath();
@@ -40,16 +37,11 @@ class Particle {
   }
 }
 
-for (let i = 0; i < numParticles; i++) {
-  particles.push(new Particle());
-}
+for (let i = 0; i < numParticles; i++) particles.push(new Particle());
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach((p) => {
-    p.update();
-    p.draw();
-  });
+  particles.forEach(p => { p.update(); p.draw(); });
   requestAnimationFrame(animate);
 }
 animate();
@@ -67,9 +59,7 @@ window.addEventListener("scroll", () => {
   let current = 0;
   sections.forEach((section, i) => {
     const sectionTop = section.offsetTop;
-    if (pageYOffset >= sectionTop - window.innerHeight / 2) {
-      current = i;
-    }
+    if (pageYOffset >= sectionTop - window.innerHeight / 2) current = i;
   });
   activateDot(current);
 });
