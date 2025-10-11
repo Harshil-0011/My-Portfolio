@@ -1,65 +1,14 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Harshil Gorasiya | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Background Shader Canvas -->
-  <canvas id="myCanvas"></canvas>
-  <script id="fragment-shader-2d" type="x-shader/x-fragment">
-    #version 300 es
-    precision highp float;
-    uniform vec2 iResolution;
-    uniform vec2 iMouse;
-    uniform float iTime;
-    out vec4 fragColor;
-    #define PI 3.14159265359
-    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-      vec2 uv = (fragCoord - iResolution.xy/2.)/iResolution.y;
-      vec2 uv0 = uv;
-      float scale = 25.;
-      uv = round(uv*scale)/scale;
-      float m = .15;
-      float angle = atan(uv.x,uv.y) + iTime;
-      float r = m/PI*angle;
-      uv.x = length(uv.xy) - r;
-      uv.x = mod(uv.x - m,2.*m) - m;
-      float stripe = abs(uv.x)/m - m;
-      stripe-=.25;
-      uv = uv0;
-      uv = mod(uv - 1./scale/2., 1./scale) - 1./scale/2.;
-      float circle = step(length(uv), max(sqrt(m*stripe/scale/2.), .003));
-      uv = uv0;
-      float row = round(uv.x*scale);
-      float ln = round(uv.y*scale);
-      float sum = mod(mod(row, 3.) + mod(ln,2.) + mod(row - ln, 5.) * mod(row*ln, 3.),4.);
-      vec3 col;
-      if (sum == 0.) col = vec3(0.92, 0.90, 0.86);
-      if (sum == 1.) col = vec3(0.90, 0.80, 0.60);
-      if (sum == 2.) col = vec3(0.85, 0.85, 0.85);
-      if (sum == 3.) col = vec3(0.80, 0.75, 0.70);
-      fragColor = vec4(vec3(circle*col), 1);
-    }
-    void main() { mainImage(fragColor, gl_FragCoord.xy); }
-  </script>
-
-  <!-- Navigation -->
-  <nav>
-    <ul>
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#about">Über mich</a></li>
-      <li><a href="#skills">Fähigkeiten</a></li>
-      <li><a href="#projects">Projekte</a></li>
-      <li><a href="#contact">Kontakt</a></li>
-    </ul>
-  </nav>
-
-  <!-- Page Indicator -->
-  <div class="page-indicator">
+  <!-- Navigation Circles -->
+  <div class="nav-dots">
     <span class="dot active" data-section="home"></span>
     <span class="dot" data-section="about"></span>
     <span class="dot" data-section="skills"></span>
@@ -68,60 +17,70 @@
   </div>
 
   <!-- Sections -->
-  <main>
-    <section id="home" class="panel">
-      <div class="content">
-        <h1>Harshil Gorasiya</h1>
-        <p>Master Student an der Hochschule Heilbronn</p>
-      </div>
-    </section>
+  <section id="home" class="page">
+    <div class="content">
+      <h1>Harshil Gorasiya</h1>
+      <p>Master Student at <strong>Hochschule Heilbronn (HHN)</strong></p>
+      <p class="tagline">Budding Data Scientist passionate about Machine Learning & Data Analysis.</p>
+    </div>
+  </section>
 
-    <section id="about" class="panel">
-      <div class="content">
-        <h2>Über mich</h2>
-        <p>
-          Ich bin ein <strong>Budding Data Scientist</strong> mit großem Interesse an
-          <strong>Machine Learning</strong> und <strong>Datenanalyse</strong>.
-          Zurzeit studiere ich <strong>Master in Software Engineering</strong> an der
-          <strong>Hochschule Heilbronn (HHN)</strong> und liebe es, Probleme mithilfe von Daten zu lösen.
-        </p>
-      </div>
-    </section>
+  <section id="about" class="page">
+    <div class="content">
+      <h2>About Me</h2>
+      <p>
+        I am a <strong>Budding Data Scientist</strong> currently pursuing my
+        <strong>Master in Software Engineering</strong> at <strong>Hochschule Heilbronn (HHN)</strong>.
+        I love solving problems with data and turning insights into action.  
+        My goal is to apply my skills in a professional environment and contribute to meaningful projects.
+      </p>
+    </div>
+  </section>
 
-    <section id="skills" class="panel">
-      <div class="content">
-        <h2>Fähigkeiten & Kenntnisse</h2>
-        <p><strong>Programmierung:</strong> Python, SQL, R</p>
-        <p><strong>Bibliotheken / Tools:</strong> pandas, NumPy, scikit-learn, TensorFlow, Keras, matplotlib, seaborn</p>
-        <p><strong>Datenbanken:</strong> MySQL, MongoDB</p>
-        <p><strong>Weitere Tools:</strong> Git, Jupyter Notebooks, Linux</p>
-        <p><strong>Soft Skills:</strong> Teamarbeit, Problemlösung, Kommunikation, Zeitmanagement</p>
-      </div>
-    </section>
+  <section id="skills" class="page">
+    <div class="content">
+      <h2>Skills</h2>
+      <ul>
+        <li><strong>Programmierung:</strong> Python, SQL, R</li>
+        <li><strong>Bibliotheken/Tools:</strong> pandas, NumPy, scikit-learn, TensorFlow, Keras, matplotlib, seaborn</li>
+        <li><strong>Datenbanken:</strong> MySQL, MongoDB</li>
+        <li><strong>Weitere Tools:</strong> Git, Jupyter Notebooks, Linux</li>
+        <li><strong>Soft Skills:</strong> Teamarbeit, Problemlösung, Kommunikation, Zeitmanagement</li>
+      </ul>
+    </div>
+  </section>
 
-    <section id="projects" class="panel">
-      <div class="content">
-        <h2>Projekte</h2>
-        <p><strong>Secure Blockchain-based Voting System</strong> – Django, Python, Blockchain, PoW</p>
-        <p><strong>Real-time Vehicle Detection</strong> – Python, YOLOv8, OpenCV</p>
-        <p><strong>Age & Gender Recognition</strong> – Python, Deep Learning, Neural Networks</p>
+  <section id="projects" class="page">
+    <div class="content">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>Secure Blockchain Based Voting System</h3>
+        <p>Built with Python & Django, implementing Proof-of-Work for secure and transparent voting.</p>
       </div>
-    </section>
+      <div class="project">
+        <h3>Real-time Vehicle Detection and Counting System</h3>
+        <p>Developed using YOLOv8 for real-time accuracy and optimization on low-powered devices.</p>
+      </div>
+      <div class="project">
+        <h3>Age and Gender Recognition with Deep Learning</h3>
+        <p>Trained neural networks for precise detection and learned performance optimization techniques.</p>
+      </div>
+    </div>
+  </section>
 
-    <section id="contact" class="panel">
-      <div class="content">
-        <h2>Kontakt</h2>
-        <form action="https://formspree.io/f/xanppylk" method="POST">
-          <input type="text" name="name" placeholder="Ihr Name" required>
-          <input type="email" name="email" placeholder="Ihre E-Mail" required>
-          <textarea name="message" placeholder="Ihre Nachricht" required></textarea>
-          <button type="submit">Senden</button>
-        </form>
-      </div>
-    </section>
-  </main>
+  <section id="contact" class="page">
+    <div class="content">
+      <h2>Contact Me</h2>
+      <form action="https://formspree.io/f/xanppylk" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="_replyto" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p class="email">📧 harshil.gorasiya.0011@gmail.com</p>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
 </html>
-
