@@ -1,148 +1,95 @@
-// Shader background (keeps your existing visual)
-const canvas = document.getElementById('bgCanvas');
-const fsScript = document.getElementById('fragment-shader-2d');
-let gl = null, program = null;
-if (canvas && fsScript) {
-  try {
-    gl = canvas.getContext('webgl2');
-  } catch (e) { gl = null; }
+// Shader setup
+const canvas = document.getElementById('myCanvas');
+const gl = canvas.getContext('webgl2');
+const fragmentShaderScript = document.getElementById('fragment-shader-2d');
+const fragmentShaderSource = fragmentShaderScript.textContent.trim();
+
+const vertexShaderSource = `#version 300 es
+in vec2 a_position;
+void main() { gl_Position = vec4(a_position, 0.0, 1.0); }
+`;
+
+const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+gl.shaderSource(vertexShader, vertexShaderSource);
+gl.compileShader(vertexShader);
+
+const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+gl.shaderSource(fragmentShader, fragmentShaderSource);
+gl.compileShader(fragmentShader);
+
+const program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+gl.useProgram(program);
+
+const positions = [-1, -1, 1, -1, -1, 1, 1, 1];
+const positionBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+const posLoc = gl.getAttribLocation(program, 'a_position');
+gl.enableVertexAttribArray(posLoc);
+gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+const resLoc = gl.getUniformLocation(program, 'iResolution');
+const mouseLoc = gl.getUniformLocation(program, 'iMouse');
+const timeLoc = gl.getUniformLocation(program, 'iTime');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
-if (gl) {
-  const vsSrc = `#version 300 es
-  in vec2 a_position; void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
-  const fsSrc = fsScript.textContent.trim();
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-  const vs = gl.createShader(gl.VERTEX_SHADER); gl.shaderSource(vs, vsSrc); gl.compileShader(vs);
-  const fs = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(fs, fsSrc); gl.compileShader(fs);
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = canvas.height - (e.clientY - rect.top);
+  gl.uniform2f(mouseLoc, x, y);
+});
 
-  program = gl.createProgram(); gl.attachShader(program, vs); gl.attachShader(program, fs); gl.linkProgram(program); gl.useProgram(program);
-
-  const positions = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
-  const posBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-  const posLoc = gl.getAttribLocation(program, 'a_position'); gl.enableVertexAttribArray(posLoc); gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-  const iResolution = gl.getUniformLocation(program, 'iResolution');
-  const iTime = gl.getUniformLocation(program, 'iTime');
-
-  function resize() {
-    const dpr = Math.max(window.devicePixelRatio || 1, 1);
-    const w = Math.floor(window.innerWidth * dpr);
-    const h = Math.floor(window.innerHeight * dpr);
-    if (canvas.width !== w || canvas.height !== h) {
-      canvas.width = w; canvas.height = h;
-      canvas.style.width = window.innerWidth + 'px'; canvas.style.height = window.innerHeight + 'px';
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    }
-    if (iResolution) gl.uniform2f(iResolution, canvas.width, canvas.height);
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  let start = performance.now();
-  function frame() {
-    if (!gl) return;
-    gl.uniform1f(iTime, (performance.now() - start) * 0.001);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    requestAnimationFrame(frame);
-  }
-  frame();
-} else {
-  // fallback - hide the canvas
-  if (canvas) canvas.style.display = 'none';
+function render() {
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.uniform2f(resLoc, canvas.width, canvas.height);
+  gl.uniform1f(timeLoc, performance.now() * 0.001);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  requestAnimationFrame(render);
 }
+render();
 
-// ---------- Scroll snap + animations + dots ----------
-const main = document.getElementById('snap');
-const sections = Array.from(document.querySelectorAll('.snap-section'));
-const panels = Array.from(document.querySelectorAll('.panel'));
-const dots = Array.from(document.querySelectorAll('.dot'));
-const form = document.getElementById('contactForm');
-const statusEl = document.getElementById('formStatus');
+// Scroll + Indicator logic
+const sections = document.querySelectorAll("section");
+const dots = document.querySelectorAll(".dot");
+const navLinks = document.querySelectorAll("nav a");
 
-// IntersectionObserver to reveal panels and update active dot
-const io = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const panel = entry.target.querySelector('.panel');
-      if (panel) panel.classList.add('visible');
-
-      // update dots
-      const id = entry.target.id;
-      dots.forEach(d => d.classList.toggle('active', d.dataset.target === `#${id}`));
+      const id = entry.target.getAttribute("id");
+      document.querySelector(".dot.active")?.classList.remove("active");
+      document.querySelector(`.dot[data-section="${id}"]`)?.classList.add("active");
+      document.querySelector("nav a.active")?.classList.remove("active");
+      document.querySelector(`nav a[href="#${id}"]`)?.classList.add("active");
     }
   });
 }, { threshold: 0.6 });
 
-sections.forEach(s => {
-  io.observe(s);
-});
+sections.forEach(sec => observer.observe(sec));
 
-// dot click -> scroll
-dots.forEach(d => {
-  d.addEventListener('click', () => {
-    const target = document.querySelector(d.dataset.target);
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+dots.forEach(dot => {
+  dot.addEventListener("click", () => {
+    const section = document.getElementById(dot.dataset.section);
+    section.scrollIntoView({ behavior: "smooth" });
   });
 });
 
-// handle keyboard arrow navigation for accessibility
-let currentIndex = 0;
-function updateCurrentIndex() {
-  const top = main.scrollTop;
-  for (let i = 0; i < sections.length; i++) {
-    if (top >= sections[i].offsetTop - sections[i].offsetHeight/2) currentIndex = i;
-  }
-}
-main.addEventListener('wheel', () => { updateCurrentIndex(); });
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown') {
+navLinks.forEach(link => {
+  link.addEventListener("click", e => {
     e.preventDefault();
-    const next = Math.min(currentIndex + 1, sections.length - 1);
-    sections[next].scrollIntoView({ behavior: 'smooth' });
-    currentIndex = next;
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    const prev = Math.max(currentIndex - 1, 0);
-    sections[prev].scrollIntoView({ behavior: 'smooth' });
-    currentIndex = prev;
-  }
-});
-
-// ---------- Formspree AJAX submit ----------
-if (form) {
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.action) return;
-    const fd = new FormData(form);
-    statusEl.textContent = 'Sending…';
-    try {
-      const res = await fetch(form.action, {
-        method: form.method || 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: fd,
-      });
-      if (res.ok) {
-        statusEl.textContent = 'Danke — Nachricht gesendet!';
-        form.reset();
-        setTimeout(() => statusEl.textContent = '', 4000);
-      } else {
-        const j = await res.json();
-        statusEl.textContent = (j.errors && j.errors[0] && j.errors[0].message) || 'Fehler beim Senden.';
-      }
-    } catch (err) {
-      statusEl.textContent = 'Netzwerkfehler — bitte später versuchen.';
-    }
+    const target = document.querySelector(link.getAttribute("href"));
+    target.scrollIntoView({ behavior: "smooth" });
   });
-}
-
-// set accessible aria-active on dots (optional)
-dots.forEach(d => {
-  d.addEventListener('focus', () => dots.forEach(x => x.setAttribute('aria-pressed', x === d)));
-});
-
-// initial reveal for first panel
-document.addEventListener('DOMContentLoaded', () => {
-  const firstPanel = sections[0].querySelector('.panel');
-  if (firstPanel) firstPanel.classList.add('visible');
 });
