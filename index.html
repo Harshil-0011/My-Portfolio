@@ -1,156 +1,126 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Harshil Gorasiya — Portfolio</title>
-  <meta name="description" content="Portfolio — Harshil Gorasiya, Hochschule Heilbronn (HHN). Data Science, Machine Learning, Computer Vision." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harshil Gorasiya | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- KEEP your shader background unchanged -->
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <!-- Background Shader Canvas -->
+  <canvas id="myCanvas"></canvas>
+  <script id="fragment-shader-2d" type="x-shader/x-fragment">
+    #version 300 es
+    precision highp float;
+    uniform vec2 iResolution;
+    uniform vec2 iMouse;
+    uniform float iTime;
+    out vec4 fragColor;
+    #define PI 3.14159265359
+    void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+      vec2 uv = (fragCoord - iResolution.xy/2.)/iResolution.y;
+      vec2 uv0 = uv;
+      float scale = 25.;
+      uv = round(uv*scale)/scale;
+      float m = .15;
+      float angle = atan(uv.x,uv.y) + iTime;
+      float r = m/PI*angle;
+      uv.x = length(uv.xy) - r;
+      uv.x = mod(uv.x - m,2.*m) - m;
+      float stripe = abs(uv.x)/m - m;
+      stripe-=.25;
+      uv = uv0;
+      uv = mod(uv - 1./scale/2., 1./scale) - 1./scale/2.;
+      float circle = step(length(uv), max(sqrt(m*stripe/scale/2.), .003));
+      uv = uv0;
+      float row = round(uv.x*scale);
+      float ln = round(uv.y*scale);
+      float sum = mod(mod(row, 3.) + mod(ln,2.) + mod(row - ln, 5.) * mod(row*ln, 3.),4.);
+      vec3 col;
+      if (sum == 0.) col = vec3(0.92, 0.90, 0.86);
+      if (sum == 1.) col = vec3(0.90, 0.80, 0.60);
+      if (sum == 2.) col = vec3(0.85, 0.85, 0.85);
+      if (sum == 3.) col = vec3(0.80, 0.75, 0.70);
+      fragColor = vec4(vec3(circle*col), 1);
+    }
+    void main() { mainImage(fragColor, gl_FragCoord.xy); }
+  </script>
 
-  <!-- glass overlay (subtle) -->
-  <div class="overlay" aria-hidden="true"></div>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">Über mich</a></li>
+      <li><a href="#skills">Fähigkeiten</a></li>
+      <li><a href="#projects">Projekte</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+  </nav>
 
-  <!-- top nav -->
-  <header class="topbar" role="banner">
-    <div class="inner">
-      <div class="brand">Harshil Gorasiya</div>
-      <nav class="topnav" role="navigation" aria-label="Hauptnavigation">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Page Indicator -->
+  <div class="page-indicator">
+    <span class="dot active" data-section="home"></span>
+    <span class="dot" data-section="about"></span>
+    <span class="dot" data-section="skills"></span>
+    <span class="dot" data-section="projects"></span>
+    <span class="dot" data-section="contact"></span>
+  </div>
 
-  <!-- scroll-snap container -->
-  <main id="snap" class="snap-container" role="main">
-    <!-- HOME -->
-    <section id="home" class="snap-section panel">
-      <div class="panel-inner">
-        <h1 class="headline">Hi — ich bin <strong>Harshil Gorasiya</strong></h1>
-        <p class="lead">Master-Studierender (Software Engineering) an der Hochschule Heilbronn (HHN). Budding Data Scientist — Machine Learning & Computer Vision.</p>
-        <div class="actions">
-          <a href="#projects" class="btn">View Projects</a>
-          <a href="#contact" class="btn btn-outline">Contact</a>
-        </div>
+  <!-- Sections -->
+  <main>
+    <section id="home" class="panel">
+      <div class="content">
+        <h1>Harshil Gorasiya</h1>
+        <p>Master Student an der Hochschule Heilbronn</p>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="snap-section panel">
-      <div class="panel-inner">
-        <h2>About</h2>
-        <p>Ich bin ein interessierter Data Scientist mit Fokus auf Machine Learning und datengetriebene Lösungen. Derzeit Master in Software Engineering an der Hochschule Heilbronn (HHN). Ich arbeite gerne an praxisnahen Projekten und lerne kontinuierlich dazu.</p>
+    <section id="about" class="panel">
+      <div class="content">
+        <h2>Über mich</h2>
+        <p>
+          Ich bin ein <strong>Budding Data Scientist</strong> mit großem Interesse an
+          <strong>Machine Learning</strong> und <strong>Datenanalyse</strong>.
+          Zurzeit studiere ich <strong>Master in Software Engineering</strong> an der
+          <strong>Hochschule Heilbronn (HHN)</strong> und liebe es, Probleme mithilfe von Daten zu lösen.
+        </p>
       </div>
     </section>
 
-    <!-- SKILLS (German content provided) -->
-    <section id="skills" class="snap-section panel">
-      <div class="panel-inner">
+    <section id="skills" class="panel">
+      <div class="content">
         <h2>Fähigkeiten & Kenntnisse</h2>
-        <div class="skill-list">
-          <p><strong>Programmierung:</strong> Python, SQL, R</p>
-          <p><strong>Bibliotheken / Tools:</strong> pandas, NumPy, scikit-learn, TensorFlow, Keras, matplotlib, seaborn</p>
-          <p><strong>Datenbanken:</strong> MySQL, MongoDB</p>
-          <p><strong>Weitere Tools:</strong> Git, Jupyter Notebooks, Linux</p>
-          <p><strong>Soft Skills:</strong> Teamarbeit, Problemlösung, Kommunikation, Zeitmanagement</p>
-        </div>
+        <p><strong>Programmierung:</strong> Python, SQL, R</p>
+        <p><strong>Bibliotheken / Tools:</strong> pandas, NumPy, scikit-learn, TensorFlow, Keras, matplotlib, seaborn</p>
+        <p><strong>Datenbanken:</strong> MySQL, MongoDB</p>
+        <p><strong>Weitere Tools:</strong> Git, Jupyter Notebooks, Linux</p>
+        <p><strong>Soft Skills:</strong> Teamarbeit, Problemlösung, Kommunikation, Zeitmanagement</p>
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="snap-section panel">
-      <div class="panel-inner">
-        <h2>Projects</h2>
-
-        <article class="project">
-          <h3>Secure blockchain-based voting system</h3>
-          <p class="meta">Python • Django • Blockchain (PoW)</p>
-          <ul>
-            <li>Proof-of-Work Blockchain für Transparenz und Manipulationssicherheit.</li>
-            <li>Benutzerfreundliches Interface für nicht-technische Nutzer.</li>
-          </ul>
-        </article>
-
-        <article class="project">
-          <h3>Real-time vehicle detection & counting</h3>
-          <p class="meta">Python • YOLOv8 • OpenCV</p>
-          <ul>
-            <li>YOLOv8 für Echtzeit-Detektion, optimiert für niedrige Hardwareanforderungen.</li>
-            <li>Komplette Pipeline: Sammeln, Annotieren, Trainieren, Optimieren.</li>
-          </ul>
-        </article>
-
-        <article class="project">
-          <h3>Age & gender recognition</h3>
-          <p class="meta">Python • Deep Learning</p>
-          <ul>
-            <li>Netzwerkdesign und Training zur Alter- und Geschlechtsschätzung.</li>
-          </ul>
-        </article>
+    <section id="projects" class="panel">
+      <div class="content">
+        <h2>Projekte</h2>
+        <p><strong>Secure Blockchain-based Voting System</strong> – Django, Python, Blockchain, PoW</p>
+        <p><strong>Real-time Vehicle Detection</strong> – Python, YOLOv8, OpenCV</p>
+        <p><strong>Age & Gender Recognition</strong> – Python, Deep Learning, Neural Networks</p>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="snap-section panel">
-      <div class="panel-inner">
-        <h2>Contact</h2>
-        <p>Wenn Sie an einer Zusammenarbeit interessiert sind oder Fragen haben, schreiben Sie mir gerne.</p>
-
-        <form id="contactForm" class="contact-form" action="https://formspree.io/f/xanppylk" method="POST" novalidate>
-          <label class="sr-only" for="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Ihr Name" required>
-
-          <label class="sr-only" for="email">Email</label>
-          <input id="email" name="_replyto" type="email" placeholder="Ihre E-Mail" required>
-
-          <label class="sr-only" for="message">Nachricht</label>
-          <textarea id="message" name="message" rows="5" placeholder="Ihre Nachricht" required></textarea>
-
-          <div class="form-row">
-            <button class="btn" type="submit">Nachricht senden</button>
-            <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-          </div>
+    <section id="contact" class="panel">
+      <div class="content">
+        <h2>Kontakt</h2>
+        <form action="https://formspree.io/f/xanppylk" method="POST">
+          <input type="text" name="name" placeholder="Ihr Name" required>
+          <input type="email" name="email" placeholder="Ihre E-Mail" required>
+          <textarea name="message" placeholder="Ihre Nachricht" required></textarea>
+          <button type="submit">Senden</button>
         </form>
       </div>
     </section>
   </main>
 
-  <!-- right-side dot nav -->
-  <nav class="dots" aria-hidden="false" aria-label="Seiten Navigation">
-    <button class="dot active" data-target="#home" aria-label="Home"></button>
-    <button class="dot" data-target="#about" aria-label="About"></button>
-    <button class="dot" data-target="#skills" aria-label="Skills"></button>
-    <button class="dot" data-target="#projects" aria-label="Projects"></button>
-    <button class="dot" data-target="#contact" aria-label="Contact"></button>
-  </nav>
-
-  <!-- shader fragment (kept same as before to preserve background) -->
-  <script id="fragment-shader-2d" type="x-shader/x-fragment">
-#version 300 es
-precision highp float;
-uniform vec2 iResolution;
-uniform float iTime;
-out vec4 fragColor;
-void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-  vec2 uv = (fragCoord - iResolution.xy/2.)/iResolution.y;
-  float color = 0.0;
-  color += sin(uv.x*10.0 + iTime)*0.2 + 0.5;
-  color += sin(uv.y*10.0 - iTime)*0.2 + 0.5;
-  vec3 col = mix(vec3(0.11,0.11,0.11), vec3(0.92,0.9,0.86), color);
-  fragColor = vec4(col, 1.0);
-}
-void main(){mainImage(fragColor, gl_FragCoord.xy);}
-  </script>
-
   <script src="script.js"></script>
 </body>
 </html>
-
