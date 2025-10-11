@@ -1,4 +1,4 @@
-// === Particle Background ===
+// === Particle Background with Lines ===
 const canvas = document.getElementById("bgCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -39,9 +39,28 @@ class Particle {
 
 for (let i = 0; i < numParticles; i++) particles.push(new Particle());
 
+function drawLines() {
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(100,100,100,${1 - distance/120})`;
+        ctx.lineWidth = 1;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach(p => { p.update(); p.draw(); });
+  drawLines();
   requestAnimationFrame(animate);
 }
 animate();
@@ -64,8 +83,18 @@ window.addEventListener("scroll", () => {
   activateDot(current);
 });
 
+// Click dots scroll
 dots.forEach((dot, index) => {
   dot.addEventListener("click", () => {
     sections[index].scrollIntoView({ behavior: "smooth" });
   });
+});
+
+// === Back to Top Button ===
+const backToTop = document.getElementById("backToTop");
+window.addEventListener("scroll", () => {
+  backToTop.style.display = (window.scrollY > 300) ? "block" : "none";
+});
+backToTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
