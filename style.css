@@ -4,12 +4,12 @@
   --white: #ffffff;
 }
 
-/* Hide Scrollbar but keep scroll functionality */
+/* Hide scrollbar */
 html {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 html::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  display: none;
 }
 
 /* General */
@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Canvas background */
+/* Background Canvas */
 #bgCanvas {
   position: fixed;
   top: 0;
@@ -60,20 +60,11 @@ body {
 }
 
 /* Page layout */
-html, body {
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100%;
-  background: transparent;
-}
-
 .page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
 }
 
 .content {
@@ -84,24 +75,23 @@ html, body {
   background: rgba(255, 255, 255, 0.65);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Fade-in when visible */
+.content.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Headings and text */
-h1, h2 {
-  margin-bottom: 0.5em;
-  color: var(--dark);
-}
-p {
-  line-height: 1.6;
-}
+h1, h2 { margin-bottom: 0.5em; }
+p { line-height: 1.6; }
 
 /* Form */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+form { display: flex; flex-direction: column; gap: 10px; }
 input, textarea {
   padding: 10px;
   border: 1px solid var(--dark);
@@ -109,12 +99,10 @@ input, textarea {
   background: var(--white);
   font-size: 1em;
 }
-
 input:focus, textarea:focus, button:focus {
   outline: 2px solid #007bff;
   outline-offset: 2px;
 }
-
 button {
   background: var(--dark);
   color: var(--white);
@@ -124,9 +112,7 @@ button {
   cursor: pointer;
   transition: background 0.3s;
 }
-button:hover {
-  background: #333;
-}
+button:hover { background: #333; }
 
 /* Navigation dots */
 .nav-dots {
@@ -186,9 +172,7 @@ button:hover {
   font-size: 1.2rem;
   transition: background 0.3s;
 }
-#backToTop:hover {
-  background: #333;
-}
+#backToTop:hover { background: #333; }
 
 /* Footer */
 footer {
@@ -203,20 +187,11 @@ footer .social-links a {
   text-decoration: none;
   transition: color 0.3s;
 }
-footer .social-links a:hover {
-  color: #007bff;
-}
+footer .social-links a:hover { color: #007bff; }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .content {
-    max-width: 90%;
-    padding: 15px;
-  }
-  .nav-dots {
-    right: 15px;
-  }
-  .top-nav ul {
-    gap: 15px;
-  }
+  .content { max-width: 90%; padding: 15px; }
+  .nav-dots { right: 15px; }
+  .top-nav ul { gap: 15px; }
 }
