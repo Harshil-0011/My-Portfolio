@@ -1,146 +1,148 @@
-// ---------- Shader background (full-page, WebGL2) ----------
+// Shader background (keeps your existing visual)
 const canvas = document.getElementById('bgCanvas');
 const fsScript = document.getElementById('fragment-shader-2d');
 let gl = null, program = null;
-let iResolutionLoc = null, iTimeLoc = null, iMouseLoc = null;
-
-function initGL(){
-  if (!canvas || !fsScript) return false;
-  try { gl = canvas.getContext('webgl2'); } catch(e){ gl = null; }
-  if (!gl) { canvas.style.display='none'; return false; }
-
-  // vertex shader
-  const vs = `#version 300 es
-  in vec2 a_position;
-  void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
-
-  const fs = fsScript.textContent.trim();
-
-  const vshader = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vshader, vs); gl.compileShader(vshader);
-  if (!gl.getShaderParameter(vshader, gl.COMPILE_STATUS)) {
-    console.error('VS error:', gl.getShaderInfoLog(vshader)); return false;
-  }
-
-  const fshader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fshader, fs); gl.compileShader(fshader);
-  if (!gl.getShaderParameter(fshader, gl.COMPILE_STATUS)) {
-    console.error('FS error:', gl.getShaderInfoLog(fshader)); return false;
-  }
-
-  program = gl.createProgram();
-  gl.attachShader(program, vshader);
-  gl.attachShader(program, fshader);
-  gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error('Program error:', gl.getProgramInfoLog(program)); return false;
-  }
-  gl.useProgram(program);
-
-  // full screen quad
-  const pos = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
-  const posLoc = gl.getAttribLocation(program, 'a_position');
-  gl.enableVertexAttribArray(posLoc);
-  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-  // uniforms
-  iResolutionLoc = gl.getUniformLocation(program, 'iResolution');
-  iTimeLoc = gl.getUniformLocation(program, 'iTime');
-  iMouseLoc = gl.getUniformLocation(program, 'iMouse');
-  gl.uniform2f(iMouseLoc, 0, 0);
-
-  return true;
+if (canvas && fsScript) {
+  try {
+    gl = canvas.getContext('webgl2');
+  } catch (e) { gl = null; }
 }
+if (gl) {
+  const vsSrc = `#version 300 es
+  in vec2 a_position; void main(){ gl_Position = vec4(a_position,0.0,1.0); }`;
+  const fsSrc = fsScript.textContent.trim();
 
-function resizeCanvas(){
-  const dpr = Math.max(window.devicePixelRatio || 1, 1);
-  const w = Math.max(1, Math.floor(window.innerWidth * dpr));
-  const h = Math.max(1, Math.floor(window.innerHeight * dpr));
-  if (canvas.width !== w || canvas.height !== h) {
-    canvas.width = w; canvas.height = h;
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    if (gl && iResolutionLoc) {
-      gl.viewport(0,0,canvas.width,canvas.height);
-      gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
+  const vs = gl.createShader(gl.VERTEX_SHADER); gl.shaderSource(vs, vsSrc); gl.compileShader(vs);
+  const fs = gl.createShader(gl.FRAGMENT_SHADER); gl.shaderSource(fs, fsSrc); gl.compileShader(fs);
+
+  program = gl.createProgram(); gl.attachShader(program, vs); gl.attachShader(program, fs); gl.linkProgram(program); gl.useProgram(program);
+
+  const positions = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
+  const posBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+  const posLoc = gl.getAttribLocation(program, 'a_position'); gl.enableVertexAttribArray(posLoc); gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const iResolution = gl.getUniformLocation(program, 'iResolution');
+  const iTime = gl.getUniformLocation(program, 'iTime');
+
+  function resize() {
+    const dpr = Math.max(window.devicePixelRatio || 1, 1);
+    const w = Math.floor(window.innerWidth * dpr);
+    const h = Math.floor(window.innerHeight * dpr);
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w; canvas.height = h;
+      canvas.style.width = window.innerWidth + 'px'; canvas.style.height = window.innerHeight + 'px';
+      gl.viewport(0, 0, canvas.width, canvas.height);
     }
+    if (iResolution) gl.uniform2f(iResolution, canvas.width, canvas.height);
   }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let start = performance.now();
+  function frame() {
+    if (!gl) return;
+    gl.uniform1f(iTime, (performance.now() - start) * 0.001);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(frame);
+  }
+  frame();
+} else {
+  // fallback - hide the canvas
+  if (canvas) canvas.style.display = 'none';
 }
 
-canvas && canvas.addEventListener('mousemove', (e) => {
-  if (!gl || !iMouseLoc) return;
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-  const y = canvas.height - (e.clientY - rect.top) * (canvas.height / rect.height);
-  gl.uniform2f(iMouseLoc, x, y);
+// ---------- Scroll snap + animations + dots ----------
+const main = document.getElementById('snap');
+const sections = Array.from(document.querySelectorAll('.snap-section'));
+const panels = Array.from(document.querySelectorAll('.panel'));
+const dots = Array.from(document.querySelectorAll('.dot'));
+const form = document.getElementById('contactForm');
+const statusEl = document.getElementById('formStatus');
+
+// IntersectionObserver to reveal panels and update active dot
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const panel = entry.target.querySelector('.panel');
+      if (panel) panel.classList.add('visible');
+
+      // update dots
+      const id = entry.target.id;
+      dots.forEach(d => d.classList.toggle('active', d.dataset.target === `#${id}`));
+    }
+  });
+}, { threshold: 0.6 });
+
+sections.forEach(s => {
+  io.observe(s);
 });
 
-let start = performance.now();
-function render(){
-  if (!gl || !program) return;
-  resizeCanvas();
-  const t = (performance.now() - start) * 0.001;
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0,0,0,0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.uniform2f(iResolutionLoc, canvas.width, canvas.height);
-  gl.uniform1f(iTimeLoc, t);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  requestAnimationFrame(render);
-}
-
-const webglReady = initGL();
-if (webglReady) { resizeCanvas(); requestAnimationFrame(render); }
-else { canvas.style.display = 'none'; document.querySelectorAll('.hero-overlay').forEach(o=>o.style.background='linear-gradient(rgba(28,28,28,0.88),rgba(28,28,28,0.88))'); }
-
-// ---------- Minimal UI behavior (fade-in, nav, form) ----------
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.18 });
-document.querySelectorAll('.fade-in, .section').forEach(el => io.observe(el));
-
-// Smooth anchor scrolling
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', (ev)=>{
-    const href = a.getAttribute('href');
-    if (href.length > 1) {
-      ev.preventDefault();
-      const target = document.querySelector(href);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// dot click -> scroll
+dots.forEach(d => {
+  d.addEventListener('click', () => {
+    const target = document.querySelector(d.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-// Formspree AJAX submit
-const form = document.getElementById('contactForm');
-const status = document.getElementById('formStatus');
+// handle keyboard arrow navigation for accessibility
+let currentIndex = 0;
+function updateCurrentIndex() {
+  const top = main.scrollTop;
+  for (let i = 0; i < sections.length; i++) {
+    if (top >= sections[i].offsetTop - sections[i].offsetHeight/2) currentIndex = i;
+  }
+}
+main.addEventListener('wheel', () => { updateCurrentIndex(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const next = Math.min(currentIndex + 1, sections.length - 1);
+    sections[next].scrollIntoView({ behavior: 'smooth' });
+    currentIndex = next;
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prev = Math.max(currentIndex - 1, 0);
+    sections[prev].scrollIntoView({ behavior: 'smooth' });
+    currentIndex = prev;
+  }
+});
+
+// ---------- Formspree AJAX submit ----------
 if (form) {
-  form.addEventListener('submit', async (ev) => {
-    ev.preventDefault();
-    status.textContent = 'Sending…';
-    const data = new FormData(form);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.action) return;
+    const fd = new FormData(form);
+    statusEl.textContent = 'Sending…';
     try {
-      const res = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: data });
+      const res = await fetch(form.action, {
+        method: form.method || 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: fd,
+      });
       if (res.ok) {
+        statusEl.textContent = 'Danke — Nachricht gesendet!';
         form.reset();
-        status.textContent = 'Thanks — message sent!';
-        setTimeout(()=> status.textContent = '', 4500);
+        setTimeout(() => statusEl.textContent = '', 4000);
       } else {
         const j = await res.json();
-        status.textContent = (j.errors && j.errors[0] && j.errors[0].message) || 'Submission failed.';
+        statusEl.textContent = (j.errors && j.errors[0] && j.errors[0].message) || 'Fehler beim Senden.';
       }
     } catch (err) {
-      status.textContent = 'Network error — please try again later.';
+      statusEl.textContent = 'Netzwerkfehler — bitte später versuchen.';
     }
   });
 }
 
-// set year
-const y = document.getElementById('year');
-if (y) y.textContent = new Date().getFullYear();
+// set accessible aria-active on dots (optional)
+dots.forEach(d => {
+  d.addEventListener('focus', () => dots.forEach(x => x.setAttribute('aria-pressed', x === d)));
+});
 
-// resize on window change
-window.addEventListener('resize', resizeCanvas);
+// initial reveal for first panel
+document.addEventListener('DOMContentLoaded', () => {
+  const firstPanel = sections[0].querySelector('.panel');
+  if (firstPanel) firstPanel.classList.add('visible');
+});
