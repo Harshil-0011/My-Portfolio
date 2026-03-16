@@ -15,6 +15,8 @@ document.addEventListener('mousemove', (e) => {
   gsap.to(cursor, {
     x: e.clientX,
     y: e.clientY,
+    xPercent: -50,
+    yPercent: -50,
     duration: 0.1,
     ease: "power2.out"
   });
