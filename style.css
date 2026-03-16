@@ -166,8 +166,31 @@ body {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  opacity: 0.4;
+  color: var(--accent-secondary);
+  opacity: 0.8;
   margin-bottom: 20px;
+}
+
+/* Education Styles */
+.education-box .education-item {
+  margin-bottom: 20px;
+}
+
+.education-box h4 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.edu-meta {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.education-box p {
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
 
 /* Grid layout positions */
@@ -181,6 +204,11 @@ body {
 .about-box {
   grid-column: span 1;
   grid-row: span 2;
+}
+
+.education-box {
+  grid-column: span 2;
+  grid-row: span 1;
 }
 
 .skills-box {
@@ -201,7 +229,7 @@ body {
 
 .projects-box {
   grid-column: span 2;
-  grid-row: span 2;
+  grid-row: span 4;
 }
 
 .contact-box {
@@ -271,23 +299,28 @@ body {
 
 .about-box .box-body p {
   font-size: 0.95rem;
-  opacity: 0.6;
+  opacity: 0.8;
+  line-height: 1.6;
   margin-bottom: 15px;
 }
 
-.skills-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.about-box strong {
+  color: var(--accent-secondary);
 }
 
-.skill-tag {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
+.skills-group {
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.skills-group strong {
+  color: var(--accent-secondary);
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .stat-grid {
@@ -354,8 +387,24 @@ body {
 }
 
 .project-item p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.project-item p strong {
+  color: var(--accent);
+}
+
+.ats-details {
+  margin-left: 18px;
+  list-style: disc;
   font-size: 0.8rem;
-  opacity: 0.5;
+  opacity: 0.6;
+}
+
+.ats-details li {
+  margin-bottom: 5px;
 }
 
 .project-link {
