@@ -1,150 +1,172 @@
-/* ---------------- particles ---------------- */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W = canvas.width = innerWidth;
-let H = canvas.height = innerHeight;
-window.addEventListener('resize', ()=>{ W = canvas.width = innerWidth; H = canvas.height = innerHeight; initParticles(); });
-
-let particles = [];
-const N = Math.floor(Math.min(120, (W*H)/90000)); // responsive density
-
-function rand(min,max){ return Math.random()*(max-min)+min; }
-
-function initParticles(){
-  particles = [];
-  for(let i=0;i<N;i++){
-    particles.push({
-      x: rand(0,W),
-      y: rand(0,H),
-      r: rand(0.7,2.2),
-      vx: rand(-0.2,0.2),
-      vy: rand(-0.15,0.15),
-      col: `rgba(60,80,85,${rand(0.08,0.28)})`
-    });
-  }
+// Initialize Lenis Smooth Scroll
+const lenis = new Lenis();
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
 }
-initParticles();
+requestAnimationFrame(raf);
 
-function draw(){
-  ctx.clearRect(0,0,W,H);
-  // gentle vignette
-  const g = ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'rgba(255,255,255,0.06)');
-  g.addColorStop(1,'rgba(0,0,0,0.02)');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,W,H);
+// GSAP Plugins
+gsap.registerPlugin(ScrollTrigger);
 
-  // particles
-  for(let p of particles){
-    p.x += p.vx; p.y += p.vy;
-    if(p.x < -20) p.x = W+20;
-    if(p.x > W+20) p.x = -20;
-    if(p.y < -20) p.y = H+20;
-    if(p.y > H+20) p.y = -20;
+// Custom Cursor
+const cursor = document.querySelector('.cursor-follower');
+document.addEventListener('mousemove', (e) => {
+  gsap.to(cursor, {
+    x: e.clientX,
+    y: e.clientY,
+    duration: 0.1,
+    ease: "power2.out"
+  });
+});
 
+// Cursor hover effects
+const interactables = document.querySelectorAll('a, .btn-primary, .btn-secondary, .project-item, .skill-tag');
+interactables.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    gsap.to(cursor, {
+      scale: 3,
+      backgroundColor: "rgba(255,255,255,0.1)",
+      border: "1px solid white",
+      duration: 0.3
+    });
+  });
+  el.addEventListener('mouseleave', () => {
+    gsap.to(cursor, {
+      scale: 1,
+      backgroundColor: "white",
+      border: "none",
+      duration: 0.3
+    });
+  });
+});
+
+// Bento Items Entrance Animation
+gsap.from(".bento-item", {
+  y: 50,
+  opacity: 0,
+  duration: 1,
+  stagger: 0.1,
+  ease: "power4.out",
+  scrollTrigger: {
+    trigger: ".bento-grid",
+    start: "top 80%",
+  }
+});
+
+// Text Reveal Animations
+gsap.from(".reveal-text", {
+  y: 100,
+  opacity: 0,
+  duration: 1.2,
+  ease: "power4.out",
+  delay: 0.2
+});
+
+gsap.from(".sub-reveal", {
+  opacity: 0,
+  duration: 1,
+  delay: 0.8
+});
+
+// Background Blob Movement
+gsap.to(".b1", {
+  x: "30vw",
+  y: "20vh",
+  duration: 10,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+gsap.to(".b2", {
+  x: "-20vw",
+  y: "-30vh",
+  duration: 12,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+gsap.to(".b3", {
+  x: "10vw",
+  y: "10vh",
+  duration: 8,
+  repeat: -1,
+  yoyo: true,
+  ease: "sine.inOut"
+});
+
+// Year Update
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// --- NEURAL NETWORK VISUALIZATION ---
+const canvas = document.getElementById('viz-canvas');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+let nodes = [];
+const nodeCount = 30;
+const connectionDist = 100;
+
+function resize() {
+  const rect = canvas.parentNode.getBoundingClientRect();
+  width = canvas.width = rect.width;
+  height = canvas.height = rect.height;
+}
+
+window.addEventListener('resize', resize);
+resize();
+
+class Node {
+  constructor() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = (Math.random() - 0.5) * 0.5;
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 0 || this.x > width) this.vx *= -1;
+    if (this.y < 0 || this.y > height) this.vy *= -1;
+  }
+
+  draw() {
     ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = p.col;
+    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(112, 0, 255, 0.5)";
     ctx.fill();
   }
+}
 
-  // lines between close particles (subtle)
-  for(let i=0;i<particles.length;i++){
-    for(let j=i+1;j<particles.length;j++){
-      const a=particles[i], b=particles[j];
-      const dx=a.x-b.x, dy=a.y-b.y;
-      const d2 = dx*dx+dy*dy;
-      if(d2 < 9000){ // distance threshold squared
+for (let i = 0; i < nodeCount; i++) {
+  nodes.push(new Node());
+}
+
+function animateViz() {
+  ctx.clearRect(0, 0, width, height);
+
+  for (let i = 0; i < nodes.length; i++) {
+    nodes[i].update();
+    nodes[i].draw();
+
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < connectionDist) {
         ctx.beginPath();
-        const alpha = 0.08*(1 - Math.sqrt(d2)/95);
-        ctx.strokeStyle = `rgba(90,120,125,${alpha})`;
-        ctx.lineWidth = 0.8;
-        ctx.moveTo(a.x,a.y);
-        ctx.lineTo(b.x,b.y);
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(0, 212, 255, ${1 - dist / connectionDist})`;
+        ctx.lineWidth = 0.5;
         ctx.stroke();
       }
     }
   }
-
-  requestAnimationFrame(draw);
+  requestAnimationFrame(animateViz);
 }
-draw();
 
-/* ---------------- navbar active link ---------------- */
-const navLinks = document.querySelectorAll('.nav-link');
-const sections = document.querySelectorAll('main > section');
-
-function onScroll(){
-  const sc = window.scrollY + window.innerHeight*0.35;
-  let current = sections[0].id;
-  sections.forEach(s=>{
-    if(s.offsetTop <= sc) current = s.id;
-  });
-  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+current));
-}
-window.addEventListener('scroll', onScroll);
-onScroll();
-
-/* ---------- reveal on scroll (intersection observer) ---------- */
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-      // set CSS variable to stagger project cards
-      const cards = entry.target.querySelectorAll('.project-card');
-      cards.forEach((c,i)=> c.style.setProperty('--i', i));
-      // unobserve slowly (still nice if revisited)
-      io.unobserve(entry.target);
-    }
-  });
-},{threshold:0.18});
-
-reveals.forEach(r=>io.observe(r));
-
-/* ---------- project card tilt (mouse) ---------- */
-document.querySelectorAll('[data-tilt]').forEach(card=>{
-  card.addEventListener('mousemove', (e)=>{
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const rx = (y - 0.5) * 8; // tilt amounts
-    const ry = (x - 0.5) * -8;
-    card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(8px)`;
-  });
-  card.addEventListener('mouseleave', ()=> card.style.transform = '');
-});
-
-/* ---------- back to top ---------- */
-const back = document.getElementById('backToTop');
-window.addEventListener('scroll', ()=> back.style.display = (window.scrollY > 500) ? 'block' : 'none');
-back.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
-
-/* ---------- copy email button ---------- */
-document.getElementById('copyEmail')?.addEventListener('click', async ()=>{
-  try {
-    await navigator.clipboard.writeText('harshil.gorasiya.0011@gmail.com');
-    alert('Email copied to clipboard');
-  } catch(e){
-    alert('Copy failed — you can email: harshil.gorasiya.0011@gmail.com');
-  }
-});
-
-/* ---------- dynamic year ---------- */
-document.getElementById('year').textContent = new Date().getFullYear();
-
-/* ---------- small hero parallax on scroll ---------- */
-const hero = document.querySelector('.hero-inner');
-window.addEventListener('scroll', ()=>{
-  const sc = window.scrollY;
-  if(hero) hero.style.transform = `translateY(${sc * 0.08}px)`;
-});
-
-/* ---------- smooth anchor clicks (close to instant) ---------- */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', (e)=>{
-    // Allow normal external links
-    const target = document.querySelector(a.getAttribute('href'));
-    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}) }
-  });
-});
+animateViz();
