@@ -27,9 +27,9 @@
   <!-- Navigation -->
   <nav class="glass-nav">
     <div class="nav-content">
-      <div class="logo">HARSHIL<span>.</span></div>
+      <a href="#home" class="logo" aria-label="Go to Home">HARSHIL<span>.</span></a>
       <div class="nav-links">
-        <a href="#home" class="nav-link">Home</a>
+        <a href="#home" class="nav-link active">Home</a>
         <a href="#updates" class="nav-link">News</a>
         <a href="#features" class="nav-link">Features</a>
         <a href="#install" class="nav-link">Install</a>
@@ -94,7 +94,7 @@
       <!-- INSTALL BOX -->
       <section id="install" class="bento-item install-box">
         <div class="box-header">BUILD & INSTALL</div>
-        <div class="code-block">
+        <div class="code-block" role="region" aria-label="Terminal Installation Commands">
           <pre><code># Build Engine
 mkdir build && cd build
 cmake .. && cmake --build . --config Release
