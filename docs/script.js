@@ -22,25 +22,39 @@ document.addEventListener('mousemove', (e) => {
   });
 });
 
-// Cursor hover effects
-const interactables = document.querySelectorAll('a, .btn-primary, .btn-secondary, .project-item, .skill-tag, .code-block');
+// Cursor & Focus effects
+const interactables = document.querySelectorAll('a, button, .btn-primary, .btn-secondary, .project-item, .skill-tag, .code-block, input, textarea');
 interactables.forEach(el => {
-  el.addEventListener('mouseenter', () => {
+  const handleIn = () => {
     gsap.to(cursor, {
       scale: 3,
       backgroundColor: "rgba(255,255,255,0.1)",
       border: "1px solid white",
       duration: 0.3
     });
-  });
-  el.addEventListener('mouseleave', () => {
+  };
+
+  const handleOut = () => {
     gsap.to(cursor, {
       scale: 1,
       backgroundColor: "white",
       border: "none",
       duration: 0.3
     });
+  };
+
+  el.addEventListener('mouseenter', handleIn);
+  el.addEventListener('mouseleave', handleOut);
+  el.addEventListener('focus', (e) => {
+    handleIn();
+    const rect = el.getBoundingClientRect();
+    gsap.to(cursor, {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+      duration: 0.3
+    });
   });
+  el.addEventListener('blur', handleOut);
 });
 
 // Bento Items Entrance Animation

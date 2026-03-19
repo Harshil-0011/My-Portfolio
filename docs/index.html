@@ -17,8 +17,8 @@
   <div class="cursor-follower"></div>
 
   <!-- Background Aesthetics -->
-  <div class="noise-bg"></div>
-  <div class="blob-cont">
+  <div class="noise-bg" aria-hidden="true"></div>
+  <div class="blob-cont" aria-hidden="true">
     <div class="blob b1"></div>
     <div class="blob b2"></div>
     <div class="blob b3"></div>
@@ -44,12 +44,12 @@
       <!-- HERO BOX -->
       <section id="home" class="bento-item hero-box">
         <div class="hero-content">
-          <div class="badge">🚀 Introducing my first app: Local Perplex</div>
+          <div class="badge" role="status">🚀 Introducing my first app: Local Perplex</div>
           <h1 class="reveal-text">The Private AI <i>Research</i><br>Engine</h1>
           <p class="sub-reveal"><strong>Privacy First. High Performance. Multimodal.</strong> The world-class research experience entirely on your hardware. No cloud, no tracking, no compromises.</p>
           <div class="hero-actions">
             <a href="#features" class="btn-primary">Explore Features</a>
-            <a href="https://github.com/harshilgorasiya" target="_blank" class="btn-secondary">View Source on GitHub</a>
+            <a href="https://github.com/harshilgorasiya" target="_blank" class="btn-secondary" aria-label="View Source on GitHub (opens in new tab)">View Source on GitHub</a>
           </div>
         </div>
       </section>
@@ -122,7 +122,7 @@ perplex-gui</code></pre>
       <!-- VISUALIZATION BOX -->
       <section class="bento-item viz-box">
         <div class="box-header">RANKING ENGINE VIZ</div>
-        <canvas id="viz-canvas"></canvas>
+        <canvas id="viz-canvas" aria-label="Animated neural network visualization representing the ranking engine" role="img"></canvas>
       </section>
 
       <!-- FEATURES BOX -->
@@ -167,14 +167,16 @@ perplex-gui</code></pre>
         <p>I am open to developers who want to tailor Local Perplex to their specific needs. Let's make AI truly personal.</p>
 
         <form action="https://formspree.io/f/xanppylk" method="POST" class="contact-form">
-          <input type="email" name="email" placeholder="Your Email" required>
-          <textarea name="message" placeholder="Collaborate or Feedback..." required></textarea>
+          <label for="email" class="sr-only">Your Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+          <label for="message" class="sr-only">Collaborate or Feedback</label>
+          <textarea id="message" name="message" placeholder="Collaborate or Feedback..." required></textarea>
           <button type="submit">Send Message</button>
         </form>
 
         <div class="contact-footer">
           <div class="social-links">
-            <a href="https://github.com/harshilgorasiya" target="_blank">GitHub Source</a>
+            <a href="https://github.com/harshilgorasiya" target="_blank" aria-label="GitHub Source Code (opens in new tab)">GitHub Source</a>
           </div>
           <div class="copy-year">© <span id="year"></span></div>
         </div>
