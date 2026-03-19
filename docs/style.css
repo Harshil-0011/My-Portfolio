@@ -26,6 +26,37 @@ body {
   font-family: var(--font-main);
   overflow-x: hidden;
   line-height: 1.5;
+  cursor: none;
+}
+
+/* --- Accessibility --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 4px;
+}
+
+/* --- Animations --- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
 }
 
 /* --- Noise & Blobs --- */
@@ -172,26 +203,45 @@ body {
   margin-bottom: 20px;
 }
 
-/* Education Styles */
-.education-box .education-item {
-  margin-bottom: 20px;
+/* Comparison Table */
+.comp-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.education-box h4 {
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.edu-meta {
-  font-size: 0.75rem;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.education-box p {
+.comp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 10px;
+  border-bottom: 1px solid var(--glass-border);
   font-size: 0.85rem;
-  opacity: 0.6;
+}
+
+.comp-row.head {
+  font-weight: 800;
+  color: var(--accent-secondary);
+  border-bottom: 2px solid var(--glass-border);
+}
+
+.check { color: #00ff88; font-weight: 600; }
+.cross { color: #ff4444; opacity: 0.6; }
+
+/* Install Box */
+.code-block {
+  background: #000;
+  padding: 15px;
+  border-radius: 12px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #00ff88;
+  margin-bottom: 10px;
+  overflow-x: auto;
+}
+
+.install-note {
+  font-size: 0.75rem;
+  opacity: 0.5;
 }
 
 /* Grid layout positions */
@@ -207,12 +257,12 @@ body {
   grid-row: span 2;
 }
 
-.education-box {
+.comparison-box {
   grid-column: span 2;
   grid-row: span 1;
 }
 
-.skills-box {
+.install-box {
   grid-column: span 2;
   grid-row: span 1;
 }
@@ -256,8 +306,8 @@ body {
 
 .hero-box h1 {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  line-height: 1;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.1;
   margin-bottom: 20px;
 }
 
@@ -286,6 +336,11 @@ body {
   text-decoration: none;
   font-weight: 700;
   font-size: 0.9rem;
+  transition: transform 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
 }
 
 .btn-secondary {
@@ -307,25 +362,6 @@ body {
 
 .about-box strong {
   color: var(--accent-secondary);
-}
-
-.skills-group {
-  margin-bottom: 12px;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.skill-tag {
-  color: var(--accent-secondary);
-  font-weight: 700;
-}
-
-.skills-group strong {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
 
 .stat-grid {
@@ -370,12 +406,11 @@ body {
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid var(--glass-border);
-  cursor: pointer;
-  transition: transform 0.3s;
+  transition: background 0.3s;
 }
 
 .project-item:hover {
-  transform: translateX(10px);
+  background: rgba(255,255,255,0.02);
 }
 
 .project-cat {
@@ -394,34 +429,13 @@ body {
 .project-item p {
   font-size: 0.9rem;
   opacity: 0.8;
-  margin-bottom: 10px;
-}
-
-.project-item p strong {
-  color: var(--accent);
-}
-
-.ats-details {
-  margin-left: 18px;
-  list-style: disc;
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
-
-.ats-details li {
-  margin-bottom: 5px;
-}
-
-.project-link {
-  font-size: 1.5rem;
-  opacity: 0.3;
 }
 
 .contact-box h2 {
   font-family: var(--font-serif);
   font-size: 2.8rem;
   line-height: 1.1;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .contact-box h2 i {
@@ -432,7 +446,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .contact-form input, .contact-form textarea {
@@ -446,7 +460,7 @@ body {
 }
 
 .contact-form textarea {
-  height: 80px;
+  height: 70px;
   resize: none;
 }
 
@@ -461,15 +475,11 @@ body {
   transition: opacity 0.3s;
 }
 
-.contact-form button:hover {
-  opacity: 0.9;
-}
-
 .contact-footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .social-links a {
@@ -477,7 +487,6 @@ body {
   text-decoration: none;
   font-size: 0.8rem;
   opacity: 0.5;
-  margin-right: 15px;
   transition: opacity 0.3s;
 }
 
@@ -495,7 +504,7 @@ body {
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .hero-box, .about-box, .projects-box, .contact-box {
+  .hero-box, .about-box, .projects-box, .contact-box, .comparison-box, .install-box {
     grid-column: span 2;
   }
 }
@@ -508,6 +517,9 @@ body {
     grid-column: span 1 !important;
   }
   .hero-box h1 {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
+  }
+  .comp-row {
+    font-size: 0.75rem;
   }
 }
