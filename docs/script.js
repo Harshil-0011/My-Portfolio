@@ -9,6 +9,51 @@ requestAnimationFrame(raf);
 // GSAP Plugins
 gsap.registerPlugin(ScrollTrigger);
 
+// ScrollSpy Logic
+const observerOptions = {
+  root: null,
+  rootMargin: '-10% 0px -80% 0px',
+  threshold: [0, 0.1, 0.2]
+};
+
+const observerCallback = (entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      if (id) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
+      }
+    }
+  });
+};
+
+const observer = new IntersectionObserver(observerCallback, observerOptions);
+document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+
+// Initial trigger for ScrollSpy
+const triggerScrollSpy = () => {
+  const sections = document.querySelectorAll('section[id]');
+  let currentId = '';
+
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.3 && rect.bottom >= 0) {
+      currentId = section.getAttribute('id');
+    }
+  });
+
+  if (currentId) {
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
+    });
+  }
+};
+
+window.addEventListener('load', triggerScrollSpy);
+window.addEventListener('scroll', triggerScrollSpy);
+
 // Custom Cursor
 const cursor = document.querySelector('.cursor-follower');
 document.addEventListener('mousemove', (e) => {
