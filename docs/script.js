@@ -23,7 +23,7 @@ document.addEventListener('mousemove', (e) => {
 });
 
 // Cursor hover effects
-const interactables = document.querySelectorAll('a, .btn-primary, .btn-secondary, .project-item, .skill-tag');
+const interactables = document.querySelectorAll('a, .btn-primary, .btn-secondary, .project-item, .skill-tag, .code-block');
 interactables.forEach(el => {
   el.addEventListener('mouseenter', () => {
     gsap.to(cursor, {
@@ -49,11 +49,7 @@ gsap.from(".bento-item", {
   opacity: 0,
   duration: 1,
   stagger: 0.1,
-  ease: "power4.out",
-  scrollTrigger: {
-    trigger: ".bento-grid",
-    start: "top 80%",
-  }
+  ease: "power4.out"
 });
 
 // Text Reveal Animations
