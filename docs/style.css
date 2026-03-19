@@ -6,8 +6,8 @@
   --glass: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-hover: rgba(255, 255, 255, 0.08);
-  --font-main: 'Inter', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Bricolage Grotesque', sans-serif;
 }
 
 * {
@@ -283,6 +283,11 @@ body {
   grid-row: span 4;
 }
 
+.updates-box {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
 .contact-box {
   grid-column: span 2;
   grid-row: span 2;
@@ -497,6 +502,34 @@ body {
 .copy-year {
   font-size: 0.8rem;
   opacity: 0.3;
+}
+
+/* Updates Feed */
+.update-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.update-item {
+  border-left: 1px solid var(--accent);
+  padding-left: 15px;
+}
+
+.update-date {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.update-item h4 {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.update-item p {
+  font-size: 0.8rem;
+  opacity: 0.6;
 }
 
 /* --- Mobile --- */
