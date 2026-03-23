@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ardan — The World's Most Powerful Autonomous Coding Agent CLI</title>
+  <meta name="description" content="Ardan: An industrial-strength, multi-provider autonomous coding agent that lives in your terminal." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme ardan-page">
+  <!-- Custom Cursor -->
+  <div class="cursor-follower"></div>
+
+  <!-- Background Aesthetics -->
+  <div class="noise-bg" aria-hidden="true"></div>
+  <div class="blob-cont" aria-hidden="true">
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-content">
+      <a href="index.html" class="logo" aria-label="Go to Home">Rasha AI<span>.</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="ardan.html" class="nav-link active">Ardan</a>
+        <a href="local-perplex.html" class="nav-link">Local Perplex</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN WRAPPER -->
+  <main id="main-content">
+    <div class="bento-grid">
+
+      <!-- HERO BOX -->
+      <section id="hero" class="bento-item hero-box ardan-hero">
+        <div class="hero-content">
+          <div class="badge" role="status">🤖 NEW AGENT RELEASE</div>
+          <h1 class="reveal-text">Ardan: The Industrial <i>Autonomous</i> Coding Agent</h1>
+          <p class="sub-reveal">Master-level reasoning combined with high-fidelity developer tools. Build entire software systems from a single prompt directly in your terminal.</p>
+          <div class="hero-actions">
+            <a href="#install" class="btn-primary">Get Started</a>
+            <a href="https://github.com/harshilgorasiya" target="_blank" class="btn-secondary">GitHub Repository</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- TERMINAL DEMO BOX -->
+      <section id="demo" class="bento-item terminal-box">
+        <div class="box-header">⚡ TERMINAL DEMO</div>
+        <div class="terminal-content" role="region" aria-label="Ardan Terminal Demo">
+          <pre class="ascii-large">
+ █████╗ ██████╗ ██████╗  █████╗ ███╗   ██╗
+██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗  ██║
+███████║██████╔╝██║  ██║███████║██╔██╗ ██║
+██╔══██║██╔══██╗██║  ██║██╔══██║██║╚██╗██║
+██║  ██║██║  ██║██████╔╝██║  ██║██║ ╚████║
+╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝</pre>
+          <p class="terminal-tag">THE WORLD'S MOST POWERFUL CODING AGENT</p>
+          <p class="terminal-provider">● ANTHROPIC (claude-sonnet-4-6)</p>
+          <div class="terminal-logs">
+            <span class="prompt">> ardan run "Build a FastAPI app with JWT auth and SQLite."</span>
+            <span class="log-info">⠋ [bold yellow]Analyzing request...[/bold yellow]</span>
+            <span class="log-table">
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ ID ┃ Description                                    ┃ Tool Hint        ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│ 1  │ Initialize structure and requirements.txt     │ write_file       │
+│ 2  │ Create core FastAPI application logic         │ write_file       │
+│ 3  │ Implement JWT authentication                  │ write_file       │
+└────┴━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┴━━━━━━━━━━━━━━━━━━┘</span>
+            <span class="prompt">Proceed? [y/N]: y</span>
+            <span class="log-info">[Ardan] Initiating execution...</span>
+            <span class="log-success">✔ Created requirements.txt</span>
+            <span class="log-info">Writing to main.py...</span>
+            <span class="log-success">✔ Core Logic Integrated</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHY ARDAN BOX -->
+      <section id="why" class="bento-item why-box">
+        <div class="box-header">01 / WHY ARDAN BEATS EVERY COMPETITOR</div>
+        <div class="feature-pills">
+          <div class="pill">🧠 Multi-Provider Intelligence</div>
+          <div class="pill">⚡ Extreme Efficiency</div>
+          <div class="pill">🔌 Professional Toolset</div>
+          <div class="pill">🛡️ Industrial Security</div>
+        </div>
+        <p>Ardan doesn't just generate code; it engineers systems. It features parallel tool execution, native C/C++ compilation, and AI-driven unit test generation.</p>
+      </section>
+
+      <!-- PROVIDER MATRIX BOX -->
+      <section id="matrix" class="bento-item matrix-box">
+        <div class="box-header">🛠️ PROVIDER MATRIX</div>
+        <div class="comp-table">
+          <div class="comp-row head">
+            <div>Provider</div>
+            <div>Recommended Model</div>
+            <div>Best For...</div>
+          </div>
+          <div class="comp-row">
+            <div>Anthropic</div>
+            <div>claude-sonnet-4-6</div>
+            <div>Master reasoning</div>
+          </div>
+          <div class="comp-row">
+            <div>OpenAI</div>
+            <div>gpt-4.1</div>
+            <div>Tool accuracy</div>
+          </div>
+          <div class="comp-row">
+            <div>Groq</div>
+            <div>llama-3.3-70b</div>
+            <div>Extreme Speed (500+ TPS)</div>
+          </div>
+          <div class="comp-row">
+            <div>Ollama</div>
+            <div>codellama:13b</div>
+            <div>100% Local / Zero Cost</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECURITY BOX -->
+      <section id="security" class="bento-item security-box">
+        <div class="box-header">🛡️ INDUSTRIAL SECURITY</div>
+        <p>Your API keys are <strong>AES-encrypted</strong> at rest using a unique key derived from your hardware. Rasha AI never stores keys in plaintext. Security is not an afterthought.</p>
+        <div class="code-block-minimal">
+          ardan keys set anthropic<br>
+          ardan keys test openai
+        </div>
+      </section>
+
+      <!-- INSTALL BOX -->
+      <section id="install" class="bento-item install-box">
+        <div class="box-header">📋 INSTALLATION</div>
+        <div class="code-block">
+          <pre><code>git clone https://github.com/harshilgorasiya/ardan.git
+cd ardan
+pip install -e .</code></pre>
+        </div>
+        <p class="install-note">Unlock All Providers: <code>pip install -e ".[all]"</code></p>
+      </section>
+
+      <!-- POWER USER GUIDE BOX -->
+      <section id="guide" class="bento-item guide-box">
+        <div class="box-header">📖 POWER USER GUIDE</div>
+        <div class="guide-grid">
+          <div class="guide-item">
+            <h5>Interactive REPL</h5>
+            <p>Slash commands like <code>/help</code>, <code>/save</code>, and <code>/rewind</code> for deep control.</p>
+          </div>
+          <div class="guide-item">
+            <h5>Autonomous Mode</h5>
+            <p>Use <code>--auto</code> to run fully autonomously for complex builds.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT BOX -->
+      <section id="contact" class="bento-item contact-box">
+        <div class="box-header">02 / COLLABORATE</div>
+        <h2>Build the <i>Future</i> with Rasha AI</h2>
+        <p>Interested in industrial-strength autonomous agents? Let's connect.</p>
+
+        <form action="https://formspree.io/f/xanppylk" method="POST" class="contact-form">
+          <label for="email" class="sr-only">Your Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+          <textarea id="message" name="message" placeholder="Collaborate or Feedback..." required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-footer">
+          <div class="copy-year">© Rasha AI 2024</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- GSAP & Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
