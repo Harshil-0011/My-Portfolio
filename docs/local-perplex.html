@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Local Perplex — Privacy-First AI Research Engine | Rasha AI</title>
+  <meta name="description" content="Local Perplex: The privacy-focused, high-performance alternative to Perplexity AI. 100% local, multimodal research engine." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme perplex-page">
+  <!-- Custom Cursor -->
+  <div class="cursor-follower"></div>
+
+  <!-- Background Aesthetics -->
+  <div class="noise-bg" aria-hidden="true"></div>
+  <div class="blob-cont" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="nav-content">
+      <a href="index.html" class="logo" aria-label="Go to Home">Rasha AI<span>.</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="ardan.html" class="nav-link">Ardan</a>
+        <a href="local-perplex.html" class="nav-link active">Local Perplex</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN WRAPPER -->
+  <main id="main-content">
+    <div class="bento-grid">
+
+      <!-- HERO BOX -->
+      <section id="home" class="bento-item hero-box">
+        <div class="hero-content">
+          <div class="badge" role="status">🚀 A Rasha AI PROJECT</div>
+          <h1 class="reveal-text">The Private AI <i>Research</i><br>Engine</h1>
+          <p class="sub-reveal"><strong>Privacy First. High Performance. Multimodal.</strong> The world-class research experience entirely on your hardware. No cloud, no tracking, no compromises.</p>
+          <div class="hero-actions">
+            <a href="#features" class="btn-primary">Explore Features</a>
+            <a href="https://github.com/harshilgorasiya" target="_blank" class="btn-secondary" aria-label="View Source on GitHub (opens in new tab)">View Source on GitHub</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MISSION BOX -->
+      <section id="about" class="bento-item about-box">
+        <div class="box-header">01 / WHY LOCAL PERPLEX?</div>
+        <div class="box-body">
+          <p>Local Perplex is the <strong>privacy-focused alternative</strong> to Perplexity AI. It combines a high-speed C++ Core with Ollama's local intelligence to deliver results with <strong>zero latency</strong> and <strong>total data sovereignty</strong>.</p>
+          <p>Built for the privacy-conscious elite who demand high-performance research without the overhead of cloud subscriptions or data harvesting.</p>
+        </div>
+      </section>
+
+      <!-- COMPARISON BOX -->
+      <section class="bento-item comparison-box">
+        <div class="box-header">VS CLOUD ALTERNATIVES</div>
+        <div class="comp-table">
+          <div class="comp-row head">
+            <div>Feature</div>
+            <div>Local Perplex</div>
+            <div>Cloud AI</div>
+          </div>
+          <div class="comp-row">
+            <div>Privacy</div>
+            <div class="check">🔐 100% Local</div>
+            <div class="cross">☁️ External Servers</div>
+          </div>
+          <div class="comp-row">
+            <div>Speed</div>
+            <div class="check">⚡ C++ Native</div>
+            <div class="cross">🐌 Network Latency</div>
+          </div>
+          <div class="comp-row">
+            <div>Cost</div>
+            <div class="check">💎 Permanent Free</div>
+            <div class="cross">💳 Monthly Sub</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- INSTALL BOX -->
+      <section id="install" class="bento-item install-box">
+        <div class="box-header">BUILD & INSTALL</div>
+        <div class="code-block" role="region" aria-label="Terminal Installation Commands">
+          <pre><code># Build Engine
+mkdir build && cd build
+cmake .. && cmake --build . --config Release
+
+# Install & Run
+pip install -e .
+perplex-gui</code></pre>
+        </div>
+        <p class="install-note">Requires Python 3.10+ and Ollama.</p>
+      </section>
+
+      <!-- STATS BOX -->
+      <section class="bento-item stats-box">
+        <div class="stat-grid">
+          <div class="stat-item">
+            <span class="stat-num">C++</span>
+            <span class="stat-label">Native Core</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">Ollama</span>
+            <span class="stat-label">Intelligence</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISUALIZATION BOX -->
+      <section class="bento-item viz-box">
+        <div class="box-header">RANKING ENGINE VIZ</div>
+        <canvas id="viz-canvas" aria-label="Animated neural network visualization representing the ranking engine" role="img"></canvas>
+      </section>
+
+      <!-- UPDATES BOX -->
+      <section id="updates" class="bento-item updates-box">
+        <div class="box-header">LATEST UPDATES</div>
+        <div class="update-feed">
+          <div class="update-item">
+            <span class="update-date">NOV 2024</span>
+            <h4>Local Coding Agent (Upcoming)</h4>
+            <p>A complete coding agent you can run on your PC locally for free with any model.</p>
+          </div>
+          <div class="update-item">
+            <span class="update-date">OCT 2024</span>
+            <h4>Spatial Bento v2.0</h4>
+            <p>New portfolio architecture with glassmorphism and GSAP integration.</p>
+          </div>
+          <div class="update-item">
+            <span class="update-date">SEP 2024</span>
+            <h4>Local Perplex v1.2</h4>
+            <p>Optimized C++ core for 40% faster local inference on Apple Silicon.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES BOX -->
+      <section id="features" class="bento-item projects-box">
+        <div class="box-header">02 / CORE FEATURES</div>
+        <div class="project-list">
+          <article class="project-item">
+            <div class="project-info">
+              <span class="project-cat">Multimodal Research</span>
+              <h3>👁️ Unlimited Visual Research</h3>
+              <p>Upload diagrams, photos, or documents to provide instant visual context. No limits, no censorship.</p>
+            </div>
+          </article>
+          <article class="project-item">
+            <div class="project-info">
+              <span class="project-cat">Smart Search</span>
+              <h3>🧠 AI-Driven Query Refinement</h3>
+              <p>Optimizes your natural language into professional search queries for superior site selection.</p>
+            </div>
+          </article>
+          <article class="project-item">
+            <div class="project-info">
+              <span class="project-cat">Private Library</span>
+              <h3>🏢 Knowledge Vault</h3>
+              <p>Full support for PDF, Word, Excel, CSV, and Markdown. Synthesized alongside web results.</p>
+            </div>
+          </article>
+          <article class="project-item">
+            <div class="project-info">
+              <span class="project-cat">Privacy</span>
+              <h3>🛡️ Incognito Research</h3>
+              <p>Bypasses history and logging with a single click. Air-gapped compatible for sensitive topics.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONTACT BOX -->
+      <section id="contact" class="bento-item contact-box">
+        <div class="box-header">03 / COLLABORATE</div>
+        <h2>Want to<br><i>customize</i> it?</h2>
+        <p>I am open to developers who want to tailor Local Perplex to their specific needs. Let's make AI truly personal.</p>
+
+        <form action="https://formspree.io/f/xanppylk" method="POST" class="contact-form">
+          <label for="email" class="sr-only">Your Email</label>
+          <input type="email" id="email" name="email" placeholder="Your Email" required>
+          <label for="message" class="sr-only">Collaborate or Feedback</label>
+          <textarea id="message" name="message" placeholder="Collaborate or Feedback..." required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-footer">
+          <div class="copy-year">© Rasha AI 2024</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- GSAP & Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
