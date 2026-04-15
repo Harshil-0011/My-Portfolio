@@ -57,40 +57,60 @@ window.addEventListener('scroll', triggerScrollSpy);
 // Custom Cursor
 const cursor = document.querySelector('.cursor-follower');
 if (cursor) {
+  let isMagnetic = false;
+
   document.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, {
-      x: e.clientX,
-      y: e.clientY,
-      xPercent: -50,
-      yPercent: -50,
-      duration: 0.1,
-      ease: "power2.out"
-    });
+    if (!isMagnetic) {
+      gsap.to(cursor, {
+        x: e.clientX,
+        y: e.clientY,
+        xPercent: -50,
+        yPercent: -50,
+        duration: 0.1,
+        ease: "power2.out"
+      });
+    }
   });
 
   // Cursor & Focus effects
-  const interactables = document.querySelectorAll('a, button, .btn-primary, .btn-secondary, .project-item, .skill-tag, .code-block, input, textarea, .project-card');
+  const interactables = document.querySelectorAll('a, button, .btn-primary, .btn-secondary, .project-item, .skill-tag, .code-block, input, textarea, .project-card, .view-project');
   interactables.forEach(el => {
     const handleIn = () => {
       gsap.to(cursor, {
-        scale: 3,
         backgroundColor: "rgba(255,255,255,0.1)",
         border: "1px solid white",
+        scale: 1.5,
         duration: 0.3
       });
     };
 
     const handleOut = () => {
+      isMagnetic = false;
       gsap.to(cursor, {
-        scale: 1,
         backgroundColor: "white",
         border: "none",
+        scale: 1,
         duration: 0.3
       });
     };
 
+    const handleMagnetic = (e) => {
+      if (el.classList.contains('skill-tag') || el.classList.contains('view-project')) {
+        isMagnetic = true;
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        gsap.to(cursor, {
+          x: centerX + (e.clientX - centerX) * 0.3,
+          y: centerY + (e.clientY - centerY) * 0.3,
+          duration: 0.2
+        });
+      }
+    };
+
     el.addEventListener('mouseenter', handleIn);
     el.addEventListener('mouseleave', handleOut);
+    el.addEventListener('mousemove', handleMagnetic);
     el.addEventListener('focus', (e) => {
       handleIn();
       const rect = el.getBoundingClientRect();
@@ -101,6 +121,32 @@ if (cursor) {
       });
     });
     el.addEventListener('blur', handleOut);
+  });
+
+  // Global focus listeners for better accessibility coverage
+  document.addEventListener('focusin', (e) => {
+    const el = e.target;
+    if (el.matches('a, button, input, textarea, [tabindex]:not([tabindex="-1"])')) {
+      gsap.to(cursor, {
+        backgroundColor: "rgba(255,255,255,0.1)",
+        border: "1px solid white",
+        duration: 0.3
+      });
+      const rect = el.getBoundingClientRect();
+      gsap.to(cursor, {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        duration: 0.3
+      });
+    }
+  });
+
+  document.addEventListener('focusout', () => {
+    gsap.to(cursor, {
+      backgroundColor: "white",
+      border: "none",
+      duration: 0.3
+    });
   });
 }
 
@@ -149,8 +195,10 @@ animateBlob(".b4", "-15vw", "25vh", 11);
 animateBlob(".b5", "25vw", "-15vh", 9);
 
 // Year Update
-const yearSpan = document.getElementById('year');
-if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+const yearSpans = document.querySelectorAll('.year-update');
+yearSpans.forEach(span => {
+  span.textContent = new Date().getFullYear();
+});
 
 // --- NEURAL NETWORK VISUALIZATION ---
 const canvas = document.getElementById('viz-canvas');
