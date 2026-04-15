@@ -89,8 +89,22 @@ if (cursor) {
       });
     };
 
+    const handleMagnetic = (e) => {
+      if (el.classList.contains('skill-tag')) {
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        gsap.to(cursor, {
+          x: centerX + (e.clientX - centerX) * 0.3,
+          y: centerY + (e.clientY - centerY) * 0.3,
+          duration: 0.2
+        });
+      }
+    };
+
     el.addEventListener('mouseenter', handleIn);
     el.addEventListener('mouseleave', handleOut);
+    el.addEventListener('mousemove', handleMagnetic);
     el.addEventListener('focus', (e) => {
       handleIn();
       const rect = el.getBoundingClientRect();
@@ -101,6 +115,34 @@ if (cursor) {
       });
     });
     el.addEventListener('blur', handleOut);
+  });
+
+  // Global focus listeners for better accessibility coverage
+  document.addEventListener('focusin', (e) => {
+    const el = e.target;
+    if (el.matches('a, button, input, textarea, [tabindex]:not([tabindex="-1"])')) {
+      gsap.to(cursor, {
+        scale: 3,
+        backgroundColor: "rgba(255,255,255,0.1)",
+        border: "1px solid white",
+        duration: 0.3
+      });
+      const rect = el.getBoundingClientRect();
+      gsap.to(cursor, {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        duration: 0.3
+      });
+    }
+  });
+
+  document.addEventListener('focusout', () => {
+    gsap.to(cursor, {
+      scale: 1,
+      backgroundColor: "white",
+      border: "none",
+      duration: 0.3
+    });
   });
 }
 
