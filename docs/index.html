@@ -52,54 +52,71 @@
             color: #1B2A4A;
             overflow-x: hidden;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: default;
         }
 
-        /* Nothing Company Dotted Matrix */
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #1B2A4A;
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* 1B. Nothing Company Industrial Dotted Matrix Canvas */
         .dot-matrix {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(rgba(0,0,0,0.2) var(--dot-size), transparent 0);
+            background-image: radial-gradient(rgba(0,0,0,0.15) var(--dot-size), transparent 0);
             background-size: var(--dot-space) var(--dot-space);
             z-index: 30;
             pointer-events: none;
             mix-blend-mode: exclusion;
         }
 
-        /* Apple Frosted Glass */
+        /* 1C. Apple Premium High-Blur Frosted Glass Layers */
         .glass {
-            backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 24px -1px rgba(27, 42, 74, 0.06);
         }
 
         .glass-dark {
-            backdrop-filter: blur(24px) saturate(180%);
-            background: rgba(10, 15, 29, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(2, 6, 23, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Neumorphism */
+        /* 1D. Soft Hardware Neumorphism System & Custom Borders */
+        .card-standard {
+            background: #ffffff;
+            border-left: 4px solid #1B2A4A;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-standard:hover {
+            transform: translateY(-4px);
+            box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+        }
+
         .neumorph {
             background: #ffffff;
-            box-shadow: 6px 6px 12px #e2e8f0, -6px -6px 12px #ffffff;
+            box-shadow: 8px 8px 16px #e2e8f0, -8px -8px 16px #ffffff;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .neumorph:hover {
-            transform: translateY(-4px);
-            box-shadow: 10px 10px 20px #e2e8f0, -10px -10px 20px #ffffff;
-        }
-
-        .neumorph:active, .neumorph:focus-within {
-            box-shadow: inset 6px 6px 12px #e2e8f0, inset -6px -6px 12px #ffffff;
-            transform: translateY(0);
-        }
-
-        /* Particle Canvas */
+        /* 1A. Particle Canvas Background */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -108,28 +125,29 @@
             pointer-events: none;
         }
 
-        /* Text Reveal Effect */
+        /* 1A. Google Asynchronous Typographic Reveal Engine */
         .reveal-char {
             display: inline-block;
             opacity: 0;
-            transform: translateY(20px) scale(0.8);
-            filter: blur(10px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(15px);
+            filter: blur(8px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity, filter;
         }
 
         .reveal-char.active {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
             filter: blur(0);
         }
 
-        /* Surface Glow */
+        /* 1E. Cursor Angle Surface Glow */
         .glow-surface {
             position: relative;
             overflow: hidden;
         }
 
-        .glow-surface::before {
+        .glow-surface::after {
             content: '';
             position: absolute;
             top: 0;
@@ -140,58 +158,92 @@
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
-            z-index: 10;
+            z-index: 5;
         }
 
-        .glow-surface:hover::before {
+        .glow-surface:hover::after {
             opacity: 1;
         }
 
         /* Pulse Animation */
         @keyframes pulse-emerald {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 0.5; }
         }
         .pulse-dot {
-            animation: pulse-emerald 2s infinite;
+            animation: pulse-emerald 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        /* Timeline Node */
-        .timeline-node::before {
-            content: '';
-            position: absolute;
-            left: -33px;
-            top: 5px;
-            width: 14px;
-            height: 14px;
-            background: #1B2A4A;
-            border-radius: 50%;
-            z-index: 1;
+        /* 2-5. Chronology Node Tree Timeline */
+        .timeline-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .timeline-line {
             position: absolute;
-            left: -27px;
-            top: 10px;
-            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
             width: 2px;
-            background: #1B2A4A;
+            background: linear-gradient(to bottom, transparent, #1B2A4A, transparent);
             opacity: 0.2;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .timeline-node {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 6rem;
         }
-        ::-webkit-scrollbar-track {
-            background: #f8f9fa;
+
+        .timeline-indicator {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border: 4px solid #1B2A4A;
+            border-radius: 50%;
+            z-index: 2;
+            animation: breathe 3s ease-in-out infinite;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
+
+        @keyframes breathe {
+            0%, 100% { transform: translateX(-50%) scale(1); box-shadow: 0 0 0 0px rgba(27, 42, 74, 0.2); }
+            50% { transform: translateX(-50%) scale(1.2); box-shadow: 0 0 0 10px rgba(27, 42, 74, 0); }
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #1B2A4A;
+
+        .timeline-content {
+            width: 45%;
+            padding: 2rem;
+        }
+
+        .timeline-node:nth-child(odd) .timeline-content {
+            margin-right: 55%;
+            text-align: right;
+        }
+
+        .timeline-node:nth-child(even) .timeline-content {
+            margin-left: 55%;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line { left: 20px; transform: none; }
+            .timeline-indicator { left: 20px; transform: none; }
+            @keyframes breathe {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 0 0px rgba(27, 42, 74, 0.2); }
+                50% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(27, 42, 74, 0); }
+            }
+            .timeline-content { width: calc(100% - 60px); margin-left: 60px !important; text-align: left !important; }
+            .timeline-node:nth-child(odd) .timeline-content { margin-right: 0; }
         }
 
         .terminal-cursor {
@@ -208,439 +260,518 @@
             50% { opacity: 0; }
         }
 
-        .sr-only {
+        /* Micro-callout with neon backlight */
+        .neon-badge {
+            position: relative;
+            z-index: 1;
+        }
+        .neon-badge::before {
+            content: '';
             position: absolute;
-            width: 1px;
+            inset: 0;
+            background: inherit;
+            filter: blur(12px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Snappy Elastic Easing for chips - REFINED PER SPEC */
+        .skill-chip {
+            @apply px-4 py-2 rounded-xl bg-slate-50 text-navy text-[10px] font-black uppercase tracking-wider border border-slate-100 transition-all cursor-default;
+            transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .skill-chip:hover {
+            @apply scale-105 bg-navy text-white;
+        }
+
+        /* Custom Progress Rule Glow */
+        hr.glowing-divider {
+            border: 0;
             height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
+            background: #B0BDD0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            opacity: 0.3;
+        }
+        hr.glowing-divider:hover {
+            background: #1B2A4A;
+            box-shadow: 0 0 15px #1B2A4A;
+            opacity: 1;
+        }
+
+        /* Gradient Mesh Backdrop */
+        .mesh-gradient {
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at 20% 30%, rgba(27, 42, 74, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(176, 189, 208, 0.08) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
         }
     </style>
 </head>
 <body class="antialiased">
-    <!-- Particle Background -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Particle Background Engine -->
     <canvas id="particle-canvas"></canvas>
 
     <!-- Dot Matrix Overlay -->
     <div class="dot-matrix"></div>
 
-    <!-- COMPONENT 1: GLOBAL GERMAN HR NAVIGATION BAR -->
-    <nav class="sticky top-0 z-50 glass px-6 py-4 mx-4 mt-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+    <!-- COMPONENT 1: THE PERSISTENT GERMAN HR LOGISTICS HEADER -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass px-6 py-4 mx-4 mt-4 rounded-2xl flex flex-wrap items-center justify-between border border-white/50 backdrop-blur-md">
         <div class="flex items-center gap-3">
             <span class="flex h-3 w-3 relative">
-                <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                <span class="pulse-dot absolute inline-flex h-full w-full rounded-full bg-emerald-500"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-600"></span>
             </span>
-            <span class="text-sm font-semibold text-navy tracking-tight">
-                Status: <span class="text-navy/70">Seeking Werkstudent / Part-time Positions in Germany</span>
+            <span class="text-xs md:text-sm font-bold text-navy tracking-tight uppercase">
+                <span class="text-navy font-black">Status:</span> <span class="opacity-60">Seeking Werkstudent / Part-time Positions in Germany</span>
             </span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/5 border border-navy/10 text-xs font-medium text-navy">
+        <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-navy/5 border border-navy/10 text-[10px] font-black text-navy uppercase tracking-wider">
                 <i class="far fa-clock"></i> 20h/Week (Semester)
             </div>
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/5 border border-navy/10 text-xs font-medium text-navy">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-navy/5 border border-navy/10 text-[10px] font-black text-navy uppercase tracking-wider">
                 <i class="fas fa-calendar-check"></i> Full-time (Breaks)
             </div>
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy/5 border border-navy/10 text-xs font-medium text-navy">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-navy/5 border border-navy/10 text-[10px] font-black text-navy uppercase tracking-wider">
                 <i class="fas fa-id-card"></i> Valid Aufenthaltserlaubnis
             </div>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-6 py-20 space-y-32">
-        <!-- COMPONENT 2: INTERACTIVE HERO PLATFORM -->
-        <section id="hero" class="relative">
-            <div class="space-y-6 max-w-3xl">
-                <h1 id="reveal-target" class="text-7xl md:text-8xl font-display font-extrabold text-navy leading-[1.1] tracking-tight">
+    <main id="main-content" class="max-w-6xl mx-auto px-6 py-32 space-y-48">
+
+        <!-- COMPONENT 2: INTERACTIVE HERO & MONOSPACE SIMULATOR -->
+        <section id="hero" class="relative pt-10">
+            <div class="mesh-gradient"></div>
+            <div class="space-y-10 max-w-5xl">
+                <h1 id="reveal-target" class="text-7xl md:text-[10rem] font-display font-black text-[#1B2A4A] leading-[0.85] tracking-tighter">
                     Harshil Gorasiya
                 </h1>
-                <p class="text-xl md:text-2xl text-charcoal/80 font-medium leading-relaxed">
+                <p class="text-xl md:text-4xl text-charcoal/60 font-medium leading-tight max-w-3xl">
                     Applied AI Engineer Specializing in <span class="text-navy">RAG, Autonomous Agentic Pipelines & Intelligent Infrastructure</span>.
                 </p>
 
-                <!-- Terminal Console -->
-                <div class="mt-12 neumorph p-2 rounded-2xl overflow-hidden group">
-                    <div class="bg-[#0A0F1D] text-emerald-400 font-mono text-xs md:text-sm rounded-xl p-6 border border-white/10 shadow-2xl min-h-[180px] relative">
-                        <div class="flex gap-2 mb-4">
-                            <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
-                            <div class="w-3 h-3 rounded-full bg-amber-500/50"></div>
-                            <div class="w-3 h-3 rounded-full bg-emerald-500/50"></div>
+                <!-- Command Terminal Window Enclosure (bg-slate-950) -->
+                <div class="mt-16 neumorph p-2 rounded-2xl overflow-hidden max-w-2xl">
+                    <div class="bg-slate-950 text-emerald-400 font-mono text-xs md:text-sm rounded-xl p-6 border border-white/10 shadow-2xl min-h-[220px]">
+                        <div class="flex gap-2 mb-8">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
                         </div>
-                        <div id="terminal-content"></div>
+                        <div id="terminal-content" class="space-y-1"></div>
                         <span class="terminal-cursor"></span>
                     </div>
                 </div>
 
-                <div class="flex flex-col space-y-4 pt-8">
-                    <div class="flex flex-wrap items-center gap-6 text-navy font-medium">
-                        <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Heilbronn, Germany</span>
-                        <a href="tel:+4915563517346" class="flex items-center gap-2 hover:text-accent-cobalt transition-colors"><i class="fas fa-phone"></i> 0 155 6351 7346</a>
-                        <a href="mailto:harshil.gorasiya.0011@gmail.com" class="flex items-center gap-2 hover:text-accent-cobalt transition-colors"><i class="fas fa-envelope"></i> harshil.gorasiya.0011@gmail.com</a>
+                <div class="flex flex-col space-y-12 pt-16">
+                    <div class="flex flex-wrap items-center gap-x-12 gap-y-6 text-navy font-black text-sm tracking-[0.2em] uppercase">
+                        <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-navy"></i> Heilbronn, Germany</span>
+                        <a href="tel:+4915563517346" class="flex items-center gap-2 hover:text-accent-cobalt transition-colors"><i class="fas fa-phone text-navy"></i> 0 155 6351 7346</a>
+                        <a href="mailto:harshil.gorasiya.0011@gmail.com" class="flex items-center gap-2 hover:text-accent-cobalt transition-colors"><i class="fas fa-envelope text-navy"></i> harshil.gorasiya.0011@gmail.com</a>
                     </div>
 
-                <div class="cta-group">
-                    <a href="https://www.linkedin.com/in/harshil-gorasiya-054a58319/" target="_blank" class="btn btn-outline">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                    <a href="https://github.com/N0t-Harshil" target="_blank" class="btn btn-outline">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                    <a href="#" class="btn btn-navy">
-                        <i class="fas fa-file-download"></i> Download Full LaTeX CV (PDF)
-                    </a>
+                    <div class="flex flex-wrap gap-5 pt-4">
+                        <a href="https://linkedin.com/in/harshil-gorasiya" target="_blank" class="px-10 py-5 rounded-2xl neumorph flex items-center gap-4 font-black text-navy uppercase text-xs tracking-widest">
+                            <i class="fab fa-linkedin text-xl"></i> LinkedIn
+                        </a>
+                        <a href="https://github.com/N0t-Harshil" target="_blank" class="px-10 py-5 rounded-2xl neumorph flex items-center gap-4 font-black text-navy uppercase text-xs tracking-widest">
+                            <i class="fab fa-github text-xl"></i> GitHub
+                        </a>
+                        <a href="https://github.com/N0t-Harshil" target="_blank" class="px-12 py-5 rounded-2xl bg-navy text-white flex items-center gap-4 font-black uppercase text-xs tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_20px_50px_rgba(27,42,74,0.4)]">
+                            <i class="fas fa-file-download text-lg"></i> Download Full LaTeX CV (PDF)
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- COMPONENT 3: SKILLS MATRIX -->
-        <section id="skills" class="space-y-12">
-            <h2 class="text-4xl font-display font-bold text-navy">Skills Matrix</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- COMPONENT 3: SKILLS MATRIX & CREDENTIAL TILES -->
+        <section id="skills" class="space-y-20">
+            <div class="flex items-center gap-6">
+                <h2 class="text-5xl font-display font-extrabold text-navy tracking-tight">Skills Matrix</h2>
+                <div class="h-px flex-grow bg-navy/10"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <!-- Tile 1 -->
-                <div class="neumorph p-8 rounded-3xl border-l-4 border-navy">
-                    <h3 class="text-lg font-bold text-navy mb-6 uppercase tracking-widest">LLM & Agentic Orchestration</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">LangChain</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">FAISS</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">SentenceTransformers</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Ollama</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">RAG Pipelines</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Knowledge Graphs</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">ReAct Loops</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Model Quantization</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Model Context Protocol (MCP)</span>
+                <div class="card-standard p-12 rounded-[3rem] border-t border-white/50 bg-[#F8F9FA]/30">
+                    <h3 class="text-xs font-black text-navy/40 mb-10 uppercase tracking-[0.3em]">LLM & Agentic Orchestration</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="skill-chip">LangChain</span>
+                        <span class="skill-chip">FAISS</span>
+                        <span class="skill-chip">SentenceTransformers</span>
+                        <span class="skill-chip">Ollama</span>
+                        <span class="skill-chip">RAG Pipelines</span>
+                        <span class="skill-chip">Knowledge Graphs</span>
+                        <span class="skill-chip">ReAct Loops</span>
+                        <span class="skill-chip">Model Quantization</span>
+                        <span class="skill-chip">Model Context Protocol (MCP)</span>
                     </div>
                 </div>
                 <!-- Tile 2 -->
-                <div class="neumorph p-8 rounded-3xl border-l-4 border-accent-cobalt">
-                    <h3 class="text-lg font-bold text-navy mb-6 uppercase tracking-widest">Deep Learning & CV</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">PyTorch</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">TensorFlow</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Keras</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Hugging Face Transformers</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">scikit-learn</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">YOLOv8</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">CNNs</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Real-ESRGAN Super-Resolution</span>
+                <div class="card-standard p-12 rounded-[3rem] border-t border-white/50 bg-[#F8F9FA]/30" style="border-left-color: #3B82F6;">
+                    <h3 class="text-xs font-black text-navy/40 mb-10 uppercase tracking-[0.3em]">Deep Learning & CV</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="skill-chip">PyTorch</span>
+                        <span class="skill-chip">TensorFlow</span>
+                        <span class="skill-chip">Keras</span>
+                        <span class="skill-chip">Hugging Face Transformers</span>
+                        <span class="skill-chip">scikit-learn</span>
+                        <span class="skill-chip">YOLOv8</span>
+                        <span class="skill-chip">CNNs</span>
+                        <span class="skill-chip">Real-ESRGAN Super-Resolution</span>
                     </div>
                 </div>
                 <!-- Tile 3 -->
-                <div class="neumorph p-8 rounded-3xl border-l-4 border-accent-coral">
-                    <h3 class="text-lg font-bold text-navy mb-6 uppercase tracking-widest">Languages & Architecture</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Python</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">C++ (Multithreaded Engines)</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">SQL</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Bash</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Low-latency CLI Design</span>
+                <div class="card-standard p-12 rounded-[3rem] border-t border-white/50 bg-[#F8F9FA]/30" style="border-left-color: #F43F5E;">
+                    <h3 class="text-xs font-black text-navy/40 mb-10 uppercase tracking-[0.3em]">Languages & Architecture</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="skill-chip">Python</span>
+                        <span class="skill-chip">C++ (Multithreaded Engines)</span>
+                        <span class="skill-chip">SQL</span>
+                        <span class="skill-chip">Bash</span>
+                        <span class="skill-chip">Low-latency CLI Design</span>
                     </div>
                 </div>
                 <!-- Tile 4 -->
-                <div class="neumorph p-8 rounded-3xl border-l-4 border-accent-amber">
-                    <h3 class="text-lg font-bold text-navy mb-6 uppercase tracking-widest">MLOps & Infrastructure</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">MLflow</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Docker</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">FastAPI</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">REST APIs</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Git Version Control</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">Linux Systems</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">AWS Foundation</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">MySQL</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">MongoDB</span>
-                        <span class="px-3 py-1.5 rounded-lg bg-slate-50 text-navy text-sm font-semibold border border-slate-100 hover:bg-navy hover:text-white transition-all cursor-default">SQLite</span>
+                <div class="card-standard p-12 rounded-[3rem] border-t border-white/50 bg-[#F8F9FA]/30" style="border-left-color: #F59E0B;">
+                    <h3 class="text-xs font-black text-navy/40 mb-10 uppercase tracking-[0.3em]">MLOps & Infrastructure</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="skill-chip">MLflow</span>
+                        <span class="skill-chip">Docker</span>
+                        <span class="skill-chip">FastAPI</span>
+                        <span class="skill-chip">REST APIs</span>
+                        <span class="skill-chip">Git Version Control</span>
+                        <span class="skill-chip">Linux Systems</span>
+                        <span class="skill-chip">AWS Foundation</span>
+                        <span class="skill-chip">MySQL</span>
+                        <span class="skill-chip">MongoDB</span>
+                        <span class="skill-chip">SQLite</span>
                     </div>
                 </div>
             </div>
 
-            <!-- COMPONENT 4: VERIFIED CREDENTIALS -->
-            <div class="flex flex-wrap gap-4 pt-8">
-                <a href="https://verify.skilljar.com/c/abtyb7rnh5gg" target="_blank" class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-navy/10 hover:border-navy transition-all group">
-                    <div class="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white text-xs font-bold">A</div>
-                    <span class="text-sm font-bold text-navy">Anthropic: Claude API Developer</span>
-                    <i class="fas fa-external-link-alt text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+            <!-- VERIFIED CREDENTIALS -->
+            <div class="flex flex-wrap gap-6 pt-10">
+                <a href="https://verify.skilljar.com/c/abtyb7rnh5gg" target="_blank" class="glass-credential group">
+                    <div class="badge-icon">A</div>
+                    <span class="badge-text">Anthropic: Claude API Developer</span>
+                    <i class="fas fa-external-link-alt text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
                 </a>
-                <a href="https://verify.skilljar.com/c/9ogn74na4fmf" target="_blank" class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-navy/10 hover:border-navy transition-all group">
-                    <div class="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-white text-xs font-bold">M</div>
-                    <span class="text-sm font-bold text-navy">Anthropic: MCP Advanced Topics</span>
-                    <i class="fas fa-external-link-alt text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                <a href="https://verify.skilljar.com/c/9ogn74na4fmf" target="_blank" class="glass-credential group">
+                    <div class="badge-icon">M</div>
+                    <span class="badge-text">Anthropic: MCP Advanced Topics</span>
                 </a>
-                <div class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-navy/10">
-                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white text-xs font-bold">IBM</div>
-                    <span class="text-sm font-bold text-navy">IBM: Machine Learning with Python</span>
+                <div class="glass-credential cursor-default">
+                    <div class="badge-icon bg-[#006699] shadow-blue-500/20">IBM</div>
+                    <span class="badge-text">IBM: Machine Learning with Python</span>
                 </div>
-                <div class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-navy/10">
-                    <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white text-xs font-bold">DB</div>
-                    <span class="text-sm font-bold text-navy">Databricks: Data Science Fundamentals</span>
+                <div class="glass-credential cursor-default">
+                    <div class="badge-icon bg-[#FF3621] shadow-red-500/20">D</div>
+                    <span class="badge-text">Databricks: Data Science Fundamentals</span>
                 </div>
             </div>
+
+            <style>
+                .glass-credential {
+                    @apply flex items-center gap-5 px-8 py-5 rounded-3xl glass border border-navy/5 hover:border-navy/20 hover:scale-[1.02] hover:shadow-xl transition-all duration-500;
+                }
+                .badge-icon {
+                    @apply w-12 h-12 rounded-2xl bg-navy flex items-center justify-center text-white text-[10px] font-black shadow-lg;
+                }
+                .badge-text {
+                    @apply text-[11px] font-black text-navy uppercase tracking-[0.1em];
+                }
+            </style>
         </section>
 
-        <!-- COMPONENT 5: ARCHITECTURE & SYSTEM PROJECTS SHOWCASE -->
-        <section id="projects" class="space-y-12">
-            <h2 class="text-4xl font-display font-bold text-navy text-center">System Architecture Showcase</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <!-- Project 1 -->
-                <div class="glow-surface glass p-8 rounded-[2rem] space-y-6 group">
+        <!-- COMPONENT 4: ARCHITECTURE & SYSTEM PROJECTS SHOWCASE -->
+        <section id="projects" class="space-y-20">
+            <div class="py-10">
+                <hr class="glowing-divider">
+            </div>
+            <h2 class="text-6xl font-display font-extrabold text-navy text-center tracking-tighter">System Architecture Showcase</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Card 1 -->
+                <div class="glow-surface glass p-12 rounded-[4rem] space-y-10 group border border-white/60">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-1">
-                            <h3 class="text-2xl font-bold text-navy">Ardan-CLI</h3>
-                            <p class="text-sm text-navy/50 font-semibold tracking-wide">Autonomous Multi-Provider Coding Agent</p>
+                        <div class="space-y-2">
+                            <h3 class="text-4xl font-black text-navy">Ardan-CLI — Autonomous Multi-Provider Coding Agent</h3>
+                            <p class="text-xs text-navy/40 font-black uppercase tracking-[0.2em]">Autonomous Multi-Provider Agent</p>
                         </div>
-                        <a href="https://github.com/N0t-Harshil/Ardan-CLI" target="_blank" class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 transition-transform">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/N0t-Harshil/Ardan-CLI" target="_blank" class="w-14 h-14 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-2xl shadow-navy/30">
+                            <i class="fab fa-github text-2xl"></i>
                         </a>
                     </div>
-                    <p class="text-charcoal leading-relaxed">
-                        Engineered a standalone, terminal-based AI software engineer utilizing an explicit ReAct execution loop in Python.
+                    <p class="text-charcoal/70 font-medium leading-relaxed text-xl">
+                        Engineered a standalone, terminal-based AI software engineer utilizing an explicit <span class="text-navy font-bold">ReAct execution loop</span> in Python.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Supports 6 major LLM providers with instant runtime failover setups.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Parallel tool executions across Git, Docker containment structures, and system compilers.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Secure local environment handling via embedded AES-encrypted keys.
                         </li>
                     </ul>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Python</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">ReAct Framework</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Anthropic MCP</span>
+                    <div class="flex flex-wrap gap-3 pt-6">
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Python</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">ReAct Framework</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Anthropic MCP</span>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="glow-surface glass p-8 rounded-[2rem] space-y-6 group">
+                <!-- Card 2 -->
+                <div class="glow-surface glass p-12 rounded-[4rem] space-y-10 group border border-white/60">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-1">
-                            <h3 class="text-2xl font-bold text-navy">Graph-Based RAG</h3>
-                            <p class="text-sm text-navy/50 font-semibold tracking-wide">Hierarchical Knowledge Retrieval</p>
+                        <div class="space-y-2">
+                            <h3 class="text-4xl font-black text-navy">Hierarchical Graph-Based RAG System</h3>
+                            <p class="text-xs text-navy/40 font-black uppercase tracking-[0.2em]">Hierarchical Knowledge Retrieval</p>
                         </div>
-                        <a href="https://github.com/N0t-Harshil" target="_blank" class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 transition-transform">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/N0t-Harshil" target="_blank" class="w-14 h-14 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-2xl shadow-navy/30">
+                            <i class="fab fa-github text-2xl"></i>
                         </a>
                     </div>
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs font-bold shadow-sm shadow-emerald-100">
+                    <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-emerald-500/10 neon-badge">
                         ⚡ 4s Latency @ $0 Infrastructure Cost
                     </div>
-                    <p class="text-charcoal leading-relaxed">
+                    <p class="text-charcoal/70 font-medium leading-relaxed text-xl">
                         Designed a complete production alternatives architecture replacing expensive graph calls with deterministic multi-level mappings.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             5-level document entity indexing (Document down to raw sentences) to minimize hallucinations.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Indexes entire 75-page corpora variants locally within 19 seconds using FAISS + Ollama.
                         </li>
                     </ul>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Python</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Knowledge Graphs</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">FAISS Vector DB</span>
+                    <div class="flex flex-wrap gap-3 pt-6">
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Python</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Knowledge Graphs</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">FAISS Vector DB</span>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="glow-surface glass p-8 rounded-[2rem] space-y-6 group">
+                <!-- Card 3 -->
+                <div class="glow-surface glass p-12 rounded-[4rem] space-y-10 group border border-white/60">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-1">
-                            <h3 class="text-2xl font-bold text-navy">Local Perplex</h3>
-                            <p class="text-sm text-navy/50 font-semibold tracking-wide">Private Multimodal Research Engine</p>
+                        <div class="space-y-2">
+                            <h3 class="text-4xl font-black text-navy">Local Perplex — Private Multimodal AI Research Engine</h3>
+                            <p class="text-xs text-navy/40 font-black uppercase tracking-[0.2em]">Private Multimodal AI Research</p>
                         </div>
-                        <a href="https://github.com/N0t-Harshil/Local-Perplex" target="_blank" class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 transition-transform">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/N0t-Harshil/Local-Perplex" target="_blank" class="w-14 h-14 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-2xl shadow-navy/30">
+                            <i class="fab fa-github text-2xl"></i>
                         </a>
                     </div>
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-cobalt-50 text-blue-700 border border-blue-100 text-xs font-bold shadow-sm">
+                    <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-blue-500/10 neon-badge">
                         ⏱️ Sub-10ms Ranking Latency
                     </div>
-                    <p class="text-charcoal leading-relaxed">
+                    <p class="text-charcoal/70 font-medium leading-relaxed text-xl">
                         A completely sandboxed, zero-data-leakage desktop research platform supporting multimodal analytics.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Custom native multi-threaded search rankings parsing over 10,000 documents under 10ms.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Fully functional local OCR subsystems for processing layouts and optical assets.
                         </li>
                     </ul>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">C++ Engine</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Ollama Core</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Multithreading</span>
+                    <div class="flex flex-wrap gap-3 pt-6">
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">C++ Engine</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Ollama Core</span>
                     </div>
                 </div>
 
-                <!-- Project 4 -->
-                <div class="glow-surface glass p-8 rounded-[2rem] space-y-6 group">
+                <!-- Card 4 -->
+                <div class="glow-surface glass p-12 rounded-[4rem] space-y-10 group border border-white/60">
                     <div class="flex justify-between items-start">
-                        <div class="space-y-1">
-                            <h3 class="text-2xl font-bold text-navy">AI Video Upscaler</h3>
-                            <p class="text-sm text-navy/50 font-semibold tracking-wide">Native Super-Resolution Application</p>
+                        <div class="space-y-2">
+                            <h3 class="text-4xl font-black text-navy">AI-Powered Video Upscaling App</h3>
+                            <p class="text-xs text-navy/40 font-black uppercase tracking-[0.2em]">Native Windows Super-Res App</p>
                         </div>
-                        <a href="https://github.com/N0t-Harshil/AI-Powered-Video-Upscaling-Windows-Application" target="_blank" class="w-10 h-10 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 transition-transform">
-                            <i class="fab fa-github"></i>
+                        <a href="https://github.com/N0t-Harshil/AI-Powered-Video-Upscaling-Windows-Application" target="_blank" class="w-14 h-14 rounded-full bg-navy text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-2xl shadow-navy/30">
+                            <i class="fab fa-github text-2xl"></i>
                         </a>
                     </div>
-                    <p class="text-charcoal leading-relaxed">
+                    <p class="text-charcoal/70 font-medium leading-relaxed text-xl">
                         Native Windows desktop deployment infrastructure built for executing real-time video super-resolution.
                     </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                    <ul class="space-y-5">
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Integrated Real-ESRGAN networks with structural selection models.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Features clean local hardware monitors tracking real-time VRAM/GPU limits.
                         </li>
-                        <li class="flex items-start gap-3 text-sm text-charcoal/80">
-                            <i class="fas fa-chevron-right text-navy mt-1"></i>
+                        <li class="flex items-start gap-5 text-sm font-bold text-charcoal/60">
+                            <i class="fas fa-circle text-[8px] text-navy/20 mt-1.5"></i>
                             Evaluated model configs objectively via structural peak signal-to-noise metrics (PSNR/SSIM).
                         </li>
                     </ul>
-                    <div class="flex flex-wrap gap-2 pt-4">
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">PyTorch</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Super-Resolution</span>
-                        <span class="px-3 py-1 rounded-full bg-white/50 border border-navy/10 text-[10px] font-bold uppercase tracking-wider text-navy">Windows Application</span>
+                    <div class="flex flex-wrap gap-3 pt-6">
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">PyTorch</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Super-Resolution</span>
+                        <span class="neon-badge bg-navy px-5 py-2.5 rounded-xl text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-navy/20">Windows Application</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- COMPONENT 6: TECHNICAL CHRONOLOGY TIMELINE -->
-        <section id="experience" class="space-y-12">
-            <h2 class="text-4xl font-display font-bold text-navy">Technical Chronology</h2>
-            <div class="relative ml-8 space-y-16">
-                <!-- Block 1 -->
-                <div class="timeline-node relative">
-                    <div class="timeline-line"></div>
-                    <div class="space-y-4">
-                        <div class="flex flex-wrap items-center justify-between gap-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-navy">Deep Learning Intern</h3>
-                                <p class="text-navy/60 font-semibold uppercase tracking-wider text-sm">PD Avenue (Remote)</p>
+        <!-- COMPONENT 5: TIMELINE OF EXPERIENCE -->
+        <section id="experience" class="space-y-24">
+            <h2 class="text-6xl font-display font-extrabold text-navy text-center tracking-tighter">Timeline of Experience</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <!-- Node 1 -->
+                <div class="timeline-node">
+                    <div class="timeline-indicator"></div>
+                    <div class="timeline-content card-standard p-12 rounded-[3rem] bg-[#F8F9FA]/30 border border-white/60">
+                        <div class="space-y-6">
+                            <div class="flex flex-wrap items-center justify-between gap-6">
+                                <h3 class="text-3xl font-black text-navy tracking-tight">Deep Learning Intern</h3>
+                                <span class="px-6 py-2 rounded-2xl bg-navy text-white text-[10px] font-black uppercase tracking-widest shadow-2xl">12/2023 — 04/2024</span>
                             </div>
-                            <span class="px-4 py-1.5 rounded-full bg-navy text-white text-xs font-bold">12/2023 — 04/2024</span>
+                            <p class="text-navy/40 font-black uppercase tracking-[0.2em] text-xs">PD Avenue (Remote)</p>
+                            <ul class="space-y-4 pt-4">
+                                <li class="text-charcoal font-medium text-sm leading-relaxed flex gap-3">
+                                    <span class="text-navy">•</span>
+                                    <span>Built custom classification heads using TensorFlow/Keras, achieving a <span class="text-navy font-bold">+8% boost in validation accuracy</span> via systematic architecture search and tuning.</span>
+                                </li>
+                                <li class="text-charcoal font-medium text-sm leading-relaxed flex gap-3">
+                                    <span class="text-navy">•</span>
+                                    <span>Slashed total baseline processing runtimes by <span class="text-navy font-bold">20%</span> through adaptive schedule adjustments.</span>
+                                </li>
+                                <li class="text-charcoal font-medium text-sm leading-relaxed flex gap-3">
+                                    <span class="text-navy">•</span>
+                                    <span>Isolated structural overfitting patterns across 10+ core test branches with strict config tracing.</span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="space-y-3 max-w-3xl">
-                            <li class="text-charcoal leading-relaxed">
-                                Built custom classification heads using TensorFlow/Keras, achieving a <span class="font-bold">+8% boost in validation accuracy</span> via systematic architecture search and tuning.
-                            </li>
-                            <li class="text-charcoal leading-relaxed">
-                                Slashed total baseline processing runtimes by <span class="font-bold">20%</span> through adaptive schedule adjustments.
-                            </li>
-                            <li class="text-charcoal leading-relaxed">
-                                Isolated structural overfitting patterns across 10+ core test branches with strict config tracing.
-                            </li>
-                        </ul>
                     </div>
                 </div>
 
-                <!-- Block 2 -->
-                <div class="timeline-node relative">
-                    <div class="space-y-4">
-                        <div class="flex flex-wrap items-center justify-between gap-4">
-                            <div>
-                                <h3 class="text-2xl font-bold text-navy">Machine Learning Intern</h3>
-                                <p class="text-navy/60 font-semibold uppercase tracking-wider text-sm">Dotcom IoT LLP (India)</p>
+                <!-- Node 2 -->
+                <div class="timeline-node">
+                    <div class="timeline-indicator"></div>
+                    <div class="timeline-content card-standard p-12 rounded-[3rem] bg-[#F8F9FA]/30 border border-white/60">
+                        <div class="space-y-6">
+                            <div class="flex flex-wrap items-center justify-between gap-6">
+                                <h3 class="text-3xl font-black text-navy tracking-tight">Machine Learning Intern</h3>
+                                <span class="px-6 py-2 rounded-2xl bg-navy text-white text-[10px] font-black uppercase tracking-widest shadow-2xl">05/2023 — 06/2023</span>
                             </div>
-                            <span class="px-4 py-1.5 rounded-full bg-navy text-white text-xs font-bold">05/2023 — 06/2023</span>
-                        </div>
-                        <ul class="space-y-3 max-w-3xl">
-                            <li class="text-charcoal leading-relaxed">
-                                Deployed YOLOv8 tracking frameworks processing <span class="font-bold">35,000+ frames per hour at 28-32 FPS</span> purely on CPU-only edge hardware.
-                            </li>
-                            <li class="text-charcoal leading-relaxed">
-                                Curated, audited, and hand-annotated 3,000+ custom evaluation frames to stabilize structural accuracy drops.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- COMPONENT 7: INTERACTIVE EDUCATION SECTOR -->
-        <section id="education" class="space-y-12">
-            <h2 class="text-4xl font-display font-bold text-navy">Education</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="neumorph p-10 rounded-[2.5rem] bg-white relative overflow-hidden group">
-                    <div class="absolute top-6 right-6 px-4 py-2 rounded-2xl bg-navy text-white text-sm font-bold">GPA: 1.9 (German Scale)</div>
-                    <div class="space-y-4">
-                        <h3 class="text-2xl font-bold text-navy pr-20">M.Sc. Software Engineering & Management</h3>
-                        <p class="text-charcoal/70 font-medium">Hochschule Heilbronn, Germany (Current Semester 3) | Expected Graduation: 09/2027</p>
-                        <div class="h-px bg-navy/10 w-full my-6"></div>
-                        <div class="space-y-2">
-                            <p class="text-xs font-bold text-navy/40 uppercase tracking-widest">Relevant Modules</p>
-                            <p class="text-charcoal font-medium">Advanced ML, Software Architecture, Cloud Computing, Distributed Systems, Data Engineering</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="neumorph p-10 rounded-[2.5rem] bg-white relative overflow-hidden group">
-                    <div class="absolute top-6 right-6 px-4 py-2 rounded-2xl bg-navy/10 text-navy text-sm font-bold">GPA: 8.4/10</div>
-                    <div class="space-y-4">
-                        <h3 class="text-2xl font-bold text-navy pr-20">B.Tech. Information Technology</h3>
-                        <p class="text-charcoal/70 font-medium">A.D. Patel Institute of Technology, India | Graduated: 05/2024</p>
-                        <div class="h-px bg-navy/10 w-full my-6"></div>
-                        <div class="space-y-2">
-                            <p class="text-xs font-bold text-navy/40 uppercase tracking-widest">Relevant Modules</p>
-                            <p class="text-charcoal font-medium">Deep Learning, Computer Vision, Advanced Data Structures</p>
+                            <p class="text-navy/40 font-black uppercase tracking-[0.2em] text-xs">Dotcom IoT LLP (India)</p>
+                            <ul class="space-y-4 pt-4">
+                                <li class="text-charcoal font-medium text-sm leading-relaxed flex gap-3">
+                                    <span class="text-navy">•</span>
+                                    <span>Deployed YOLOv8 tracking frameworks processing <span class="text-navy font-bold">35,000+ frames per hour</span> at 28-32 FPS purely on CPU-only edge hardware.</span>
+                                </li>
+                                <li class="text-charcoal font-medium text-sm leading-relaxed flex gap-3">
+                                    <span class="text-navy">•</span>
+                                    <span>Curated, audited, and hand-annotated 3,000+ custom evaluation frames to stabilize structural accuracy drops.</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- COMPONENT 8: LINGUISTIC PROFILE MATRIX -->
-        <section id="languages" class="space-y-12 pb-20">
-            <h2 class="text-4xl font-display font-bold text-navy">Linguistic Profile</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="glass flex items-center gap-6 p-6 rounded-3xl border border-navy/5">
-                    <div class="w-16 h-16 rounded-full bg-navy text-white flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-lg shadow-navy/20">EN</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-navy">English</h3>
-                        <p class="text-charcoal/70 font-medium">C1 — Professional Working Proficiency</p>
+        <!-- COMPONENT 6: INTERACTIVE EDUCATION CARDS -->
+        <section id="education" class="space-y-20">
+            <h2 class="text-6xl font-display font-extrabold text-navy tracking-tighter">Interactive Education Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Left Side M.Sc. Card -->
+                <div class="card-standard p-14 rounded-[4rem] bg-[#F8F9FA]/30 relative group overflow-hidden border border-white/60">
+                    <div class="absolute top-10 right-10 px-8 py-3 rounded-2xl bg-navy text-white text-xs font-black uppercase tracking-widest shadow-2xl neon-badge">GPA: 1.9 (German Scale)</div>
+                    <div class="space-y-8">
+                        <h3 class="text-4xl font-black text-navy pr-20 leading-[1.1] tracking-tight">M.Sc. Software Engineering & Management</h3>
+                        <p class="text-charcoal/60 font-medium text-sm">Hochschule Heilbronn, Germany (Current Semester 3) | Expected Graduation: 09/2027</p>
+                        <div class="h-px bg-navy/5 w-full my-8"></div>
+                        <div class="space-y-4">
+                            <p class="text-[10px] font-black text-navy/30 uppercase tracking-[0.3em]">Relevant Modules</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Advanced ML</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Software Architecture</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Cloud Computing</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Distributed Systems</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Data Engineering</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="glass flex items-center gap-6 p-6 rounded-3xl border border-navy/5">
-                    <div class="w-16 h-16 rounded-full bg-slate-300 text-navy flex items-center justify-center font-bold text-xl flex-shrink-0 shadow-lg">DE</div>
-                    <div>
-                        <h3 class="text-xl font-bold text-navy">German</h3>
-                        <p class="text-charcoal/70 font-medium">A2 — Basic Proficiency (Actively Learning)</p>
+
+                <!-- Right Side B.Tech. Card -->
+                <div class="card-standard p-14 rounded-[4rem] bg-[#F8F9FA]/30 relative group overflow-hidden border border-white/60" style="border-left-color: #3B82F6;">
+                    <div class="absolute top-10 right-10 px-8 py-3 rounded-2xl bg-slate-100 text-navy text-xs font-black uppercase tracking-widest border border-navy/5">GPA: 8.4/10</div>
+                    <div class="space-y-8">
+                        <h3 class="text-4xl font-black text-navy pr-20 leading-[1.1] tracking-tight">B.Tech. Information Technology</h3>
+                        <p class="text-charcoal/60 font-medium text-sm">A.D. Patel Institute of Technology, India | Graduated: 05/2024</p>
+                        <div class="h-px bg-navy/5 w-full my-8"></div>
+                        <div class="space-y-4">
+                            <p class="text-[10px] font-black text-navy/30 uppercase tracking-[0.3em]">Relevant Modules</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Deep Learning</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Computer Vision</span>
+                                <span class="px-4 py-1.5 rounded-xl bg-white text-navy text-[10px] font-black uppercase tracking-wider border border-navy/5">Advanced Data Structures</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPONENT 7: LANGUAGE ROBUSTNESS ROW -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 pt-10">
+                <div class="glass flex items-center gap-10 p-10 rounded-[3.5rem] border border-white/60">
+                    <div class="w-24 h-24 rounded-[2rem] bg-navy text-white flex items-center justify-center font-black text-3xl flex-shrink-0 shadow-2xl shadow-navy/40">EN</div>
+                    <div class="space-y-1">
+                        <h3 class="text-3xl font-black text-navy tracking-tight">English</h3>
+                        <p class="text-charcoal/40 font-black uppercase tracking-[0.2em] text-[10px]">C1 — Professional Working Proficiency</p>
+                    </div>
+                </div>
+                <div class="glass flex items-center gap-10 p-10 rounded-[3.5rem] border border-white/60">
+                    <div class="w-24 h-24 rounded-[2rem] bg-slate-300 text-navy flex items-center justify-center font-black text-3xl flex-shrink-0 shadow-2xl">DE</div>
+                    <div class="space-y-1">
+                        <h3 class="text-3xl font-black text-navy tracking-tight">German</h3>
+                        <p class="text-charcoal/40 font-black uppercase tracking-[0.2em] text-[10px]">A2 — Basic Proficiency (Actively Learning)</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-navy-dark py-12 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-white/40 text-sm font-medium">
-                © <span id="year"></span> Harshil Gorasiya. Built for high-performance AI engineering.
+    <footer class="bg-navy-dark py-24 px-6 mt-48">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-14">
+            <div class="text-white/20 text-[10px] font-black uppercase tracking-[0.4em]">
+                © <span id="year"></span> Harshil Gorasiya. Engineered for Autonomous Intelligence.
             </div>
-            <div class="flex gap-6">
-                <a href="https://github.com/N0t-Harshil" class="text-white/40 hover:text-white transition-colors text-xl"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/harshil-gorasiya" class="text-white/40 hover:text-white transition-colors text-xl"><i class="fab fa-linkedin"></i></a>
+            <div class="flex gap-12">
+                <a href="https://github.com/N0t-Harshil" class="text-white/20 hover:text-white transition-all text-2xl"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/harshil-gorasiya" class="text-white/20 hover:text-white transition-all text-2xl"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </footer>
@@ -649,7 +780,7 @@
         // Set Current Year
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // 1. Particle Canvas Engine
+        // 1A. Google Antigravity Particle Engine (Micro-Dash Interactive Vector Field)
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -664,56 +795,74 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = Math.random() * 0.4 - 0.2;
-                this.vy = Math.random() * -0.6 - 0.2; // Float upwards
-                this.originX = this.x;
-                this.originY = this.y;
-                this.friction = 0.95;
-                this.springFactor = 0.05;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * -0.6; // Base upward drift
+                this.size = Math.random() * 14 + 6;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.04 - 0.02;
 
                 const colors = ['#1B2A4A', '#B0BDD0', '#3B82F6', '#F43F5E', '#F59E0B'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.length = Math.random() * 12 + 4;
+
+                // Spring physics state (F = -kx)
+                this.springX = 0;
+                this.springY = 0;
+                this.accelX = 0;
+                this.accelY = 0;
+                this.friction = 0.85;
+                this.springK = 0.08;
             }
 
             draw() {
+                ctx.save();
+                ctx.translate(this.x + this.springX, this.y + this.springY);
+                ctx.rotate(this.angle);
                 ctx.strokeStyle = this.color;
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2.5;
                 ctx.lineCap = 'round';
                 ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x, this.y + this.length);
+                ctx.moveTo(-this.size/2, 0);
+                ctx.lineTo(this.size/2, 0);
                 ctx.stroke();
+                ctx.restore();
             }
 
             update() {
-                // Spring physics logic
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
+                this.angle += this.spin;
+
+                // Base movement
+                this.y += this.vy;
+                this.x += this.vx;
+
+                // Proximity Spring Physics (Inertia Scatter)
+                let dx = mouse.x - (this.x + this.springX);
+                let dy = mouse.y - (this.y + this.springY);
                 let distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < mouse.radius) {
                     let force = (mouse.radius - distance) / mouse.radius;
-                    this.vx -= dx / distance * force * 5;
-                    this.vy -= dy / distance * force * 5;
+                    let angle = Math.atan2(dy, dx);
+                    // Scatter away instantly
+                    this.accelX += Math.cos(angle) * force * -3;
+                    this.accelY += Math.sin(angle) * force * -3;
                 }
 
-                // Apply velocity and friction
-                this.vx *= this.friction;
-                this.vy *= this.friction;
-                this.x += this.vx;
-                this.y += this.vy;
+                // Apply Spring Force (Pull back to origin displacement)
+                this.accelX += -this.springK * this.springX;
+                this.accelY += -this.springK * this.springY;
 
-                // Continuous drift
-                this.y += -0.2;
+                this.springX += this.accelX;
+                this.springY += this.accelY;
 
-                // Screen wrap
-                if (this.y < -20) {
-                    this.y = canvas.height + 20;
-                    this.x = Math.random() * canvas.width;
-                    this.vx = 0;
-                    this.vy = 0;
-                }
+                // Friction for inertia feel
+                this.accelX *= this.friction;
+                this.accelY *= this.friction;
+
+                // Screen Wrap with smooth reset
+                if (this.y < -30) this.y = canvas.height + 30;
+                if (this.y > canvas.height + 30) this.y = -30;
+                if (this.x < -30) this.x = canvas.width + 30;
+                if (this.x > canvas.width + 30) this.x = -30;
             }
         }
 
@@ -721,7 +870,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            for (let i = 0; i < 250; i++) {
+            for (let i = 0; i < 200; i++) {
                 particles.push(new Particle());
             }
         }
@@ -739,37 +888,35 @@
         initParticles();
         animateParticles();
 
-        // 2. Geometric Text Reveal Engine
+        // 1A. Google Asynchronous Typographic Reveal Engine
         const target = document.getElementById('reveal-target');
-        const originalText = target.innerText;
+        const text = target.innerText;
         target.innerHTML = '';
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 
-        originalText.split('').forEach((char, i) => {
+        text.split('').forEach((char, i) => {
             const span = document.createElement('span');
             span.innerText = char === ' ' ? '\u00A0' : char;
             span.className = 'reveal-char';
-            span.style.transitionDelay = `${i * 30}ms`;
-            target.appendChild(span);
 
-            if (char !== ' ') {
-                let iterations = 0;
-                const interval = setInterval(() => {
-                    span.innerText = chars[Math.floor(Math.random() * chars.length)];
-                    if (iterations > 10) {
-                        span.innerText = char;
-                        clearInterval(interval);
-                    }
-                    iterations++;
-                }, 50 + i * 2);
+            // Asymmetric tracking and varied weight rendering
+            if (i % 2 === 0) {
+                span.style.fontWeight = '900';
+                span.style.letterSpacing = '-0.02em';
+            } else {
+                span.style.fontWeight = '700';
+                span.style.letterSpacing = '0.01em';
             }
+
+            // Organic character cursor lag simulation via varied delays
+            span.style.transitionDelay = `${150 + (i * 40) + (Math.sin(i) * 50)}ms`;
+            target.appendChild(span);
         });
 
         setTimeout(() => {
             document.querySelectorAll('.reveal-char').forEach(el => el.classList.add('active'));
-        }, 300);
+        }, 600);
 
-        // 3. Surface Glow Vector Logic
+        // 1E. Cursor Angle Surface Glow Tracker
         document.querySelectorAll('.glow-surface').forEach(surface => {
             surface.addEventListener('mousemove', (e) => {
                 const rect = surface.getBoundingClientRect();
@@ -780,45 +927,41 @@
             });
         });
 
-        // 4. Terminal Simulation
+        // 2-2. Terminal Simulation
         const terminalContent = document.getElementById('terminal-content');
-        const lines = [
-            '>>> import ardan_agent',
-            '>>> agent = ardan_agent.initialize(providers=6) # Claude, GPT-4, Gemini, Groq, Mistral, Ollama',
-            '>>> agent.execute_react_loop(task="Optimize localized infrastructure pipelines")',
-            '[INFO] Auto-failover active. Executing Docker containment sandbox tool...',
-            '[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00'
+        const scriptLines = [
+            { t: '>>> import ardan_agent', c: 'text-emerald-400/80' },
+            { t: '>>> agent = ardan_agent.initialize(providers=6) # Claude, GPT, Gemini, Groq, Mistral, Ollama', c: 'text-emerald-400/80' },
+            { t: '>>> agent.execute_react_loop(task="Optimize localized infrastructure pipelines")', c: 'text-emerald-400/80' },
+            { t: '[INFO] Auto-failover active. Executing Docker containment sandbox tool...', c: 'text-blue-400' },
+            { t: '[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00', c: 'text-emerald-400 font-bold' }
         ];
 
         let lineIdx = 0;
         let charIdx = 0;
 
-        function type() {
-            if (lineIdx < lines.length) {
-                const currentLine = lines[lineIdx];
+        function typeTerminal() {
+            if (lineIdx < scriptLines.length) {
                 if (charIdx === 0) {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'mb-1';
-                    if (currentLine.startsWith('>>>')) lineDiv.classList.add('text-slate-400');
-                    if (currentLine.startsWith('[SUCCESS]')) lineDiv.classList.add('text-emerald-400', 'font-bold');
-                    if (currentLine.startsWith('[INFO]')) lineDiv.classList.add('text-blue-400');
-                    terminalContent.appendChild(lineDiv);
+                    const line = document.createElement('div');
+                    line.className = scriptLines[lineIdx].c;
+                    terminalContent.appendChild(line);
                 }
 
-                const lineDiv = terminalContent.lastChild;
-                lineDiv.textContent += currentLine[charIdx];
+                const currentLine = terminalContent.lastChild;
+                currentLine.textContent += scriptLines[lineIdx].t[charIdx];
                 charIdx++;
 
-                if (charIdx < currentLine.length) {
-                    setTimeout(type, currentLine.startsWith('[') ? 10 : 30);
+                if (charIdx < scriptLines[lineIdx].t.length) {
+                    setTimeout(typeTerminal, 20);
                 } else {
                     lineIdx++;
                     charIdx = 0;
-                    setTimeout(type, 600);
+                    setTimeout(typeTerminal, 900);
                 }
             }
         }
-        setTimeout(type, 1500);
+        setTimeout(typeTerminal, 2500);
 
     </script>
 </body>
