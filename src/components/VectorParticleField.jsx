@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { useMousePosition } from '../hooks/useMousePosition';
 
 export const VectorParticleField = () => {
   const canvasRef = useRef(null);
-  const mouse = useMousePosition();
   const particles = useRef([]);
+  const mouse = useRef({ x: -1000, y: -1000 });
 
   const COLORS = ['#1B2A4A', '#3B82F6', '#F43F5E', '#F59E0B'];
 
@@ -36,7 +35,6 @@ export const VectorParticleField = () => {
         this.vy -= Math.sin(angle) * force * 5;
       }
 
-      // Spring back to origin
       const dxOrigin = this.originX - this.x;
       const dyOrigin = this.originY - this.y;
       this.vx += dxOrigin * this.springK;
@@ -68,12 +66,7 @@ export const VectorParticleField = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
-    };
+    let animationFrameId;
 
     const initParticles = () => {
       particles.current = [];
@@ -83,22 +76,38 @@ export const VectorParticleField = () => {
       }
     };
 
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const handleMouseMove = (e) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+    };
+
     window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMove);
+
     handleResize();
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.current.forEach(p => {
-        p.update(mouse.x, mouse.y);
+        p.update(mouse.current.x, mouse.current.y);
         p.draw(ctx);
       });
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [mouse.x, mouse.y]);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []); // Run once on mount
 
   return (
     <canvas
