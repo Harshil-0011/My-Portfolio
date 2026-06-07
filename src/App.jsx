@@ -7,6 +7,8 @@ import { SkillsMatrix } from './components/SkillsMatrix';
 import { SystemShowcase } from './components/SystemShowcase';
 import { AcademicMatrix } from './components/AcademicMatrix';
 import { LinguisticMatrix } from './components/LinguisticMatrix';
+import { ExperienceTimeline } from './components/ExperienceTimeline';
+import { SectionDivider } from './components/SectionDivider';
 
 function App() {
   return (
@@ -21,10 +23,16 @@ function App() {
       {/* Main Content (z-10/z-20) */}
       <main className="relative">
         <HeroPlatform />
-        <div className="space-y-12">
+        <div className="space-y-4">
+          <SectionDivider />
           <SkillsMatrix />
+          <SectionDivider />
           <SystemShowcase />
+          <SectionDivider />
+          <ExperienceTimeline />
+          <SectionDivider />
           <AcademicMatrix />
+          <SectionDivider />
           <LinguisticMatrix />
         </div>
       </main>
