@@ -46,7 +46,7 @@ export const SkillsMatrix = () => {
               {group.skills.map((skill, sIdx) => (
                 <span
                   key={sIdx}
-                  className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:scale-105 transition-transform duration-200 cursor-default"
+                  className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:scale-105 hover:bg-navy hover:text-white transition-all duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default"
                 >
                   {skill}
                 </span>
