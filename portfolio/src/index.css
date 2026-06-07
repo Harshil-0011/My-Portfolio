@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #1B2A4A;
+  --color-navy-dark: #0A0F1D;
+  --color-navy-light: #B0BDD0;
+  --color-charcoal: #4A4A4A;
+  --color-accent-cobalt: #3B82F6;
+  --color-accent-coral: #F43F5E;
+  --color-accent-amber: #F59E0B;
+  --color-accent-emerald: #10B981;
+}
+
+:root {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #ffffff;
+  color: #1B2A4A;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
