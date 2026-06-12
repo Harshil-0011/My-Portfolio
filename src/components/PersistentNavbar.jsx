@@ -5,12 +5,7 @@ import { Clock, CalendarCheck, IdCard } from 'lucide-react';
 export const PersistentNavbar = () => {
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 h-20 px-6 flex items-center justify-between"
-      style={{
-        backdropFilter: 'blur(24px) saturate(180%)',
-        background: 'rgba(255, 255, 255, 0.7)',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.05)'
-      }}
+      className="fixed top-0 left-0 right-0 z-50 h-20 px-6 flex items-center justify-between backdrop-blur-2xl bg-white/60 border-b border-white/20 shadow-sm"
     >
       {/* Left: Status Dot */}
       <div className="flex items-center gap-3">
@@ -34,7 +29,7 @@ export const PersistentNavbar = () => {
 };
 
 const Badge = ({ icon, text }) => (
-  <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100/80 border border-slate-200/50 rounded-full">
+  <div className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md border border-white/20 rounded-full">
     <span className="text-slate-600">{icon}</span>
     <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight whitespace-nowrap">
       {text}

@@ -12,7 +12,7 @@ import { SectionDivider } from './components/SectionDivider';
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-[#FDFDFF] selection:bg-navy selection:text-white">
+    <div className="relative min-h-screen bg-[#F2F4F7] selection:bg-navy selection:text-white">
       {/* Background Layers (z-below-all) */}
       <VectorParticleField />
       <DotMatrixLayer />

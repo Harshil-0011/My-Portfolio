@@ -60,22 +60,22 @@ export const SystemShowcase = () => {
         {(projects || []).map((project, idx) => (
           <div
             key={idx}
-            className="group relative bg-white/80 backdrop-blur-md border border-white/50 rounded-[2.5rem] p-10 overflow-hidden shadow-2xl transition-all hover:shadow-[0_40px_80px_-20px_rgba(27,42,74,0.15)]"
+            className="group relative bg-white/60 backdrop-blur-2xl border border-white/40 rounded-[2.5rem] p-10 overflow-hidden shadow-2xl transition-all hover:shadow-[0_40px_80px_-20px_rgba(27,42,74,0.2)]"
           >
             {/* Dynamic Hover Glow */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-               <div className="absolute top-0 right-0 w-64 h-64 bg-navy/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
-               <div className="absolute bottom-0 left-0 w-64 h-64 bg-navy/5 blur-[80px] translate-y-1/2 -translate-x-1/2" />
+               <div className="absolute top-0 right-0 w-64 h-64 bg-navy/20 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-navy/10 blur-[80px] translate-y-1/2 -translate-x-1/2" />
             </div>
             {/* Header */}
-            <div className="flex justify-between items-start mb-8">
+            <div className="flex justify-between items-start mb-8 relative z-10">
               <div className="space-y-4 max-w-[80%]">
                 {project.badge && (
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/50 backdrop-blur-md text-emerald-600 border border-emerald-100 text-[10px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.1)]">
                     {project.badge.icon} {project.badge.text}
                   </div>
                 )}
-                <h3 className="text-2xl font-black text-navy leading-tight group-hover:text-accent-cobalt transition-colors">
+                <h3 className="text-2xl font-black text-navy leading-tight transition-colors">
                   {project.title}
                 </h3>
               </div>
@@ -90,12 +90,12 @@ export const SystemShowcase = () => {
             </div>
 
             {/* Content */}
-            <p className="text-slate-600 font-medium mb-8 leading-relaxed">
+            <p className="text-slate-600 font-medium mb-8 leading-relaxed relative z-10">
               {project.overview}
             </p>
 
             {/* Metrics */}
-            <ul className="space-y-4 mb-10">
+            <ul className="space-y-4 mb-10 relative z-10">
               {(project.metrics || []).map((metric, mIdx) => (
                 <li key={mIdx} className="flex gap-4 text-sm text-slate-500 font-semibold leading-snug">
                   <span className="w-1.5 h-1.5 rounded-full bg-navy/20 mt-2 shrink-0" />
@@ -105,11 +105,11 @@ export const SystemShowcase = () => {
             </ul>
 
             {/* Footer Tags */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 relative z-10">
               {(project.tags || []).map((tag, tIdx) => (
                 <span
                   key={tIdx}
-                  className="px-4 py-2 rounded-xl bg-navy/5 text-navy text-[10px] font-black uppercase tracking-wider"
+                  className="px-4 py-2 rounded-xl bg-white/40 border border-white/20 text-navy text-[10px] font-black uppercase tracking-wider"
                 >
                   {tag}
                 </span>
