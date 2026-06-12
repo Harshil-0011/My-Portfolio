@@ -33,7 +33,7 @@ export const HardwareTerminal = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-12 bg-[#0A0F1D] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-20 relative">
+    <div className="w-full max-w-2xl mx-auto mt-12 bg-[#0A0F1D] rounded-xl overflow-hidden shadow-2xl border border-white/10 z-20 relative text-left">
       {/* Top Bar */}
       <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/5">
         <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
@@ -43,7 +43,7 @@ export const HardwareTerminal = () => {
 
       {/* Content */}
       <div className="p-6 font-mono text-xs md:text-sm leading-relaxed min-h-[300px]">
-        {lines.map((line, idx) => (
+        {(lines || []).map((line, idx) => (
           <div key={idx} className="flex gap-2">
             {line.type === 'input' && <span className="text-slate-600">{'>>>'}</span>}
             {line.type === 'output' && <span className="text-slate-600">&nbsp;</span>}

@@ -19,7 +19,7 @@ export const LinguisticMatrix = () => {
   return (
     <section className="py-24 px-6 max-w-7xl mx-auto z-10 relative">
       <div className="flex flex-col md:flex-row gap-6">
-        {languages.map((lang, idx) => (
+        {(languages || []).map((lang, idx) => (
           <div
             key={idx}
             className="flex-1 bg-white/70 backdrop-blur-xl rounded-[2rem] p-8 flex items-center gap-6 border border-white/50 shadow-lg"

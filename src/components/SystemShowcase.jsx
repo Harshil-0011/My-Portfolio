@@ -57,11 +57,16 @@ export const SystemShowcase = () => {
     <section className="py-24 px-6 max-w-7xl mx-auto z-10 relative">
       <h2 className="text-4xl font-bold text-navy mb-12 tracking-tight">Systems Architecture Showcase</h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {projects.map((project, idx) => (
+        {(projects || []).map((project, idx) => (
           <div
             key={idx}
-            className="group relative bg-white/70 backdrop-blur-xl border border-white/50 rounded-[2.5rem] p-10 overflow-hidden shadow-2xl transition-all hover:shadow-[0_40px_80px_-20px_rgba(27,42,74,0.15)]"
+            className="group relative bg-white/80 backdrop-blur-md border border-white/50 rounded-[2.5rem] p-10 overflow-hidden shadow-2xl transition-all hover:shadow-[0_40px_80px_-20px_rgba(27,42,74,0.15)]"
           >
+            {/* Dynamic Hover Glow */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-navy/10 blur-[100px] -translate-y-1/2 translate-x-1/2" />
+               <div className="absolute bottom-0 left-0 w-64 h-64 bg-navy/5 blur-[80px] translate-y-1/2 -translate-x-1/2" />
+            </div>
             {/* Header */}
             <div className="flex justify-between items-start mb-8">
               <div className="space-y-4 max-w-[80%]">
@@ -91,7 +96,7 @@ export const SystemShowcase = () => {
 
             {/* Metrics */}
             <ul className="space-y-4 mb-10">
-              {project.metrics.map((metric, mIdx) => (
+              {(project.metrics || []).map((metric, mIdx) => (
                 <li key={mIdx} className="flex gap-4 text-sm text-slate-500 font-semibold leading-snug">
                   <span className="w-1.5 h-1.5 rounded-full bg-navy/20 mt-2 shrink-0" />
                   {metric}
@@ -101,7 +106,7 @@ export const SystemShowcase = () => {
 
             {/* Footer Tags */}
             <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag, tIdx) => (
+              {(project.tags || []).map((tag, tIdx) => (
                 <span
                   key={tIdx}
                   className="px-4 py-2 rounded-xl bg-navy/5 text-navy text-[10px] font-black uppercase tracking-wider"
@@ -110,9 +115,6 @@ export const SystemShowcase = () => {
                 </span>
               ))}
             </div>
-
-            {/* Hover Glow Effect */}
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-navy/5 rounded-full blur-3xl group-hover:bg-accent-cobalt/10 transition-all duration-700" />
           </div>
         ))}
       </div>
