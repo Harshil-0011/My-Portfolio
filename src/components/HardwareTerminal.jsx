@@ -45,9 +45,9 @@ export const HardwareTerminal = () => {
       <div className="p-6 font-mono text-xs md:text-sm leading-relaxed min-h-[300px]">
         {(lines || []).map((line, idx) => (
           <div key={idx} className="flex gap-2">
-            {line.type === 'input' && <span className="text-slate-600">{'>>>'}</span>}
-            {line.type === 'output' && <span className="text-slate-600">&nbsp;</span>}
-            <span className={line.color}>{line.text}</span>
+            {line && line.type === 'input' && <span className="text-slate-600">{'>>>'}</span>}
+            {line && line.type === 'output' && <span className="text-slate-600">&nbsp;</span>}
+            <span className={line ? line.color : ''}>{line ? line.text : ''}</span>
           </div>
         ))}
         <motion.div
