@@ -12,8 +12,8 @@ import { SectionDivider } from './components/SectionDivider';
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-white overflow-hidden selection:bg-navy selection:text-white">
-      {/* Background Layers (z-0) */}
+    <div className="relative min-h-screen bg-[#FDFDFF] selection:bg-navy selection:text-white">
+      {/* Background Layers (z-below-all) */}
       <VectorParticleField />
       <DotMatrixLayer />
 
@@ -21,7 +21,7 @@ function App() {
       <PersistentNavbar />
 
       {/* Main Content (z-10/z-20) */}
-      <main className="relative">
+      <main className="relative z-10">
         <HeroPlatform />
         <div className="space-y-4">
           <SectionDivider />
