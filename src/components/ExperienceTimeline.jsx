@@ -31,7 +31,7 @@ export const ExperienceTimeline = () => {
       <h2 className="text-4xl font-bold text-navy mb-16 tracking-tight">Professional Experience</h2>
 
       <div className="relative border-l-2 border-slate-100 ml-4 space-y-16">
-        {experiences.map((exp, idx) => (
+        {(experiences || []).map((exp, idx) => (
           <div key={idx} className="relative pl-10">
             {/* Timeline Node */}
             <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-navy border-4 border-white shadow-sm" />
@@ -47,7 +47,7 @@ export const ExperienceTimeline = () => {
               </div>
 
               <ul className="space-y-3 max-w-3xl">
-                {exp.details.map((detail, i) => (
+                {(exp.details || []).map((detail, i) => (
                   <li key={i} className="flex gap-3 text-slate-600 leading-relaxed font-medium">
                     <span className="text-navy font-bold mt-1">/</span>
                     {detail}

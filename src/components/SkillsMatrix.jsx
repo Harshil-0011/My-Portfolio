@@ -34,7 +34,7 @@ export const SkillsMatrix = () => {
 
       {/* 4-Column Balanced Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-        {skillGroups.map((group, idx) => (
+        {(skillGroups || []).map((group, idx) => (
           <div
             key={idx}
             className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[8px_8px_16px_#f1f5f9,-8px_-8px_16px_#ffffff]"
@@ -43,7 +43,7 @@ export const SkillsMatrix = () => {
               {group.title}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {group.skills.map((skill, sIdx) => (
+              {(group.skills || []).map((skill, sIdx) => (
                 <span
                   key={sIdx}
                   className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:scale-105 hover:bg-navy hover:text-white transition-all duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default"
@@ -59,7 +59,7 @@ export const SkillsMatrix = () => {
       {/* Verified Credentials */}
       <div className="flex flex-wrap gap-4 items-center">
         <span className="text-[10px] font-black text-navy/30 uppercase tracking-[0.3em] mr-4">Verified Credentials</span>
-        {credentials.map((cred, idx) => (
+        {(credentials || []).map((cred, idx) => (
           <a
             key={idx}
             href={cred.url}

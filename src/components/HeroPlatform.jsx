@@ -14,7 +14,7 @@ export const HeroPlatform = () => {
       <div className="text-center space-y-8">
         {/* Anti-Fragmentation Heading with Reveal Engine */}
         <h1 className="whitespace-nowrap break-keep select-none block tracking-tight font-bold text-navy text-6xl md:text-8xl lg:text-9xl z-20 relative">
-          {name.split("").map((char, i) => (
+          {(name || "").split("").map((char, i) => (
             <motion.span
               key={i}
               initial={{ opacity: 0, y: 20 }}
