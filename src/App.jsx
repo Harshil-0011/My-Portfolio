@@ -158,9 +158,9 @@ const Badge = ({ icon, text }) => (
 );
 
 const SectionDivider = () => (
-  <div className="group relative py-20 px-6 max-w-7xl mx-auto w-full">
-    <hr className="border-t border-silver-blue/20 transition-all duration-700 group-hover:border-navy group-hover:shadow-[0_0_20px_rgba(27,42,74,0.4)]" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-navy opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_15px_#1B2A4A]" />
+  <div className="group relative py-24 px-6 max-w-7xl mx-auto w-full">
+    <hr className="border-t-2 border-silver-blue/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-navy group-hover:shadow-[0_0_25px_rgba(27,42,74,0.5)]" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-navy opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_20px_#1B2A4A]" />
   </div>
 );
 
@@ -220,11 +220,13 @@ const PersistentNavbar = () => {
   );
 };
 
-const Terminal = () => {
+const Terminal = ({ triggerIdentityAnim }) => {
   const [visibleLines, setVisibleLines] = useState([]);
   const [currentText, setCurrentText] = useState("");
   const [lineIndex, setLineIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
+  const [terminalState, setTerminalState] = useState('booting'); // 'booting', 'menu', 'project-details', 'identity'
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const script = useMemo(() => [
     { type: 'input', text: ">>> import ardan_agent" },
@@ -235,11 +237,15 @@ const Terminal = () => {
   ], []);
 
   useEffect(() => {
-    let isCancelled = false;
+    if (terminalState !== 'booting') return;
 
+    let isCancelled = false;
     if (lineIndex >= script.length) {
       const finishTimeout = setTimeout(() => {
-        if (!isCancelled) setIsTyping(false);
+        if (!isCancelled) {
+          setIsTyping(false);
+          setTerminalState('menu');
+        }
       }, 800);
       return () => {
         isCancelled = true;
@@ -248,7 +254,6 @@ const Terminal = () => {
     }
 
     const currentLine = script[lineIndex];
-
     if (currentLine.type === 'input') {
       if (currentText.length < currentLine.text.length) {
         const timeout = setTimeout(() => {
@@ -283,15 +288,30 @@ const Terminal = () => {
         clearTimeout(timeout);
       };
     }
-  }, [lineIndex, currentText, script]);
+  }, [lineIndex, currentText, script, terminalState]);
+
+  // Listen for Identity Animation Trigger from Hero
+  useEffect(() => {
+    if (triggerIdentityAnim) {
+      setTerminalState('identity');
+      const timer = setTimeout(() => setTerminalState('menu'), 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [triggerIdentityAnim]);
+
+  const projects = [
+    { id: 1, name: "Ardan-CLI", desc: "Autonomous Multi-Provider Coding Agent", tech: "Python, ReAct, MCP" },
+    { id: 2, name: "Graph-RAG", desc: "Hierarchical Graph-Based RAG System", tech: "FAISS, Ollama, Python" },
+    { id: 3, name: "Local Perplex", desc: "Private Multimodal Research Engine", tech: "C++, Ollama Core" }
+  ];
 
   const renderContentLine = (line) => {
     if (line.type === 'input') {
       const parts = line.text.split('#');
       return (
         <div className="flex gap-3">
-          <span className="text-slate-500 shrink-0 select-none">{">>>"}</span>
-          <span className="text-slate-100">
+          <span className="text-slate-500 shrink-0 select-none font-bold">{">>>"}</span>
+          <span className="text-slate-100 font-medium">
             {parts[0].replace('>>> ', '')}
             {parts[1] && <span className="text-slate-500">#{parts[1]}</span>}
           </span>
@@ -299,7 +319,7 @@ const Terminal = () => {
       );
     }
     return (
-      <span className={line.type === 'info' ? 'text-blue-400/90' : 'text-emerald-400 font-semibold drop-shadow-[0_0_10px_rgba(16,185,129,0.4)]'}>
+      <span className={line.type === 'info' ? 'text-blue-400/90' : 'text-emerald-400 font-bold drop-shadow-[0_0_10px_rgba(16,185,129,0.4)]'}>
         {line.text}
       </span>
     );
@@ -308,7 +328,7 @@ const Terminal = () => {
   return (
     <div id="terminal-simulator" className="bg-[#030712] rounded-2xl shadow-3xl border border-white/10 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[13px] leading-relaxed tracking-tight backdrop-blur-sm">
       {/* Header */}
-      <div className="bg-white/5 px-6 py-4 flex items-center relative border-b border-white/5">
+      <div className="bg-white/5 px-6 py-3 flex items-center relative border-b border-white/5">
         <div className="flex gap-2.5">
           <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
           <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
@@ -320,40 +340,126 @@ const Terminal = () => {
       </div>
 
       {/* Content */}
-      <div className="p-10 md:p-16 min-h-[420px] flex flex-col justify-center">
-        <div className="space-y-4 w-full">
-          {visibleLines.map((line, i) => (
-            <div key={i} className="flex justify-center">
-              {renderContentLine(line)}
-            </div>
-          ))}
-
-          {lineIndex < script.length && script[lineIndex].type === 'input' && (
-            <div className="flex justify-center gap-3">
-              <span className="text-slate-500 shrink-0 select-none">{">>>"}</span>
-              <span className="text-slate-100">
-                {currentText.replace('>>> ', '')}
-                <span className="inline-block w-2 h-5 bg-emerald-500/80 translate-y-1 ml-1 animate-pulse" />
-              </span>
-            </div>
-          )}
-
-          {!isTyping && (
+      <div className="p-8 md:p-12 min-h-[420px] flex flex-col items-start text-left overflow-y-auto">
+        <AnimatePresence mode="wait">
+          {terminalState === 'booting' && (
             <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex justify-center mt-12"
+              key="boot"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-3 w-full"
             >
-              <div className="w-8 h-12 bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.6)] rounded-sm animate-pulse" />
+              {visibleLines.map((line, i) => (
+                <div key={i}>{renderContentLine(line)}</div>
+              ))}
+              {lineIndex < script.length && script[lineIndex].type === 'input' && (
+                <div className="flex gap-3">
+                  <span className="text-slate-500 shrink-0 select-none font-bold">{">>>"}</span>
+                  <span className="text-slate-100">
+                    {currentText.replace('>>> ', '')}
+                    <span className="inline-block w-2 h-4 bg-emerald-500/80 translate-y-0.5 ml-1 animate-pulse" />
+                  </span>
+                </div>
+              )}
             </motion.div>
           )}
-        </div>
+
+          {terminalState === 'menu' && (
+            <motion.div
+              key="menu"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="w-full space-y-6"
+            >
+              <div className="text-slate-400 font-bold uppercase tracking-widest text-[10px] border-b border-white/10 pb-2">Main Menu / Select Option</div>
+              <div className="space-y-4">
+                {projects.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => { setSelectedProject(p); setTerminalState('project-details'); }}
+                    className="flex items-center gap-4 group w-full text-left"
+                  >
+                    <span className="text-navy bg-emerald-500 px-2 py-0.5 rounded text-[10px] font-black">{p.id}</span>
+                    <span className="text-slate-200 group-hover:text-emerald-400 transition-colors font-bold tracking-tight">[{p.name}]</span>
+                    <span className="text-slate-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">-- {p.desc}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="pt-8 text-slate-500 text-[10px] animate-pulse">Waiting for input... _</div>
+            </motion.div>
+          )}
+
+          {terminalState === 'project-details' && selectedProject && (
+            <motion.div
+              key="details"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="w-full space-y-6"
+            >
+              <button
+                onClick={() => setTerminalState('menu')}
+                className="text-slate-500 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-4"
+              >
+                {"< Back to menu"}
+              </button>
+              <div className="space-y-4 bg-white/5 p-6 rounded-xl border border-white/10">
+                <div className="text-emerald-400 font-black text-xl tracking-tight">{selectedProject.name}</div>
+                <div className="text-slate-300 text-sm">{selectedProject.desc}</div>
+                <div className="flex gap-3">
+                  {selectedProject.tech.split(', ').map((t, i) => (
+                    <span key={i} className="px-2 py-1 bg-navy/50 text-white/60 rounded border border-white/5 text-[9px] font-bold">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {terminalState === 'identity' && (
+            <motion.div
+              key="identity"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full h-full flex flex-col items-center justify-center space-y-8"
+            >
+              <div className="text-center space-y-4">
+                <div className="text-emerald-500 font-black text-4xl tracking-tighter animate-pulse">HARSHIL GORASIYA</div>
+                <div className="text-slate-500 text-[10px] tracking-[0.8em] font-black uppercase">Identity Verified</div>
+              </div>
+              <div className="grid grid-cols-4 gap-4 w-full max-w-sm">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.3, 1, 0.3]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.1
+                    }}
+                    className="h-1 bg-emerald-500/30 rounded-full"
+                  />
+                ))}
+              </div>
+              <div className="text-slate-600 text-[9px] font-mono">ENCRYPTED NEXUS HANDSHAKE... OK</div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
 };
 
 const HeroSection = () => {
+  const [triggerAnim, setTriggerAnim] = useState(false);
+
+  const handleIdentityClick = () => {
+    setTriggerAnim(true);
+    setTimeout(() => setTriggerAnim(false), 100);
+  };
+
   return (
     <section className="relative pt-48 pb-20 px-6 overflow-hidden">
       {/* Gradient Mesh Highlights */}
@@ -373,7 +479,8 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
-            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter"
+            onClick={handleIdentityClick}
+            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none"
           >
             Harshil Gorasiya
           </motion.h1>
@@ -395,7 +502,7 @@ const HeroSection = () => {
           className="relative group"
         >
           <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-          <Terminal />
+          <Terminal triggerIdentityAnim={triggerAnim} />
         </motion.div>
 
         {/* Contact Info */}
@@ -780,6 +887,16 @@ const LanguageRobustness = () => {
 
 // --- Main App ---
 
+const DotMatrixBackground = () => (
+  <div
+    className="fixed inset-0 pointer-events-none -z-20 opacity-[0.03]"
+    style={{
+      backgroundImage: 'radial-gradient(#1B2A4A 0.5px, transparent 0.5px)',
+      backgroundSize: '24px 24px'
+    }}
+  />
+);
+
 const CustomCursor = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -830,13 +947,17 @@ const CustomCursor = () => {
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-primary-canvas selection:bg-navy selection:text-white font-sans overflow-x-hidden">
+    <div className="relative min-h-screen selection:bg-navy selection:text-white font-sans overflow-x-hidden">
+      {/* Base Background Layer */}
+      <div className="fixed inset-0 bg-white -z-30" />
+
+      <DotMatrixBackground />
       <VectorParticleField />
       <CustomCursor />
 
       <PersistentNavbar />
 
-      <main>
+      <main className="relative z-10">
         <HeroSection />
         <SectionDivider />
         <SkillsMatrix />
