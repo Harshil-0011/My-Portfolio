@@ -37,16 +37,16 @@ export const SkillsMatrix = () => {
         {(skillGroups || []).map((group, idx) => (
           <div
             key={idx}
-            className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[8px_8px_16px_#f1f5f9,-8px_-8px_16px_#ffffff]"
+            className="bg-white/60 backdrop-blur-2xl p-6 rounded-3xl border border-white/40 shadow-xl"
           >
-            <h3 className="text-xs font-black text-navy/40 uppercase tracking-[0.2em] mb-6 border-b border-slate-50 pb-4">
+            <h3 className="text-xs font-black text-navy/40 uppercase tracking-[0.2em] mb-6 border-b border-navy/5 pb-4">
               {group.title}
             </h3>
             <div className="flex flex-wrap gap-2">
               {(group.skills || []).map((skill, sIdx) => (
                 <span
                   key={sIdx}
-                  className="bg-slate-50 border border-slate-200 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:scale-105 hover:bg-navy hover:text-white transition-all duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default"
+                  className="bg-white/80 border border-white/40 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-xl shadow-sm hover:scale-105 hover:bg-navy hover:text-white transition-all duration-[300ms] ease-[cubic-bezier(0.16,1,0.3,1)] cursor-default"
                 >
                   {skill}
                 </span>
@@ -65,7 +65,7 @@ export const SkillsMatrix = () => {
             href={cred.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-bold text-navy hover:border-navy hover:shadow-lg transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-md border border-white/40 rounded-xl text-[10px] font-bold text-navy hover:border-navy hover:shadow-lg transition-all"
           >
             {cred.title}
             {cred.url !== "#" && <ExternalLink size={10} />}
