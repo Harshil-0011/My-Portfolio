@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import {
   Clock,
   CalendarCheck,
@@ -54,22 +54,43 @@ const SectionHeading = ({ children, icon: Icon }) => (
 
 // --- Sub-Components ---
 
+const Logo = () => (
+  <div className="flex items-center gap-3 group cursor-pointer select-none">
+    <div className="relative">
+      <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-3 transition-all duration-300">
+        <span className="text-white font-display font-black text-xl tracking-tighter">HG</span>
+      </div>
+      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white border-2 border-navy rounded-md flex items-center justify-center">
+        <div className="w-1.5 h-1.5 bg-navy rounded-full" />
+      </div>
+    </div>
+    <div className="hidden sm:block">
+      <div className="text-sm font-black text-navy tracking-tighter leading-none">HARSHIL</div>
+      <div className="text-[10px] font-bold text-silver-blue tracking-[0.2em] leading-none mt-0.5">GORASIYA</div>
+    </div>
+  </div>
+);
+
 const PersistentNavbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-20 px-6 flex items-center justify-between glass shadow-sm">
-      {/* Left: Status Dot */}
-      <div className="flex items-center gap-3">
-        <div className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+    <nav className="fixed top-0 left-0 right-0 z-50 h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-silver-blue/10">
+      {/* Left: Logo & Status */}
+      <div className="flex items-center gap-6">
+        <Logo />
+        <div className="h-8 w-px bg-silver-blue/20 hidden md:block" />
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </div>
+          <span className="text-[9px] md:text-[10px] font-black text-navy tracking-widest uppercase select-none max-w-[150px] md:max-w-none leading-tight">
+            <strong>Status:</strong> Seeking <span className="text-emerald-600">Werkstudent</span> Positions in DE
+          </span>
         </div>
-        <span className="text-[10px] md:text-xs font-bold text-navy tracking-widest uppercase select-none">
-          <strong>Status:</strong> Seeking Werkstudent / Part-time Positions in Germany
-        </span>
       </div>
 
       {/* Right: Logistics Badges */}
-      <div className="hidden lg:flex items-center gap-2">
+      <div className="hidden xl:flex items-center gap-2">
         <Badge icon={<Clock size={12} />} text="20h/Week (Semester)" />
         <Badge icon={<CalendarCheck size={12} />} text="Full-time (Breaks)" />
         <Badge icon={<IdCard size={12} />} text="Valid Aufenthaltserlaubnis" />
@@ -80,25 +101,34 @@ const PersistentNavbar = () => {
 
 const Terminal = () => {
   const [lines, setLines] = useState([]);
-  const fullContent = [
+  const fullContent = useMemo(() => [
     { text: ">>> import ardan_agent", delay: 500 },
     { text: ">>> agent = ardan_agent.initialize(providers=6) # Claude, GPT, Gemini, Groq, Mistral, Ollama", delay: 800 },
     { text: ">>> agent.execute_react_loop(task=\"Optimize localized infrastructure pipelines\")", delay: 1000 },
     { text: "[INFO] Auto-failover active. Executing Docker containment sandbox tool...", type: "info", delay: 600 },
     { text: "[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00", type: "success", delay: 400 }
-  ];
+  ], []);
 
   useEffect(() => {
+    let isMounted = true;
+    let timeoutId;
     let currentLine = 0;
+
     const addLine = () => {
+      if (!isMounted) return;
       if (currentLine < fullContent.length) {
         setLines(prev => [...prev, fullContent[currentLine]]);
-        setTimeout(addLine, fullContent[currentLine].delay);
+        timeoutId = setTimeout(addLine, fullContent[currentLine].delay);
         currentLine++;
       }
     };
+
     addLine();
-  }, []);
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [fullContent]);
 
   return (
     <div className="bg-slate-950 text-emerald-400 font-mono text-xs rounded-lg p-5 shadow-2xl border border-white/5 w-full max-w-2xl mx-auto overflow-hidden">
@@ -221,42 +251,38 @@ const SkillsMatrix = () => {
   const categories = [
     {
       title: "LLM & Agentic Orchestration",
-      color: "border-blue-500",
-      skills: ["LangChain", "FAISS", "SentenceTransformers", "Ollama", "RAG Pipelines", "Knowledge Graphs", "ReAct Loops", "Model Quantization", "Model Context Protocol (MCP)"]
+      skills: ["LangChain", "FAISS", "SentenceTransformers", "Ollama", "RAG Pipelines", "Knowledge Graphs", "ReAct Loops", "Model Quantization", "MCP"]
     },
     {
       title: "Deep Learning & CV",
-      color: "border-emerald-500",
-      skills: ["PyTorch", "TensorFlow", "Keras", "Hugging Face Transformers", "scikit-learn", "YOLOv8", "CNNs", "Real-ESRGAN Super-Resolution"]
+      skills: ["PyTorch", "TensorFlow", "Keras", "Hugging Face", "scikit-learn", "YOLOv8", "CNNs", "Real-ESRGAN"]
     },
     {
-      title: "Languages & Architecture",
-      color: "border-amber-500",
-      skills: ["Python", "C++ (Multithreaded Engines)", "SQL", "Bash", "Low-latency CLI Design"]
+      title: "Languages & Systems",
+      skills: ["Python", "C++ (Threaded)", "SQL", "Bash", "Low-latency CLI", "Multithreading"]
     },
     {
       title: "MLOps & Infrastructure",
-      color: "border-navy",
-      skills: ["MLflow", "Docker", "FastAPI", "REST APIs", "Git Version Control", "Linux Systems", "AWS Foundation", "MySQL", "MongoDB", "SQLite"]
+      skills: ["MLflow", "Docker", "FastAPI", "REST APIs", "Git", "Linux", "AWS", "MySQL", "MongoDB"]
     }
   ];
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-20 px-6 max-w-[1400px] mx-auto">
       <SectionHeading icon={Layers}>Skills Matrix</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {categories.map((cat, i) => (
           <motion.div
             key={i}
             whileHover={{ y: -5 }}
-            className={`p-8 bg-soft-off-white rounded-2xl border-l-4 ${cat.color} shadow-sm group hover:shadow-md transition-all duration-300`}
+            className="p-6 md:p-8 bg-soft-off-white rounded-[2rem] border border-silver-blue/10 shadow-sm group hover:shadow-xl hover:bg-white transition-all duration-500 flex flex-col items-center text-center"
           >
-            <h3 className="text-xl font-bold text-navy mb-6">{cat.title}</h3>
-            <div className="flex flex-wrap gap-2">
+            <h3 className="text-[10px] font-black text-slate-400 mb-8 uppercase tracking-[0.2em]">{cat.title}</h3>
+            <div className="flex flex-wrap justify-center gap-2">
               {cat.skills.map((skill, si) => (
                 <span
                   key={si}
-                  className="px-3 py-1 bg-white border border-silver-blue/30 rounded-full text-xs font-semibold text-charcoal hover:scale-105 hover:bg-navy hover:text-white transition-all duration-300 cursor-default"
+                  className="px-4 py-2 bg-white border border-silver-blue/20 rounded-xl text-[11px] font-bold text-navy shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:scale-105 hover:bg-navy hover:text-white hover:shadow-lg transition-all duration-300 cursor-default whitespace-nowrap"
                 >
                   {skill}
                 </span>
@@ -266,7 +292,7 @@ const SkillsMatrix = () => {
         ))}
       </div>
 
-      <div className="mt-12 flex flex-wrap justify-center gap-4">
+      <div className="mt-16 flex flex-wrap justify-center gap-6">
         <a href="https://verify.skilljar.com/c/abtyb7rnh5gg" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-navy/5 border border-navy/10 rounded-lg text-xs font-bold text-navy hover:bg-navy/10 transition-colors">
           <Award size={14} /> Anthropic: Claude API Developer
         </a>
@@ -531,20 +557,21 @@ const LanguageRobustness = () => {
 
 // --- Main App ---
 
-function App() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+const CustomCursor = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX - 10);
+      mouseY.set(e.clientY - 10);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
     const handleMouseOver = (e) => {
       const target = e.target;
       if (target.closest('a') || target.closest('button') || target.closest('.hover-trigger')) {
@@ -553,24 +580,34 @@ function App() {
         setIsHovering(false);
       }
     };
+
+    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
-    return () => window.removeEventListener('mouseover', handleMouseOver);
-  }, []);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
+  }, [mouseX, mouseY]);
 
   return (
+    <motion.div
+      className="custom-cursor hidden md:block fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999]"
+      style={{
+        x: cursorX,
+        y: cursorY,
+        scale: isHovering ? 2.5 : 1,
+        backgroundColor: isHovering ? 'rgba(27, 42, 74, 0.1)' : '#1B2A4A',
+        border: isHovering ? '1px solid #1B2A4A' : 'none'
+      }}
+    />
+  );
+};
+
+function App() {
+  return (
     <div className="relative min-h-screen bg-primary-canvas selection:bg-navy selection:text-white font-sans overflow-x-hidden cursor-none">
-      {/* Custom Cursor */}
-      <motion.div
-        className="custom-cursor hidden md:block"
-        animate={{
-          x: mousePos.x - 10,
-          y: mousePos.y - 10,
-          scale: isHovering ? 2.5 : 1,
-          backgroundColor: isHovering ? 'rgba(27, 42, 74, 0.1)' : '#1B2A4A',
-          border: isHovering ? '1px solid #1B2A4A' : 'none'
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 300, mass: 0.5 }}
-      />
+      <CustomCursor />
 
       <PersistentNavbar />
 
