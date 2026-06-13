@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import {
   Clock,
@@ -28,36 +28,157 @@ import {
   Languages
 } from 'lucide-react';
 
+// --- System Critical: Vector Particle Field (Google Antigravity Engine) ---
+
+const VectorParticleField = () => {
+  const canvasRef = useRef(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let particles = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    class Particle {
+      constructor() {
+        this.init();
+      }
+
+      init() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 1.2 + 0.5;
+        this.baseRadius = this.radius;
+      }
+
+      update() {
+        const dx = mouseRef.current.x - this.x;
+        const dy = mouseRef.current.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+        // "Antigravity" push effect
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          this.vx -= (dx / dist) * force * 0.4;
+          this.vy -= (dy / dist) * force * 0.4;
+          this.radius = this.baseRadius + force * 2;
+        } else {
+          this.radius = Math.max(this.baseRadius, this.radius - 0.1);
+        }
+
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vx *= 0.98; // Friction
+        this.vy *= 0.98;
+
+        // Bounce/Wrap
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(27, 42, 74, 0.15)';
+        ctx.fill();
+      }
+    }
+
+    const init = () => {
+      resize();
+      particles = Array.from({ length: 80 }, () => new Particle());
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Connect particles
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(176, 189, 208, ${0.1 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (e) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+    init();
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none -z-10 opacity-60" />;
+};
+
 // --- Shared Components ---
 
 const Badge = ({ icon, text }) => (
-  <div className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md border border-white/20 rounded-full">
-    <span className="text-slate-600">{icon}</span>
-    <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight whitespace-nowrap">
+  <div className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md border border-white/20 rounded-full shadow-sm hover:scale-105 transition-transform duration-300">
+    <span className="text-navy/60">{icon}</span>
+    <span className="text-[10px] font-black text-navy/70 uppercase tracking-tight whitespace-nowrap">
       {text}
     </span>
   </div>
 );
 
 const SectionDivider = () => (
-  <div className="group relative py-12 px-6 max-w-7xl mx-auto w-full">
-    <hr className="border-t border-silver-blue/30 transition-all duration-500 group-hover:border-navy group-hover:shadow-[0_0_15px_rgba(27,42,74,0.3)]" />
+  <div className="group relative py-20 px-6 max-w-7xl mx-auto w-full">
+    <hr className="border-t border-silver-blue/20 transition-all duration-700 group-hover:border-navy group-hover:shadow-[0_0_20px_rgba(27,42,74,0.4)]" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-navy opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_15px_#1B2A4A]" />
   </div>
 );
 
 const SectionHeading = ({ children, icon: Icon }) => (
-  <div className="flex items-center gap-4 mb-12">
-    {Icon && <Icon className="text-navy" size={32} />}
-    <h2 className="text-4xl md:text-5xl font-display font-bold text-navy tracking-tight">{children}</h2>
+  <div className="flex items-center gap-5 mb-16">
+    <div className="p-3 bg-navy/5 rounded-2xl">
+      {Icon && <Icon className="text-navy" size={28} />}
+    </div>
+    <h2 className="text-4xl md:text-6xl font-display font-black text-navy tracking-tight">{children}</h2>
   </div>
 );
 
 // --- Sub-Components ---
 
 const Logo = () => (
-  <div className="flex items-center gap-3 group cursor-pointer select-none">
+  <div className="flex items-center gap-3 group cursor-none select-none">
     <div className="relative">
-      <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-3 transition-all duration-300">
+      <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-all duration-500">
         <span className="text-white font-display font-black text-xl tracking-tighter">HG</span>
       </div>
       <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white border-2 border-navy rounded-md flex items-center justify-center">
@@ -73,7 +194,7 @@ const Logo = () => (
 
 const PersistentNavbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-silver-blue/10">
+    <nav className="fixed top-0 left-0 right-0 z-[100] h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-white/40">
       {/* Left: Logo & Status */}
       <div className="flex items-center gap-6">
         <Logo />
@@ -83,14 +204,14 @@ const PersistentNavbar = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
           </div>
-          <span className="text-[9px] md:text-[10px] font-black text-navy tracking-widest uppercase select-none max-w-[150px] md:max-w-none leading-tight">
+          <span className="text-[9px] md:text-[10px] font-black text-navy tracking-widest uppercase select-none leading-tight">
             <strong>Status:</strong> Seeking <span className="text-emerald-600">Werkstudent</span> Positions in DE
           </span>
         </div>
       </div>
 
       {/* Right: Logistics Badges */}
-      <div className="hidden xl:flex items-center gap-2">
+      <div className="hidden xl:flex items-center gap-3">
         <Badge icon={<Clock size={12} />} text="20h/Week (Semester)" />
         <Badge icon={<CalendarCheck size={12} />} text="Full-time (Breaks)" />
         <Badge icon={<IdCard size={12} />} text="Valid Aufenthaltserlaubnis" />
@@ -100,60 +221,133 @@ const PersistentNavbar = () => {
 };
 
 const Terminal = () => {
-  const [lines, setLines] = useState([]);
-  const fullContent = useMemo(() => [
-    { text: ">>> import ardan_agent", delay: 500 },
-    { text: ">>> agent = ardan_agent.initialize(providers=6) # Claude, GPT, Gemini, Groq, Mistral, Ollama", delay: 800 },
-    { text: ">>> agent.execute_react_loop(task=\"Optimize localized infrastructure pipelines\")", delay: 1000 },
-    { text: "[INFO] Auto-failover active. Executing Docker containment sandbox tool...", type: "info", delay: 600 },
-    { text: "[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00", type: "success", delay: 400 }
+  const [visibleLines, setVisibleLines] = useState([]);
+  const [currentText, setCurrentText] = useState("");
+  const [lineIndex, setLineIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  const script = useMemo(() => [
+    { type: 'input', text: ">>> import ardan_agent" },
+    { type: 'input', text: ">>> agent = ardan_agent.initialize(providers=6) # Claude, GPT, Gemini, Groq, Mistral, Ollama" },
+    { type: 'input', text: ">>> agent.execute_react_loop(task=\"Optimize localized infrastructure pipelines\")" },
+    { type: 'info', text: "[INFO] Auto-failover active. Executing Docker containment sandbox tool..." },
+    { type: 'success', text: "[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00" }
   ], []);
 
   useEffect(() => {
-    let isMounted = true;
-    let timeoutId;
-    let currentLine = 0;
+    let isCancelled = false;
 
-    const addLine = () => {
-      if (!isMounted) return;
-      if (currentLine < fullContent.length) {
-        setLines(prev => [...prev, fullContent[currentLine]]);
-        timeoutId = setTimeout(addLine, fullContent[currentLine].delay);
-        currentLine++;
+    if (lineIndex >= script.length) {
+      const finishTimeout = setTimeout(() => {
+        if (!isCancelled) setIsTyping(false);
+      }, 800);
+      return () => {
+        isCancelled = true;
+        clearTimeout(finishTimeout);
+      };
+    }
+
+    const currentLine = script[lineIndex];
+
+    if (currentLine.type === 'input') {
+      if (currentText.length < currentLine.text.length) {
+        const timeout = setTimeout(() => {
+          if (!isCancelled) setCurrentText(currentLine.text.slice(0, currentText.length + 1));
+        }, Math.random() * 20 + 15);
+        return () => {
+          isCancelled = true;
+          clearTimeout(timeout);
+        };
+      } else {
+        const timeout = setTimeout(() => {
+          if (!isCancelled) {
+            setVisibleLines(prev => [...prev, currentLine]);
+            setCurrentText("");
+            setLineIndex(prev => prev + 1);
+          }
+        }, 700);
+        return () => {
+          isCancelled = true;
+          clearTimeout(timeout);
+        };
       }
-    };
+    } else {
+      const timeout = setTimeout(() => {
+        if (!isCancelled) {
+          setVisibleLines(prev => [...prev, currentLine]);
+          setLineIndex(prev => prev + 1);
+        }
+      }, 1000);
+      return () => {
+        isCancelled = true;
+        clearTimeout(timeout);
+      };
+    }
+  }, [lineIndex, currentText, script]);
 
-    addLine();
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-    };
-  }, [fullContent]);
+  const renderContentLine = (line) => {
+    if (line.type === 'input') {
+      const parts = line.text.split('#');
+      return (
+        <div className="flex gap-3">
+          <span className="text-slate-500 shrink-0 select-none">{">>>"}</span>
+          <span className="text-slate-100">
+            {parts[0].replace('>>> ', '')}
+            {parts[1] && <span className="text-slate-500">#{parts[1]}</span>}
+          </span>
+        </div>
+      );
+    }
+    return (
+      <span className={line.type === 'info' ? 'text-blue-400/90' : 'text-emerald-400 font-semibold drop-shadow-[0_0_10px_rgba(16,185,129,0.4)]'}>
+        {line.text}
+      </span>
+    );
+  };
 
   return (
-    <div className="bg-slate-950 text-emerald-400 font-mono text-xs rounded-lg p-5 shadow-2xl border border-white/5 w-full max-w-2xl mx-auto overflow-hidden">
-      <div className="flex items-center gap-2 mb-4 border-b border-white/10 pb-2">
-        <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50" />
-        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
-        <span className="ml-2 text-slate-500 text-[10px] uppercase tracking-widest">Ardan-CLI / React Loop</span>
+    <div id="terminal-simulator" className="bg-[#030712] rounded-2xl shadow-3xl border border-white/10 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[13px] leading-relaxed tracking-tight backdrop-blur-sm">
+      {/* Header */}
+      <div className="bg-white/5 px-6 py-4 flex items-center relative border-b border-white/5">
+        <div className="flex gap-2.5">
+          <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+          <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+          <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+        </div>
+        <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
+          <span className="text-slate-500 text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Ardan-CLI / Intelligence Nexus</span>
+        </div>
       </div>
-      <div className="space-y-1.5 min-h-[140px]">
-        {lines.map((line, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -5 }}
-            animate={{ opacity: 1, x: 0 }}
-            className={line?.type === 'info' ? 'text-blue-400' : line?.type === 'success' ? 'text-emerald-400 font-bold' : 'text-slate-300'}
-          >
-            {line?.text}
-          </motion.div>
-        ))}
-        <motion.span
-          animate={{ opacity: [1, 0] }}
-          transition={{ repeat: Infinity, duration: 0.8 }}
-          className="inline-block w-2 h-4 bg-emerald-400 translate-y-1"
-        />
+
+      {/* Content */}
+      <div className="p-10 md:p-16 min-h-[420px] flex flex-col justify-center">
+        <div className="space-y-4 w-full">
+          {visibleLines.map((line, i) => (
+            <div key={i} className="flex justify-center">
+              {renderContentLine(line)}
+            </div>
+          ))}
+
+          {lineIndex < script.length && script[lineIndex].type === 'input' && (
+            <div className="flex justify-center gap-3">
+              <span className="text-slate-500 shrink-0 select-none">{">>>"}</span>
+              <span className="text-slate-100">
+                {currentText.replace('>>> ', '')}
+                <span className="inline-block w-2 h-5 bg-emerald-500/80 translate-y-1 ml-1 animate-pulse" />
+              </span>
+            </div>
+          )}
+
+          {!isTyping && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex justify-center mt-12"
+            >
+              <div className="w-8 h-12 bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.6)] rounded-sm animate-pulse" />
+            </motion.div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -161,84 +355,103 @@ const Terminal = () => {
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-40 pb-20 px-6 overflow-hidden">
-      {/* Gradient Mesh Ambient Light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-navy/5 blur-[120px] rounded-full pointer-events-none -z-10" />
+    <section className="relative pt-48 pb-20 px-6 overflow-hidden">
+      {/* Gradient Mesh Highlights */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-navy/5 blur-[160px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto text-center space-y-8">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-6xl md:text-8xl font-display font-extrabold text-navy tracking-tight"
-        >
-          Harshil Gorasiya
-        </motion.h1>
+      <div className="max-w-7xl mx-auto text-center space-y-12">
+        <div className="space-y-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-block px-4 py-1 rounded-full border border-navy/10 bg-navy/5 text-[10px] font-black text-navy uppercase tracking-[0.3em] mb-4"
+          >
+            Applied AI Engineer
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", damping: 12 }}
+            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter"
+          >
+            Harshil Gorasiya
+          </motion.h1>
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-lg md:text-2xl text-charcoal max-w-3xl mx-auto font-medium"
+          className="text-lg md:text-2xl text-charcoal max-w-3xl mx-auto font-medium leading-relaxed"
         >
           Applied AI Engineer Specializing in RAG, Autonomous Agentic Pipelines & Intelligent Infrastructure
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="relative group"
         >
+          <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           <Terminal />
         </motion.div>
 
-        {/* Contact Link Row */}
+        {/* Contact Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="flex flex-wrap justify-center gap-8 py-4 text-navy font-semibold"
+          className="flex flex-wrap justify-center gap-10 py-6 text-navy font-black tracking-tight"
         >
-          <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-navy" />
+          <div className="flex items-center gap-3 group">
+            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+              <MapPin size={18} />
+            </div>
             <span className="text-sm">Heilbronn, Germany</span>
           </div>
-          <a href="tel:+4915563517346" className="flex items-center gap-2 hover:opacity-70 transition-opacity">
-            <Phone size={18} className="text-navy" />
+          <a href="tel:+4915563517346" className="flex items-center gap-3 group">
+            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+              <Phone size={18} />
+            </div>
             <span className="text-sm">0 155 6351 7346</span>
           </a>
-          <a href="mailto:harshil.gorasiya.0011@gmail.com" className="flex items-center gap-2 hover:opacity-70 transition-opacity">
-            <Mail size={18} className="text-navy" />
+          <a href="mailto:harshil.gorasiya.0011@gmail.com" className="flex items-center gap-3 group">
+            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+              <Mail size={18} />
+            </div>
             <span className="text-sm">harshil.gorasiya.0011@gmail.com</span>
           </a>
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-4 pt-4"
+          className="flex flex-wrap justify-center gap-5 pt-6"
         >
           <a
             href="https://linkedin.com/in/harshil-gorasiya"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 rounded-full border border-navy text-navy font-bold hover:bg-navy hover:text-white transition-all duration-300"
+            className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group"
           >
-            <Linkedin size={18} />
+            <Linkedin size={20} className="group-hover:rotate-12 transition-transform" />
             LinkedIn
           </a>
           <a
             href="https://github.com/N0t-Harshil"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 rounded-full border border-navy text-navy font-bold hover:bg-navy hover:text-white transition-all duration-300"
+            className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group"
           >
-            <Github size={18} />
+            <Github size={20} className="group-hover:-rotate-12 transition-transform" />
             GitHub
           </a>
-          <button className="flex items-center gap-2 px-8 py-3 rounded-full bg-navy text-white font-bold shadow-xl hover:scale-105 active:scale-95 transition-all duration-300">
-            <Download size={18} />
+          <button className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-navy text-white font-black shadow-[0_20px_40px_rgba(27,42,74,0.3)] hover:scale-105 active:scale-95 transition-all duration-500">
+            <Download size={20} />
             Download Full LaTeX CV (PDF)
           </button>
         </motion.div>
@@ -251,38 +464,39 @@ const SkillsMatrix = () => {
   const categories = [
     {
       title: "LLM & Agentic Orchestration",
-      skills: ["LangChain", "FAISS", "SentenceTransformers", "Ollama", "RAG Pipelines", "Knowledge Graphs", "ReAct Loops", "Model Quantization", "MCP"]
+      skills: ["LangChain", "FAISS", "SentenceTransformers", "Ollama", "RAG Pipelines", "Knowledge Graphs", "ReAct Loops", "Model Quantization", "Model Context Protocol (MCP)"]
     },
     {
       title: "Deep Learning & CV",
-      skills: ["PyTorch", "TensorFlow", "Keras", "Hugging Face", "scikit-learn", "YOLOv8", "CNNs", "Real-ESRGAN"]
+      skills: ["PyTorch", "TensorFlow", "Keras", "Hugging Face Transformers", "scikit-learn", "YOLOv8", "CNNs", "Real-ESRGAN Super-Resolution"]
     },
     {
-      title: "Languages & Systems",
-      skills: ["Python", "C++ (Threaded)", "SQL", "Bash", "Low-latency CLI", "Multithreading"]
+      title: "Languages & Architecture",
+      skills: ["Python", "C++ (Multithreaded Engines)", "SQL", "Bash", "Low-latency CLI Design"]
     },
     {
       title: "MLOps & Infrastructure",
-      skills: ["MLflow", "Docker", "FastAPI", "REST APIs", "Git", "Linux", "AWS", "MySQL", "MongoDB"]
+      skills: ["MLflow", "Docker", "FastAPI", "REST APIs", "Git Version Control", "Linux Systems", "AWS Foundation", "MySQL", "MongoDB", "SQLite"]
     }
   ];
 
   return (
-    <section className="py-20 px-6 max-w-[1400px] mx-auto">
+    <section className="py-24 px-6 max-w-[1400px] mx-auto">
       <SectionHeading icon={Layers}>Skills Matrix</SectionHeading>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {categories.map((cat, i) => (
           <motion.div
             key={i}
-            whileHover={{ y: -5 }}
-            className="p-6 md:p-8 bg-soft-off-white rounded-[2rem] border border-silver-blue/10 shadow-sm group hover:shadow-xl hover:bg-white transition-all duration-500 flex flex-col items-center text-center"
+            whileHover={{ y: -10 }}
+            className="p-10 bg-soft-off-white rounded-[2.5rem] border border-silver-blue/10 shadow-sm group hover:shadow-2xl hover:bg-white transition-all duration-700 flex flex-col items-center text-center relative overflow-hidden"
           >
-            <h3 className="text-[10px] font-black text-slate-400 mb-8 uppercase tracking-[0.2em]">{cat.title}</h3>
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="absolute top-0 left-0 w-1 h-full bg-navy/20 group-hover:bg-navy transition-colors duration-500" />
+            <h3 className="text-[10px] font-black text-slate-400 mb-10 uppercase tracking-[0.3em]">{cat.title}</h3>
+            <div className="flex flex-wrap justify-center gap-3">
               {cat.skills.map((skill, si) => (
                 <span
                   key={si}
-                  className="px-4 py-2 bg-white border border-silver-blue/20 rounded-xl text-[11px] font-bold text-navy shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:scale-105 hover:bg-navy hover:text-white hover:shadow-lg transition-all duration-300 cursor-default whitespace-nowrap"
+                  className="px-5 py-2.5 bg-white border border-silver-blue/10 rounded-2xl text-[11px] font-black text-navy shadow-sm hover:scale-105 hover:bg-navy hover:text-white hover:shadow-lg transition-all duration-300 cursor-none ease-[cubic-bezier(0.16,1,0.3,1)]"
                 >
                   {skill}
                 </span>
@@ -292,19 +506,23 @@ const SkillsMatrix = () => {
         ))}
       </div>
 
-      <div className="mt-16 flex flex-wrap justify-center gap-6">
-        <a href="https://verify.skilljar.com/c/abtyb7rnh5gg" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-navy/5 border border-navy/10 rounded-lg text-xs font-bold text-navy hover:bg-navy/10 transition-colors">
-          <Award size={14} /> Anthropic: Claude API Developer
-        </a>
-        <a href="https://verify.skilljar.com/c/9ogn74na4fmf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-navy/5 border border-navy/10 rounded-lg text-xs font-bold text-navy hover:bg-navy/10 transition-colors">
-          <Award size={14} /> Anthropic: MCP Advanced Topics
-        </a>
-        <div className="flex items-center gap-2 px-4 py-2 bg-navy/5 border border-navy/10 rounded-lg text-xs font-bold text-navy">
-          <Award size={14} /> IBM: Machine Learning with Python
-        </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-navy/5 border border-navy/10 rounded-lg text-xs font-bold text-navy">
-          <Award size={14} /> Databricks: Data Science Fundamentals
-        </div>
+      <div className="mt-20 flex flex-wrap justify-center gap-8">
+        {[
+          { text: "Anthropic: Claude API Developer", url: "https://verify.skilljar.com/c/abtyb7rnh5gg" },
+          { text: "Anthropic: MCP Advanced Topics", url: "https://verify.skilljar.com/c/9ogn74na4fmf" },
+          { text: "IBM: Machine Learning with Python" },
+          { text: "Databricks: Data Science Fundamentals" }
+        ].map((badge, i) => (
+          <a
+            key={i}
+            href={badge.url || "#"}
+            target={badge.url ? "_blank" : undefined}
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-6 py-3 bg-white border border-silver-blue/20 rounded-2xl text-[11px] font-black text-navy hover:bg-navy hover:text-white transition-all duration-500 shadow-sm"
+          >
+            <Award size={16} /> {badge.text}
+          </a>
+        ))}
       </div>
     </section>
   );
@@ -326,7 +544,7 @@ const SystemShowcase = () => {
     {
       title: "Hierarchical Graph-Based RAG System",
       link: "https://github.com/N0t-Harshil",
-      badge: { text: "⚡ 4s Latency @ $0 Infrastructure Cost", color: "bg-emerald-100 text-emerald-700 border-emerald-200" },
+      badge: { text: "⚡ 4s Latency @ $0 Infrastructure Cost", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
       overview: "Designed a complete production alternatives architecture replacing expensive graph calls with deterministic multi-level mappings.",
       bullets: [
         "5-level document entity indexing (Document down to raw sentences) to minimize hallucinations.",
@@ -337,7 +555,7 @@ const SystemShowcase = () => {
     {
       title: "Local Perplex — Private Multimodal AI Research Engine",
       link: "https://github.com/N0t-Harshil/Local-Perplex",
-      badge: { text: "⏱️ Sub-10ms Ranking Latency", color: "bg-blue-100 text-blue-700 border-blue-200" },
+      badge: { text: "⏱️ Sub-10ms Ranking Latency", color: "bg-blue-100 text-blue-800 border-blue-200" },
       overview: "A completely sandboxed, zero-data-leakage desktop research platform supporting multimodal analytics.",
       bullets: [
         "Custom native multi-threaded search rankings parsing over 10,000 documents under 10ms.",
@@ -359,48 +577,47 @@ const SystemShowcase = () => {
   ];
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-24 px-6 max-w-7xl mx-auto">
       <SectionHeading icon={Cpu}>Architecture & System Projects</SectionHeading>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         {projects.map((proj, i) => (
           <motion.div
             key={i}
-            whileHover={{ y: -10 }}
-            className="relative group p-8 rounded-3xl bg-white border border-silver-blue/20 shadow-xl overflow-hidden"
+            whileHover={{ y: -12 }}
+            className="relative group p-10 rounded-[3rem] bg-white border border-silver-blue/20 shadow-2xl overflow-hidden"
           >
-            {/* Hover Glow */}
-            <div className="absolute -inset-px bg-gradient-to-br from-navy/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute -inset-px bg-gradient-to-br from-navy/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
             <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold text-navy leading-tight pr-4">{proj.title}</h3>
-                <a href={proj.link} target="_blank" rel="noopener noreferrer" className="p-2 bg-navy/5 rounded-full hover:bg-navy hover:text-white transition-all duration-300">
-                  <ExternalLink size={20} />
+              <div className="flex justify-between items-start mb-6">
+                <h3 className="text-3xl font-black text-navy leading-tight pr-6">{proj.title}</h3>
+                <a href={proj.link} target="_blank" rel="noopener noreferrer" className="p-3 bg-navy/5 rounded-2xl hover:bg-navy hover:text-white transition-all duration-500">
+                  <ExternalLink size={24} />
                 </a>
               </div>
 
               {proj.badge && (
-                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border ${proj.badge.color} mb-4 w-fit`}>
-                  {proj.badge.text}
+                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${proj.badge.color} mb-6 w-fit`}>
+                  <Zap size={12} /> {proj.badge.text}
                 </div>
               )}
 
-              <p className="text-charcoal mb-6 text-sm font-medium leading-relaxed italic opacity-80">
+              <p className="text-charcoal mb-8 text-sm font-medium leading-relaxed italic opacity-80 border-l-4 border-navy/10 pl-6">
                 "{proj.overview}"
               </p>
 
-              <ul className="space-y-3 mb-8 flex-grow">
+              <ul className="space-y-4 mb-10 flex-grow">
                 {proj.bullets.map((bullet, bi) => (
-                  <li key={bi} className="flex gap-3 text-sm text-slate-600">
-                    <ChevronRight size={16} className="text-navy shrink-0 mt-0.5" />
+                  <li key={bi} className="flex gap-4 text-[13px] text-slate-600 font-medium">
+                    <ChevronRight size={18} className="text-navy shrink-0 mt-0.5" />
                     <span>{bullet}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-2 pt-6 border-t border-silver-blue/10">
+              <div className="flex flex-wrap gap-3 pt-8 border-t border-silver-blue/10">
                 {proj.tags.map((tag, ti) => (
-                  <span key={ti} className="text-[10px] font-bold uppercase tracking-widest text-navy bg-navy/5 px-2.5 py-1 rounded">
+                  <span key={ti} className="text-[10px] font-black uppercase tracking-[0.2em] text-navy/60 bg-navy/5 px-3 py-1.5 rounded-lg">
                     {tag}
                   </span>
                 ))}
@@ -439,25 +656,25 @@ const ExperienceTimeline = () => {
   ];
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-24 px-6 max-w-7xl mx-auto">
       <SectionHeading icon={Briefcase}>Professional Experience</SectionHeading>
-      <div className="relative border-l-2 border-navy/10 ml-4 md:ml-8 space-y-16 py-4">
+      <div className="relative border-l-4 border-navy/5 ml-4 md:ml-12 space-y-20 py-8">
         {experiences.map((exp, i) => (
-          <div key={i} className="relative pl-12">
+          <div key={i} className="relative pl-16 group">
             {/* Timeline Node */}
-            <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-navy border-4 border-white shadow-sm" />
+            <div className="absolute left-[-14px] top-0 w-6 h-6 rounded-full bg-white border-4 border-navy shadow-[0_0_15px_rgba(27,42,74,0.3)] group-hover:scale-125 transition-transform duration-500" />
 
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-baseline gap-4">
-                <h3 className="text-2xl font-bold text-navy">{exp.title}</h3>
-                <span className="text-slate-400 font-mono text-sm">{exp.duration}</span>
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-baseline gap-6">
+                <h3 className="text-3xl font-black text-navy">{exp.title}</h3>
+                <span className="text-slate-400 font-mono text-sm font-bold uppercase tracking-widest">{exp.duration}</span>
               </div>
-              <p className="text-navy/60 font-bold text-sm italic">{exp.context}</p>
+              <p className="text-navy/70 font-black text-sm uppercase tracking-[0.3em]">{exp.context}</p>
 
-              <ul className="mt-6 space-y-4 max-w-4xl">
+              <ul className="mt-8 space-y-5 max-w-4xl">
                 {exp.bullets.map((bullet, bi) => (
-                  <li key={bi} className="flex gap-4 text-charcoal leading-relaxed font-medium">
-                    <span className="text-navy font-bold">/</span>
+                  <li key={bi} className="flex gap-5 text-charcoal leading-relaxed font-semibold text-sm">
+                    <span className="text-navy font-black text-lg">/</span>
                     {bullet}
                   </li>
                 ))}
@@ -472,55 +689,61 @@ const ExperienceTimeline = () => {
 
 const AcademicMatrix = () => {
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-24 px-6 max-w-7xl mx-auto">
       <SectionHeading icon={GraduationCap}>Academic Foundations</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* M.Sc. Card */}
         <motion.div
-          whileHover={{ y: -5 }}
-          className="p-8 bg-soft-off-white rounded-3xl border border-silver-blue/20 shadow-sm flex flex-col h-full"
+          whileHover={{ y: -8 }}
+          className="p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm flex flex-col h-full group relative overflow-hidden"
         >
-          <div className="flex justify-between items-start mb-6">
-            <h3 className="text-2xl font-bold text-navy max-w-[200px]">M.Sc. Software Engineering & Management</h3>
-            <span className="px-4 py-2 bg-navy text-white text-xs font-bold rounded-lg shadow-lg">GPA: 1.9 (German Scale)</span>
-          </div>
-          <div className="space-y-1 mb-8">
-            <p className="text-navy font-bold">Hochschule Heilbronn, Germany</p>
-            <p className="text-slate-500 text-sm">Current Semester 3 | Expected Graduation: 09/2027</p>
-          </div>
-          <div className="mt-auto pt-6 border-t border-silver-blue/10">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Relevant Modules</p>
-            <div className="flex flex-wrap gap-2">
-              {["Advanced ML", "Software Architecture", "Cloud Computing", "Distributed Systems", "Data Engineering"].map((mod, i) => (
-                <span key={i} className="px-3 py-1 bg-white border border-silver-blue/20 rounded-md text-[10px] font-bold text-slate-600">
-                  {mod}
-                </span>
-              ))}
+          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative z-10">
+            <div className="flex justify-between items-start mb-8">
+              <h3 className="text-3xl font-black text-navy max-w-[240px]">M.Sc. Software Engineering & Management</h3>
+              <span className="px-5 py-2.5 bg-navy text-white text-xs font-black rounded-2xl shadow-xl">GPA: 1.9 (DE Scale)</span>
+            </div>
+            <div className="space-y-2 mb-10">
+              <p className="text-navy font-black text-lg">Hochschule Heilbronn, Germany</p>
+              <p className="text-slate-500 text-sm font-bold">Current Semester 3 | Expected Graduation: 09/2027</p>
+            </div>
+            <div className="mt-auto pt-8 border-t border-silver-blue/10">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Relevant Modules</p>
+              <div className="flex flex-wrap gap-2.5">
+                {["Advanced ML", "Software Architecture", "Cloud Computing", "Distributed Systems", "Data Engineering"].map((mod, i) => (
+                  <span key={i} className="px-4 py-1.5 bg-white border border-silver-blue/10 rounded-xl text-[10px] font-black text-slate-600 shadow-sm">
+                    {mod}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
 
         {/* B.Tech. Card */}
         <motion.div
-          whileHover={{ y: -5 }}
-          className="p-8 bg-soft-off-white rounded-3xl border border-silver-blue/20 shadow-sm flex flex-col h-full"
+          whileHover={{ y: -8 }}
+          className="p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm flex flex-col h-full group relative overflow-hidden"
         >
-          <div className="flex justify-between items-start mb-6">
-            <h3 className="text-2xl font-bold text-navy max-w-[200px]">B.Tech. Information Technology</h3>
-            <span className="px-4 py-2 bg-navy/5 text-navy text-xs font-bold rounded-lg border border-navy/10">GPA: 8.4/10</span>
-          </div>
-          <div className="space-y-1 mb-8">
-            <p className="text-navy font-bold">A.D. Patel Institute of Technology, India</p>
-            <p className="text-slate-500 text-sm">Graduated: 05/2024</p>
-          </div>
-          <div className="mt-auto pt-6 border-t border-silver-blue/10">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Relevant Modules</p>
-            <div className="flex flex-wrap gap-2">
-              {["Deep Learning", "Computer Vision", "Advanced Data Structures"].map((mod, i) => (
-                <span key={i} className="px-3 py-1 bg-white border border-silver-blue/20 rounded-md text-[10px] font-bold text-slate-600">
-                  {mod}
-                </span>
-              ))}
+          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative z-10">
+            <div className="flex justify-between items-start mb-8">
+              <h3 className="text-3xl font-black text-navy max-w-[240px]">B.Tech. Information Technology</h3>
+              <span className="px-5 py-2.5 bg-navy/5 text-navy text-xs font-black rounded-2xl border border-navy/10">GPA: 8.4/10</span>
+            </div>
+            <div className="space-y-2 mb-10">
+              <p className="text-navy font-black text-lg">A.D. Patel Institute of Technology, India</p>
+              <p className="text-slate-500 text-sm font-bold">Graduated: 05/2024</p>
+            </div>
+            <div className="mt-auto pt-8 border-t border-silver-blue/10">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Relevant Modules</p>
+              <div className="flex flex-wrap gap-2.5">
+                {["Deep Learning", "Computer Vision", "Advanced Data Structures"].map((mod, i) => (
+                  <span key={i} className="px-4 py-1.5 bg-white border border-silver-blue/10 rounded-xl text-[10px] font-black text-slate-600 shadow-sm">
+                    {mod}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
@@ -532,21 +755,21 @@ const AcademicMatrix = () => {
 const LanguageRobustness = () => {
   const langs = [
     { code: "EN", name: "English", level: "C1 — Professional Working Proficiency", color: "bg-navy" },
-    { code: "DE", name: "German", level: "A2 — Basic Proficiency (Actively Learning)", color: "bg-silver-blue/30" }
+    { code: "DE", name: "German", level: "A2 — Basic Proficiency (Actively Learning)", color: "bg-silver-blue/20" }
   ];
 
   return (
-    <section className="py-20 px-6 max-w-7xl mx-auto">
+    <section className="py-24 px-6 max-w-7xl mx-auto">
       <SectionHeading icon={Languages}>Language Robustness</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {langs.map((lang, i) => (
-          <div key={i} className="flex items-center gap-6 p-8 bg-soft-off-white rounded-3xl border border-silver-blue/10">
-            <div className={`w-16 h-16 rounded-2xl ${lang.color} flex items-center justify-center text-xl font-black ${lang.code === 'EN' ? 'text-white' : 'text-navy'} shadow-inner`}>
+          <div key={i} className="flex items-center gap-8 p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm group">
+            <div className={`w-20 h-20 rounded-3xl ${lang.color} flex items-center justify-center text-2xl font-black ${lang.code === 'EN' ? 'text-white' : 'text-navy'} shadow-2xl group-hover:rotate-12 transition-transform duration-500`}>
               {lang.code}
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-navy">{lang.name}</h3>
-              <p className="text-xs font-extrabold text-slate-500 uppercase tracking-wider mt-1">{lang.level}</p>
+              <h3 className="text-3xl font-black text-navy">{lang.name}</h3>
+              <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mt-2">{lang.level}</p>
             </div>
           </div>
         ))}
@@ -562,14 +785,14 @@ const CustomCursor = () => {
   const mouseY = useMotionValue(0);
   const [isHovering, setIsHovering] = useState(false);
 
-  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const springConfig = { damping: 40, stiffness: 400, mass: 0.1 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      mouseX.set(e.clientX - 10);
-      mouseY.set(e.clientY - 10);
+      mouseX.set(e.clientX - 12);
+      mouseY.set(e.clientY - 12);
     };
 
     const handleMouseOver = (e) => {
@@ -592,13 +815,14 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="custom-cursor hidden md:block fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999]"
+      className="custom-cursor hidden md:block fixed top-0 left-0 w-6 h-6 rounded-full pointer-events-none z-[9999]"
       style={{
         x: cursorX,
         y: cursorY,
-        scale: isHovering ? 2.5 : 1,
-        backgroundColor: isHovering ? 'rgba(27, 42, 74, 0.1)' : '#1B2A4A',
-        border: isHovering ? '1px solid #1B2A4A' : 'none'
+        scale: isHovering ? 4 : 1,
+        backgroundColor: isHovering ? 'rgba(27, 42, 74, 0.15)' : '#1B2A4A',
+        border: isHovering ? '1px solid #1B2A4A' : 'none',
+        backdropFilter: isHovering ? 'blur(2px)' : 'none'
       }}
     />
   );
@@ -606,7 +830,8 @@ const CustomCursor = () => {
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-primary-canvas selection:bg-navy selection:text-white font-sans overflow-x-hidden cursor-none">
+    <div className="relative min-h-screen bg-primary-canvas selection:bg-navy selection:text-white font-sans overflow-x-hidden">
+      <VectorParticleField />
       <CustomCursor />
 
       <PersistentNavbar />
@@ -625,8 +850,13 @@ function App() {
         <LanguageRobustness />
       </main>
 
-      <footer className="py-20 text-center text-slate-400 font-bold text-[10px] uppercase tracking-[0.5em]">
-        © {new Date().getFullYear()} Harshil Gorasiya — Engineered for Autonomous Intelligence
+      <footer className="py-24 text-center border-t border-silver-blue/10 bg-soft-off-white/50">
+        <div className="mb-10 flex justify-center items-center gap-6">
+          <Logo />
+        </div>
+        <div className="text-slate-400 font-black text-[10px] uppercase tracking-[0.8em] opacity-60">
+          © {new Date().getFullYear()} Harshil Gorasiya — Engineered for Autonomous Intelligence
+        </div>
       </footer>
     </div>
   );
