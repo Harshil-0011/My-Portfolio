@@ -89,6 +89,10 @@ body::before {
   .skip-link:focus {
     top: 0;
   }
+
+  .child-pointer-events-auto > * {
+    pointer-events: auto;
+  }
 }
 
 @layer base {

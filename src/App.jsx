@@ -54,10 +54,19 @@ const VectorParticleField = () => {
       init() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 1.2 + 0.5;
-        this.baseRadius = this.radius;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.length = Math.random() * 8 + 4;
+        this.baseLength = this.length;
+        this.angle = Math.atan2(this.vy, this.vx);
+
+        // Luxury Corporate Colors
+        const colors = [
+          'rgba(27, 42, 74, 0.15)', // Navy
+          'rgba(176, 189, 208, 0.25)', // Silver Blue
+          'rgba(74, 74, 74, 0.1)'    // Charcoal
+        ];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
       }
 
       update() {
@@ -66,32 +75,40 @@ const VectorParticleField = () => {
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
         // "Antigravity" push effect
-        if (dist < 150) {
-          const force = (150 - dist) / 150;
-          this.vx -= (dx / dist) * force * 0.4;
-          this.vy -= (dy / dist) * force * 0.4;
-          this.radius = this.baseRadius + force * 2;
+        if (dist < 180) {
+          const force = (180 - dist) / 180;
+          this.vx -= (dx / dist) * force * 0.6;
+          this.vy -= (dy / dist) * force * 0.6;
+          this.length = this.baseLength + force * 15;
         } else {
-          this.radius = Math.max(this.baseRadius, this.radius - 0.1);
+          this.length = Math.max(this.baseLength, this.length - 0.5);
         }
 
         this.x += this.vx;
         this.y += this.vy;
-        this.vx *= 0.98; // Friction
-        this.vy *= 0.98;
+        this.vx *= 0.97; // Friction
+        this.vy *= 0.97;
+        this.angle = Math.atan2(this.vy, this.vx);
 
-        // Bounce/Wrap
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
+        // Wrap
+        if (this.x < -20) this.x = canvas.width + 20;
+        if (this.x > canvas.width + 20) this.x = -20;
+        if (this.y < -20) this.y = canvas.height + 20;
+        if (this.y > canvas.height + 20) this.y = -20;
       }
 
       draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(27, 42, 74, 0.15)';
-        ctx.fill();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(this.length, 0);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 1.2;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        ctx.restore();
       }
     }
 
@@ -194,7 +211,7 @@ const Logo = () => (
 
 const PersistentNavbar = () => {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-white/40">
+    <nav className="fixed top-0 left-0 right-0 z-[100] h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-white/40 pointer-events-none child-pointer-events-auto">
       {/* Left: Logo & Status */}
       <div className="flex items-center gap-6">
         <Logo />
@@ -310,19 +327,19 @@ const Terminal = ({ triggerIdentityAnim }) => {
     if (line.type === 'input') {
       const parts = line.text.split('#');
       return (
-        <div className="flex gap-3">
-          <span className="text-slate-600 shrink-0 select-none font-bold">»</span>
-          <span className="text-slate-300 font-medium tracking-tight">
+        <div className="flex gap-4">
+          <span className="text-emerald-500 shrink-0 select-none font-bold">~</span>
+          <span className="text-slate-200 font-medium tracking-tight">
             {parts[0].replace('>>> ', '')}
-            {parts[1] && <span className="text-slate-600 italic"> #{parts[1]}</span>}
+            {parts[1] && <span className="text-slate-500 italic"> #{parts[1]}</span>}
           </span>
         </div>
       );
     }
     return (
-      <div className="flex gap-3">
-        <span className="text-slate-700 shrink-0 select-none">|</span>
-        <span className={line.type === 'info' ? 'text-slate-400' : 'text-emerald-500/90 font-bold tracking-tight uppercase text-[10px]'}>
+      <div className="flex gap-4">
+        <span className="text-slate-800 shrink-0 select-none">▕</span>
+        <span className={line.type === 'info' ? 'text-slate-500 font-mono' : 'text-emerald-400 font-bold tracking-tight uppercase text-[10px]'}>
           {line.text}
         </span>
       </div>
@@ -330,24 +347,27 @@ const Terminal = ({ triggerIdentityAnim }) => {
   };
 
   return (
-    <div id="terminal-simulator" className="bg-[#0A0F1E] rounded-xl shadow-3xl border border-white/5 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[13px] leading-relaxed tracking-tight">
+    <div id="terminal-simulator" className="bg-[#05070A] rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[12px] leading-relaxed tracking-tight group/term">
       {/* System Bar */}
-      <div className="bg-white/[0.02] px-6 py-2.5 flex items-center justify-between border-b border-white/5">
-        <div className="flex gap-2">
-          <div className="w-2 h-2 rounded-full bg-white/10" />
-          <div className="w-2 h-2 rounded-full bg-white/10" />
-          <div className="w-2 h-2 rounded-full bg-white/10" />
+      <div className="bg-white/[0.03] px-6 py-3 flex items-center justify-between border-b border-white/5">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-500/20 border border-amber-500/40" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
         </div>
-        <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] select-none">
+        <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] select-none">
           SYSTEM://CORE_NEXUS
         </div>
-        <div className="text-[10px] font-bold text-white/10 uppercase tabular-nums">
+        <div className="text-[9px] font-bold text-white/20 uppercase tabular-nums tracking-widest">
           {new Date().toLocaleTimeString()}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-10 md:p-16 min-h-[480px] flex flex-col items-start text-left overflow-y-auto">
+      <div className="p-8 md:p-14 min-h-[500px] flex flex-col items-start text-left overflow-y-auto relative">
+        {/* Background Scanline Effect */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-0 opacity-20" />
+
         <AnimatePresence mode="wait">
           {terminalState === 'booting' && (
             <motion.div
@@ -355,17 +375,17 @@ const Terminal = ({ triggerIdentityAnim }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-2 w-full"
+              className="space-y-1.5 w-full relative z-10"
             >
               {visibleLines.map((line, i) => (
                 <div key={i}>{renderContentLine(line)}</div>
               ))}
               {lineIndex < script.length && script[lineIndex].type === 'input' && (
-                <div className="flex gap-3">
-                  <span className="text-slate-600 shrink-0 select-none font-bold">»</span>
-                  <span className="text-slate-300">
+                <div className="flex gap-4">
+                  <span className="text-emerald-500 shrink-0 select-none font-bold">~</span>
+                  <span className="text-slate-200">
                     {currentText.replace('>>> ', '')}
-                    <span className="inline-block w-1.5 h-3.5 bg-emerald-500/60 translate-y-0.5 ml-1 animate-pulse" />
+                    <span className="inline-block w-1.5 h-3.5 bg-emerald-400 translate-y-0.5 ml-1 animate-pulse" />
                   </span>
                 </div>
               )}
@@ -377,24 +397,27 @@ const Terminal = ({ triggerIdentityAnim }) => {
               key="menu"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="w-full space-y-8"
+              className="w-full space-y-10 relative z-10"
             >
               <div className="flex flex-col gap-2">
-                <div className="text-slate-600 font-bold text-[9px] uppercase tracking-[0.3em]">-- ARCHITECTURE_EXPLORER_V3 --</div>
-                <div className="h-px w-32 bg-slate-800" />
+                <div className="text-emerald-500/40 font-bold text-[8px] uppercase tracking-[0.6em] animate-pulse">-- QUANTUM_REASONING_ENGINE_V4.1 --</div>
+                <div className="h-px w-48 bg-white/10" />
               </div>
 
-              <div className="space-y-3 relative z-50">
+              <div className="space-y-4 relative z-50 max-w-xl">
                 {projects.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => { setSelectedProject(p); setTerminalState('project-details'); }}
-                    className="flex items-center gap-6 group w-full text-left cursor-none relative z-50"
+                    className="flex items-center gap-8 group w-full text-left cursor-none relative z-50 p-4 rounded-lg hover:bg-white/[0.02] transition-all border border-transparent hover:border-white/5"
                   >
-                    <span className="text-slate-700 font-bold select-none group-hover:text-emerald-500 transition-colors">0{p.id}</span>
+                    <span className="text-emerald-500/30 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tabular-nums tracking-widest">0{p.id}</span>
                     <div className="flex flex-col pointer-events-none">
-                      <span className="text-slate-300 group-hover:text-white transition-colors font-bold uppercase tracking-widest text-[11px]">{p.name}</span>
-                      <span className="text-slate-600 text-[9px] font-medium tracking-tight uppercase">{p.desc}</span>
+                      <span className="text-slate-400 group-hover:text-white transition-colors font-bold uppercase tracking-[0.15em] text-[12px]">{p.name}</span>
+                      <span className="text-slate-600 text-[8px] font-bold tracking-[0.05em] uppercase mt-0.5">{p.desc}</span>
+                    </div>
+                    <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ChevronRight size={14} className="text-emerald-500" />
                     </div>
                   </button>
                 ))}
@@ -404,19 +427,24 @@ const Terminal = ({ triggerIdentityAnim }) => {
                     setTerminalState('identity');
                     setTimeout(() => setTerminalState('menu'), 4000);
                   }}
-                  className="flex items-center gap-6 group w-full text-left pt-6 cursor-none relative z-50"
+                  className="flex items-center gap-8 group w-full text-left p-4 rounded-lg hover:bg-emerald-500/5 transition-all border border-transparent hover:border-emerald-500/20 cursor-none relative z-50"
                 >
-                  <span className="text-emerald-500/40 font-bold select-none group-hover:text-emerald-500 transition-colors">04</span>
+                  <span className="text-emerald-500/50 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tracking-widest">04</span>
                   <div className="flex flex-col pointer-events-none">
-                    <span className="text-emerald-500/80 group-hover:text-emerald-400 transition-colors font-black uppercase tracking-[0.2em] text-[11px]">NEXUS_HANDSHAKE</span>
-                    <span className="text-slate-700 text-[9px] font-medium tracking-tight uppercase italic">Secure Identity Verification</span>
+                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">NEXUS_HANDSHAKE</span>
+                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Secure Core Verification</span>
+                  </div>
+                  <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Lock size={14} className="text-emerald-400" />
                   </div>
                 </button>
               </div>
 
-              <div className="pt-12 flex items-center gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-slate-700 text-[9px] uppercase tracking-[0.4em] font-black">AWAITING_INPUT...</span>
+              <div className="pt-8 flex items-center gap-4">
+                <div className="px-2 py-1 bg-emerald-500/10 rounded border border-emerald-500/20">
+                  <span className="text-emerald-500 text-[8px] font-black uppercase tracking-[0.3em]">Ready</span>
+                </div>
+                <span className="text-white/10 text-[9px] uppercase tracking-[0.5em] font-black animate-pulse">Awaiting Instruction...</span>
               </div>
             </motion.div>
           )}
@@ -426,50 +454,51 @@ const Terminal = ({ triggerIdentityAnim }) => {
               key="details"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="w-full space-y-10"
+              className="w-full space-y-12 relative z-10"
             >
-              <div className="flex justify-between items-center w-full">
-                <div className="flex flex-col gap-1">
-                  <div className="text-[10px] text-slate-600 font-bold tracking-widest">PROJECT_SPECIFICATION</div>
-                  <div className="text-xl font-black text-white tracking-tighter uppercase">{selectedProject.name}</div>
+              <div className="flex justify-between items-end w-full">
+                <div className="flex flex-col gap-2">
+                  <div className="text-[9px] text-emerald-500/40 font-black tracking-[0.4em] uppercase">Object://Structure</div>
+                  <div className="text-2xl font-black text-white tracking-widest uppercase">{selectedProject.name}</div>
                 </div>
                 <button
                   onClick={() => setTerminalState('menu')}
-                  className="text-[9px] font-black text-slate-600 hover:text-white uppercase tracking-[0.2em] border border-white/5 px-3 py-1.5 rounded bg-white/5 transition-all cursor-none"
+                  className="text-[9px] font-black text-white/30 hover:text-white uppercase tracking-[0.3em] border border-white/10 px-4 py-2 rounded-lg bg-white/5 transition-all cursor-none group/back"
                 >
-                  ESC // BACK_TO_MENU
+                  <span className="group-hover:text-emerald-400 transition-colors">ESC</span> ▕ RETURN
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full border-y border-white/5 py-10">
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Deployment_Status</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 rounded-full bg-emerald-500" />
-                      <span className="text-emerald-500 font-bold text-[10px]">{selectedProject.status}</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full border-y border-white/5 py-12">
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Core_Metrics</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                      <span className="text-slate-200 font-bold text-[11px] tabular-nums tracking-widest">{selectedProject.metrics}</span>
                     </div>
                   </div>
-                  <div className="space-y-1">
-                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Core_Telemetry</span>
-                    <div className="text-slate-300 font-bold text-[10px]">{selectedProject.metrics}</div>
+                  <div className="space-y-2">
+                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Kernel_Status</span>
+                    <div className="text-emerald-500/80 font-black text-[11px] tracking-widest">{selectedProject.status}</div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                   <div className="space-y-1">
-                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Tech_Stack_Audit</span>
-                    <div className="flex flex-wrap gap-2 pt-1">
+                <div className="space-y-6">
+                   <div className="space-y-2">
+                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Architecture_Stack</span>
+                    <div className="flex flex-wrap gap-2.5 pt-1">
                       {selectedProject.tech.split(', ').map((t, i) => (
-                        <span key={i} className="text-[9px] text-slate-400 font-bold bg-white/5 px-2 py-0.5 border border-white/5">{t}</span>
+                        <span key={i} className="text-[8px] text-slate-400 font-bold bg-white/5 px-3 py-1 border border-white/10 rounded-md tracking-widest">{t}</span>
                       ))}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="text-slate-500 text-[11px] leading-relaxed max-w-2xl font-medium italic">
-                "{selectedProject.desc}"
+              <div className="text-slate-400 text-[12px] leading-loose max-w-2xl font-medium">
+                <span className="text-emerald-500/40 mr-2">DESCRIPTION:</span>
+                {selectedProject.desc}
               </div>
             </motion.div>
           )}
@@ -561,7 +590,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
             onClick={handleIdentityClick}
-            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none"
+            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none whitespace-nowrap"
           >
             Harshil Gorasiya
           </motion.h1>
@@ -582,8 +611,10 @@ const HeroSection = () => {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="relative group"
         >
-          <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-          <Terminal triggerIdentityAnim={triggerAnim} />
+          <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+          <div className="relative z-50">
+            <Terminal triggerIdentityAnim={triggerAnim} />
+          </div>
         </motion.div>
 
         {/* Contact Info */}
