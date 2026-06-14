@@ -252,16 +252,81 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const validateEmail = (email) => {
+    const emailLower = email.toLowerCase().trim();
+
+    // Strict Gmail Check: Must end with @gmail.com
+    if (!emailLower.endsWith('@gmail.com')) {
+      return "Access Denied: Only authenticated @gmail.com addresses are permitted.";
+    }
+
+    // Gmail username rules: 6-30 chars, alphanumeric or dots
+    // Note: Gmail ignores dots but they are valid in the address.
+    const username = emailLower.split('@')[0];
+
+    // Strict Gmail check (6-30 characters)
+    if (username.length < 6 || username.length > 30) {
+      return "Identity Check Failed: Gmail usernames must be between 6 and 30 characters.";
+    }
+
+    const gmailUsernameRegex = /^[a-z0-9.]+$/;
+    if (!gmailUsernameRegex.test(username)) {
+      return "Identity Check Failed: Invalid Gmail username structure (6-30 characters, alphanumeric or dots).";
+    }
+
+    // Block suspicious patterns and common bot-like Gmails
+    const suspiciousPatterns = ['temp', 'bot', 'fake', 'test', 'trash'];
+    if (suspiciousPatterns.some(pattern => username.includes(pattern))) {
+       return "Access Denied: Suspicious account signature detected.";
+    }
+
+    return "";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
+    const emailValidationError = validateEmail(formData.email);
+    if (emailValidationError) {
+      setError(emailValidationError);
+      return;
+    }
+
     setIsSending(true);
-    // Simulate secure transmission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSending(false);
-    setIsSent(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setTimeout(() => setIsSent(false), 5000);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "f768b753-9133-4f99-906d-e435f9923838", // Note: User should replace this with their unique key from web3forms.com
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          from_name: "Portfolio Contact System"
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setIsSent(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setIsSent(false), 5000);
+      } else {
+        setError("Protocol Error: Transmission could not be completed.");
+      }
+    } catch (err) {
+      setError("Network Failure: Connection to central core lost.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -302,7 +367,7 @@ const ContactForm = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="alan@enigma.org"
+                  placeholder="alan.turing@gmail.com"
                   className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
                 />
               </div>
@@ -333,6 +398,17 @@ const ContactForm = () => {
                 className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all resize-none"
               />
             </div>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="px-6 py-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-4"
+              >
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="text-red-900 text-[10px] font-black uppercase tracking-widest leading-none">{error}</span>
+              </motion.div>
+            )}
 
             <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-8">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs text-center md:text-left">
