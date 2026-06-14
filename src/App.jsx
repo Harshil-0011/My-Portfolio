@@ -195,16 +195,26 @@ const SectionHeading = ({ children, icon: Icon }) => (
 const Logo = () => (
   <div className="flex items-center gap-3 group cursor-none select-none">
     <div className="relative">
-      <div className="w-10 h-10 bg-navy rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-6 transition-all duration-500">
-        <span className="text-white font-display font-black text-xl tracking-tighter">HG</span>
+      <div className="w-11 h-11 bg-navy rounded-2xl flex items-center justify-center shadow-xl group-hover:rotate-[20deg] transition-all duration-700">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="2" fill="white" />
+          <circle cx="6" cy="6" r="1.5" fill="white" opacity="0.6" />
+          <circle cx="18" cy="6" r="1.5" fill="white" opacity="0.6" />
+          <circle cx="6" cy="18" r="1.5" fill="white" opacity="0.6" />
+          <circle cx="18" cy="18" r="1.5" fill="white" opacity="0.6" />
+          <path d="M12 12L6 6" stroke="white" strokeWidth="1.5" opacity="0.4" />
+          <path d="M12 12L18 6" stroke="white" strokeWidth="1.5" opacity="0.4" />
+          <path d="M12 12L6 18" stroke="white" strokeWidth="1.5" opacity="0.4" />
+          <path d="M12 12L18 18" stroke="white" strokeWidth="1.5" opacity="0.4" />
+        </svg>
       </div>
       <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white border-2 border-navy rounded-md flex items-center justify-center">
-        <div className="w-1.5 h-1.5 bg-navy rounded-full" />
+        <div className="w-1.5 h-1.5 bg-navy rounded-full animate-pulse" />
       </div>
     </div>
     <div className="hidden sm:block">
-      <div className="text-sm font-black text-navy tracking-tighter leading-none">HARSHIL</div>
-      <div className="text-[10px] font-bold text-silver-blue tracking-[0.2em] leading-none mt-0.5">GORASIYA</div>
+      <div className="text-[11px] font-black text-navy tracking-[0.25em] leading-none">HARSHIL</div>
+      <div className="text-[9px] font-bold text-silver-blue tracking-[0.1em] leading-none mt-1">GORASIYA</div>
     </div>
   </div>
 );
@@ -590,7 +600,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
             onClick={handleIdentityClick}
-            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none whitespace-nowrap"
+            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none whitespace-nowrap hover-trigger"
           >
             Harshil Gorasiya
           </motion.h1>
