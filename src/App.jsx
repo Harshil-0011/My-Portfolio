@@ -227,6 +227,7 @@ const Terminal = ({ triggerIdentityAnim }) => {
   const [isTyping, setIsTyping] = useState(true);
   const [terminalState, setTerminalState] = useState('booting'); // 'booting', 'menu', 'project-details', 'identity'
   const [selectedProject, setSelectedProject] = useState(null);
+  const [scrambledName, setScrambledName] = useState("****************");
 
   const script = useMemo(() => [
     { type: 'input', text: ">>> import ardan_agent" },
@@ -378,13 +379,24 @@ const Terminal = ({ triggerIdentityAnim }) => {
                   <button
                     key={p.id}
                     onClick={() => { setSelectedProject(p); setTerminalState('project-details'); }}
-                    className="flex items-center gap-4 group w-full text-left"
+                    className="flex items-center gap-4 group w-full text-left cursor-none"
                   >
                     <span className="text-navy bg-emerald-500 px-2 py-0.5 rounded text-[10px] font-black">{p.id}</span>
                     <span className="text-slate-200 group-hover:text-emerald-400 transition-colors font-bold tracking-tight">[{p.name}]</span>
                     <span className="text-slate-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">-- {p.desc}</span>
                   </button>
                 ))}
+                <button
+                  onClick={() => {
+                    setTerminalState('identity');
+                    setTimeout(() => setTerminalState('menu'), 4000);
+                  }}
+                  className="flex items-center gap-4 group w-full text-left cursor-none"
+                >
+                  <span className="text-navy bg-emerald-500 px-2 py-0.5 rounded text-[10px] font-black">4</span>
+                  <span className="text-slate-200 group-hover:text-emerald-400 transition-colors font-bold tracking-tight">[Harshil Gorasiya]</span>
+                  <span className="text-slate-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">-- Identity Verification / Nexus Handshake</span>
+                </button>
               </div>
               <div className="pt-8 text-slate-500 text-[10px] animate-pulse">Waiting for input... _</div>
             </motion.div>
@@ -420,10 +432,25 @@ const Terminal = ({ triggerIdentityAnim }) => {
               key="identity"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              onViewportEnter={() => {
+                const name = "HARSHIL GORASIYA";
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+                let iterations = 0;
+                const interval = setInterval(() => {
+                  setScrambledName(name.split("").map((char, index) => {
+                    if (index < iterations) return name[index];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                  }).join(""));
+                  iterations += 1/3;
+                  if (iterations >= name.length) clearInterval(interval);
+                }, 40);
+              }}
               className="w-full h-full flex flex-col items-center justify-center space-y-8"
             >
               <div className="text-center space-y-4">
-                <div className="text-emerald-500 font-black text-4xl tracking-tighter animate-pulse">HARSHIL GORASIYA</div>
+                <div className="text-emerald-500 font-black text-4xl tracking-tighter drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+                  {scrambledName}
+                </div>
                 <div className="text-slate-500 text-[10px] tracking-[0.8em] font-black uppercase">Identity Verified</div>
               </div>
               <div className="grid grid-cols-4 gap-4 w-full max-w-sm">
