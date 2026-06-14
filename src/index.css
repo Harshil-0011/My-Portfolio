@@ -29,7 +29,7 @@ body {
   cursor: none;
 }
 
-a, button, [role="button"], .hover-trigger {
+a, button, [role="button"], input, textarea, .hover-trigger {
   cursor: none !important;
 }
 

@@ -25,7 +25,8 @@ import {
   Lock,
   Monitor,
   Briefcase,
-  Languages
+  Languages,
+  Send
 } from 'lucide-react';
 
 // --- System Critical: Vector Particle Field (Google Antigravity Engine) ---
@@ -244,6 +245,131 @@ const PersistentNavbar = () => {
         <Badge icon={<IdCard size={12} />} text="Valid Aufenthaltserlaubnis" />
       </div>
     </nav>
+  );
+};
+
+const ContactForm = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSending(true);
+    // Simulate secure transmission
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsSending(false);
+    setIsSent(true);
+    setFormData({ name: '', email: '', subject: '', message: '' });
+    setTimeout(() => setIsSent(false), 5000);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <section className="py-24 px-6 max-w-7xl mx-auto">
+      <SectionHeading icon={Mail}>Initiate Handshake</SectionHeading>
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="p-10 md:p-16 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm relative overflow-hidden group"
+        >
+          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Alan Turing"
+                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="alan@enigma.org"
+                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Subject</label>
+              <input
+                type="text"
+                name="subject"
+                required
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Collaboration on Neural Architectures"
+                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Message</label>
+              <textarea
+                name="message"
+                required
+                rows="5"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Describe your vision..."
+                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all resize-none"
+              />
+            </div>
+
+            <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-8">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs text-center md:text-left">
+                By submitting, you agree to a secure transmission of data across the nexus.
+              </p>
+
+              <button
+                type="submit"
+                disabled={isSending || isSent}
+                className={`flex items-center gap-3 px-12 py-5 rounded-2xl font-black transition-all duration-500 shadow-xl hover:scale-105 active:scale-95 whitespace-nowrap ${
+                  isSent
+                    ? 'bg-emerald-500 text-white shadow-emerald-200'
+                    : 'bg-navy text-white shadow-navy/20'
+                }`}
+              >
+                {isSending ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Transmitting...
+                  </>
+                ) : isSent ? (
+                  <>
+                    <Zap size={20} className="animate-pulse" />
+                    Handshake Complete
+                  </>
+                ) : (
+                  <>
+                    <Send size={20} />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 
@@ -1036,7 +1162,7 @@ const CustomCursor = () => {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      if (target.closest('a') || target.closest('button') || target.closest('.hover-trigger')) {
+      if (target.closest('a') || target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('.hover-trigger')) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -1101,6 +1227,8 @@ function App() {
         <AcademicMatrix />
         <SectionDivider />
         <LanguageRobustness />
+        <SectionDivider />
+        <ContactForm />
       </main>
 
       <footer className="py-24 text-center border-t border-silver-blue/10 bg-soft-off-white/50">
