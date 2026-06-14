@@ -908,8 +908,8 @@ const CustomCursor = () => {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      mouseX.set(e.clientX - 12);
-      mouseY.set(e.clientY - 12);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
     const handleMouseOver = (e) => {
@@ -932,16 +932,26 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="custom-cursor hidden md:block fixed top-0 left-0 w-6 h-6 rounded-full pointer-events-none z-[9999]"
+      className="custom-cursor hidden md:block fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999]"
       style={{
         x: cursorX,
         y: cursorY,
-        scale: isHovering ? 4 : 1,
-        backgroundColor: isHovering ? 'rgba(27, 42, 74, 0.15)' : '#1B2A4A',
+        translateX: "-50%",
+        translateY: "-50%",
+        scale: isHovering ? 2.5 : 1,
+        backgroundColor: isHovering ? 'transparent' : '#1B2A4A',
         border: isHovering ? '1px solid #1B2A4A' : 'none',
-        backdropFilter: isHovering ? 'blur(2px)' : 'none'
+        backdropFilter: isHovering ? 'blur(4px)' : 'none'
       }}
-    />
+    >
+      {isHovering && (
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className="absolute inset-0 bg-navy/10 rounded-full"
+        />
+      )}
+    </motion.div>
   );
 };
 

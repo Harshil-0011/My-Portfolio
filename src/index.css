@@ -26,6 +26,11 @@ body {
   overflow-x: hidden;
   background-color: white;
   position: relative;
+  cursor: none;
+}
+
+a, button, [role="button"], .hover-trigger {
+  cursor: none !important;
 }
 
 body::before {
@@ -66,8 +71,7 @@ body::before {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.15s ease-out;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
   }
 
   .skip-link {
