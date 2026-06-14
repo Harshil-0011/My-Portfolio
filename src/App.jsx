@@ -7,8 +7,8 @@ import {
   MapPin,
   Phone,
   Mail,
-  Link as Linkedin,
-  GitBranch as Github,
+  Linkedin,
+  Github,
   Download,
   Terminal as TerminalIcon,
   ChevronRight,
@@ -25,7 +25,8 @@ import {
   Lock,
   Monitor,
   Briefcase,
-  Languages
+  Languages,
+  Send
 } from 'lucide-react';
 
 // --- System Critical: Vector Particle Field (Google Antigravity Engine) ---
@@ -247,6 +248,207 @@ const PersistentNavbar = () => {
   );
 };
 
+const ContactForm = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+  const [error, setError] = useState('');
+
+  const validateEmail = (email) => {
+    const emailLower = email.toLowerCase().trim();
+
+    // Strict Gmail Check: Must end with @gmail.com
+    if (!emailLower.endsWith('@gmail.com')) {
+      return "Access Denied: Only authenticated @gmail.com addresses are permitted.";
+    }
+
+    // Gmail username rules: 6-30 chars, alphanumeric or dots
+    // Note: Gmail ignores dots but they are valid in the address.
+    const username = emailLower.split('@')[0];
+
+    // Strict Gmail check (6-30 characters)
+    if (username.length < 6 || username.length > 30) {
+      return "Identity Check Failed: Gmail usernames must be between 6 and 30 characters.";
+    }
+
+    const gmailUsernameRegex = /^[a-z0-9.]+$/;
+    if (!gmailUsernameRegex.test(username)) {
+      return "Identity Check Failed: Invalid Gmail username structure (6-30 characters, alphanumeric or dots).";
+    }
+
+    // Block suspicious patterns and common bot-like Gmails
+    const suspiciousPatterns = ['temp', 'bot', 'fake', 'test', 'trash'];
+    if (suspiciousPatterns.some(pattern => username.includes(pattern))) {
+       return "Access Denied: Suspicious account signature detected.";
+    }
+
+    return "";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    const emailValidationError = validateEmail(formData.email);
+    if (emailValidationError) {
+      setError(emailValidationError);
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "f768b753-9133-4f99-906d-e435f9923838", // Note: User should replace this with their unique key from web3forms.com
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          from_name: "Portfolio Contact System"
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setIsSent(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setIsSent(false), 5000);
+      } else {
+        setError("Protocol Error: Transmission could not be completed.");
+      }
+    } catch (err) {
+      setError("Network Failure: Connection to central core lost.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <section className="py-24 px-6 max-w-7xl mx-auto">
+      <SectionHeading icon={Mail}>Get in Touch</SectionHeading>
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="p-10 md:p-16 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm relative overflow-hidden group"
+        >
+          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+          <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Alan Turing"
+                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="alan.turing@gmail.com"
+                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Subject</label>
+              <input
+                type="text"
+                name="subject"
+                required
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Collaboration on Neural Architectures"
+                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Message</label>
+              <textarea
+                name="message"
+                required
+                rows="5"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Describe your vision..."
+                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all resize-none"
+              />
+            </div>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="px-6 py-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-4"
+              >
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="text-red-900 text-[10px] font-black uppercase tracking-widest leading-none">{error}</span>
+              </motion.div>
+            )}
+
+            <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-8">
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs text-center md:text-left">
+                Your message will be sent directly to my secure inbox.
+              </p>
+
+              <button
+                type="submit"
+                disabled={isSending || isSent}
+                className={`flex items-center gap-3 px-12 py-5 rounded-2xl font-black transition-all duration-500 shadow-xl hover:scale-105 active:scale-95 whitespace-nowrap ${
+                  isSent
+                    ? 'bg-emerald-500 text-white shadow-emerald-200'
+                    : 'bg-navy text-white shadow-navy/20'
+                }`}
+              >
+                {isSending ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : isSent ? (
+                  <>
+                    <Zap size={20} className="animate-pulse" />
+                    Message Sent
+                  </>
+                ) : (
+                  <>
+                    <Send size={20} />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
 const Terminal = ({ triggerIdentityAnim }) => {
   const [visibleLines, setVisibleLines] = useState([]);
   const [currentText, setCurrentText] = useState("");
@@ -366,7 +568,7 @@ const Terminal = ({ triggerIdentityAnim }) => {
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
         </div>
         <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] select-none">
-          SYSTEM://CORE_NEXUS
+          SYSTEM://CENTRAL_CORE
         </div>
         <div className="text-[9px] font-bold text-white/20 uppercase tabular-nums tracking-widest">
           {new Date().toLocaleTimeString()}
@@ -441,8 +643,8 @@ const Terminal = ({ triggerIdentityAnim }) => {
                 >
                   <span className="text-emerald-500/50 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tracking-widest">04</span>
                   <div className="flex flex-col pointer-events-none">
-                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">NEXUS_HANDSHAKE</span>
-                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Secure Core Verification</span>
+                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">CONNECT_CHANNEL</span>
+                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Direct Communication</span>
                   </div>
                   <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
                     <Lock size={14} className="text-emerald-400" />
@@ -534,13 +736,13 @@ const Terminal = ({ triggerIdentityAnim }) => {
               className="w-full h-full flex flex-col items-center justify-center space-y-12"
             >
               <div className="text-center space-y-6">
-                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">IDENTITY_SCAN_IN_PROGRESS</div>
+                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">ESTABLISHING_SECURE_CHANNEL</div>
                 <div className="text-emerald-500 font-black text-4xl md:text-5xl tracking-tighter drop-shadow-[0_0_25px_rgba(16,185,129,0.5)] py-4">
                   {scrambledName}
                 </div>
                 <div className="flex items-center justify-center gap-4">
                   <div className="h-px w-12 bg-emerald-500/20" />
-                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">HANDSHAKE_CONFIRMED</div>
+                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">CHANNEL_ESTABLISHED</div>
                   <div className="h-px w-12 bg-emerald-500/20" />
                 </div>
               </div>
@@ -1036,7 +1238,7 @@ const CustomCursor = () => {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      if (target.closest('a') || target.closest('button') || target.closest('.hover-trigger')) {
+      if (target.closest('a') || target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('.hover-trigger')) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -1101,6 +1303,8 @@ function App() {
         <AcademicMatrix />
         <SectionDivider />
         <LanguageRobustness />
+        <SectionDivider />
+        <ContactForm />
       </main>
 
       <footer className="py-24 text-center border-t border-silver-blue/10 bg-soft-off-white/50">
