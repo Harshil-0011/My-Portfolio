@@ -42,7 +42,8 @@ body::before {
   height: 100%;
   background-image: radial-gradient(#1B2A4A 0.5px, transparent 0.5px);
   background-size: 32px 32px;
-  opacity: 0.05;
+  opacity: 0.1;
+  mix-blend-mode: difference;
   pointer-events: none;
   z-index: -1;
 }
