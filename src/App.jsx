@@ -301,9 +301,9 @@ const Terminal = ({ triggerIdentityAnim }) => {
   }, [triggerIdentityAnim]);
 
   const projects = [
-    { id: 1, name: "Ardan-CLI", desc: "Autonomous Multi-Provider Coding Agent", tech: "Python, ReAct, MCP" },
-    { id: 2, name: "Graph-RAG", desc: "Hierarchical Graph-Based RAG System", tech: "FAISS, Ollama, Python" },
-    { id: 3, name: "Local Perplex", desc: "Private Multimodal Research Engine", tech: "C++, Ollama Core" }
+    { id: 1, name: "Ardan-CLI", desc: "Autonomous Multi-Provider Coding Agent", tech: "Python, ReAct, MCP", status: "STABLE", metrics: "99.2% REASONING ACC" },
+    { id: 2, name: "Graph-RAG", desc: "Hierarchical Graph-Based RAG System", tech: "FAISS, Ollama, Python", status: "ACTIVE", metrics: "4s RETRIEVAL LATENCY" },
+    { id: 3, name: "Local Perplex", desc: "Private Multimodal Research Engine", tech: "C++, Ollama Core", status: "DEPLOYED", metrics: "SUB-10MS RANKING" }
   ];
 
   const renderContentLine = (line) => {
@@ -311,37 +311,43 @@ const Terminal = ({ triggerIdentityAnim }) => {
       const parts = line.text.split('#');
       return (
         <div className="flex gap-3">
-          <span className="text-slate-500 shrink-0 select-none font-bold">{">>>"}</span>
-          <span className="text-slate-100 font-medium">
+          <span className="text-slate-600 shrink-0 select-none font-bold">»</span>
+          <span className="text-slate-300 font-medium tracking-tight">
             {parts[0].replace('>>> ', '')}
-            {parts[1] && <span className="text-slate-500">#{parts[1]}</span>}
+            {parts[1] && <span className="text-slate-600 italic"> #{parts[1]}</span>}
           </span>
         </div>
       );
     }
     return (
-      <span className={line.type === 'info' ? 'text-blue-400/90' : 'text-emerald-400 font-bold drop-shadow-[0_0_10px_rgba(16,185,129,0.4)]'}>
-        {line.text}
-      </span>
+      <div className="flex gap-3">
+        <span className="text-slate-700 shrink-0 select-none">|</span>
+        <span className={line.type === 'info' ? 'text-slate-400' : 'text-emerald-500/90 font-bold tracking-tight uppercase text-[10px]'}>
+          {line.text}
+        </span>
+      </div>
     );
   };
 
   return (
-    <div id="terminal-simulator" className="bg-[#030712] rounded-2xl shadow-3xl border border-white/10 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[13px] leading-relaxed tracking-tight backdrop-blur-sm">
-      {/* Header */}
-      <div className="bg-white/5 px-6 py-3 flex items-center relative border-b border-white/5">
-        <div className="flex gap-2.5">
-          <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-          <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-          <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+    <div id="terminal-simulator" className="bg-[#0A0F1E] rounded-xl shadow-3xl border border-white/5 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[13px] leading-relaxed tracking-tight">
+      {/* System Bar */}
+      <div className="bg-white/[0.02] px-6 py-2.5 flex items-center justify-between border-b border-white/5">
+        <div className="flex gap-2">
+          <div className="w-2 h-2 rounded-full bg-white/10" />
+          <div className="w-2 h-2 rounded-full bg-white/10" />
+          <div className="w-2 h-2 rounded-full bg-white/10" />
         </div>
-        <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
-          <span className="text-slate-500 text-[10px] uppercase tracking-[0.4em] font-black opacity-40">Ardan-CLI / Intelligence Nexus</span>
+        <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] select-none">
+          SYSTEM://CORE_NEXUS
+        </div>
+        <div className="text-[10px] font-bold text-white/10 uppercase tabular-nums">
+          {new Date().toLocaleTimeString()}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-8 md:p-12 min-h-[420px] flex flex-col items-start text-left overflow-y-auto">
+      <div className="p-10 md:p-16 min-h-[480px] flex flex-col items-start text-left overflow-y-auto">
         <AnimatePresence mode="wait">
           {terminalState === 'booting' && (
             <motion.div
@@ -349,17 +355,17 @@ const Terminal = ({ triggerIdentityAnim }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-3 w-full"
+              className="space-y-2 w-full"
             >
               {visibleLines.map((line, i) => (
                 <div key={i}>{renderContentLine(line)}</div>
               ))}
               {lineIndex < script.length && script[lineIndex].type === 'input' && (
                 <div className="flex gap-3">
-                  <span className="text-slate-500 shrink-0 select-none font-bold">{">>>"}</span>
-                  <span className="text-slate-100">
+                  <span className="text-slate-600 shrink-0 select-none font-bold">»</span>
+                  <span className="text-slate-300">
                     {currentText.replace('>>> ', '')}
-                    <span className="inline-block w-2 h-4 bg-emerald-500/80 translate-y-0.5 ml-1 animate-pulse" />
+                    <span className="inline-block w-1.5 h-3.5 bg-emerald-500/60 translate-y-0.5 ml-1 animate-pulse" />
                   </span>
                 </div>
               )}
@@ -369,60 +375,101 @@ const Terminal = ({ triggerIdentityAnim }) => {
           {terminalState === 'menu' && (
             <motion.div
               key="menu"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="w-full space-y-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full space-y-8"
             >
-              <div className="text-slate-400 font-bold uppercase tracking-widest text-[10px] border-b border-white/10 pb-2">Main Menu / Select Option</div>
-              <div className="space-y-4">
+              <div className="flex flex-col gap-2">
+                <div className="text-slate-600 font-bold text-[9px] uppercase tracking-[0.3em]">-- ARCHITECTURE_EXPLORER_V3 --</div>
+                <div className="h-px w-32 bg-slate-800" />
+              </div>
+
+              <div className="space-y-3 relative z-50">
                 {projects.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => { setSelectedProject(p); setTerminalState('project-details'); }}
-                    className="flex items-center gap-4 group w-full text-left cursor-none"
+                    className="flex items-center gap-6 group w-full text-left cursor-none relative z-50"
                   >
-                    <span className="text-navy bg-emerald-500 px-2 py-0.5 rounded text-[10px] font-black">{p.id}</span>
-                    <span className="text-slate-200 group-hover:text-emerald-400 transition-colors font-bold tracking-tight">[{p.name}]</span>
-                    <span className="text-slate-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">-- {p.desc}</span>
+                    <span className="text-slate-700 font-bold select-none group-hover:text-emerald-500 transition-colors">0{p.id}</span>
+                    <div className="flex flex-col pointer-events-none">
+                      <span className="text-slate-300 group-hover:text-white transition-colors font-bold uppercase tracking-widest text-[11px]">{p.name}</span>
+                      <span className="text-slate-600 text-[9px] font-medium tracking-tight uppercase">{p.desc}</span>
+                    </div>
                   </button>
                 ))}
+
                 <button
                   onClick={() => {
                     setTerminalState('identity');
                     setTimeout(() => setTerminalState('menu'), 4000);
                   }}
-                  className="flex items-center gap-4 group w-full text-left cursor-none"
+                  className="flex items-center gap-6 group w-full text-left pt-6 cursor-none relative z-50"
                 >
-                  <span className="text-navy bg-emerald-500 px-2 py-0.5 rounded text-[10px] font-black">4</span>
-                  <span className="text-slate-200 group-hover:text-emerald-400 transition-colors font-bold tracking-tight">[Harshil Gorasiya]</span>
-                  <span className="text-slate-500 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">-- Identity Verification / Nexus Handshake</span>
+                  <span className="text-emerald-500/40 font-bold select-none group-hover:text-emerald-500 transition-colors">04</span>
+                  <div className="flex flex-col pointer-events-none">
+                    <span className="text-emerald-500/80 group-hover:text-emerald-400 transition-colors font-black uppercase tracking-[0.2em] text-[11px]">NEXUS_HANDSHAKE</span>
+                    <span className="text-slate-700 text-[9px] font-medium tracking-tight uppercase italic">Secure Identity Verification</span>
+                  </div>
                 </button>
               </div>
-              <div className="pt-8 text-slate-500 text-[10px] animate-pulse">Waiting for input... _</div>
+
+              <div className="pt-12 flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-slate-700 text-[9px] uppercase tracking-[0.4em] font-black">AWAITING_INPUT...</span>
+              </div>
             </motion.div>
           )}
 
           {terminalState === 'project-details' && selectedProject && (
             <motion.div
               key="details"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="w-full space-y-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="w-full space-y-10"
             >
-              <button
-                onClick={() => setTerminalState('menu')}
-                className="text-slate-500 hover:text-white flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-4"
-              >
-                {"< Back to menu"}
-              </button>
-              <div className="space-y-4 bg-white/5 p-6 rounded-xl border border-white/10">
-                <div className="text-emerald-400 font-black text-xl tracking-tight">{selectedProject.name}</div>
-                <div className="text-slate-300 text-sm">{selectedProject.desc}</div>
-                <div className="flex gap-3">
-                  {selectedProject.tech.split(', ').map((t, i) => (
-                    <span key={i} className="px-2 py-1 bg-navy/50 text-white/60 rounded border border-white/5 text-[9px] font-bold">{t}</span>
-                  ))}
+              <div className="flex justify-between items-center w-full">
+                <div className="flex flex-col gap-1">
+                  <div className="text-[10px] text-slate-600 font-bold tracking-widest">PROJECT_SPECIFICATION</div>
+                  <div className="text-xl font-black text-white tracking-tighter uppercase">{selectedProject.name}</div>
                 </div>
+                <button
+                  onClick={() => setTerminalState('menu')}
+                  className="text-[9px] font-black text-slate-600 hover:text-white uppercase tracking-[0.2em] border border-white/5 px-3 py-1.5 rounded bg-white/5 transition-all cursor-none"
+                >
+                  ESC // BACK_TO_MENU
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full border-y border-white/5 py-10">
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Deployment_Status</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1 h-1 rounded-full bg-emerald-500" />
+                      <span className="text-emerald-500 font-bold text-[10px]">{selectedProject.status}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Core_Telemetry</span>
+                    <div className="text-slate-300 font-bold text-[10px]">{selectedProject.metrics}</div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                   <div className="space-y-1">
+                    <span className="text-[8px] text-slate-700 font-black tracking-[0.3em] uppercase">Tech_Stack_Audit</span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {selectedProject.tech.split(', ').map((t, i) => (
+                        <span key={i} className="text-[9px] text-slate-400 font-bold bg-white/5 px-2 py-0.5 border border-white/5">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-slate-500 text-[11px] leading-relaxed max-w-2xl font-medium italic">
+                "{selectedProject.desc}"
               </div>
             </motion.div>
           )}
@@ -445,32 +492,39 @@ const Terminal = ({ triggerIdentityAnim }) => {
                   if (iterations >= name.length) clearInterval(interval);
                 }, 40);
               }}
-              className="w-full h-full flex flex-col items-center justify-center space-y-8"
+              className="w-full h-full flex flex-col items-center justify-center space-y-12"
             >
-              <div className="text-center space-y-4">
-                <div className="text-emerald-500 font-black text-4xl tracking-tighter drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">
+              <div className="text-center space-y-6">
+                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">IDENTITY_SCAN_IN_PROGRESS</div>
+                <div className="text-emerald-500 font-black text-4xl md:text-5xl tracking-tighter drop-shadow-[0_0_25px_rgba(16,185,129,0.5)] py-4">
                   {scrambledName}
                 </div>
-                <div className="text-slate-500 text-[10px] tracking-[0.8em] font-black uppercase">Identity Verified</div>
+                <div className="flex items-center justify-center gap-4">
+                  <div className="h-px w-12 bg-emerald-500/20" />
+                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">HANDSHAKE_CONFIRMED</div>
+                  <div className="h-px w-12 bg-emerald-500/20" />
+                </div>
               </div>
-              <div className="grid grid-cols-4 gap-4 w-full max-w-sm">
-                {Array.from({ length: 12 }).map((_, i) => (
+
+              <div className="flex gap-2">
+                {Array.from({ length: 8 }).map((_, i) => (
                   <motion.div
                     key={i}
                     animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.3, 1, 0.3]
+                      height: [4, 24, 4],
+                      opacity: [0.2, 1, 0.2]
                     }}
                     transition={{
                       duration: 1.5,
                       repeat: Infinity,
                       delay: i * 0.1
                     }}
-                    className="h-1 bg-emerald-500/30 rounded-full"
+                    className="w-1 bg-emerald-500 rounded-full"
                   />
                 ))}
               </div>
-              <div className="text-slate-600 text-[9px] font-mono">ENCRYPTED NEXUS HANDSHAKE... OK</div>
+
+              <div className="text-slate-800 text-[9px] font-mono uppercase tracking-[0.4em] pt-10">SECURE_LEVEL_ALPHA_CLEARANCE_GRANTED</div>
             </motion.div>
           )}
         </AnimatePresence>
