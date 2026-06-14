@@ -270,7 +270,7 @@ const ContactForm = () => {
 
   return (
     <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={Mail}>Initiate Handshake</SectionHeading>
+      <SectionHeading icon={Mail}>Get in Touch</SectionHeading>
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -336,7 +336,7 @@ const ContactForm = () => {
 
             <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-8">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs text-center md:text-left">
-                By submitting, you agree to a secure transmission of data across the nexus.
+                Your message will be sent directly to my secure inbox.
               </p>
 
               <button
@@ -351,12 +351,12 @@ const ContactForm = () => {
                 {isSending ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Transmitting...
+                    Sending...
                   </>
                 ) : isSent ? (
                   <>
                     <Zap size={20} className="animate-pulse" />
-                    Handshake Complete
+                    Message Sent
                   </>
                 ) : (
                   <>
@@ -492,7 +492,7 @@ const Terminal = ({ triggerIdentityAnim }) => {
           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
         </div>
         <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] select-none">
-          SYSTEM://CORE_NEXUS
+          SYSTEM://CENTRAL_CORE
         </div>
         <div className="text-[9px] font-bold text-white/20 uppercase tabular-nums tracking-widest">
           {new Date().toLocaleTimeString()}
@@ -567,8 +567,8 @@ const Terminal = ({ triggerIdentityAnim }) => {
                 >
                   <span className="text-emerald-500/50 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tracking-widest">04</span>
                   <div className="flex flex-col pointer-events-none">
-                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">NEXUS_HANDSHAKE</span>
-                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Secure Core Verification</span>
+                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">CONNECT_CHANNEL</span>
+                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Direct Communication</span>
                   </div>
                   <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
                     <Lock size={14} className="text-emerald-400" />
@@ -660,13 +660,13 @@ const Terminal = ({ triggerIdentityAnim }) => {
               className="w-full h-full flex flex-col items-center justify-center space-y-12"
             >
               <div className="text-center space-y-6">
-                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">IDENTITY_SCAN_IN_PROGRESS</div>
+                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">ESTABLISHING_SECURE_CHANNEL</div>
                 <div className="text-emerald-500 font-black text-4xl md:text-5xl tracking-tighter drop-shadow-[0_0_25px_rgba(16,185,129,0.5)] py-4">
                   {scrambledName}
                 </div>
                 <div className="flex items-center justify-center gap-4">
                   <div className="h-px w-12 bg-emerald-500/20" />
-                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">HANDSHAKE_CONFIRMED</div>
+                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">CHANNEL_ESTABLISHED</div>
                   <div className="h-px w-12 bg-emerald-500/20" />
                 </div>
               </div>
