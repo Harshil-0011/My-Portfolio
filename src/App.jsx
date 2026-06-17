@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import anime from 'animejs';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import {
   Clock,
