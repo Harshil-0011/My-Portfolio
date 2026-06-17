@@ -11,7 +11,6 @@ import {
   Linkedin,
   Github,
   Download,
-  Terminal as TerminalIcon,
   ChevronRight,
   ExternalLink,
   Code2,
@@ -462,7 +461,8 @@ const NeuralQuantumVault = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
-    if (!vaultRef.current) return;
+    if (!containerRef.current) return;
+    const scope = (selector) => containerRef.current.querySelectorAll(selector);
 
     // Orchestrate the 3D Opening Timeline
     timelineRef.current = anime.timeline({
@@ -473,7 +473,7 @@ const NeuralQuantumVault = () => {
 
     // Slow continuous rotation base
     timelineRef.current.add({
-      targets: '.vault-wrapper',
+      targets: scope('.vault-wrapper'),
       rotateY: ['-20deg', '160deg'],
       rotateX: ['10deg', '45deg'],
     }, 0);
@@ -483,37 +483,37 @@ const NeuralQuantumVault = () => {
     const endPos = 250;
 
     timelineRef.current.add({
-      targets: '.facet-front',
+      targets: scope('.facet-front'),
       translateZ: [startPos, endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
     }, 100);
     timelineRef.current.add({
-      targets: '.facet-back',
+      targets: scope('.facet-back'),
       translateZ: [-startPos, -endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
     }, 100);
     timelineRef.current.add({
-      targets: '.facet-left',
+      targets: scope('.facet-left'),
       translateX: [-startPos, -endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
     }, 100);
     timelineRef.current.add({
-      targets: '.facet-right',
+      targets: scope('.facet-right'),
       translateX: [startPos, endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
     }, 100);
     timelineRef.current.add({
-      targets: '.facet-top',
+      targets: scope('.facet-top'),
       translateY: [-startPos, -endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
     }, 100);
     timelineRef.current.add({
-      targets: '.facet-bottom',
+      targets: scope('.facet-bottom'),
       translateY: [startPos, endPos],
       opacity: [1, 0],
       scale: [1, 0.5],
@@ -521,23 +521,31 @@ const NeuralQuantumVault = () => {
 
     // Core expansion and rotation
     timelineRef.current.add({
-      targets: '.vault-core',
+      targets: scope('.vault-core'),
       scale: [0.1, 1.8],
       opacity: [0, 1],
       rotateY: '720deg',
     }, 200);
 
-    // Reveal Tech Tags
+    // Reveal Tech Tags - Maintaining X while animating Y
     timelineRef.current.add({
-      targets: '.tech-tag-node',
+      targets: scope('.tech-tag-node'),
       scale: [0, 1],
       opacity: [0, 1],
+      translateX: (el) => parseFloat(el.getAttribute('data-x')) || 0,
       translateY: (el, i) => {
         const currentY = parseFloat(el.getAttribute('data-y')) || 0;
         return [currentY + (i % 2 === 0 ? 60 : -60), currentY];
       },
-      delay: anime.stagger(50),
+      delay: anime.stagger(80),
     }, 400);
+
+    // Reveal Engine Title
+    timelineRef.current.add({
+      targets: scope('.vault-engine-title'),
+      opacity: [0, 1],
+      translateY: [20, 0],
+    }, 600);
 
   }, []);
 
@@ -593,20 +601,33 @@ const NeuralQuantumVault = () => {
             {/* Tech Tags */}
             <div className="absolute -inset-24 flex items-center justify-center pointer-events-none">
               {[
-                { label: "RAG ARCHITECT", x: -100, y: -40 },
-                { label: "AGENTIC FLOWS", x: 100, y: 40 },
-                { label: "LLM OPS", x: 0, y: -90 }
+                { label: "01 ARDAN-CLI", x: -160, y: -60 },
+                { label: "02 GRAPH-RAG", x: 160, y: -60 },
+                { label: "03 LOCAL PERPLEX", x: -160, y: 60 },
+                { label: "04 CONNECT CHANNEL", x: 160, y: 60 }
               ].map((tag, i) => (
                 <div
                   key={i}
-                  className="tech-tag-node absolute px-4 py-2 bg-white/90 backdrop-blur-md border border-navy/10 rounded-full shadow-2xl"
+                  className="tech-tag-node absolute px-5 py-2.5 bg-white/95 backdrop-blur-md border border-navy/10 rounded-xl shadow-2xl"
                   data-x={tag.x}
                   data-y={tag.y}
                   style={{ transform: `translate(${tag.x}px, ${tag.y}px)` }}
                 >
-                  <span className="text-[10px] font-black text-navy uppercase tracking-widest whitespace-nowrap">{tag.label}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                    <span className="text-[10px] font-black text-navy uppercase tracking-[0.2em] whitespace-nowrap">{tag.label}</span>
+                  </div>
                 </div>
               ))}
+            </div>
+
+            {/* Engine Branding */}
+            <div className="vault-engine-title absolute -bottom-32 flex flex-col items-center gap-2 opacity-0">
+               <span className="text-[10px] font-black text-navy/30 uppercase tracking-[0.8em]">Quantum Reasoning Engine V4.1</span>
+               <div className="flex items-center gap-2">
+                 <div className="px-2 py-0.5 bg-emerald-500 text-white text-[8px] font-black rounded uppercase">Ready</div>
+                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest animate-pulse">Awaiting Instruction...</span>
+               </div>
             </div>
           </div>
         </div>
@@ -656,7 +677,7 @@ const HeroSection = () => {
 
     // 2. Vault Power Surge
     anime({
-      targets: '.vault-core-sphere',
+      targets: document.querySelectorAll('.vault-core-sphere'),
       scale: [1, 1.4, 1],
       boxShadow: [
         '0 0 60px rgba(27,42,74,0.5)',
