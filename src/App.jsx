@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import anime from 'animejs';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring, useScroll } from 'framer-motion';
 import {
   Clock,
   CalendarCheck,
@@ -450,189 +450,223 @@ const ContactForm = () => {
   );
 };
 
-const ArchitecturalNeuralCore = ({ triggerIdentityAnim }) => {
-  const [scrambledName, setScrambledName] = useState("****************");
-  const [isRevealed, setIsRevealed] = useState(false);
+const NeuralQuantumVault = () => {
+  const vaultRef = useRef(null);
   const containerRef = useRef(null);
+  const timelineRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 80%", "end 20%"]
+  });
+
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!vaultRef.current) return;
 
-    const ringTimeline = anime({
-      targets: '.tech-ring',
-      rotate: '1turn',
-      duration: (el, i) => 20000 + i * 5000,
+    // Orchestrate the 3D Opening Timeline
+    timelineRef.current = anime.timeline({
+      autoplay: false,
       easing: 'linear',
-      loop: true
+      duration: 1000
     });
 
-    const scanTimeline = anime({
-      targets: '.scan-line',
-      translateY: [0, 450],
-      duration: 3000,
-      easing: 'easeInOutQuad',
-      direction: 'alternate',
-      loop: true
-    });
+    // Slow continuous rotation base
+    timelineRef.current.add({
+      targets: '.vault-wrapper',
+      rotateY: ['-20deg', '160deg'],
+      rotateX: ['10deg', '45deg'],
+    }, 0);
 
-    const nodePulse = anime({
-      targets: '.neural-node',
-      r: [
-        { value: (el) => parseFloat(el.getAttribute('r')) * 1.2, duration: 1000 },
-        { value: (el) => parseFloat(el.getAttribute('r')), duration: 1000 }
-      ],
-      easing: 'easeInOutSine',
-      loop: true,
-      delay: anime.stagger(200)
-    });
+    // Facet Expansions - Sliding out like plates
+    const startPos = 64;
+    const endPos = 250;
 
-    return () => {
-      ringTimeline.pause();
-      scanTimeline.pause();
-      nodePulse.pause();
-    };
+    timelineRef.current.add({
+      targets: '.facet-front',
+      translateZ: [startPos, endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+    timelineRef.current.add({
+      targets: '.facet-back',
+      translateZ: [-startPos, -endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+    timelineRef.current.add({
+      targets: '.facet-left',
+      translateX: [-startPos, -endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+    timelineRef.current.add({
+      targets: '.facet-right',
+      translateX: [startPos, endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+    timelineRef.current.add({
+      targets: '.facet-top',
+      translateY: [-startPos, -endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+    timelineRef.current.add({
+      targets: '.facet-bottom',
+      translateY: [startPos, endPos],
+      opacity: [1, 0],
+      scale: [1, 0.5],
+    }, 100);
+
+    // Core expansion and rotation
+    timelineRef.current.add({
+      targets: '.vault-core',
+      scale: [0.1, 1.8],
+      opacity: [0, 1],
+      rotateY: '720deg',
+    }, 200);
+
+    // Reveal Tech Tags
+    timelineRef.current.add({
+      targets: '.tech-tag-node',
+      scale: [0, 1],
+      opacity: [0, 1],
+      translateY: (el, i) => {
+        const currentY = parseFloat(el.getAttribute('data-y')) || 0;
+        return [currentY + (i % 2 === 0 ? 60 : -60), currentY];
+      },
+      delay: anime.stagger(50),
+    }, 400);
+
   }, []);
 
   useEffect(() => {
-    if (triggerIdentityAnim) {
-      setIsRevealed(true);
-      anime({
-        targets: '.neural-path',
-        strokeDashoffset: [anime.setDashoffset, 0],
-        opacity: [0.1, 0.8, 0.1],
-        easing: 'easeInOutSine',
-        duration: 1500,
-        delay: anime.stagger(50),
-        loop: 2
-      });
+    return scrollYProgress.on("change", (latest) => {
+      if (timelineRef.current) {
+        timelineRef.current.seek(latest * timelineRef.current.duration);
+        setHasScrolled(latest > 0.02);
+      }
+    });
+  }, [scrollYProgress]);
 
-      const name = "HARSHIL GORASIYA";
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-      let iterations = 0;
-      const interval = setInterval(() => {
-        setScrambledName(name.split("").map((char, index) => {
-          if (index < iterations) return name[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join(""));
-        iterations += 1 / 3;
-        if (iterations >= name.length) {
-          clearInterval(interval);
-          setTimeout(() => setIsRevealed(false), 3000);
-        }
-      }, 40);
-      return () => clearInterval(interval);
-    }
-  }, [triggerIdentityAnim]);
+  const facetClass = "absolute inset-0 bg-white/10 backdrop-blur-3xl border border-navy/20 rounded-2xl flex items-center justify-center shadow-2xl backface-hidden preserve-3d";
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-4xl mx-auto h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden transition-all duration-700">
-      <AnimatePresence mode="wait">
-        {!isRevealed ? (
-          <motion.div
-            key="core"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            className="relative w-full h-full flex items-center justify-center"
-          >
-            <svg viewBox="0 0 800 600" className="w-full h-full max-w-2xl overflow-visible">
-              <defs>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#1B2A4A" stopOpacity="0.1" />
-                  <stop offset="50%" stopColor="#1B2A4A" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#1B2A4A" stopOpacity="0.1" />
-                </linearGradient>
-              </defs>
-              <circle cx="400" cy="300" r="120" fill="none" stroke="url(#ringGrad)" strokeWidth="1" strokeDasharray="10 20" className="tech-ring origin-center" />
-              <circle cx="400" cy="300" r="180" fill="none" stroke="url(#ringGrad)" strokeWidth="0.5" strokeDasharray="5 15" className="tech-ring origin-center" />
-              <circle cx="400" cy="300" r="240" fill="none" stroke="url(#ringGrad)" strokeWidth="1" strokeDasharray="30 10" className="tech-ring origin-center" />
-              <line x1="0" y1="0" x2="800" y2="0" stroke="#10b981" strokeWidth="0.5" className="scan-line" />
-              <g className="paths" stroke="#1B2A4A" strokeOpacity="0.1" strokeWidth="1" fill="none">
-                <path d="M400 300 L200 300" className="neural-path" />
-                <path d="M400 300 L600 300" className="neural-path" />
-                <path d="M400 300 L400 100" className="neural-path" />
-                <path d="M400 300 L400 500" className="neural-path" />
-                <path d="M400 100 L300 50" className="neural-path" />
-                <path d="M400 100 L500 50" className="neural-path" />
-                <path d="M200 300 L120 220" className="neural-path" />
-                <path d="M200 300 L120 380" className="neural-path" />
-                <path d="M600 300 L680 220" className="neural-path" />
-                <path d="M600 300 L680 380" className="neural-path" />
-                <path d="M400 500 L300 550" className="neural-path" />
-                <path d="M400 500 L500 550" className="neural-path" />
-              </g>
+    <div ref={containerRef} className="relative w-full max-w-4xl h-[500px] md:h-[600px] flex items-center justify-center perspective-2000 pointer-events-none">
+      {/* Background Radial Glow */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="w-[400px] h-[400px] bg-navy/5 rounded-full blur-[120px] animate-pulse" />
+      </div>
+
+      <div ref={vaultRef} className="vault-wrapper relative w-32 h-32 preserve-3d">
+        {/* Facets */}
+        <div className={`${facetClass} facet-front`} style={{ transform: 'translateZ(64px)' }}>
+          <div className="w-12 h-12 border-2 border-navy/10 rounded-full flex items-center justify-center">
+            <Cpu size={20} className="text-navy/40" />
+          </div>
+        </div>
+        <div className={`${facetClass} facet-back`} style={{ transform: 'translateZ(-64px) rotateY(180deg)' }}>
+          <Database size={20} className="text-navy/40" />
+        </div>
+        <div className={`${facetClass} facet-left`} style={{ transform: 'translateX(-64px) rotateY(-90deg)' }}>
+          <Layers size={20} className="text-navy/40" />
+        </div>
+        <div className={`${facetClass} facet-right`} style={{ transform: 'translateX(64px) rotateY(90deg)' }}>
+          <Globe2 size={20} className="text-navy/40" />
+        </div>
+        <div className={`${facetClass} facet-top`} style={{ transform: 'translateY(-64px) rotateX(90deg)' }}>
+          <Zap size={20} className="text-navy/40" />
+        </div>
+        <div className={`${facetClass} facet-bottom`} style={{ transform: 'translateY(64px) rotateX(-90deg)' }}>
+          <Lock size={20} className="text-navy/40" />
+        </div>
+
+        {/* The Internal Quantum Core */}
+        <div className="vault-core absolute inset-0 flex items-center justify-center preserve-3d pointer-events-auto">
+          <div className="relative w-24 h-24">
+            {/* Pulsing Core Sphere */}
+            <div className="vault-core-sphere absolute inset-0 bg-navy rounded-3xl shadow-[0_0_60px_rgba(27,42,74,0.5)] flex items-center justify-center">
+               <Cpu size={40} className="text-white animate-pulse" />
+            </div>
+
+            {/* Tech Tags */}
+            <div className="absolute -inset-24 flex items-center justify-center pointer-events-none">
               {[
-                { x: 400, y: 300, color: 'emerald', label: 'CENTRAL_CORE' },
-                { x: 400, y: 100, color: 'navy', label: 'LLM_ENGINE' },
-                { x: 200, y: 300, color: 'navy', label: 'VECTOR_DB' },
-                { x: 600, y: 300, color: 'navy', label: 'AGENT_ORCHESTRATOR' },
-                { x: 400, y: 500, color: 'navy', label: 'HARDWARE_ACCEL' },
-                { x: 300, y: 50, color: 'silver', label: 'RAG_CACHE', size: 3 },
-                { x: 500, y: 50, color: 'silver', label: 'TOKEN_STREAM', size: 3 },
-                { x: 120, y: 220, color: 'silver', label: 'METADATA', size: 3 },
-                { x: 120, y: 380, color: 'silver', label: 'INDEXER', size: 3 },
-                { x: 680, y: 220, color: 'silver', label: 'TOOL_EXEC', size: 3 },
-                { x: 680, y: 380, color: 'silver', label: 'SANDBOX', size: 3 },
-                { x: 300, y: 550, color: 'silver', label: 'VRAM_0', size: 3 },
-                { x: 500, y: 550, color: 'silver', label: 'VRAM_1', size: 3 }
-              ].map((node, i) => (
-                <g key={i}>
-                  <circle cx={node.x} cy={node.y} r={node.size || (node.color === 'emerald' ? 8 : 5)} fill={node.color === 'emerald' ? '#10b981' : (node.color === 'navy' ? '#1B2A4A' : '#B0BDD0')} className="neural-node" filter={node.color === 'emerald' ? 'url(#glow)' : ''} />
-                  <text x={node.x} y={node.y - 15} className="data-label" fill={node.color === 'emerald' ? '#10b981' : '#1B2A4A'} fontSize="7" fontWeight="900" textAnchor="middle" style={{ letterSpacing: '0.15em', opacity: 0.6 }}>{node.label}</text>
-                </g>
-              ))}
-              <g className="metrics font-mono text-[7px] font-black uppercase opacity-60">
-                <rect x="50" y="50" width="100" height="40" rx="4" fill="#1B2A4A" fillOpacity="0.03" stroke="#1B2A4A" strokeOpacity="0.1" />
-                <text x="60" y="65" fill="#1B2A4A">INF_LATENCY: 4.2ms</text>
-                <text x="60" y="80" fill="#1B2A4A">TOKEN_VEL: 128/S</text>
-                <rect x="650" y="50" width="100" height="40" rx="4" fill="#1B2A4A" fillOpacity="0.03" stroke="#1B2A4A" strokeOpacity="0.1" />
-                <text x="660" y="65" fill="#1B2A4A">VRAM_LOAD: 82%</text>
-                <text x="660" y="80" fill="#1B2A4A">TEMP: 64°C</text>
-                <rect x="50" y="510" width="100" height="40" rx="4" fill="#1B2A4A" fillOpacity="0.03" stroke="#1B2A4A" strokeOpacity="0.1" />
-                <text x="60" y="525" fill="#1B2A4A">ACTIVE_AGENTS: 04</text>
-                <text x="60" y="540" fill="#1B2A4A">FAILOVER: STANDBY</text>
-                <rect x="650" y="510" width="100" height="40" rx="4" fill="#1B2A4A" fillOpacity="0.03" stroke="#1B2A4A" strokeOpacity="0.1" />
-                <text x="660" y="525" fill="#1B2A4A">LINK_SECURE: YES</text>
-                <text x="660" y="540" fill="#1B2A4A">DR_READY: TRUE</text>
-              </g>
-            </svg>
-            <div className="absolute w-24 h-24 bg-white/80 backdrop-blur-sm rounded-3xl border border-silver-blue/20 flex items-center justify-center shadow-xl z-10 overflow-hidden">
-              <div className="absolute inset-0 bg-emerald-500/5 animate-pulse" />
-              <Cpu size={32} className="text-navy relative z-10" />
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div key="identity" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center justify-center space-y-12 z-20">
-            <div className="text-[10px] font-black text-navy/40 uppercase tracking-[1em]">Establishing Secure Link</div>
-            <div className="text-5xl md:text-7xl font-display font-black text-navy tracking-tighter text-glow">{scrambledName}</div>
-            <div className="flex gap-3">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <motion.div key={i} animate={{ height: [4, 32, 4], opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }} className="w-1 bg-emerald-500 rounded-full" />
+                { label: "RAG ARCHITECT", x: -100, y: -40 },
+                { label: "AGENTIC FLOWS", x: 100, y: 40 },
+                { label: "LLM OPS", x: 0, y: -90 }
+              ].map((tag, i) => (
+                <div
+                  key={i}
+                  className="tech-tag-node absolute px-4 py-2 bg-white/90 backdrop-blur-md border border-navy/10 rounded-full shadow-2xl"
+                  data-x={tag.x}
+                  data-y={tag.y}
+                  style={{ transform: `translate(${tag.x}px, ${tag.y}px)` }}
+                >
+                  <span className="text-[10px] font-black text-navy uppercase tracking-widest whitespace-nowrap">{tag.label}</span>
+                </div>
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div className="absolute top-10 left-10 w-20 h-20 border-t-2 border-l-2 border-navy/5 rounded-tl-3xl" />
-      <div className="absolute bottom-10 right-10 w-20 h-20 border-b-2 border-r-2 border-navy/5 rounded-br-3xl" />
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Instructions */}
+      {!hasScrolled && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-0 flex flex-col items-center gap-3"
+        >
+          <div className="flex gap-1">
+            {[0, 1, 2].map(i => (
+              <motion.div
+                key={i}
+                animate={{ y: [0, 5, 0], opacity: [0.2, 1, 0.2] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                className="w-1.5 h-1.5 bg-navy/40 rounded-full"
+              />
+            ))}
+          </div>
+          <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.6em]">Scroll to Decrypt Vault</span>
+        </motion.div>
+      )}
     </div>
   );
 };
 
 const HeroSection = () => {
-  const [triggerAnim, setTriggerAnim] = useState(false);
+  const [displayName, setDisplayName] = useState("Harshil Gorasiya");
 
-  const handleIdentityClick = () => {
-    setTriggerAnim(true);
-    setTimeout(() => setTriggerAnim(false), 100);
-  };
+  const triggerOverclock = useCallback(() => {
+    // 1. Text Scramble Effect
+    const chars = "!<>-_\\/[]{}—=+*^?#________";
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setDisplayName(prev =>
+        "Harshil Gorasiya".split("").map((letter, index) => {
+          if (index < iteration) return "Harshil Gorasiya"[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join("")
+      );
+      if (iteration >= "Harshil Gorasiya".length) clearInterval(interval);
+      iteration += 1 / 3;
+    }, 30);
+
+    // 2. Vault Power Surge
+    anime({
+      targets: '.vault-core-sphere',
+      scale: [1, 1.4, 1],
+      boxShadow: [
+        '0 0 60px rgba(27,42,74,0.5)',
+        '0 0 120px rgba(16,185,129,0.8)',
+        '0 0 60px rgba(27,42,74,0.5)'
+      ],
+      duration: 1000,
+      easing: 'easeOutElastic(1, .5)'
+    });
+  }, []);
 
   return (
     <section className="relative pt-48 pb-20 px-6 overflow-hidden">
@@ -653,24 +687,16 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", damping: 12 }}
-              onClick={handleIdentityClick}
+              onClick={triggerOverclock}
               className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none whitespace-nowrap hover-trigger"
             >
-              Harshil Gorasiya
+              {displayName}
             </motion.h1>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="relative group"
-          >
-            <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-            <div className="relative z-50">
-              <ArchitecturalNeuralCore triggerIdentityAnim={triggerAnim} />
-            </div>
-          </motion.div>
+          <div className="relative z-50 flex items-center justify-center">
+            <NeuralQuantumVault />
+          </div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
