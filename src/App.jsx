@@ -1181,7 +1181,7 @@ const CustomCursor = () => {
 
 function App() {
   return (
-    <div className="relative min-h-screen selection:bg-navy selection:text-white font-sans overflow-x-hidden">
+    <div className="relative min-h-screen selection:bg-navy selection:text-white font-sans overflow-x-hidden notranslate" translate="no">
       {/* Base Background Layer */}
       <div className="fixed inset-0 bg-white -z-30" />
 
