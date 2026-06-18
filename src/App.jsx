@@ -464,88 +464,80 @@ const NeuralQuantumVault = () => {
     if (!containerRef.current) return;
     const scope = (selector) => containerRef.current.querySelectorAll(selector);
 
-    // Orchestrate the 3D Opening Timeline
+    // 1. Initial Continuous Ambient Rotation
+    anime({
+      targets: scope('.vault-wrapper'),
+      rotateY: '360deg',
+      duration: 20000,
+      easing: 'linear',
+      loop: true
+    });
+
+    // 2. Scroll-Linked Transformation Timeline
     timelineRef.current = anime.timeline({
       autoplay: false,
-      easing: 'linear',
+      easing: 'easeInOutSine',
       duration: 1000
     });
 
-    // Slow continuous rotation base
+    // Expansion & Tilt shift on scroll
     timelineRef.current.add({
       targets: scope('.vault-wrapper'),
-      rotateY: ['-20deg', '160deg'],
-      rotateX: ['10deg', '45deg'],
+      scale: [1, 1.4],
+      rotateX: ['15deg', '30deg'],
     }, 0);
 
-    // Facet Expansions - Sliding out like plates
-    const startPos = 64;
-    const endPos = 250;
+    // Facet Deconstruction (Sliding Open)
+    const offset = 80;
+    const expansion = 300;
 
     timelineRef.current.add({
       targets: scope('.facet-front'),
-      translateZ: [startPos, endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateZ: [offset, expansion],
+      opacity: [1, 0.1],
+    }, 0);
     timelineRef.current.add({
       targets: scope('.facet-back'),
-      translateZ: [-startPos, -endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateZ: [-offset, -expansion],
+      opacity: [1, 0.1],
+    }, 0);
     timelineRef.current.add({
       targets: scope('.facet-left'),
-      translateX: [-startPos, -endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateX: [-offset, -expansion],
+      opacity: [1, 0.1],
+    }, 0);
     timelineRef.current.add({
       targets: scope('.facet-right'),
-      translateX: [startPos, endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateX: [offset, expansion],
+      opacity: [1, 0.1],
+    }, 0);
     timelineRef.current.add({
       targets: scope('.facet-top'),
-      translateY: [-startPos, -endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateY: [-offset, -expansion],
+      opacity: [1, 0.1],
+    }, 0);
     timelineRef.current.add({
       targets: scope('.facet-bottom'),
-      translateY: [startPos, endPos],
-      opacity: [1, 0],
-      scale: [1, 0.5],
-    }, 100);
+      translateY: [offset, expansion],
+      opacity: [1, 0.1],
+    }, 0);
 
-    // Core expansion and rotation
+    // Core Reveal
     timelineRef.current.add({
       targets: scope('.vault-core'),
-      scale: [0.1, 1.8],
+      scale: [0.2, 2.5],
       opacity: [0, 1],
       rotateY: '720deg',
-    }, 200);
+    }, 100);
 
-    // Reveal Tech Tags - Maintaining X while animating Y
+    // Meta Data Nodes Reveal
     timelineRef.current.add({
-      targets: scope('.tech-tag-node'),
+      targets: scope('.meta-data-node'),
       scale: [0, 1],
       opacity: [0, 1],
-      translateX: (el) => parseFloat(el.getAttribute('data-x')) || 0,
-      translateY: (el, i) => {
-        const currentY = parseFloat(el.getAttribute('data-y')) || 0;
-        return [currentY + (i % 2 === 0 ? 60 : -60), currentY];
-      },
-      delay: anime.stagger(80),
-    }, 400);
-
-    // Reveal Engine Title
-    timelineRef.current.add({
-      targets: scope('.vault-engine-title'),
-      opacity: [0, 1],
-      translateY: [20, 0],
-    }, 600);
+      translateY: (el, i) => [i % 2 === 0 ? 50 : -50, 0],
+      delay: anime.stagger(100),
+    }, 300);
 
   }, []);
 
@@ -553,104 +545,127 @@ const NeuralQuantumVault = () => {
     return scrollYProgress.on("change", (latest) => {
       if (timelineRef.current) {
         timelineRef.current.seek(latest * timelineRef.current.duration);
-        setHasScrolled(latest > 0.02);
+        setHasScrolled(latest > 0.05);
       }
     });
   }, [scrollYProgress]);
 
-  const facetClass = "absolute inset-0 bg-white/10 backdrop-blur-3xl border border-navy/20 rounded-2xl flex items-center justify-center shadow-2xl backface-hidden preserve-3d";
+  const facetClass = "absolute inset-0 bg-[#1B2A4A]/40 backdrop-blur-2xl border border-white/20 rounded-xl overflow-hidden flex flex-col p-4 shadow-2xl backface-hidden preserve-3d";
+
+  const GlassFacet = ({ side, children, transform }) => (
+    <div className={`${facetClass} facet-${side}`} style={{ transform }}>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-magenta/40 to-transparent" />
+      <div className="flex justify-between items-start mb-4">
+        <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">Protocol: AI-CORE</div>
+        <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">RANK: S-TIER</div>
+      </div>
+      {children}
+      <div className="mt-auto flex justify-between items-end">
+        <div className="text-[7px] font-black text-white/20 uppercase tracking-widest">© 2024 HARSHIL G.</div>
+        <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
+           <Zap size={10} className="text-magenta/40" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-4xl h-[500px] md:h-[600px] flex items-center justify-center perspective-2000 pointer-events-none">
-      {/* Background Radial Glow */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <div className="w-[400px] h-[400px] bg-navy/5 rounded-full blur-[120px] animate-pulse" />
+    <div ref={containerRef} className="relative w-full max-w-4xl h-[600px] md:h-[700px] flex items-center justify-center perspective-2000 pointer-events-none">
+      {/* Internal Core Glow (Magenta/Purple) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-[300px] h-[300px] bg-magenta/20 rounded-full blur-[100px] animate-pulse" />
       </div>
 
-      <div ref={vaultRef} className="vault-wrapper relative w-32 h-32 preserve-3d">
+      <div ref={vaultRef} className="vault-wrapper relative w-40 h-40 preserve-3d">
         {/* Facets */}
-        <div className={`${facetClass} facet-front`} style={{ transform: 'translateZ(64px)' }}>
-          <div className="w-12 h-12 border-2 border-navy/10 rounded-full flex items-center justify-center notranslate" translate="no">
-            <Cpu size={20} className="text-navy/40" />
-          </div>
-        </div>
-        <div className={`${facetClass} facet-back`} style={{ transform: 'translateZ(-64px) rotateY(180deg)' }}>
-          <Database size={20} className="text-navy/40" />
-        </div>
-        <div className={`${facetClass} facet-left`} style={{ transform: 'translateX(-64px) rotateY(-90deg)' }}>
-          <Layers size={20} className="text-navy/40" />
-        </div>
-        <div className={`${facetClass} facet-right`} style={{ transform: 'translateX(64px) rotateY(90deg)' }}>
-          <Globe2 size={20} className="text-navy/40" />
-        </div>
-        <div className={`${facetClass} facet-top`} style={{ transform: 'translateY(-64px) rotateX(90deg)' }}>
-          <Zap size={20} className="text-navy/40" />
-        </div>
-        <div className={`${facetClass} facet-bottom`} style={{ transform: 'translateY(64px) rotateX(-90deg)' }}>
-          <Lock size={20} className="text-navy/40" />
-        </div>
+        <GlassFacet side="front" transform="translateZ(80px)">
+           <h4 className="text-xl font-black text-white tracking-tighter leading-none mt-2">REASONING ENGINE</h4>
+           <div className="w-full h-px bg-white/10 my-3" />
+           <p className="text-[7px] text-white/60 font-medium leading-relaxed">HIGH-FIDELITY RAG ARCHITECTURE INTEGRATED FOR AUTONOMOUS DECISION LOOPS.</p>
+        </GlassFacet>
 
-        {/* The Internal Quantum Core */}
-        <div className="vault-core absolute inset-0 flex items-center justify-center preserve-3d pointer-events-auto">
-          <div className="relative w-24 h-24">
-            {/* Pulsing Core Sphere */}
-            <div className="vault-core-sphere absolute inset-0 bg-navy rounded-3xl shadow-[0_0_60px_rgba(27,42,74,0.5)] flex items-center justify-center notranslate" translate="no">
-               <Cpu size={40} className="text-white animate-pulse" />
+        <GlassFacet side="back" transform="translateZ(-80px) rotateY(180deg)">
+           <div className="flex flex-col gap-2">
+             <div className="h-2 w-3/4 bg-white/10 rounded-full" />
+             <div className="h-2 w-1/2 bg-white/10 rounded-full" />
+             <div className="h-2 w-2/3 bg-white/10 rounded-full" />
+           </div>
+        </GlassFacet>
+
+        <GlassFacet side="left" transform="translateX(-80px) rotateY(-90deg)">
+           <div className="text-[10px] font-black text-magenta mb-2">METRICS</div>
+           <div className="space-y-1">
+             <div className="flex justify-between text-[6px] font-bold text-white/40"><span>LATENCY</span><span>&lt;4s</span></div>
+             <div className="flex justify-between text-[6px] font-bold text-white/40"><span>VELOCITY</span><span>120t/s</span></div>
+           </div>
+        </GlassFacet>
+
+        <GlassFacet side="right" transform="translateX(80px) rotateY(90deg)">
+           <div className="flex items-center justify-center h-full opacity-20">
+             <Database size={40} className="text-white" />
+           </div>
+        </GlassFacet>
+
+        <GlassFacet side="top" transform="translateY(-80px) rotateX(90deg)">
+           <div className="text-[6px] font-black text-white/40 text-center">UPPER DECK DEPLOYED</div>
+        </GlassFacet>
+
+        <GlassFacet side="bottom" transform="translateY(80px) rotateX(-90deg)">
+           <div className="text-[6px] font-black text-white/40 text-center">LOWER DECK STABILIZED</div>
+        </GlassFacet>
+
+        {/* The Internal Collectible Artifact (Quantum Core) */}
+        <div className="vault-core absolute inset-0 flex items-center justify-center preserve-3d opacity-0">
+          <div className="relative w-28 h-28">
+            {/* Pulsing Crystalline Core */}
+            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-magenta via-purple-600 to-navy rounded-[2rem] shadow-[0_0_80px_rgba(255,0,255,0.4)] flex items-center justify-center border-4 border-white/30 animate-[spin_8s_linear_infinite]">
+               <Cpu size={48} className="text-white drop-shadow-[0_0_15px_white]" />
             </div>
 
-            {/* Tech Tags */}
-            <div className="absolute -inset-24 flex items-center justify-center pointer-events-none">
+            {/* Orbiting Tech Tags */}
+            <div className="absolute -inset-32 flex items-center justify-center pointer-events-none">
               {[
-                { label: "01 ARDAN-CLI", x: -160, y: -60 },
-                { label: "02 GRAPH-RAG", x: 160, y: -60 },
-                { label: "03 LOCAL PERPLEX", x: -160, y: 60 },
-                { label: "04 CONNECT CHANNEL", x: 160, y: 60 }
+                { label: "ARDAN-CLI", x: -180, y: -80, rarity: "LEGENDARY" },
+                { label: "GRAPH-RAG", x: 180, y: -80, rarity: "ULTRA" },
+                { label: "LOCAL-PERPLEX", x: -180, y: 80, rarity: "S-TIER" },
+                { label: "AI-UPSCALER", x: 180, y: 80, rarity: "RARE" }
               ].map((tag, i) => (
                 <div
                   key={i}
-                  className="tech-tag-node absolute px-5 py-2.5 bg-white/95 backdrop-blur-md border border-navy/10 rounded-xl shadow-2xl"
-                  data-x={tag.x}
-                  data-y={tag.y}
+                  className="meta-data-node absolute p-4 bg-navy/80 backdrop-blur-xl border border-magenta/30 rounded-2xl shadow-2xl flex flex-col gap-1 min-w-[140px]"
                   style={{ transform: `translate(${tag.x}px, ${tag.y}px)` }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                    <span className="text-[10px] font-black text-navy uppercase tracking-[0.2em] whitespace-nowrap">{tag.label}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[8px] font-black text-magenta tracking-widest">{tag.rarity}</span>
+                    <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
                   </div>
+                  <span className="text-[11px] font-black text-white uppercase tracking-[0.2em]">{tag.label}</span>
+                  <div className="w-full h-0.5 bg-white/5 mt-1" />
+                  <span className="text-[6px] font-bold text-white/40 mt-1 uppercase">AUTHENTICATED ENGINE DATA</span>
                 </div>
               ))}
-            </div>
-
-            {/* Engine Branding */}
-            <div className="vault-engine-title absolute -bottom-32 flex flex-col items-center gap-2 opacity-0">
-               <span className="text-[10px] font-black text-navy/30 uppercase tracking-[0.8em]">Quantum Reasoning Engine V4.1</span>
-               <div className="flex items-center gap-2">
-                 <div className="px-2 py-0.5 bg-emerald-500 text-white text-[8px] font-black rounded uppercase">Ready</div>
-                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest animate-pulse">Awaiting Instruction...</span>
-               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Floating Instructions */}
+      {/* Interactive Instructions */}
       {!hasScrolled && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-0 flex flex-col items-center gap-3"
+          className="absolute bottom-10 flex flex-col items-center gap-4"
         >
-          <div className="flex gap-1">
-            {[0, 1, 2].map(i => (
-              <motion.div
-                key={i}
-                animate={{ y: [0, 5, 0], opacity: [0.2, 1, 0.2] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
-                className="w-1.5 h-1.5 bg-navy/40 rounded-full"
-              />
-            ))}
+          <div className="px-6 py-2 bg-navy/20 backdrop-blur-md border border-white/10 rounded-full">
+            <span className="text-[10px] font-black text-white uppercase tracking-[0.4em] animate-pulse">Scroll to Unbox Core</span>
           </div>
-          <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.6em]">Scroll to Decrypt Vault</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-white/40"
+          >
+            <ChevronRight className="rotate-90" size={24} />
+          </motion.div>
         </motion.div>
       )}
     </div>
@@ -1180,6 +1195,25 @@ const CustomCursor = () => {
 };
 
 function App() {
+  useEffect(() => {
+    // Aggressive anti-translation protection for SVGs to prevent path mangling by extensions
+    const noTranslate = (el) => {
+      if (el.classList) el.classList.add('notranslate');
+      el.setAttribute('translate', 'no');
+    };
+    document.querySelectorAll('svg').forEach(noTranslate);
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeName === 'svg') noTranslate(node);
+          else if (node.querySelectorAll) node.querySelectorAll('svg').forEach(noTranslate);
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="relative min-h-screen selection:bg-navy selection:text-white font-sans overflow-x-hidden notranslate" translate="no">
       {/* Base Background Layer */}
