@@ -197,7 +197,7 @@ const Logo = () => (
   <div className="flex items-center gap-3 group cursor-none select-none">
     <div className="relative">
       <div className="w-11 h-11 bg-navy rounded-2xl flex items-center justify-center shadow-xl group-hover:rotate-[20deg] transition-all duration-700">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" translate="no" className="notranslate">
           <circle cx="12" cy="12" r="2" fill="white" />
           <circle cx="6" cy="6" r="1.5" fill="white" opacity="0.6" />
           <circle cx="18" cy="6" r="1.5" fill="white" opacity="0.6" />
