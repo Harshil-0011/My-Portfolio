@@ -449,127 +449,215 @@ const ContactForm = () => {
   );
 };
 
-const NeuralQuantumVault = () => {
-  const vaultRef = useRef(null);
+const NeuralMonolithArchitect = () => {
+  const monolithRef = useRef(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const scope = (selector) => containerRef.current.querySelectorAll(selector);
 
-    // 1. Smooth Continuous 3D Rotation
+    // 1. Primary Kinetic Engine (Multi-Axial Rotation)
     anime({
-      targets: scope('.vault-wrapper'),
+      targets: scope('.monolith-wrapper'),
       rotateY: '360deg',
-      rotateX: ['12deg', '25deg', '12deg'],
-      duration: 18000,
+      rotateX: ['8deg', '18deg', '8deg'],
+      duration: 32000,
       easing: 'linear',
       loop: true
     });
 
-    // 2. Core Glow Animation
+    // 2. Orbital Shard Drift
     anime({
-      targets: scope('.core-glow'),
-      scale: [1, 1.2, 1],
-      opacity: [0.4, 0.7, 0.4],
-      duration: 3000,
-      easing: 'easeInOutQuad',
+      targets: scope('.shard-offset'),
+      translateY: [-15, 15],
+      duration: 5000,
+      direction: 'alternate',
+      easing: 'easeInOutSine',
+      loop: true,
+      delay: anime.stagger(200)
+    });
+
+    // 3. Emissive Pulse Sync
+    anime({
+      targets: scope('.emissive-core'),
+      scale: [1, 1.15, 1],
+      opacity: [0.6, 1, 0.6],
+      duration: 4000,
+      easing: 'easeInOutCubic',
+      loop: true
+    });
+
+    // 4. Tech UI Scroller
+    anime({
+      targets: scope('.ui-scroller-track'),
+      translateY: ['-50%', '0%'],
+      duration: 20000,
+      easing: 'linear',
       loop: true
     });
 
   }, []);
 
-  const facetClass = "absolute inset-0 bg-[#1B2A4A]/60 backdrop-blur-3xl border border-white/20 rounded-xl overflow-hidden flex flex-col p-5 shadow-[0_0_50px_rgba(27,42,74,0.4)] backface-hidden preserve-3d";
+  const shardStyle = "absolute inset-0 glass-monolith border border-white/20 rounded-[2.5rem] overflow-hidden shadow-[0_0_100px_rgba(27,42,74,0.3)] backface-hidden preserve-3d group transition-all duration-1000";
 
-  const GlassFacet = ({ side, children, transform }) => (
-    <div className={`${facetClass} facet-${side}`} style={{ transform }}>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-magenta/40 to-transparent" />
-      <div className="flex justify-between items-start mb-4">
-        <div className="text-[7px] font-black text-white/30 uppercase tracking-widest">IDENTITY_CORE // V4.1</div>
-        <div className="text-[7px] font-black text-white/30 uppercase tracking-widest">SECURE_LINK</div>
-      </div>
-      {children}
-      <div className="mt-auto flex justify-between items-end">
-        <div className="text-[6px] font-black text-white/10 uppercase tracking-widest">© 2024 HG_ENGINE</div>
-        <div className="w-6 h-6 rounded-full border border-white/5 flex items-center justify-center">
-           <div className="w-1.5 h-1.5 bg-magenta/30 rounded-full animate-pulse" />
+  const GlassShard = ({ side, children, transform }) => (
+    <div className={`${shardStyle} shard-${side}`} style={{ transform }}>
+      {/* Precision Frame Overlay */}
+      <div className="absolute inset-2 border border-white/5 rounded-[1.8rem] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-magenta to-transparent opacity-40" />
+
+      {/* Internal HUD Elements */}
+      <div className="p-8 h-full flex flex-col relative z-10">
+        <div className="flex justify-between items-start mb-6">
+          <div className="space-y-1">
+            <div className="text-[6px] font-black text-white/40 uppercase tracking-[0.4em]">Project_Nexus // V4.0.1</div>
+            <div className="flex gap-1">
+              {[1,2,3].map(i => <div key={i} className="w-1 h-1 bg-magenta/40 rounded-full" />)}
+            </div>
+          </div>
+          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
+            <div className="w-2 h-2 bg-magenta/60 rounded-full shadow-[0_0_10px_#FF00FF] animate-pulse" />
+          </div>
+        </div>
+
+        {children}
+
+        {/* Functional Micro-Metrics */}
+        <div className="mt-auto grid grid-cols-2 gap-4">
+           <div className="space-y-1">
+             <div className="text-[5px] font-black text-white/20 uppercase tracking-widest">Inference_Engine</div>
+             <div className="h-0.5 w-full bg-white/5 overflow-hidden">
+                <div className="h-full bg-magenta/30 w-3/4 animate-[shimmer_2s_infinite]" />
+             </div>
+           </div>
+           <div className="space-y-1">
+             <div className="text-[5px] font-black text-white/20 uppercase tracking-widest">Sync_Status</div>
+             <div className="text-[7px] font-black text-magenta uppercase">Stable // 12ms</div>
+           </div>
         </div>
       </div>
+
+      {/* Atmospheric Dust Layer */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03] pointer-events-none" />
     </div>
   );
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-4xl h-[500px] flex items-center justify-center perspective-2000 pointer-events-none">
-      {/* Background Pulse */}
+    <div ref={containerRef} className="relative w-full max-w-5xl h-[650px] flex items-center justify-center perspective-3000 pointer-events-none">
+      {/* Volumetric Atmosphere */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[400px] h-[400px] bg-navy/5 rounded-full blur-[120px]" />
+        <div className="w-[600px] h-[600px] bg-navy/5 rounded-full blur-[180px] animate-pulse" />
+        <div className="absolute w-px h-[500px] bg-gradient-to-b from-transparent via-magenta/20 to-transparent opacity-30" />
       </div>
 
-      <div ref={vaultRef} className="vault-wrapper relative w-44 h-44 preserve-3d">
-        {/* GPU Chip / Tech Core */}
+      <div ref={monolithRef} className="monolith-wrapper relative w-64 h-80 preserve-3d">
+        {/* The "Singularity" Core */}
         <div className="absolute inset-0 flex items-center justify-center preserve-3d">
-          <div className="relative w-24 h-24 preserve-3d">
-            {/* The "GPU" Emissive Core */}
-            <div className="core-glow absolute inset-0 bg-magenta/20 rounded-2xl blur-2xl" />
-            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-[#1B2A4A] to-[#0A0F1D] border-2 border-magenta/40 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(255,0,255,0.2)] transform translateZ(0px)">
-               <div className="relative">
-                 <Cpu size={48} className="text-magenta opacity-80" />
-                 <div className="absolute -inset-2 bg-magenta/10 blur-md rounded-full animate-pulse" />
+          <div className="relative w-32 h-32 preserve-3d">
+            <div className="emissive-core absolute inset-0 bg-magenta/30 rounded-full blur-[60px]" />
+            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-[#1B2A4A] to-[#010101] border-[3px] border-white/20 rounded-full flex items-center justify-center shadow-[0_0_80px_rgba(255,0,255,0.3)] overflow-hidden">
+               <div className="relative z-10">
+                 <Cpu size={56} className="text-white opacity-90 filter drop-shadow-[0_0_15px_#FF00FF]" />
                </div>
-            </div>
-
-            {/* Floating Tech Orbits */}
-            <div className="absolute inset-0 flex items-center justify-center animate-[spin_10s_linear_infinite] opacity-20">
-               <div className="w-32 h-32 border border-white/20 rounded-full border-dashed" />
+               {/* Orbital HUD Ring */}
+               <div className="absolute inset-2 border border-magenta/20 rounded-full animate-[spin_15s_linear_infinite]" />
+               <div className="absolute inset-0 bg-gradient-radial from-magenta/10 to-transparent opacity-40" />
             </div>
           </div>
         </div>
 
-        {/* Facets - Personal Info */}
-        <GlassFacet side="front" transform="translateZ(88px)">
-           <h4 className="text-lg font-black text-white tracking-tighter leading-tight mt-1">HARSHIL<br/>GORASIYA</h4>
-           <div className="w-8 h-1 bg-magenta/40 my-3" />
-           <p className="text-[8px] text-white/50 font-bold uppercase tracking-widest leading-relaxed">Applied AI Engineer</p>
-        </GlassFacet>
-
-        <GlassFacet side="back" transform="translateZ(-88px) rotateY(180deg)">
-           <div className="space-y-3 mt-2">
-             <div className="flex items-center gap-3">
-               <MapPin size={12} className="text-magenta/60" />
-               <span className="text-[8px] font-black text-white/60 uppercase">Heilbronn, DE</span>
+        {/* The 20-Year Refined Facets */}
+        <div className="shard-offset absolute inset-0 preserve-3d">
+          <GlassShard side="front" transform="translateZ(130px)">
+             <div className="space-y-4">
+               <h4 className="text-2xl font-black text-white tracking-[-0.05em] leading-none uppercase">Harshil<br/><span className="text-magenta/80">Gorasiya</span></h4>
+               <div className="flex items-center gap-3">
+                 <div className="px-3 py-1 bg-white/10 rounded-md text-[8px] font-black text-white/70 uppercase tracking-widest border border-white/5">Senior_Architect</div>
+                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
+               </div>
+               <p className="text-[10px] text-white/50 font-bold leading-relaxed max-w-[180px]">Refining intelligence through 20 years of architectural evolution.</p>
              </div>
-             <div className="flex items-center gap-3">
-               <Clock size={12} className="text-magenta/60" />
-               <span className="text-[8px] font-black text-white/60 uppercase">Seeking Werkstudent</span>
+          </GlassShard>
+        </div>
+
+        <div className="shard-offset absolute inset-0 preserve-3d">
+          <GlassShard side="back" transform="translateZ(-130px) rotateY(180deg)">
+             <div className="space-y-6">
+               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase">Global_Node</div>
+               <div className="space-y-4">
+                 {[
+                   { icon: MapPin, text: "Heilbronn // Germany", val: "EU_WEST" },
+                   { icon: Mail, text: "harshil.gorasiya.0011", val: "SSL_SEC" }
+                 ].map((item, idx) => (
+                   <div key={idx} className="flex items-center justify-between border-b border-white/5 pb-2">
+                     <div className="flex items-center gap-3">
+                       <item.icon size={14} className="text-white/40" />
+                       <span className="text-[9px] font-black text-white/70 uppercase tracking-tighter">{item.text}</span>
+                     </div>
+                     <span className="text-[6px] font-bold text-magenta/40">{item.val}</span>
+                   </div>
+                 ))}
+               </div>
              </div>
-           </div>
-        </GlassFacet>
+          </GlassShard>
+        </div>
 
-        <GlassFacet side="left" transform="translateX(-88px) rotateY(-90deg)">
-           <div className="text-[8px] font-black text-magenta mb-3 tracking-widest uppercase">Academic_Master</div>
-           <p className="text-[9px] font-bold text-white/80 leading-tight">M.Sc. Software Engineering & Management</p>
-           <div className="mt-2 text-[7px] text-white/40 font-black">GPA: 1.9 (DE Scale)</div>
-        </GlassFacet>
+        <div className="shard-offset absolute inset-0 preserve-3d">
+          <GlassShard side="left" transform="translateX(-130px) rotateY(-90deg)">
+             <div className="h-full flex flex-col">
+               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase mb-6">Edu_Stack</div>
+               <div className="flex-grow space-y-6">
+                 <div className="relative pl-4 border-l-2 border-magenta/40">
+                   <div className="text-[10px] font-black text-white">M.Sc. Software Engineering</div>
+                   <div className="text-[7px] font-bold text-white/40 mt-1 uppercase">HS Heilbronn // 1.9 GPA</div>
+                 </div>
+                 <div className="relative pl-4 border-l-2 border-white/10">
+                   <div className="text-[10px] font-black text-white/60">B.Tech. IT</div>
+                   <div className="text-[7px] font-bold text-white/20 mt-1 uppercase">ADIT // 8.4 GPA</div>
+                 </div>
+               </div>
+               <div className="ui-scroller-mask h-12 overflow-hidden relative mt-4 opacity-30">
+                 <div className="ui-scroller-track space-y-2">
+                   {[1,2,3,4,5,6].map(i => <div key={i} className="text-[6px] text-white/40 font-mono tracking-widest uppercase">STREAM_DATA_00{i}_PACKET_RCVD</div>)}
+                   {[1,2,3,4,5,6].map(i => <div key={i+6} className="text-[6px] text-white/40 font-mono tracking-widest uppercase">STREAM_DATA_00{i}_PACKET_RCVD</div>)}
+                 </div>
+               </div>
+             </div>
+          </GlassShard>
+        </div>
 
-        <GlassFacet side="right" transform="translateX(88px) rotateY(90deg)">
-           <div className="text-[8px] font-black text-magenta mb-3 tracking-widest uppercase">Academic_Bachelor</div>
-           <p className="text-[9px] font-bold text-white/80 leading-tight">B.Tech. Information Technology</p>
-           <div className="mt-2 text-[7px] text-white/40 font-black">GPA: 8.4 / 10</div>
-        </GlassFacet>
+        <div className="shard-offset absolute inset-0 preserve-3d">
+          <GlassShard side="right" transform="translateX(130px) rotateY(90deg)">
+             <div className="space-y-6">
+               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase mb-4">Core_Metrics</div>
+               <div className="grid grid-cols-1 gap-5">
+                 {[
+                   { label: "Stability", val: "99.98%", w: "99%" },
+                   { label: "Efficiency", val: "Optimal", w: "84%" },
+                   { label: "Logic_Depth", val: "Extended", w: "92%" }
+                 ].map((stat, i) => (
+                   <div key={i} className="space-y-2">
+                     <div className="flex justify-between text-[7px] font-black uppercase tracking-widest">
+                       <span className="text-white/40">{stat.label}</span>
+                       <span className="text-magenta">{stat.val}</span>
+                     </div>
+                     <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div className="h-full bg-gradient-to-r from-magenta/20 to-magenta/60" style={{ width: stat.w }} />
+                     </div>
+                   </div>
+                 ))}
+               </div>
+             </div>
+          </GlassShard>
+        </div>
+      </div>
 
-        <GlassFacet side="top" transform="translateY(-88px) rotateX(90deg)">
-           <div className="flex flex-col items-center justify-center h-full gap-2">
-              <Zap size={20} className="text-magenta/40" />
-              <div className="text-[6px] font-black text-white/20 uppercase tracking-[0.3em]">System_Authenticated</div>
-           </div>
-        </GlassFacet>
-
-        <GlassFacet side="bottom" transform="translateY(88px) rotateX(-90deg)">
-           <div className="flex flex-col items-center justify-center h-full gap-2">
-              <Code2 size={20} className="text-white/10" />
-              <div className="text-[6px] font-black text-white/20 uppercase tracking-[0.3em]">Engine_Ready</div>
-           </div>
-        </GlassFacet>
+      {/* Atmospheric UI Ring (Floating around the monolith) */}
+      <div className="absolute w-[600px] h-[600px] border border-white/5 rounded-full animate-[spin_40s_linear_infinite] pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center">
+           <div className="w-1.5 h-1.5 bg-magenta/40 rounded-full" />
+        </div>
       </div>
     </div>
   );
@@ -593,17 +681,37 @@ const HeroSection = () => {
       iteration += 1 / 3;
     }, 30);
 
-    // 2. Vault Power Surge
-    anime({
+    // 2. Cinematic Monolith Reconfiguration
+    const tl = anime.timeline({
+      easing: 'easeOutExpo',
+      duration: 1200
+    });
+
+    tl.add({
       targets: document.querySelectorAll('.vault-core-sphere'),
-      scale: [1, 1.4, 1],
+      scale: [1, 1.6, 1],
       boxShadow: [
         '0 0 60px rgba(27,42,74,0.5)',
-        '0 0 120px rgba(16,185,129,0.8)',
+        '0 0 160px rgba(255,0,255,1)',
         '0 0 60px rgba(27,42,74,0.5)'
       ],
+      duration: 1500,
+      easing: 'easeOutElastic(1, .3)'
+    })
+    .add({
+      targets: document.querySelectorAll('.shard-offset'),
+      translateZ: [0, 50, 0],
+      rotateY: (el, i) => i % 2 === 0 ? '+=15deg' : '-=15deg',
       duration: 1000,
-      easing: 'easeOutElastic(1, .5)'
+      delay: anime.stagger(100),
+      offset: '-=1200'
+    })
+    .add({
+      targets: document.querySelectorAll('.emissive-core'),
+      opacity: [0.3, 1, 0.3],
+      scale: [1, 2.5, 1],
+      duration: 800,
+      offset: '-=1000'
     });
   }, []);
 
@@ -633,8 +741,8 @@ const HeroSection = () => {
             </motion.h1>
           </div>
 
-          <div className="relative z-50 flex items-center justify-center">
-            <NeuralQuantumVault />
+          <div className="relative z-50 flex items-center justify-center -mt-20">
+            <NeuralMonolithArchitect />
           </div>
 
           <motion.p

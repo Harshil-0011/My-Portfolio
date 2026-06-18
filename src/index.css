@@ -99,6 +99,21 @@ body::before {
     perspective: 2000px;
   }
 
+  .perspective-3000 {
+    perspective: 3000px;
+  }
+
+  .glass-monolith {
+    background: linear-gradient(135deg, rgba(27, 42, 74, 0.85) 0%, rgba(10, 15, 29, 0.95) 100%);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
   .preserve-3d {
     transform-style: preserve-3d;
   }
