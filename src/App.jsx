@@ -449,216 +449,210 @@ const ContactForm = () => {
   );
 };
 
-const NeuralMonolithArchitect = () => {
-  const monolithRef = useRef(null);
+const SovereignTerminal = () => {
+  const terminalRef = useRef(null);
+  const [lines, setLines] = useState([
+    "INITIALIZING_CORE...",
+    "HANDSHAKE_COMPLETE",
+    "UPLINK_STABLE",
+    "READY"
+  ]);
+
+  useEffect(() => {
+    anime({
+      targets: terminalRef.current,
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 1500,
+      easing: 'easeOutExpo'
+    });
+
+    const pool = [
+      "SYNCHRONIZING_AGENTS...",
+      "ENCRYPTING_PIPELINE...",
+      "DECODING_INTENT...",
+      "NODE_ACTIVE: EU_WEST",
+      "LATENCY: 12ms",
+      "MEMORY_ALLOCATED",
+      "CORE_TEMP: 32°C",
+      "INJECTING_RAG_CONTEXT...",
+      "VECTOR_DB_SYNC: OK"
+    ];
+
+    const interval = setInterval(() => {
+      setLines(prev => [...prev.slice(1), pool[Math.floor(Math.random() * pool.length)]]);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div ref={terminalRef} className="relative group opacity-0 max-w-xs w-full mx-auto">
+      <div className="absolute -inset-2 bg-magenta/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="bg-navy-dark/90 backdrop-blur-xl border border-white/10 rounded-xl p-3 font-mono shadow-2xl overflow-hidden relative">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] pointer-events-none bg-[length:100%_2px,3px_100%]" />
+
+        <div className="flex items-center justify-between mb-2 border-b border-white/5 pb-1 relative z-10">
+          <div className="flex gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-500/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40" />
+          </div>
+          <span className="text-[6px] font-black text-white/20 uppercase tracking-[0.2em]">Neural_Terminal_v4.0</span>
+        </div>
+
+        <div className="space-y-1 relative z-10">
+          {lines.map((line, i) => (
+            <motion.div
+              key={line + i}
+              initial={{ opacity: 0, x: -5 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-[7px] md:text-[8px] flex gap-2"
+            >
+              <span className="text-magenta/60">»</span>
+              <span className="text-white/70 uppercase tracking-tighter">{line}</span>
+            </motion.div>
+          ))}
+          <div className="flex items-center gap-1">
+            <span className="text-magenta/60">»</span>
+            <div className="w-1.5 h-3 bg-magenta/40 animate-pulse" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const QuantumSovereignCore = () => {
   const containerRef = useRef(null);
+  const coreRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const scope = (selector) => containerRef.current.querySelectorAll(selector);
 
-    // 1. Primary Kinetic Engine (Multi-Axial Rotation)
+    // 1. Orbital Physics Engine
     anime({
-      targets: scope('.monolith-wrapper'),
-      rotateY: '360deg',
-      rotateX: ['8deg', '18deg', '8deg'],
-      duration: 32000,
+      targets: scope('.orbital-blade'),
+      rotateZ: (el, i) => i % 2 === 0 ? '360deg' : '-360deg',
+      rotateY: (el, i) => i % 2 === 0 ? '720deg' : '-720deg',
+      duration: (el, i) => 25000 + (i * 2000),
       easing: 'linear',
       loop: true
     });
 
-    // 2. Orbital Shard Drift
+    // 2. Core Resonator
     anime({
-      targets: scope('.shard-offset'),
-      translateY: [-15, 15],
-      duration: 5000,
-      direction: 'alternate',
-      easing: 'easeInOutSine',
-      loop: true,
-      delay: anime.stagger(200)
-    });
-
-    // 3. Emissive Pulse Sync
-    anime({
-      targets: scope('.emissive-core'),
-      scale: [1, 1.15, 1],
-      opacity: [0.6, 1, 0.6],
-      duration: 4000,
-      easing: 'easeInOutCubic',
+      targets: scope('.core-resonator'),
+      scale: [1, 1.1, 1],
+      opacity: [0.7, 1, 0.7],
+      filter: ['blur(40px)', 'blur(60px)', 'blur(40px)'],
+      duration: 3000,
+      easing: 'easeInOutQuad',
       loop: true
     });
 
-    // 4. Tech UI Scroller
+    // 3. Floating HUD Rings
     anime({
-      targets: scope('.ui-scroller-track'),
-      translateY: ['-50%', '0%'],
-      duration: 20000,
+      targets: scope('.holographic-ring'),
+      rotateZ: (el, i) => i % 2 === 0 ? '360deg' : '-360deg',
+      scale: (el, i) => [1, 1.05, 1],
+      duration: (el, i) => 15000 + (i * 5000),
       easing: 'linear',
       loop: true
     });
 
+    // 4. Data Stream Pings
+    const createPing = () => {
+      const ping = document.createElement('div');
+      ping.className = "absolute w-1 h-1 bg-magenta rounded-full pointer-events-none z-50";
+      ping.style.top = '50%';
+      ping.style.left = '50%';
+      if (coreRef.current) coreRef.current.appendChild(ping);
+
+      anime({
+        targets: ping,
+        translateX: () => (Math.random() - 0.5) * 400,
+        translateY: () => (Math.random() - 0.5) * 400,
+        opacity: [1, 0],
+        scale: [1, 4],
+        duration: 2000,
+        easing: 'easeOutExpo',
+        complete: () => ping.remove()
+      });
+    };
+
+    const interval = setInterval(createPing, 2000);
+    return () => clearInterval(interval);
   }, []);
 
-  const shardStyle = "absolute inset-0 glass-monolith border border-white/20 rounded-[2.5rem] overflow-hidden shadow-[0_0_100px_rgba(27,42,74,0.3)] backface-hidden preserve-3d group transition-all duration-1000";
-
-  const GlassShard = ({ side, children, transform }) => (
-    <div className={`${shardStyle} shard-${side}`} style={{ transform }}>
-      {/* Precision Frame Overlay */}
-      <div className="absolute inset-2 border border-white/5 rounded-[1.8rem] pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-magenta to-transparent opacity-40" />
-
-      {/* Internal HUD Elements */}
-      <div className="p-8 h-full flex flex-col relative z-10">
-        <div className="flex justify-between items-start mb-6">
-          <div className="space-y-1">
-            <div className="text-[6px] font-black text-white/40 uppercase tracking-[0.4em]">Project_Nexus // V4.0.1</div>
-            <div className="flex gap-1">
-              {[1,2,3].map(i => <div key={i} className="w-1 h-1 bg-magenta/40 rounded-full" />)}
-            </div>
+  const Blade = ({ index, children, rotateX }) => (
+    <div
+      className="orbital-blade absolute inset-0 preserve-3d pointer-events-none"
+      style={{ transform: `rotateX(${rotateX}deg)` }}
+    >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[1px] bg-gradient-to-r from-transparent via-magenta/40 to-transparent" />
+      <div className="absolute top-1/2 left-[80%] -translate-y-1/2 w-48 h-64 glass-monolith border border-white/20 rounded-3xl overflow-hidden shadow-2xl backface-hidden preserve-3d p-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-magenta/5 to-transparent opacity-50" />
+        <div className="relative z-10 h-full flex flex-col justify-between">
+          <div className="flex justify-between items-start">
+             <div className="text-[6px] font-black text-white/40 uppercase tracking-[0.4em]">Node_{index}</div>
+             <div className="w-1.5 h-1.5 bg-magenta/60 rounded-full animate-pulse" />
           </div>
-          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
-            <div className="w-2 h-2 bg-magenta/60 rounded-full shadow-[0_0_10px_#FF00FF] animate-pulse" />
+          {children}
+          <div className="flex gap-1">
+             {[1,2,3,4].map(i => <div key={i} className="w-1 h-0.5 bg-magenta/20 rounded-full" />)}
           </div>
-        </div>
-
-        {children}
-
-        {/* Functional Micro-Metrics */}
-        <div className="mt-auto grid grid-cols-2 gap-4">
-           <div className="space-y-1">
-             <div className="text-[5px] font-black text-white/20 uppercase tracking-widest">Inference_Engine</div>
-             <div className="h-0.5 w-full bg-white/5 overflow-hidden">
-                <div className="h-full bg-magenta/30 w-3/4 animate-[shimmer_2s_infinite]" />
-             </div>
-           </div>
-           <div className="space-y-1">
-             <div className="text-[5px] font-black text-white/20 uppercase tracking-widest">Sync_Status</div>
-             <div className="text-[7px] font-black text-magenta uppercase">Stable // 12ms</div>
-           </div>
         </div>
       </div>
-
-      {/* Atmospheric Dust Layer */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03] pointer-events-none" />
     </div>
   );
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-5xl h-[650px] flex items-center justify-center perspective-3000 pointer-events-none">
-      {/* Volumetric Atmosphere */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[600px] bg-navy/5 rounded-full blur-[180px] animate-pulse" />
-        <div className="absolute w-px h-[500px] bg-gradient-to-b from-transparent via-magenta/20 to-transparent opacity-30" />
+    <div ref={containerRef} className="relative w-full h-[600px] flex items-center justify-center perspective-3000 pointer-events-none">
+      {/* Central Singularity */}
+      <div ref={coreRef} className="relative w-48 h-48 preserve-3d">
+        <div className="core-resonator absolute inset-[-60px] bg-magenta/20 rounded-full blur-[50px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-navy to-black rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_100px_rgba(255,0,255,0.2)] overflow-hidden">
+           <Cpu size={64} className="text-white filter drop-shadow-[0_0_20px_#FF00FF]" />
+           <div className="absolute inset-0 bg-gradient-radial from-magenta/10 to-transparent" />
+        </div>
+
+        {/* Holographic UI Elements */}
+        {[200, 260, 320].map((size, i) => (
+          <div
+            key={i}
+            className="holographic-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-magenta/10 rounded-full pointer-events-none"
+            style={{ width: size, height: size }}
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-magenta/40 rounded-full blur-[2px]" />
+          </div>
+        ))}
       </div>
 
-      <div ref={monolithRef} className="monolith-wrapper relative w-64 h-80 preserve-3d">
-        {/* The "Singularity" Core */}
-        <div className="absolute inset-0 flex items-center justify-center preserve-3d">
-          <div className="relative w-32 h-32 preserve-3d">
-            <div className="emissive-core absolute inset-0 bg-magenta/30 rounded-full blur-[60px]" />
-            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-[#1B2A4A] to-[#010101] border-[3px] border-white/20 rounded-full flex items-center justify-center shadow-[0_0_80px_rgba(255,0,255,0.3)] overflow-hidden">
-               <div className="relative z-10">
-                 <Cpu size={56} className="text-white opacity-90 filter drop-shadow-[0_0_15px_#FF00FF]" />
-               </div>
-               {/* Orbital HUD Ring */}
-               <div className="absolute inset-2 border border-magenta/20 rounded-full animate-[spin_15s_linear_infinite]" />
-               <div className="absolute inset-0 bg-gradient-radial from-magenta/10 to-transparent opacity-40" />
-            </div>
+      {/* Orbital Blade System */}
+      <Blade index="01" rotateX={45}>
+        <div className="space-y-2">
+          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">RAG_ORCHESTRATOR</div>
+          <div className="h-0.5 w-full bg-white/5 overflow-hidden">
+             <div className="h-full bg-magenta/40 w-3/4 animate-[shimmer_2s_infinite]" />
           </div>
         </div>
+      </Blade>
 
-        {/* The 20-Year Refined Facets */}
-        <div className="shard-offset absolute inset-0 preserve-3d">
-          <GlassShard side="front" transform="translateZ(130px)">
-             <div className="space-y-4">
-               <h4 className="text-2xl font-black text-white tracking-[-0.05em] leading-none uppercase">Harshil<br/><span className="text-magenta/80">Gorasiya</span></h4>
-               <div className="flex items-center gap-3">
-                 <div className="px-3 py-1 bg-white/10 rounded-md text-[8px] font-black text-white/70 uppercase tracking-widest border border-white/5">Senior_Architect</div>
-                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
-               </div>
-               <p className="text-[10px] text-white/50 font-bold leading-relaxed max-w-[180px]">Refining intelligence through 20 years of architectural evolution.</p>
-             </div>
-          </GlassShard>
+      <Blade index="02" rotateX={-45}>
+        <div className="space-y-2">
+          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">AGENT_CORE</div>
+          <div className="text-[8px] font-bold text-magenta/80">LATENCY: 12ms</div>
         </div>
+      </Blade>
 
-        <div className="shard-offset absolute inset-0 preserve-3d">
-          <GlassShard side="back" transform="translateZ(-130px) rotateY(180deg)">
-             <div className="space-y-6">
-               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase">Global_Node</div>
-               <div className="space-y-4">
-                 {[
-                   { icon: MapPin, text: "Heilbronn // Germany", val: "EU_WEST" },
-                   { icon: Mail, text: "harshil.gorasiya.0011", val: "SSL_SEC" }
-                 ].map((item, idx) => (
-                   <div key={idx} className="flex items-center justify-between border-b border-white/5 pb-2">
-                     <div className="flex items-center gap-3">
-                       <item.icon size={14} className="text-white/40" />
-                       <span className="text-[9px] font-black text-white/70 uppercase tracking-tighter">{item.text}</span>
-                     </div>
-                     <span className="text-[6px] font-bold text-magenta/40">{item.val}</span>
-                   </div>
-                 ))}
-               </div>
-             </div>
-          </GlassShard>
+      <Blade index="03" rotateX={0}>
+        <div className="space-y-2">
+          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">NEURAL_INFRA</div>
+          <div className="text-[7px] text-white/40 font-mono tracking-tighter">0xFA45...E302</div>
         </div>
-
-        <div className="shard-offset absolute inset-0 preserve-3d">
-          <GlassShard side="left" transform="translateX(-130px) rotateY(-90deg)">
-             <div className="h-full flex flex-col">
-               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase mb-6">Edu_Stack</div>
-               <div className="flex-grow space-y-6">
-                 <div className="relative pl-4 border-l-2 border-magenta/40">
-                   <div className="text-[10px] font-black text-white">M.Sc. Software Engineering</div>
-                   <div className="text-[7px] font-bold text-white/40 mt-1 uppercase">HS Heilbronn // 1.9 GPA</div>
-                 </div>
-                 <div className="relative pl-4 border-l-2 border-white/10">
-                   <div className="text-[10px] font-black text-white/60">B.Tech. IT</div>
-                   <div className="text-[7px] font-bold text-white/20 mt-1 uppercase">ADIT // 8.4 GPA</div>
-                 </div>
-               </div>
-               <div className="ui-scroller-mask h-12 overflow-hidden relative mt-4 opacity-30">
-                 <div className="ui-scroller-track space-y-2">
-                   {[1,2,3,4,5,6].map(i => <div key={i} className="text-[6px] text-white/40 font-mono tracking-widest uppercase">STREAM_DATA_00{i}_PACKET_RCVD</div>)}
-                   {[1,2,3,4,5,6].map(i => <div key={i+6} className="text-[6px] text-white/40 font-mono tracking-widest uppercase">STREAM_DATA_00{i}_PACKET_RCVD</div>)}
-                 </div>
-               </div>
-             </div>
-          </GlassShard>
-        </div>
-
-        <div className="shard-offset absolute inset-0 preserve-3d">
-          <GlassShard side="right" transform="translateX(130px) rotateY(90deg)">
-             <div className="space-y-6">
-               <div className="text-[9px] font-black text-magenta tracking-[0.3em] uppercase mb-4">Core_Metrics</div>
-               <div className="grid grid-cols-1 gap-5">
-                 {[
-                   { label: "Stability", val: "99.98%", w: "99%" },
-                   { label: "Efficiency", val: "Optimal", w: "84%" },
-                   { label: "Logic_Depth", val: "Extended", w: "92%" }
-                 ].map((stat, i) => (
-                   <div key={i} className="space-y-2">
-                     <div className="flex justify-between text-[7px] font-black uppercase tracking-widest">
-                       <span className="text-white/40">{stat.label}</span>
-                       <span className="text-magenta">{stat.val}</span>
-                     </div>
-                     <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                       <div className="h-full bg-gradient-to-r from-magenta/20 to-magenta/60" style={{ width: stat.w }} />
-                     </div>
-                   </div>
-                 ))}
-               </div>
-             </div>
-          </GlassShard>
-        </div>
-      </div>
-
-      {/* Atmospheric UI Ring (Floating around the monolith) */}
-      <div className="absolute w-[600px] h-[600px] border border-white/5 rounded-full animate-[spin_40s_linear_infinite] pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center">
-           <div className="w-1.5 h-1.5 bg-magenta/40 rounded-full" />
-        </div>
-      </div>
+      </Blade>
     </div>
   );
 };
@@ -681,35 +675,33 @@ const HeroSection = () => {
       iteration += 1 / 3;
     }, 30);
 
-    // 2. Cinematic Monolith Reconfiguration
+    // 2. Cinematic Sovereign Reconfiguration
     const tl = anime.timeline({
       easing: 'easeOutExpo',
       duration: 1200
     });
 
     tl.add({
-      targets: document.querySelectorAll('.vault-core-sphere'),
-      scale: [1, 1.6, 1],
-      boxShadow: [
-        '0 0 60px rgba(27,42,74,0.5)',
-        '0 0 160px rgba(255,0,255,1)',
-        '0 0 60px rgba(27,42,74,0.5)'
-      ],
+      targets: document.querySelectorAll('.core-resonator'),
+      scale: [1, 3.5, 1],
+      opacity: [0.7, 1, 0.7],
+      filter: ['blur(40px)', 'blur(100px)', 'blur(40px)'],
+      duration: 1800,
+      easing: 'easeInOutElastic(1, .5)'
+    })
+    .add({
+      targets: document.querySelectorAll('.orbital-blade'),
+      translateX: (el, i) => i % 2 === 0 ? [0, 80, 0] : [0, -80, 0],
+      rotateY: '+=360deg',
+      scale: [1, 1.1, 1],
       duration: 1500,
-      easing: 'easeOutElastic(1, .3)'
+      delay: anime.stagger(150),
+      offset: '-=1500'
     })
     .add({
-      targets: document.querySelectorAll('.shard-offset'),
-      translateZ: [0, 50, 0],
-      rotateY: (el, i) => i % 2 === 0 ? '+=15deg' : '-=15deg',
-      duration: 1000,
-      delay: anime.stagger(100),
-      offset: '-=1200'
-    })
-    .add({
-      targets: document.querySelectorAll('.emissive-core'),
-      opacity: [0.3, 1, 0.3],
-      scale: [1, 2.5, 1],
+      targets: document.querySelectorAll('.holographic-ring'),
+      scale: [1, 1.8, 1],
+      opacity: [1, 0, 1],
       duration: 800,
       offset: '-=1000'
     });
@@ -739,10 +731,14 @@ const HeroSection = () => {
             >
               {displayName}
             </motion.h1>
+
+            <div className="flex justify-center -mt-2 mb-6">
+               <SovereignTerminal />
+            </div>
           </div>
 
-          <div className="relative z-50 flex items-center justify-center -mt-20">
-            <NeuralMonolithArchitect />
+          <div className="relative z-50 flex items-center justify-center -mt-24">
+            <QuantumSovereignCore />
           </div>
 
           <motion.p
