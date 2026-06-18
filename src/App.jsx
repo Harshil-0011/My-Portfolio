@@ -570,7 +570,7 @@ const NeuralQuantumVault = () => {
       <div ref={vaultRef} className="vault-wrapper relative w-32 h-32 preserve-3d">
         {/* Facets */}
         <div className={`${facetClass} facet-front`} style={{ transform: 'translateZ(64px)' }}>
-          <div className="w-12 h-12 border-2 border-navy/10 rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 border-2 border-navy/10 rounded-full flex items-center justify-center notranslate" translate="no">
             <Cpu size={20} className="text-navy/40" />
           </div>
         </div>
@@ -594,7 +594,7 @@ const NeuralQuantumVault = () => {
         <div className="vault-core absolute inset-0 flex items-center justify-center preserve-3d pointer-events-auto">
           <div className="relative w-24 h-24">
             {/* Pulsing Core Sphere */}
-            <div className="vault-core-sphere absolute inset-0 bg-navy rounded-3xl shadow-[0_0_60px_rgba(27,42,74,0.5)] flex items-center justify-center">
+            <div className="vault-core-sphere absolute inset-0 bg-navy rounded-3xl shadow-[0_0_60px_rgba(27,42,74,0.5)] flex items-center justify-center notranslate" translate="no">
                <Cpu size={40} className="text-white animate-pulse" />
             </div>
 
