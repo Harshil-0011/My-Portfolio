@@ -452,222 +452,125 @@ const ContactForm = () => {
 const NeuralQuantumVault = () => {
   const vaultRef = useRef(null);
   const containerRef = useRef(null);
-  const timelineRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 80%", "end 20%"]
-  });
-
-  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const scope = (selector) => containerRef.current.querySelectorAll(selector);
 
-    // 1. Initial Continuous Ambient Rotation
+    // 1. Smooth Continuous 3D Rotation
     anime({
       targets: scope('.vault-wrapper'),
       rotateY: '360deg',
-      duration: 20000,
+      rotateX: ['12deg', '25deg', '12deg'],
+      duration: 18000,
       easing: 'linear',
       loop: true
     });
 
-    // 2. Scroll-Linked Transformation Timeline
-    timelineRef.current = anime.timeline({
-      autoplay: false,
-      easing: 'easeInOutSine',
-      duration: 1000
+    // 2. Core Glow Animation
+    anime({
+      targets: scope('.core-glow'),
+      scale: [1, 1.2, 1],
+      opacity: [0.4, 0.7, 0.4],
+      duration: 3000,
+      easing: 'easeInOutQuad',
+      loop: true
     });
-
-    // Expansion & Tilt shift on scroll
-    timelineRef.current.add({
-      targets: scope('.vault-wrapper'),
-      scale: [1, 1.4],
-      rotateX: ['15deg', '30deg'],
-    }, 0);
-
-    // Facet Deconstruction (Sliding Open)
-    const offset = 80;
-    const expansion = 300;
-
-    timelineRef.current.add({
-      targets: scope('.facet-front'),
-      translateZ: [offset, expansion],
-      opacity: [1, 0.1],
-    }, 0);
-    timelineRef.current.add({
-      targets: scope('.facet-back'),
-      translateZ: [-offset, -expansion],
-      opacity: [1, 0.1],
-    }, 0);
-    timelineRef.current.add({
-      targets: scope('.facet-left'),
-      translateX: [-offset, -expansion],
-      opacity: [1, 0.1],
-    }, 0);
-    timelineRef.current.add({
-      targets: scope('.facet-right'),
-      translateX: [offset, expansion],
-      opacity: [1, 0.1],
-    }, 0);
-    timelineRef.current.add({
-      targets: scope('.facet-top'),
-      translateY: [-offset, -expansion],
-      opacity: [1, 0.1],
-    }, 0);
-    timelineRef.current.add({
-      targets: scope('.facet-bottom'),
-      translateY: [offset, expansion],
-      opacity: [1, 0.1],
-    }, 0);
-
-    // Core Reveal
-    timelineRef.current.add({
-      targets: scope('.vault-core'),
-      scale: [0.2, 2.5],
-      opacity: [0, 1],
-      rotateY: '720deg',
-    }, 100);
-
-    // Meta Data Nodes Reveal
-    timelineRef.current.add({
-      targets: scope('.meta-data-node'),
-      scale: [0, 1],
-      opacity: [0, 1],
-      translateY: (el, i) => [i % 2 === 0 ? 50 : -50, 0],
-      delay: anime.stagger(100),
-    }, 300);
 
   }, []);
 
-  useEffect(() => {
-    return scrollYProgress.on("change", (latest) => {
-      if (timelineRef.current) {
-        timelineRef.current.seek(latest * timelineRef.current.duration);
-        setHasScrolled(latest > 0.05);
-      }
-    });
-  }, [scrollYProgress]);
-
-  const facetClass = "absolute inset-0 bg-[#1B2A4A]/40 backdrop-blur-2xl border border-white/20 rounded-xl overflow-hidden flex flex-col p-4 shadow-2xl backface-hidden preserve-3d";
+  const facetClass = "absolute inset-0 bg-[#1B2A4A]/60 backdrop-blur-3xl border border-white/20 rounded-xl overflow-hidden flex flex-col p-5 shadow-[0_0_50px_rgba(27,42,74,0.4)] backface-hidden preserve-3d";
 
   const GlassFacet = ({ side, children, transform }) => (
     <div className={`${facetClass} facet-${side}`} style={{ transform }}>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-magenta/40 to-transparent" />
       <div className="flex justify-between items-start mb-4">
-        <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">Protocol: AI-CORE</div>
-        <div className="text-[8px] font-black text-white/40 uppercase tracking-widest">RANK: S-TIER</div>
+        <div className="text-[7px] font-black text-white/30 uppercase tracking-widest">IDENTITY_CORE // V4.1</div>
+        <div className="text-[7px] font-black text-white/30 uppercase tracking-widest">SECURE_LINK</div>
       </div>
       {children}
       <div className="mt-auto flex justify-between items-end">
-        <div className="text-[7px] font-black text-white/20 uppercase tracking-widest">© 2024 HARSHIL G.</div>
-        <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">
-           <Zap size={10} className="text-magenta/40" />
+        <div className="text-[6px] font-black text-white/10 uppercase tracking-widest">© 2024 HG_ENGINE</div>
+        <div className="w-6 h-6 rounded-full border border-white/5 flex items-center justify-center">
+           <div className="w-1.5 h-1.5 bg-magenta/30 rounded-full animate-pulse" />
         </div>
       </div>
     </div>
   );
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-4xl h-[600px] md:h-[700px] flex items-center justify-center perspective-2000 pointer-events-none">
-      {/* Internal Core Glow (Magenta/Purple) */}
+    <div ref={containerRef} className="relative w-full max-w-4xl h-[500px] flex items-center justify-center perspective-2000 pointer-events-none">
+      {/* Background Pulse */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[300px] h-[300px] bg-magenta/20 rounded-full blur-[100px] animate-pulse" />
+        <div className="w-[400px] h-[400px] bg-navy/5 rounded-full blur-[120px]" />
       </div>
 
-      <div ref={vaultRef} className="vault-wrapper relative w-40 h-40 preserve-3d">
-        {/* Facets */}
-        <GlassFacet side="front" transform="translateZ(80px)">
-           <h4 className="text-xl font-black text-white tracking-tighter leading-none mt-2">REASONING ENGINE</h4>
-           <div className="w-full h-px bg-white/10 my-3" />
-           <p className="text-[7px] text-white/60 font-medium leading-relaxed">HIGH-FIDELITY RAG ARCHITECTURE INTEGRATED FOR AUTONOMOUS DECISION LOOPS.</p>
-        </GlassFacet>
-
-        <GlassFacet side="back" transform="translateZ(-80px) rotateY(180deg)">
-           <div className="flex flex-col gap-2">
-             <div className="h-2 w-3/4 bg-white/10 rounded-full" />
-             <div className="h-2 w-1/2 bg-white/10 rounded-full" />
-             <div className="h-2 w-2/3 bg-white/10 rounded-full" />
-           </div>
-        </GlassFacet>
-
-        <GlassFacet side="left" transform="translateX(-80px) rotateY(-90deg)">
-           <div className="text-[10px] font-black text-magenta mb-2">METRICS</div>
-           <div className="space-y-1">
-             <div className="flex justify-between text-[6px] font-bold text-white/40"><span>LATENCY</span><span>&lt;4s</span></div>
-             <div className="flex justify-between text-[6px] font-bold text-white/40"><span>VELOCITY</span><span>120t/s</span></div>
-           </div>
-        </GlassFacet>
-
-        <GlassFacet side="right" transform="translateX(80px) rotateY(90deg)">
-           <div className="flex items-center justify-center h-full opacity-20">
-             <Database size={40} className="text-white" />
-           </div>
-        </GlassFacet>
-
-        <GlassFacet side="top" transform="translateY(-80px) rotateX(90deg)">
-           <div className="text-[6px] font-black text-white/40 text-center">UPPER DECK DEPLOYED</div>
-        </GlassFacet>
-
-        <GlassFacet side="bottom" transform="translateY(80px) rotateX(-90deg)">
-           <div className="text-[6px] font-black text-white/40 text-center">LOWER DECK STABILIZED</div>
-        </GlassFacet>
-
-        {/* The Internal Collectible Artifact (Quantum Core) */}
-        <div className="vault-core absolute inset-0 flex items-center justify-center preserve-3d opacity-0">
-          <div className="relative w-28 h-28">
-            {/* Pulsing Crystalline Core */}
-            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-magenta via-purple-600 to-navy rounded-[2rem] shadow-[0_0_80px_rgba(255,0,255,0.4)] flex items-center justify-center border-4 border-white/30 animate-[spin_8s_linear_infinite]">
-               <Cpu size={48} className="text-white drop-shadow-[0_0_15px_white]" />
+      <div ref={vaultRef} className="vault-wrapper relative w-44 h-44 preserve-3d">
+        {/* GPU Chip / Tech Core */}
+        <div className="absolute inset-0 flex items-center justify-center preserve-3d">
+          <div className="relative w-24 h-24 preserve-3d">
+            {/* The "GPU" Emissive Core */}
+            <div className="core-glow absolute inset-0 bg-magenta/20 rounded-2xl blur-2xl" />
+            <div className="vault-core-sphere absolute inset-0 bg-gradient-to-br from-[#1B2A4A] to-[#0A0F1D] border-2 border-magenta/40 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(255,0,255,0.2)] transform translateZ(0px)">
+               <div className="relative">
+                 <Cpu size={48} className="text-magenta opacity-80" />
+                 <div className="absolute -inset-2 bg-magenta/10 blur-md rounded-full animate-pulse" />
+               </div>
             </div>
 
-            {/* Orbiting Tech Tags */}
-            <div className="absolute -inset-32 flex items-center justify-center pointer-events-none">
-              {[
-                { label: "ARDAN-CLI", x: -180, y: -80, rarity: "LEGENDARY" },
-                { label: "GRAPH-RAG", x: 180, y: -80, rarity: "ULTRA" },
-                { label: "LOCAL-PERPLEX", x: -180, y: 80, rarity: "S-TIER" },
-                { label: "AI-UPSCALER", x: 180, y: 80, rarity: "RARE" }
-              ].map((tag, i) => (
-                <div
-                  key={i}
-                  className="meta-data-node absolute p-4 bg-navy/80 backdrop-blur-xl border border-magenta/30 rounded-2xl shadow-2xl flex flex-col gap-1 min-w-[140px]"
-                  style={{ transform: `translate(${tag.x}px, ${tag.y}px)` }}
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-[8px] font-black text-magenta tracking-widest">{tag.rarity}</span>
-                    <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
-                  </div>
-                  <span className="text-[11px] font-black text-white uppercase tracking-[0.2em]">{tag.label}</span>
-                  <div className="w-full h-0.5 bg-white/5 mt-1" />
-                  <span className="text-[6px] font-bold text-white/40 mt-1 uppercase">AUTHENTICATED ENGINE DATA</span>
-                </div>
-              ))}
+            {/* Floating Tech Orbits */}
+            <div className="absolute inset-0 flex items-center justify-center animate-[spin_10s_linear_infinite] opacity-20">
+               <div className="w-32 h-32 border border-white/20 rounded-full border-dashed" />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Interactive Instructions */}
-      {!hasScrolled && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-10 flex flex-col items-center gap-4"
-        >
-          <div className="px-6 py-2 bg-navy/20 backdrop-blur-md border border-white/10 rounded-full">
-            <span className="text-[10px] font-black text-white uppercase tracking-[0.4em] animate-pulse">Scroll to Unbox Core</span>
-          </div>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-white/40"
-          >
-            <ChevronRight className="rotate-90" size={24} />
-          </motion.div>
-        </motion.div>
-      )}
+        {/* Facets - Personal Info */}
+        <GlassFacet side="front" transform="translateZ(88px)">
+           <h4 className="text-lg font-black text-white tracking-tighter leading-tight mt-1">HARSHIL<br/>GORASIYA</h4>
+           <div className="w-8 h-1 bg-magenta/40 my-3" />
+           <p className="text-[8px] text-white/50 font-bold uppercase tracking-widest leading-relaxed">Applied AI Engineer</p>
+        </GlassFacet>
+
+        <GlassFacet side="back" transform="translateZ(-88px) rotateY(180deg)">
+           <div className="space-y-3 mt-2">
+             <div className="flex items-center gap-3">
+               <MapPin size={12} className="text-magenta/60" />
+               <span className="text-[8px] font-black text-white/60 uppercase">Heilbronn, DE</span>
+             </div>
+             <div className="flex items-center gap-3">
+               <Clock size={12} className="text-magenta/60" />
+               <span className="text-[8px] font-black text-white/60 uppercase">Seeking Werkstudent</span>
+             </div>
+           </div>
+        </GlassFacet>
+
+        <GlassFacet side="left" transform="translateX(-88px) rotateY(-90deg)">
+           <div className="text-[8px] font-black text-magenta mb-3 tracking-widest uppercase">Academic_Master</div>
+           <p className="text-[9px] font-bold text-white/80 leading-tight">M.Sc. Software Engineering & Management</p>
+           <div className="mt-2 text-[7px] text-white/40 font-black">GPA: 1.9 (DE Scale)</div>
+        </GlassFacet>
+
+        <GlassFacet side="right" transform="translateX(88px) rotateY(90deg)">
+           <div className="text-[8px] font-black text-magenta mb-3 tracking-widest uppercase">Academic_Bachelor</div>
+           <p className="text-[9px] font-bold text-white/80 leading-tight">B.Tech. Information Technology</p>
+           <div className="mt-2 text-[7px] text-white/40 font-black">GPA: 8.4 / 10</div>
+        </GlassFacet>
+
+        <GlassFacet side="top" transform="translateY(-88px) rotateX(90deg)">
+           <div className="flex flex-col items-center justify-center h-full gap-2">
+              <Zap size={20} className="text-magenta/40" />
+              <div className="text-[6px] font-black text-white/20 uppercase tracking-[0.3em]">System_Authenticated</div>
+           </div>
+        </GlassFacet>
+
+        <GlassFacet side="bottom" transform="translateY(88px) rotateX(-90deg)">
+           <div className="flex flex-col items-center justify-center h-full gap-2">
+              <Code2 size={20} className="text-white/10" />
+              <div className="text-[6px] font-black text-white/20 uppercase tracking-[0.3em]">Engine_Ready</div>
+           </div>
+        </GlassFacet>
+      </div>
     </div>
   );
 };
