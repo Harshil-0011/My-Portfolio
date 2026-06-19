@@ -523,140 +523,6 @@ const SovereignTerminal = () => {
   );
 };
 
-const QuantumSovereignCore = () => {
-  const containerRef = useRef(null);
-  const coreRef = useRef(null);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const scope = (selector) => containerRef.current.querySelectorAll(selector);
-
-    // 1. Orbital Physics Engine
-    anime({
-      targets: scope('.orbital-blade'),
-      rotateZ: (el, i) => i % 2 === 0 ? '360deg' : '-360deg',
-      rotateY: (el, i) => i % 2 === 0 ? '720deg' : '-720deg',
-      duration: (el, i) => 25000 + (i * 2000),
-      easing: 'linear',
-      loop: true
-    });
-
-    // 2. Core Resonator
-    anime({
-      targets: scope('.core-resonator'),
-      scale: [1, 1.1, 1],
-      opacity: [0.7, 1, 0.7],
-      filter: ['blur(40px)', 'blur(60px)', 'blur(40px)'],
-      duration: 3000,
-      easing: 'easeInOutQuad',
-      loop: true
-    });
-
-    // 3. Floating HUD Rings
-    anime({
-      targets: scope('.holographic-ring'),
-      rotateZ: (el, i) => i % 2 === 0 ? '360deg' : '-360deg',
-      scale: (el, i) => [1, 1.05, 1],
-      duration: (el, i) => 15000 + (i * 5000),
-      easing: 'linear',
-      loop: true
-    });
-
-    // 4. Data Stream Pings
-    const createPing = () => {
-      const ping = document.createElement('div');
-      ping.className = "absolute w-1 h-1 bg-emerald-500 rounded-full pointer-events-none z-50";
-      ping.style.top = '50%';
-      ping.style.left = '50%';
-      if (coreRef.current) coreRef.current.appendChild(ping);
-
-      anime({
-        targets: ping,
-        translateX: () => (Math.random() - 0.5) * 400,
-        translateY: () => (Math.random() - 0.5) * 400,
-        opacity: [1, 0],
-        scale: [1, 4],
-        duration: 2000,
-        easing: 'easeOutExpo',
-        complete: () => ping.remove()
-      });
-    };
-
-    const interval = setInterval(createPing, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const Blade = ({ index, children, rotateX }) => (
-    <div
-      className="orbital-blade absolute inset-0 preserve-3d pointer-events-none"
-      style={{ transform: `rotateX(${rotateX}deg)` }}
-    >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
-      <div className="absolute top-1/2 left-[80%] -translate-y-1/2 w-48 h-64 glass-monolith border border-white/20 rounded-3xl overflow-hidden shadow-2xl backface-hidden preserve-3d p-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-50" />
-        <div className="relative z-10 h-full flex flex-col justify-between">
-          <div className="flex justify-between items-start">
-             <div className="text-[6px] font-black text-white/40 uppercase tracking-[0.4em]">Node_{index}</div>
-             <div className="w-1.5 h-1.5 bg-emerald-500/60 rounded-full animate-pulse" />
-          </div>
-          {children}
-          <div className="flex gap-1">
-             {[1,2,3,4].map(i => <div key={i} className="w-1 h-0.5 bg-emerald-500/20 rounded-full" />)}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div ref={containerRef} className="relative w-full h-[600px] flex items-center justify-center perspective-3000 pointer-events-none">
-      {/* Central Singularity */}
-      <div ref={coreRef} className="relative w-48 h-48 preserve-3d">
-        <div className="core-resonator absolute inset-[-60px] bg-emerald-500/20 rounded-full blur-[50px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-navy to-black rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_100px_rgba(16,185,129,0.2)] overflow-hidden">
-           <Cpu size={64} className="text-white filter drop-shadow-[0_0_20px_#10B981]" />
-           <div className="absolute inset-0 bg-gradient-radial from-emerald-500/10 to-transparent" />
-        </div>
-
-        {/* Holographic UI Elements */}
-        {[200, 260, 320].map((size, i) => (
-          <div
-            key={i}
-            className="holographic-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-emerald-500/10 rounded-full pointer-events-none"
-            style={{ width: size, height: size }}
-          >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-emerald-500/40 rounded-full blur-[2px]" />
-          </div>
-        ))}
-      </div>
-
-      {/* Orbital Blade System */}
-      <Blade index="01" rotateX={45}>
-        <div className="space-y-2">
-          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">RAG_ORCHESTRATOR</div>
-          <div className="h-0.5 w-full bg-white/5 overflow-hidden">
-             <div className="h-full bg-emerald-500/40 w-3/4 animate-[shimmer_2s_infinite]" />
-          </div>
-        </div>
-      </Blade>
-
-      <Blade index="02" rotateX={-45}>
-        <div className="space-y-2">
-          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">AGENT_CORE</div>
-          <div className="text-[8px] font-bold text-emerald-500/80">LATENCY: 12ms</div>
-        </div>
-      </Blade>
-
-      <Blade index="03" rotateX={0}>
-        <div className="space-y-2">
-          <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">NEURAL_INFRA</div>
-          <div className="text-[7px] text-white/40 font-mono tracking-tighter">0xFA45...E302</div>
-        </div>
-      </Blade>
-    </div>
-  );
-};
-
 const HeroSection = () => {
   const [displayName, setDisplayName] = useState("Harshil Gorasiya");
 
@@ -675,36 +541,6 @@ const HeroSection = () => {
       iteration += 1 / 3;
     }, 30);
 
-    // 2. Cinematic Sovereign Reconfiguration
-    const tl = anime.timeline({
-      easing: 'easeOutExpo',
-      duration: 1200
-    });
-
-    tl.add({
-      targets: document.querySelectorAll('.core-resonator'),
-      scale: [1, 3.5, 1],
-      opacity: [0.7, 1, 0.7],
-      filter: ['blur(40px)', 'blur(100px)', 'blur(40px)'],
-      duration: 1800,
-      easing: 'easeInOutElastic(1, .5)'
-    })
-    .add({
-      targets: document.querySelectorAll('.orbital-blade'),
-      translateX: (el, i) => i % 2 === 0 ? [0, 80, 0] : [0, -80, 0],
-      rotateY: '+=360deg',
-      scale: [1, 1.1, 1],
-      duration: 1500,
-      delay: anime.stagger(150),
-      offset: '-=1500'
-    })
-    .add({
-      targets: document.querySelectorAll('.holographic-ring'),
-      scale: [1, 1.8, 1],
-      opacity: [1, 0, 1],
-      duration: 800,
-      offset: '-=1000'
-    });
   }, []);
 
   return (
@@ -735,10 +571,6 @@ const HeroSection = () => {
             <div className="flex justify-center -mt-2 mb-6">
                <SovereignTerminal />
             </div>
-          </div>
-
-          <div className="relative z-50 flex items-center justify-center -mt-24">
-            <QuantumSovereignCore />
           </div>
 
           <motion.p
