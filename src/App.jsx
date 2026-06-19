@@ -185,142 +185,95 @@ const SectionHeading = ({ children, icon: Icon }) => (
 );
 
 const NeuralCoreInterface = () => {
-  const [logs, setLogs] = useState([]);
-  const containerRef = useRef(null);
+  const [activeLog, setActiveLog] = useState(0);
 
-  const logEntries = useMemo(() => [
-    { id: 1, label: "EDUCATION", text: "M.Sc. Software Engineering | Heilbronn", type: "success" },
-    { id: 2, label: "EXPERTISE", text: "RAG & Autonomous Agent Architect", type: "info" },
-    { id: 3, label: "CERTIFIED", text: "Claude API Developer (Anthropic)", type: "success" },
-    { id: 4, label: "RESIDENCY", text: "Heilbronn, Germany", type: "info" },
-    { id: 5, label: "LANGUAGE", text: "English (C1) | German (A2+)", type: "info" },
-    { id: 6, label: "CORE_STATUS", text: "Seeking Werkstudent Positions", type: "success" }
+  const coreData = useMemo(() => [
+    { label: "COGNITIVE_CORE", text: "RAG & Agentic Architecture", status: "STABLE", icon: Cpu },
+    { label: "ACADEMIC_SYNC", text: "M.Sc. Software Engineering", status: "SYNCED", icon: GraduationCap },
+    { label: "VALIDATED_INTEL", text: "Anthropic Claude Certified", status: "VERIFIED", icon: Award },
+    { label: "LINGUAL_BRIDGE", text: "Bilingual: EN (C1) / DE (A2+)", status: "ACTIVE", icon: Languages }
   ], []);
 
-  const indexRef = useRef(0);
-
   useEffect(() => {
-    let intervalId;
-    const addLog = () => {
-      setLogs(prev => {
-        const entry = { ...logEntries[indexRef.current], timestamp: Date.now() };
-        indexRef.current = (indexRef.current + 1) % logEntries.length;
-        const next = [...prev, entry];
-        return next.length > 5 ? next.slice(1) : next;
-      });
-    };
-
-    const timerId = setTimeout(() => {
-      addLog();
-      intervalId = setInterval(addLog, 3000);
-    }, 100);
-
-    return () => {
-      clearTimeout(timerId);
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [logEntries]);
+    const interval = setInterval(() => {
+      setActiveLog(prev => (prev + 1) % coreData.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [coreData.length]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto mt-12 mb-20 px-4">
-      <motion.div
-        whileHover={{ y: -5 }}
-        className="relative group p-10 md:p-16 rounded-[3.5rem] bg-soft-off-white border border-silver-blue/15 shadow-sm overflow-hidden transition-all duration-700"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-navy/[0.02] to-transparent" />
+    <div className="w-full max-w-6xl mx-auto px-6 relative">
+      {/* The Ribbon: High-Contrast Technical Hook */}
+      <div className="relative group flex items-center h-24 md:h-16 rounded-2xl md:rounded-full bg-[#0F172A] shadow-[0_0_50px_rgba(15,23,42,0.4)] border border-white/10 overflow-hidden transition-all duration-700 hover:border-emerald-500/40">
 
-        {/* Animated Background Mesh - Subtle */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-navy to-transparent" />
-          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-navy to-transparent" />
-        </div>
-
-        <div className="relative z-10 flex flex-col md:flex-row gap-16 items-center">
-          {/* Central Neural Hub Visual */}
-          <div className="relative w-40 h-40 shrink-0">
-            <div className="absolute inset-0 bg-navy/5 blur-3xl rounded-full" />
-            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_20px_rgba(27,42,74,0.1)]">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(27,42,74,0.1)" strokeWidth="0.5" />
-              <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(27,42,74,0.2)" strokeWidth="1" strokeDasharray="4 6" className="animate-[spin_30s_linear_infinite]" />
-
-              {/* Pulsing Nodes */}
-              {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-                <motion.circle
-                  key={i}
-                  cx={50 + 38 * Math.cos((angle * Math.PI) / 180)}
-                  cy={50 + 38 * Math.sin((angle * Math.PI) / 180)}
-                  r="2.5"
-                  fill="#1B2A4A"
-                  animate={{ opacity: [0.2, 0.8, 0.2], scale: [1, 1.3, 1] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                />
-              ))}
-
-              <circle cx="50" cy="50" r="10" fill="#1B2A4A" className="animate-pulse" />
-              <path d="M50 15 L50 40 M50 60 L50 85 M15 50 L40 50 M60 50 L85 50" stroke="#1B2A4A" strokeWidth="1.5" opacity="0.3" />
-            </svg>
+        {/* Leading Edge: Active Pulse */}
+        <div className="flex items-center gap-4 px-6 md:px-8 h-full bg-white/5 border-r border-white/5 shrink-0">
+          <div className="relative flex items-center justify-center w-8 h-8">
+            <div className="absolute inset-0 bg-emerald-500/30 blur-lg rounded-full animate-pulse" />
+            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_12px_#10B981]" />
+            <div className="absolute inset-0 border border-emerald-500/20 rounded-full animate-[ping_3s_infinite]" />
           </div>
-
-          {/* Live Data Feed */}
-          <div ref={containerRef} className="flex-grow space-y-6 w-full">
-            <div className="flex items-center justify-between border-b border-navy/5 pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-black text-navy uppercase tracking-[0.3em]">Neural_Engine_Active</span>
-              </div>
-              <div className="flex gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-navy/10" />
-                <div className="w-1.5 h-1.5 rounded-full bg-navy/10" />
-              </div>
-            </div>
-
-            <div className="min-h-[140px]">
-              <AnimatePresence mode="popLayout" initial={false}>
-                {logs.map((log) => (
-                  <motion.div
-                    key={`${log.id}-${log.timestamp}`}
-                    layout
-                    initial={{ opacity: 0, x: -10, filter: 'blur(4px)' }}
-                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, filter: 'blur(8px)' }}
-                    transition={{
-                      layout: { type: "spring", stiffness: 400, damping: 40 },
-                      opacity: { duration: 0.3 }
-                    }}
-                    className="flex items-center gap-6 py-2 border-l-2 border-navy/5 pl-6 group/entry hover:bg-navy/[0.02] transition-all rounded-r-xl"
-                  >
-                    <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border-2 ${
-                      log.type === 'success' ? 'text-emerald-600 border-emerald-500/10 bg-emerald-500/5' : 'text-navy/50 border-navy/10 bg-navy/5'
-                    }`}>
-                      {log.label}
-                    </span>
-                    <span className="text-[12px] font-bold text-navy/80 tracking-tight leading-none">
-                      {log.text}
-                    </span>
-                    <div className="ml-auto opacity-0 group-hover/entry:opacity-100 transition-opacity pr-4">
-                      <Zap size={12} className="text-navy/20" />
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {/* System Metrics Footer */}
-            <div className="pt-6 grid grid-cols-3 gap-10 border-t border-navy/5 mt-8">
-              {[
-                { label: "ACADEMIC_GPA", value: "1.9 (DE)" },
-                { label: "AVAILABILITY", value: "20H/WK" },
-                { label: "ENTITLEMENT", value: "EU_PERMIT" }
-              ].map((m, i) => (
-                <div key={i} className="flex flex-col gap-1.5">
-                  <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{m.label}</span>
-                  <span className="text-[11px] font-black text-navy tracking-widest">{m.value}</span>
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-col">
+            <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.4em] leading-none mb-1">Live_Feed</span>
+            <span className="text-[10px] font-black text-emerald-500 tracking-widest uppercase leading-none">Synced</span>
           </div>
         </div>
-      </motion.div>
+
+        {/* Dynamic Center: Scrolling Intelligence */}
+        <div className="flex-grow h-full relative flex items-center px-6 md:px-10 overflow-hidden">
+           <AnimatePresence mode="wait">
+            <motion.div
+              key={activeLog}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-6 w-full"
+            >
+              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500 border border-emerald-500/20 hidden sm:block">
+                {React.createElement(coreData[activeLog].icon, { size: 18 })}
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4">
+                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] whitespace-nowrap">{coreData[activeLog].label}:</span>
+                <span className="text-xs md:text-sm font-black text-white tracking-tight uppercase group-hover:text-emerald-400 transition-colors duration-300">
+                  {coreData[activeLog].text}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Scrolling Ticker Effect Overlay */}
+          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#0F172A] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#0F172A] to-transparent pointer-events-none" />
+        </div>
+
+        {/* Trailing Edge: Real-time Stats */}
+        <div className="hidden lg:flex items-center gap-10 px-10 h-full bg-white/5 border-l border-white/5 shrink-0">
+          {[
+            { label: "SYS_LOAD", value: "20H/WK", status: "OPTIMAL" },
+            { label: "LATENCY", value: "0.4ms", status: "INSTANT" },
+            { label: "GPA", value: "1.9", status: "ELITE" }
+          ].map((m, i) => (
+            <div key={i} className="flex flex-col items-center">
+              <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">{m.label}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black text-white tracking-widest">{m.value}</span>
+                <div className="w-1 h-1 bg-emerald-500 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Cyber Scanline */}
+        <motion.div
+          animate={{ x: ["-100%", "200%"] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 pointer-events-none"
+        />
+      </div>
+
+      {/* Ribbon Shadow/Glow */}
+      <div className="absolute -inset-1 bg-emerald-500/5 blur-2xl rounded-full -z-10 group-hover:bg-emerald-500/10 transition-colors duration-700" />
     </div>
   );
 };
@@ -586,13 +539,13 @@ const ContactForm = () => {
 
 const HeroSection = () => {
   return (
-    <section className="relative pt-48 pb-20 px-6 overflow-hidden">
+    <section className="relative pt-48 pb-32 px-6 overflow-hidden">
       {/* Gradient Mesh Highlights */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-navy/5 blur-[160px] rounded-full pointer-events-none -z-10" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto text-center space-y-12">
-        <div className="space-y-4">
+      <div className="max-w-7xl mx-auto text-center">
+        <div className="space-y-4 mb-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -604,7 +557,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
-            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-default select-none whitespace-nowrap hover-trigger"
+            className="text-7xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-default select-none whitespace-nowrap hover-trigger"
           >
             Harshil Gorasiya
           </motion.h1>
@@ -614,77 +567,82 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-lg md:text-2xl text-charcoal max-w-3xl mx-auto font-medium leading-relaxed"
+          className="text-lg md:text-2xl text-charcoal max-w-4xl mx-auto font-medium leading-relaxed px-6 opacity-80 mb-12"
         >
           Applied AI Engineer Specializing in RAG, Autonomous Agentic Pipelines & Intelligent Infrastructure
         </motion.p>
 
-        {/* Contact Info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-10 py-6 text-navy font-black tracking-tight"
-        >
-          <div className="flex items-center gap-3 group">
-            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-              <MapPin size={18} />
-            </div>
-            <span className="text-sm">Heilbronn, Germany</span>
-          </div>
-          <a href="tel:+4915563517346" className="flex items-center gap-3 group">
-            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-              <Phone size={18} />
-            </div>
-            <span className="text-sm">0 155 6351 7346</span>
-          </a>
-          <a href="mailto:harshil.gorasiya.0011@gmail.com" className="flex items-center gap-3 group">
-            <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-              <Mail size={18} />
-            </div>
-            <span className="text-sm">harshil.gorasiya.0011@gmail.com</span>
-          </a>
-        </motion.div>
+        {/* Information Cluster: The Hook Architecture */}
+        <div className="space-y-10">
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-        >
-          <NeuralCoreInterface />
-        </motion.div>
-
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-5 pt-6"
-        >
-          <a
-            href="https://linkedin.com/in/harshil-gorasiya"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group"
+          {/* Row 1: Primary Coordinates */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="flex flex-wrap justify-center gap-10 text-navy font-black tracking-tight"
           >
-            <Linkedin size={20} className="group-hover:rotate-12 transition-transform" />
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/N0t-Harshil"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group"
+            <div className="flex items-center gap-3 group">
+              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+                <MapPin size={16} />
+              </div>
+              <span className="text-sm">Heilbronn, Germany</span>
+            </div>
+            <a href="tel:+4915563517346" className="flex items-center gap-3 group">
+              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+                <Phone size={16} />
+              </div>
+              <span className="text-sm">0 155 6351 7346</span>
+            </a>
+            <a href="mailto:harshil.gorasiya.0011@gmail.com" className="flex items-center gap-3 group">
+              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
+                <Mail size={16} />
+              </div>
+              <span className="text-sm">harshil.gorasiya.0011@gmail.com</span>
+            </a>
+          </motion.div>
+
+          {/* Row 2: The Neural Ribbon (Dynamic Hook) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Github size={20} className="group-hover:-rotate-12 transition-transform" />
-            GitHub
-          </a>
-          <button className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-navy text-white font-black shadow-[0_20px_40px_rgba(27,42,74,0.3)] hover:scale-105 active:scale-95 transition-all duration-500">
-            <Download size={20} />
-            Download Full LaTeX CV (PDF)
-          </button>
-        </motion.div>
+            <NeuralCoreInterface />
+          </motion.div>
+
+          {/* Row 3: Action & Authority */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-wrap justify-center gap-6"
+          >
+            <a
+              href="https://linkedin.com/in/harshil-gorasiya"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group shadow-sm hover:shadow-xl"
+            >
+              <Linkedin size={18} className="group-hover:rotate-12 transition-transform" />
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/N0t-Harshil"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group shadow-sm hover:shadow-xl"
+            >
+              <Github size={18} className="group-hover:-rotate-12 transition-transform" />
+              GitHub
+            </a>
+            <button className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-[#0F172A] text-white font-black shadow-[0_20px_40px_rgba(15,23,42,0.3)] hover:scale-105 active:scale-95 transition-all duration-500">
+              <Download size={18} />
+              Download Full LaTeX CV (PDF)
+            </button>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
