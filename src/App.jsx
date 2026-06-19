@@ -191,6 +191,44 @@ const SectionHeading = ({ children, icon: Icon }) => (
   </div>
 );
 
+const NeuralDiagnosticsBridge = () => (
+  <motion.div
+    initial={{ opacity: 0, scaleX: 0 }}
+    animate={{ opacity: 1, scaleX: 1 }}
+    transition={{ delay: 0.45, duration: 0.8, ease: "circOut" }}
+    className="flex items-center justify-center gap-4 w-full max-w-2xl mx-auto py-4"
+  >
+    <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-navy/10 to-navy/20 relative overflow-hidden">
+      <motion.div
+        animate={{ x: ['-100%', '200%'] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"
+      />
+    </div>
+
+    <div className="flex items-center gap-6 px-6 py-2 bg-navy/[0.02] border border-navy/5 rounded-full backdrop-blur-sm">
+      <div className="flex items-center gap-2">
+        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+        <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.2em]">Core_Status:</span>
+        <span className="text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">Active</span>
+      </div>
+      <div className="w-px h-3 bg-navy/10" />
+      <div className="flex items-center gap-2">
+        <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.2em]">Sync_Latency:</span>
+        <span className="text-[9px] font-black text-navy/80 tabular-nums tracking-[0.2em]">0.004ms</span>
+      </div>
+    </div>
+
+    <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent via-navy/10 to-navy/20 relative overflow-hidden">
+      <motion.div
+        animate={{ x: ['200%', '-100%'] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"
+      />
+    </div>
+  </motion.div>
+);
+
 // --- Sub-Components ---
 
 const Logo = () => (
@@ -855,6 +893,8 @@ const HeroSection = () => {
             <span className="text-sm">harshil.gorasiya.0011@gmail.com</span>
           </a>
         </motion.div>
+
+        <NeuralDiagnosticsBridge />
 
         {/* CTAs */}
         <motion.div
