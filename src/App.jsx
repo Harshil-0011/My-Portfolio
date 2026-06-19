@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import gsap from 'gsap';
 import {
   Clock,
   CalendarCheck,
@@ -22,139 +23,125 @@ import {
   Send
 } from 'lucide-react';
 
-// --- System Critical: Vector Particle Field (Google Antigravity Engine) ---
+// --- System Critical: Sovereign Magnifier (Mosaic Intel Interface) ---
 
-const VectorParticleField = () => {
+const SovereignMagnifier = () => {
   const canvasRef = useRef(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let particles = [];
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    const cw = 2000;
+    const ch = cw;
+    c.width = c.height = cw;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    let cRect = c.getBoundingClientRect();
+    let sx = cw / cRect.width;
+    let sy = ch / cRect.height;
+
+    const T = Math.PI * 2;
+    const m = { x: cw / 2, y: ch / 2, s: 1.5, x2: cw / 2, y2: ch / 2 };
+    const xTo = gsap.quickTo(m, "x", { duration: 1, ease: "expo" });
+    const yTo = gsap.quickTo(m, "y", { duration: 1, ease: "expo" });
+    const sTo = gsap.quickTo(m, "s", { duration: 2, ease: "power2" });
+    let boxes = [];
+
+    const props = {
+      // High-quality "Sovereign King" aesthetic - Chess King (Metaphor for AI Sovereignty)
+      img: 'https://images.unsplash.com/photo-1586165368582-1bae1f239459?q=80&w=2000',
+      boxSize: 100,
+      fade: true,
+      dots: true,
+      dotColor: 'rgba(16, 185, 129, 0.4)', // Emerald-500 accent
     };
 
-    class Particle {
-      constructor() {
-        this.init();
-      }
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.src = props.img;
 
-      init() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.8;
-        this.vy = (Math.random() - 0.5) * 0.8;
-        this.length = Math.random() * 8 + 4;
-        this.baseLength = this.length;
-        this.angle = Math.atan2(this.vy, this.vx);
-
-        // Luxury Corporate Colors
-        const colors = [
-          'rgba(27, 42, 74, 0.15)', // Navy
-          'rgba(176, 189, 208, 0.25)', // Silver Blue
-          'rgba(74, 74, 74, 0.1)'    // Charcoal
-        ];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-      }
-
-      update() {
-        const dx = mouseRef.current.x - this.x;
-        const dy = mouseRef.current.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-
-        // "Antigravity" push effect
-        if (dist < 180) {
-          const force = (180 - dist) / 180;
-          this.vx -= (dx / dist) * force * 0.6;
-          this.vy -= (dy / dist) * force * 0.6;
-          this.length = this.baseLength + force * 15;
-        } else {
-          this.length = Math.max(this.baseLength, this.length - 0.5);
+    const initImg = () => {
+      boxes = [];
+      for (let x = 0; x <= cw; x += props.boxSize) {
+        for (let y = 0; y <= ch; y += props.boxSize) {
+          boxes.push({ x, y, d: 0, s: 0 });
         }
-
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vx *= 0.97; // Friction
-        this.vy *= 0.97;
-        this.angle = Math.atan2(this.vy, this.vx);
-
-        // Wrap
-        if (this.x < -20) this.x = canvas.width + 20;
-        if (this.x > canvas.width + 20) this.x = -20;
-        if (this.y < -20) this.y = canvas.height + 20;
-        if (this.y > canvas.height + 20) this.y = -20;
       }
-
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(this.length, 0);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = 1.2;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-        ctx.restore();
-      }
-    }
-
-    const init = () => {
-      resize();
-      particles = Array.from({ length: 80 }, () => new Particle());
     };
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+    const drawImg = (box) => {
+      box.d = Math.hypot((box.x - m.x), (box.y - m.y));
+      box.s = 1 - gsap.utils.clamp(0, 1, box.d / cw / m.s);
+      if (box.s < 0.001) return;
+      let boxScaled = props.boxSize * (box.s);
+      if (props.fade) ctx.globalAlpha = box.s;
+      ctx.drawImage(img, box.x + boxScaled / 2, box.y + boxScaled / 2, props.boxSize - boxScaled, props.boxSize - boxScaled, box.x, box.y, props.boxSize, props.boxSize);
+    };
 
-      // Connect particles
-      particles.forEach((p1, i) => {
-        particles.slice(i + 1).forEach(p2 => {
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(176, 189, 208, ${0.1 * (1 - dist / 120)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
+    const drawDots = (box) => {
+      ctx.beginPath();
+      ctx.arc(box.x, box.y, props.boxSize * 0.15 * box.s, 0, T);
+      ctx.fill();
+    };
 
-      animationFrameId = requestAnimationFrame(animate);
+    const update = () => {
+      const d = Math.hypot((m.x - m.x2), (m.y - m.y2));
+      sTo(d / cw * 2);
+      ctx.clearRect(0, 0, cw, ch);
+
+      // Draw static background at ultra-low opacity for depth
+      ctx.globalAlpha = 0.05;
+      ctx.drawImage(img, 0, 0, cw, ch);
+
+      // Draw the interactive mosaic
+      ctx.fillStyle = props.dotColor;
+      boxes.forEach(drawImg);
+
+      // Reset alpha for dots
+      ctx.globalAlpha = 1;
+      if (props.dots) boxes.forEach(drawDots);
+    };
+
+    img.onload = () => {
+      initImg();
+      gsap.ticker.add(update);
     };
 
     const handleMouseMove = (e) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      cRect = c.getBoundingClientRect();
+      sx = cw / cRect.width;
+      sy = ch / cRect.height;
+      m.x2 = (e.clientX - cRect.left) * sx;
+      m.y2 = (e.clientY - cRect.top) * sy;
+      xTo(m.x2);
+      yTo(m.y2);
     };
 
-    window.addEventListener('resize', resize);
+    const handleResize = () => {
+      cRect = c.getBoundingClientRect();
+      sx = cw / cRect.width;
+      sy = ch / cRect.height;
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
-    init();
-    animate();
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener('resize', resize);
+      gsap.ticker.remove(update);
       window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none -z-10 opacity-60" />;
+  return (
+    <div ref={containerRef} className="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-40">
+      <canvas
+        ref={canvasRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-auto lg:w-full lg:h-auto aspect-square"
+      />
+    </div>
+  );
 };
 
 // --- Shared Components ---
@@ -1043,7 +1030,7 @@ function App() {
       <div className="fixed inset-0 bg-white -z-30" />
 
       <DotMatrixBackground />
-      <VectorParticleField />
+      <SovereignMagnifier />
       <CustomCursor />
 
       <PersistentNavbar />
