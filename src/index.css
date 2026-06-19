@@ -3,7 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 @theme {
-  --color-magenta: #FF00FF;
+  --color-emerald-500: #10B981;
+  --color-emerald-400: #34D399;
+  --color-emerald-600: #059669;
   --color-navy: #1B2A4A;
   --color-navy-dark: #0A0F1D;
   --color-navy-light: #B0BDD0;

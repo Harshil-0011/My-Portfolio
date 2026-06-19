@@ -177,8 +177,8 @@ const Badge = ({ icon, text }) => (
 
 const SectionDivider = () => (
   <div className="group relative py-24 px-6 max-w-7xl mx-auto w-full">
-    <hr className="border-t-2 border-silver-blue/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-navy group-hover:shadow-[0_0_25px_rgba(27,42,74,0.5)]" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-navy opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_20px_#1B2A4A]" />
+    <hr className="border-t-2 border-silver-blue/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-emerald-500/30 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.2)]" />
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-emerald-500 opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.5)]" />
   </div>
 );
 
@@ -488,7 +488,7 @@ const SovereignTerminal = () => {
 
   return (
     <div ref={terminalRef} className="relative group opacity-0 max-w-xs w-full mx-auto">
-      <div className="absolute -inset-2 bg-magenta/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      <div className="absolute -inset-2 bg-emerald-500/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
       <div className="bg-navy-dark/90 backdrop-blur-xl border border-white/10 rounded-xl p-3 font-mono shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] pointer-events-none bg-[length:100%_2px,3px_100%]" />
 
@@ -509,13 +509,13 @@ const SovereignTerminal = () => {
               animate={{ opacity: 1, x: 0 }}
               className="text-[7px] md:text-[8px] flex gap-2"
             >
-              <span className="text-magenta/60">»</span>
+              <span className="text-emerald-500/60">»</span>
               <span className="text-white/70 uppercase tracking-tighter">{line}</span>
             </motion.div>
           ))}
           <div className="flex items-center gap-1">
-            <span className="text-magenta/60">»</span>
-            <div className="w-1.5 h-3 bg-magenta/40 animate-pulse" />
+            <span className="text-emerald-500/60">»</span>
+            <div className="w-1.5 h-3 bg-emerald-500/40 animate-pulse" />
           </div>
         </div>
       </div>
@@ -565,7 +565,7 @@ const QuantumSovereignCore = () => {
     // 4. Data Stream Pings
     const createPing = () => {
       const ping = document.createElement('div');
-      ping.className = "absolute w-1 h-1 bg-magenta rounded-full pointer-events-none z-50";
+      ping.className = "absolute w-1 h-1 bg-emerald-500 rounded-full pointer-events-none z-50";
       ping.style.top = '50%';
       ping.style.left = '50%';
       if (coreRef.current) coreRef.current.appendChild(ping);
@@ -591,17 +591,17 @@ const QuantumSovereignCore = () => {
       className="orbital-blade absolute inset-0 preserve-3d pointer-events-none"
       style={{ transform: `rotateX(${rotateX}deg)` }}
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[1px] bg-gradient-to-r from-transparent via-magenta/40 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
       <div className="absolute top-1/2 left-[80%] -translate-y-1/2 w-48 h-64 glass-monolith border border-white/20 rounded-3xl overflow-hidden shadow-2xl backface-hidden preserve-3d p-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-magenta/5 to-transparent opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-50" />
         <div className="relative z-10 h-full flex flex-col justify-between">
           <div className="flex justify-between items-start">
              <div className="text-[6px] font-black text-white/40 uppercase tracking-[0.4em]">Node_{index}</div>
-             <div className="w-1.5 h-1.5 bg-magenta/60 rounded-full animate-pulse" />
+             <div className="w-1.5 h-1.5 bg-emerald-500/60 rounded-full animate-pulse" />
           </div>
           {children}
           <div className="flex gap-1">
-             {[1,2,3,4].map(i => <div key={i} className="w-1 h-0.5 bg-magenta/20 rounded-full" />)}
+             {[1,2,3,4].map(i => <div key={i} className="w-1 h-0.5 bg-emerald-500/20 rounded-full" />)}
           </div>
         </div>
       </div>
@@ -612,20 +612,20 @@ const QuantumSovereignCore = () => {
     <div ref={containerRef} className="relative w-full h-[600px] flex items-center justify-center perspective-3000 pointer-events-none">
       {/* Central Singularity */}
       <div ref={coreRef} className="relative w-48 h-48 preserve-3d">
-        <div className="core-resonator absolute inset-[-60px] bg-magenta/20 rounded-full blur-[50px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-navy to-black rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_100px_rgba(255,0,255,0.2)] overflow-hidden">
-           <Cpu size={64} className="text-white filter drop-shadow-[0_0_20px_#FF00FF]" />
-           <div className="absolute inset-0 bg-gradient-radial from-magenta/10 to-transparent" />
+        <div className="core-resonator absolute inset-[-60px] bg-emerald-500/20 rounded-full blur-[50px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-navy to-black rounded-full border border-white/10 flex items-center justify-center shadow-[0_0_100px_rgba(16,185,129,0.2)] overflow-hidden">
+           <Cpu size={64} className="text-white filter drop-shadow-[0_0_20px_#10B981]" />
+           <div className="absolute inset-0 bg-gradient-radial from-emerald-500/10 to-transparent" />
         </div>
 
         {/* Holographic UI Elements */}
         {[200, 260, 320].map((size, i) => (
           <div
             key={i}
-            className="holographic-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-magenta/10 rounded-full pointer-events-none"
+            className="holographic-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-emerald-500/10 rounded-full pointer-events-none"
             style={{ width: size, height: size }}
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-magenta/40 rounded-full blur-[2px]" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-emerald-500/40 rounded-full blur-[2px]" />
           </div>
         ))}
       </div>
@@ -635,7 +635,7 @@ const QuantumSovereignCore = () => {
         <div className="space-y-2">
           <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">RAG_ORCHESTRATOR</div>
           <div className="h-0.5 w-full bg-white/5 overflow-hidden">
-             <div className="h-full bg-magenta/40 w-3/4 animate-[shimmer_2s_infinite]" />
+             <div className="h-full bg-emerald-500/40 w-3/4 animate-[shimmer_2s_infinite]" />
           </div>
         </div>
       </Blade>
@@ -643,7 +643,7 @@ const QuantumSovereignCore = () => {
       <Blade index="02" rotateX={-45}>
         <div className="space-y-2">
           <div className="text-[10px] font-black text-white uppercase tracking-widest leading-none">AGENT_CORE</div>
-          <div className="text-[8px] font-bold text-magenta/80">LATENCY: 12ms</div>
+          <div className="text-[8px] font-bold text-emerald-500/80">LATENCY: 12ms</div>
         </div>
       </Blade>
 
