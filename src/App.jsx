@@ -49,12 +49,12 @@ const SovereignMagnifier = () => {
     let boxes = [];
 
     const props = {
-      // High-quality "Sovereign King" aesthetic - Chess King (Metaphor for AI Sovereignty)
-      img: 'https://images.unsplash.com/photo-1586165368582-1bae1f239459?q=80&w=2000',
-      boxSize: 100,
+      // High-end abstract neural mesh - Executive Tech aesthetic
+      img: 'https://images.unsplash.com/photo-1620712943543-bcc46386ca00?q=80&w=2000',
+      boxSize: 20, // Retina-grade micro-mosaic
       fade: true,
       dots: true,
-      dotColor: 'rgba(16, 185, 129, 0.4)', // Emerald-500 accent
+      dotColor: 'rgba(27, 42, 74, 0.02)', // Even more subtle
     };
 
     const img = new Image();
@@ -87,11 +87,11 @@ const SovereignMagnifier = () => {
 
     const update = () => {
       const d = Math.hypot((m.x - m.x2), (m.y - m.y2));
-      sTo(d / cw * 2);
+      sTo(d / cw * 3);
       ctx.clearRect(0, 0, cw, ch);
 
       // Draw static background at ultra-low opacity for depth
-      ctx.globalAlpha = 0.05;
+      ctx.globalAlpha = 0.015;
       ctx.drawImage(img, 0, 0, cw, ch);
 
       // Draw the interactive mosaic
@@ -99,7 +99,7 @@ const SovereignMagnifier = () => {
       boxes.forEach(drawImg);
 
       // Reset alpha for dots
-      ctx.globalAlpha = 1;
+      ctx.globalAlpha = 0.3;
       if (props.dots) boxes.forEach(drawDots);
     };
 
@@ -135,10 +135,10 @@ const SovereignMagnifier = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-40">
+    <div ref={containerRef} className="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-20">
       <canvas
         ref={canvasRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-auto lg:w-full lg:h-auto aspect-square"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-auto lg:w-full lg:h-auto aspect-square mix-blend-multiply"
       />
     </div>
   );
@@ -175,10 +175,10 @@ const NeuralCoreInterface = () => {
   const [activeLog, setActiveLog] = useState(0);
 
   const coreData = useMemo(() => [
-    { label: "COGNITIVE_CORE", text: "RAG & Agentic Architecture", status: "STABLE", icon: Cpu },
-    { label: "ACADEMIC_SYNC", text: "M.Sc. Software Engineering", status: "SYNCED", icon: GraduationCap },
-    { label: "VALIDATED_INTEL", text: "Anthropic Claude Certified", status: "VERIFIED", icon: Award },
-    { label: "LINGUAL_BRIDGE", text: "Bilingual: EN (C1) / DE (A2+)", status: "ACTIVE", icon: Languages }
+    { label: "COGNITIVE_CORE", text: "RAG & Agentic Architecture" },
+    { label: "ACADEMIC_SYNC", text: "M.Sc. Software Engineering" },
+    { label: "VALIDATED_INTEL", text: "Anthropic Claude Certified" },
+    { label: "LINGUAL_BRIDGE", text: "Bilingual: EN (C1) / DE (A2+)" }
   ], []);
 
   useEffect(() => {
@@ -189,78 +189,57 @@ const NeuralCoreInterface = () => {
   }, [coreData.length]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-6 relative">
-      {/* The Ribbon: High-Contrast Technical Hook */}
-      <div className="relative group flex items-center h-24 md:h-16 rounded-2xl md:rounded-full bg-[#0F172A] shadow-[0_0_50px_rgba(15,23,42,0.4)] border border-white/10 overflow-hidden transition-all duration-700 hover:border-emerald-500/40">
+    <div className="w-full max-w-3xl mx-auto px-6 relative">
+      <div className="relative group flex items-center h-14 rounded-xl bg-white/20 backdrop-blur-xl border border-white/30 overflow-hidden transition-all duration-1000 shadow-2xl shadow-navy/5">
 
-        {/* Leading Edge: Active Pulse */}
-        <div className="flex items-center gap-4 px-6 md:px-8 h-full bg-white/5 border-r border-white/5 shrink-0">
-          <div className="relative flex items-center justify-center w-8 h-8">
-            <div className="absolute inset-0 bg-emerald-500/30 blur-lg rounded-full animate-pulse" />
-            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_12px_#10B981]" />
-            <div className="absolute inset-0 border border-emerald-500/20 rounded-full animate-[ping_3s_infinite]" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.4em] leading-none mb-1">Live_Feed</span>
-            <span className="text-[10px] font-black text-emerald-500 tracking-widest uppercase leading-none">Synced</span>
-          </div>
+        {/* Left: Technical ID */}
+        <div className="hidden md:flex items-center gap-4 px-8 h-full border-r border-white/20 bg-navy/[0.02]">
+           <div className="flex flex-col items-start">
+             <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Protocol</span>
+             <span className="text-[10px] font-black text-navy/80 tracking-tighter">SOV_CORE_V5</span>
+           </div>
+           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
         </div>
 
-        {/* Dynamic Center: Scrolling Intelligence */}
-        <div className="flex-grow h-full relative flex items-center px-6 md:px-10 overflow-hidden">
+        {/* Center: Intelligence Stream */}
+        <div className="flex-grow h-full relative flex items-center px-10 overflow-hidden">
            <AnimatePresence mode="wait">
             <motion.div
               key={activeLog}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-6 w-full"
+              initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -10, filter: "blur(8px)" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 w-full"
             >
-              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500 border border-emerald-500/20 hidden sm:block">
-                {React.createElement(coreData[activeLog].icon, { size: 18 })}
-              </div>
-              <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4">
-                <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] whitespace-nowrap">{coreData[activeLog].label}:</span>
-                <span className="text-xs md:text-sm font-black text-white tracking-tight uppercase group-hover:text-emerald-400 transition-colors duration-300">
-                  {coreData[activeLog].text}
-                </span>
-              </div>
+              <span className="text-[8px] font-black text-emerald-600/60 uppercase tracking-[0.5em] whitespace-nowrap">{coreData[activeLog].label}</span>
+              <div className="hidden md:block w-1.5 h-1.5 bg-navy/10 rounded-full" />
+              <span className="text-[11px] font-black text-navy tracking-tight uppercase whitespace-nowrap">
+                {coreData[activeLog].text}
+              </span>
             </motion.div>
           </AnimatePresence>
-
-          {/* Scrolling Ticker Effect Overlay */}
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#0F172A] to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#0F172A] to-transparent pointer-events-none" />
         </div>
 
-        {/* Trailing Edge: Real-time Stats */}
-        <div className="hidden lg:flex items-center gap-10 px-10 h-full bg-white/5 border-l border-white/5 shrink-0">
-          {[
-            { label: "SYS_LOAD", value: "20H/WK", status: "OPTIMAL" },
-            { label: "LATENCY", value: "0.4ms", status: "INSTANT" },
-            { label: "GPA", value: "1.9", status: "ELITE" }
-          ].map((m, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <span className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">{m.label}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-white tracking-widest">{m.value}</span>
-                <div className="w-1 h-1 bg-emerald-500 rounded-full" />
-              </div>
-            </div>
-          ))}
+        {/* Right: Metrics Cluster */}
+        <div className="flex items-center gap-8 px-10 h-full border-l border-white/20 bg-navy/[0.02]">
+          <div className="flex flex-col items-end">
+            <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Academic</span>
+            <span className="text-[10px] font-black text-navy/80 tracking-tighter">GPA 1.9</span>
+          </div>
+          <div className="hidden lg:flex flex-col items-end">
+            <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Bandwidth</span>
+            <span className="text-[10px] font-black text-navy/80 tracking-tighter">20H/WK</span>
+          </div>
         </div>
 
-        {/* Cyber Scanline */}
+        {/* Scanning Line Overlay */}
         <motion.div
           animate={{ x: ["-100%", "200%"] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 pointer-events-none"
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none"
         />
       </div>
-
-      {/* Ribbon Shadow/Glow */}
-      <div className="absolute -inset-1 bg-emerald-500/5 blur-2xl rounded-full -z-10 group-hover:bg-emerald-500/10 transition-colors duration-700" />
     </div>
   );
 };
@@ -525,6 +504,29 @@ const ContactForm = () => {
 
 
 const HeroSection = () => {
+  const [displayName, setDisplayName] = useState("Harshil Gorasiya");
+  const originalName = "Harshil Gorasiya";
+  const chars = "!<>-_\\/[]{}—=+*^?#________";
+  const intervalRef = useRef(null);
+
+  const scramble = () => {
+    let iteration = 0;
+    clearInterval(intervalRef.current);
+
+    intervalRef.current = setInterval(() => {
+      setDisplayName(originalName.split("")
+        .map((char, index) => {
+          if (index < iteration) return originalName[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("")
+      );
+
+      if (iteration >= originalName.length) clearInterval(intervalRef.current);
+      iteration += 1 / 3;
+    }, 30);
+  };
+
   return (
     <section className="relative pt-48 pb-32 px-6 overflow-hidden">
       {/* Gradient Mesh Highlights */}
@@ -544,9 +546,10 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
+            onMouseEnter={scramble}
             className="text-7xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-default select-none whitespace-nowrap hover-trigger"
           >
-            Harshil Gorasiya
+            {displayName}
           </motion.h1>
         </div>
 
@@ -560,7 +563,7 @@ const HeroSection = () => {
         </motion.p>
 
         {/* Information Cluster: The Hook Architecture */}
-        <div className="space-y-10">
+        <div className="space-y-16">
 
           {/* Row 1: Primary Coordinates */}
           <motion.div
