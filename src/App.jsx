@@ -191,43 +191,141 @@ const SectionHeading = ({ children, icon: Icon }) => (
   </div>
 );
 
-const NeuralDiagnosticsBridge = () => (
-  <motion.div
-    initial={{ opacity: 0, scaleX: 0 }}
-    animate={{ opacity: 1, scaleX: 1 }}
-    transition={{ delay: 0.45, duration: 0.8, ease: "circOut" }}
-    className="flex items-center justify-center gap-4 w-full max-w-2xl mx-auto py-4"
-  >
-    <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-navy/10 to-navy/20 relative overflow-hidden">
-      <motion.div
-        animate={{ x: ['-100%', '200%'] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"
-      />
-    </div>
+const NeuralCoreInterface = () => {
+  const [logs, setLogs] = useState([]);
+  const containerRef = useRef(null);
 
-    <div className="flex items-center gap-6 px-6 py-2 bg-navy/[0.02] border border-navy/5 rounded-full backdrop-blur-sm">
-      <div className="flex items-center gap-2">
-        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-        <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.2em]">Core_Status:</span>
-        <span className="text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">Active</span>
-      </div>
-      <div className="w-px h-3 bg-navy/10" />
-      <div className="flex items-center gap-2">
-        <span className="text-[9px] font-black text-navy/40 uppercase tracking-[0.2em]">Sync_Latency:</span>
-        <span className="text-[9px] font-black text-navy/80 tabular-nums tracking-[0.2em]">0.004ms</span>
-      </div>
-    </div>
+  const logEntries = useMemo(() => [
+    { id: 1, label: "CORE", text: "Neural Core Baseline Established", type: "success" },
+    { id: 2, label: "SYNC", text: "Distributed Node Consensus: 99.8%", type: "info" },
+    { id: 3, label: "AI_INF", text: "Inference Engine v4.2 Loaded", type: "info" },
+    { id: 4, label: "SECURE", text: "Encrypted Protocol Alpha Active", type: "success" },
+    { id: 5, label: "MESH", text: "Topology: Optimized", type: "info" },
+    { id: 6, label: "ALLOC", text: "Resource Allocation: Nominal", type: "info" }
+  ], []);
 
-    <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent via-navy/10 to-navy/20 relative overflow-hidden">
+  useEffect(() => {
+    let interval;
+    let index = 0;
+
+    const addLog = () => {
+      const entry = { ...logEntries[index], timestamp: Date.now() };
+      setLogs(prev => {
+        const next = [...prev, entry];
+        return next.length > 5 ? next.slice(1) : next;
+      });
+      index = (index + 1) % logEntries.length;
+    };
+
+    addLog();
+    interval = setInterval(addLog, 3000);
+
+    return () => clearInterval(interval);
+  }, [logEntries]);
+
+  return (
+    <div className="w-full max-w-4xl mx-auto mt-12 mb-20 px-4">
       <motion.div
-        animate={{ x: ['200%', '-100%'] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent"
-      />
+        whileHover={{ y: -5 }}
+        className="relative group p-10 md:p-16 rounded-[3.5rem] bg-soft-off-white border border-silver-blue/15 shadow-sm overflow-hidden transition-all duration-700"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-navy/[0.02] to-transparent" />
+
+        {/* Animated Background Mesh - Subtle */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-navy to-transparent" />
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-navy to-transparent" />
+        </div>
+
+        <div className="relative z-10 flex flex-col md:flex-row gap-16 items-center">
+          {/* Central Neural Hub Visual */}
+          <div className="relative w-40 h-40 shrink-0">
+            <div className="absolute inset-0 bg-navy/5 blur-3xl rounded-full" />
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_20px_rgba(27,42,74,0.1)]">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(27,42,74,0.1)" strokeWidth="0.5" />
+              <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(27,42,74,0.2)" strokeWidth="1" strokeDasharray="4 6" className="animate-[spin_30s_linear_infinite]" />
+
+              {/* Pulsing Nodes */}
+              {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+                <motion.circle
+                  key={i}
+                  cx={50 + 38 * Math.cos((angle * Math.PI) / 180)}
+                  cy={50 + 38 * Math.sin((angle * Math.PI) / 180)}
+                  r="2.5"
+                  fill="#1B2A4A"
+                  animate={{ opacity: [0.2, 0.8, 0.2], scale: [1, 1.3, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
+                />
+              ))}
+
+              <circle cx="50" cy="50" r="10" fill="#1B2A4A" className="animate-pulse" />
+              <path d="M50 15 L50 40 M50 60 L50 85 M15 50 L40 50 M60 50 L85 50" stroke="#1B2A4A" strokeWidth="1.5" opacity="0.3" />
+            </svg>
+          </div>
+
+          {/* Live Data Feed */}
+          <div ref={containerRef} className="flex-grow space-y-6 w-full">
+            <div className="flex items-center justify-between border-b border-navy/5 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black text-navy uppercase tracking-[0.3em]">Neural_Engine_Active</span>
+              </div>
+              <div className="flex gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-navy/10" />
+                <div className="w-1.5 h-1.5 rounded-full bg-navy/10" />
+              </div>
+            </div>
+
+            <div className="min-h-[140px]">
+              <AnimatePresence mode="popLayout" initial={false}>
+                {logs.map((log) => (
+                  <motion.div
+                    key={`${log.id}-${log.timestamp}`}
+                    layout
+                    initial={{ opacity: 0, x: -10, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, filter: 'blur(8px)' }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 400, damping: 40 },
+                      opacity: { duration: 0.3 }
+                    }}
+                    className="flex items-center gap-6 py-2 border-l-2 border-navy/5 pl-6 group/entry hover:bg-navy/[0.02] transition-all rounded-r-xl"
+                  >
+                    <span className={`text-[8px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border-2 ${
+                      log.type === 'success' ? 'text-emerald-600 border-emerald-500/10 bg-emerald-500/5' : 'text-navy/50 border-navy/10 bg-navy/5'
+                    }`}>
+                      {log.label}
+                    </span>
+                    <span className="text-[12px] font-bold text-navy/80 tracking-tight leading-none">
+                      {log.text}
+                    </span>
+                    <div className="ml-auto opacity-0 group-hover/entry:opacity-100 transition-opacity pr-4">
+                      <Zap size={12} className="text-navy/20" />
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {/* System Metrics Footer */}
+            <div className="pt-6 grid grid-cols-3 gap-10 border-t border-navy/5 mt-8">
+              {[
+                { label: "CORE_LOAD", value: "81%" },
+                { label: "LATENCY", value: "0.02ms" },
+                { label: "CONSENSUS", value: "SYNCED" }
+              ].map((m, i) => (
+                <div key={i} className="flex flex-col gap-1.5">
+                  <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{m.label}</span>
+                  <span className="text-[11px] font-black text-navy tracking-widest">{m.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
-  </motion.div>
-);
+  );
+};
 
 // --- Sub-Components ---
 
@@ -487,339 +585,8 @@ const ContactForm = () => {
   );
 };
 
-const Terminal = ({ triggerIdentityAnim }) => {
-  const [visibleLines, setVisibleLines] = useState([]);
-  const [currentText, setCurrentText] = useState("");
-  const [lineIndex, setLineIndex] = useState(0);
-  const [isTyping, setIsTyping] = useState(true);
-  const [terminalState, setTerminalState] = useState('booting'); // 'booting', 'menu', 'project-details', 'identity'
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [scrambledName, setScrambledName] = useState("****************");
-
-  const script = useMemo(() => [
-    { type: 'input', text: ">>> import ardan_agent" },
-    { type: 'input', text: ">>> agent = ardan_agent.initialize(providers=6) # Claude, GPT, Gemini, Groq, Mistral, Ollama" },
-    { type: 'input', text: ">>> agent.execute_react_loop(task=\"Optimize localized infrastructure pipelines\")" },
-    { type: 'info', text: "[INFO] Auto-failover active. Executing Docker containment sandbox tool..." },
-    { type: 'success', text: "[SUCCESS] Low-latency response achieved. Latency: sub-10ms. Cost: $0.00" }
-  ], []);
-
-  useEffect(() => {
-    if (terminalState !== 'booting') return;
-
-    let isCancelled = false;
-    if (lineIndex >= script.length) {
-      const finishTimeout = setTimeout(() => {
-        if (!isCancelled) {
-          setIsTyping(false);
-          setTerminalState('menu');
-        }
-      }, 800);
-      return () => {
-        isCancelled = true;
-        clearTimeout(finishTimeout);
-      };
-    }
-
-    const currentLine = script[lineIndex];
-    if (currentLine.type === 'input') {
-      if (currentText.length < currentLine.text.length) {
-        const timeout = setTimeout(() => {
-          if (!isCancelled) setCurrentText(currentLine.text.slice(0, currentText.length + 1));
-        }, Math.random() * 20 + 15);
-        return () => {
-          isCancelled = true;
-          clearTimeout(timeout);
-        };
-      } else {
-        const timeout = setTimeout(() => {
-          if (!isCancelled) {
-            setVisibleLines(prev => [...prev, currentLine]);
-            setCurrentText("");
-            setLineIndex(prev => prev + 1);
-          }
-        }, 700);
-        return () => {
-          isCancelled = true;
-          clearTimeout(timeout);
-        };
-      }
-    } else {
-      const timeout = setTimeout(() => {
-        if (!isCancelled) {
-          setVisibleLines(prev => [...prev, currentLine]);
-          setLineIndex(prev => prev + 1);
-        }
-      }, 1000);
-      return () => {
-        isCancelled = true;
-        clearTimeout(timeout);
-      };
-    }
-  }, [lineIndex, currentText, script, terminalState]);
-
-  // Listen for Identity Animation Trigger from Hero
-  useEffect(() => {
-    if (triggerIdentityAnim) {
-      setTerminalState('identity');
-      const timer = setTimeout(() => setTerminalState('menu'), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [triggerIdentityAnim]);
-
-  const projects = [
-    { id: 1, name: "Ardan-CLI", desc: "Autonomous Multi-Provider Coding Agent", tech: "Python, ReAct, MCP", status: "STABLE", metrics: "99.2% REASONING ACC" },
-    { id: 2, name: "Graph-RAG", desc: "Hierarchical Graph-Based RAG System", tech: "FAISS, Ollama, Python", status: "ACTIVE", metrics: "4s RETRIEVAL LATENCY" },
-    { id: 3, name: "Local Perplex", desc: "Private Multimodal Research Engine", tech: "C++, Ollama Core", status: "DEPLOYED", metrics: "SUB-10MS RANKING" }
-  ];
-
-  const renderContentLine = (line) => {
-    if (line.type === 'input') {
-      const parts = line.text.split('#');
-      return (
-        <div className="flex gap-4">
-          <span className="text-emerald-500 shrink-0 select-none font-bold">~</span>
-          <span className="text-slate-200 font-medium tracking-tight">
-            {parts[0].replace('>>> ', '')}
-            {parts[1] && <span className="text-slate-500 italic"> #{parts[1]}</span>}
-          </span>
-        </div>
-      );
-    }
-    return (
-      <div className="flex gap-4">
-        <span className="text-slate-800 shrink-0 select-none">▕</span>
-        <span className={line.type === 'info' ? 'text-slate-500 font-mono' : 'text-emerald-400 font-bold tracking-tight uppercase text-[10px]'}>
-          {line.text}
-        </span>
-      </div>
-    );
-  };
-
-  return (
-    <div id="terminal-simulator" className="bg-[#05070A] rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 w-full max-w-4xl mx-auto overflow-hidden font-mono text-[11px] md:text-[12px] leading-relaxed tracking-tight group/term">
-      {/* System Bar */}
-      <div className="bg-white/[0.03] px-6 py-3 flex items-center justify-between border-b border-white/5">
-        <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500/20 border border-red-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-amber-500/20 border border-amber-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/20 border border-emerald-500/40" />
-        </div>
-        <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] select-none">
-          SYSTEM://CENTRAL_CORE
-        </div>
-        <div className="text-[9px] font-bold text-white/20 uppercase tabular-nums tracking-widest">
-          {new Date().toLocaleTimeString()}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-8 md:p-14 min-h-[500px] flex flex-col items-start text-left overflow-y-auto relative">
-        {/* Background Scanline Effect */}
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-0 opacity-20" />
-
-        <AnimatePresence mode="wait">
-          {terminalState === 'booting' && (
-            <motion.div
-              key="boot"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-1.5 w-full relative z-10"
-            >
-              {visibleLines.map((line, i) => (
-                <div key={i}>{renderContentLine(line)}</div>
-              ))}
-              {lineIndex < script.length && script[lineIndex].type === 'input' && (
-                <div className="flex gap-4">
-                  <span className="text-emerald-500 shrink-0 select-none font-bold">~</span>
-                  <span className="text-slate-200">
-                    {currentText.replace('>>> ', '')}
-                    <span className="inline-block w-1.5 h-3.5 bg-emerald-400 translate-y-0.5 ml-1 animate-pulse" />
-                  </span>
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {terminalState === 'menu' && (
-            <motion.div
-              key="menu"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="w-full space-y-10 relative z-10"
-            >
-              <div className="flex flex-col gap-2">
-                <div className="text-emerald-500/40 font-bold text-[8px] uppercase tracking-[0.6em] animate-pulse">-- QUANTUM_REASONING_ENGINE_V4.1 --</div>
-                <div className="h-px w-48 bg-white/10" />
-              </div>
-
-              <div className="space-y-4 relative z-50 max-w-xl">
-                {projects.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => { setSelectedProject(p); setTerminalState('project-details'); }}
-                    className="flex items-center gap-8 group w-full text-left cursor-none relative z-50 p-4 rounded-lg hover:bg-white/[0.02] transition-all border border-transparent hover:border-white/5"
-                  >
-                    <span className="text-emerald-500/30 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tabular-nums tracking-widest">0{p.id}</span>
-                    <div className="flex flex-col pointer-events-none">
-                      <span className="text-slate-400 group-hover:text-white transition-colors font-bold uppercase tracking-[0.15em] text-[12px]">{p.name}</span>
-                      <span className="text-slate-600 text-[8px] font-bold tracking-[0.05em] uppercase mt-0.5">{p.desc}</span>
-                    </div>
-                    <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ChevronRight size={14} className="text-emerald-500" />
-                    </div>
-                  </button>
-                ))}
-
-                <button
-                  onClick={() => {
-                    setTerminalState('identity');
-                    setTimeout(() => setTerminalState('menu'), 4000);
-                  }}
-                  className="flex items-center gap-8 group w-full text-left p-4 rounded-lg hover:bg-emerald-500/5 transition-all border border-transparent hover:border-emerald-500/20 cursor-none relative z-50"
-                >
-                  <span className="text-emerald-500/50 font-black select-none group-hover:text-emerald-400 transition-colors text-[10px] tracking-widest">04</span>
-                  <div className="flex flex-col pointer-events-none">
-                    <span className="text-emerald-400/90 group-hover:text-emerald-300 transition-colors font-black uppercase tracking-[0.25em] text-[11px]">CONNECT_CHANNEL</span>
-                    <span className="text-emerald-900/60 text-[8px] font-bold tracking-[0.1em] uppercase mt-0.5">Direct Communication</span>
-                  </div>
-                  <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Lock size={14} className="text-emerald-400" />
-                  </div>
-                </button>
-              </div>
-
-              <div className="pt-8 flex items-center gap-4">
-                <div className="px-2 py-1 bg-emerald-500/10 rounded border border-emerald-500/20">
-                  <span className="text-emerald-500 text-[8px] font-black uppercase tracking-[0.3em]">Ready</span>
-                </div>
-                <span className="text-white/10 text-[9px] uppercase tracking-[0.5em] font-black animate-pulse">Awaiting Instruction...</span>
-              </div>
-            </motion.div>
-          )}
-
-          {terminalState === 'project-details' && selectedProject && (
-            <motion.div
-              key="details"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="w-full space-y-12 relative z-10"
-            >
-              <div className="flex justify-between items-end w-full">
-                <div className="flex flex-col gap-2">
-                  <div className="text-[9px] text-emerald-500/40 font-black tracking-[0.4em] uppercase">Object://Structure</div>
-                  <div className="text-2xl font-black text-white tracking-widest uppercase">{selectedProject.name}</div>
-                </div>
-                <button
-                  onClick={() => setTerminalState('menu')}
-                  className="text-[9px] font-black text-white/30 hover:text-white uppercase tracking-[0.3em] border border-white/10 px-4 py-2 rounded-lg bg-white/5 transition-all cursor-none group/back"
-                >
-                  <span className="group-hover:text-emerald-400 transition-colors">ESC</span> ▕ RETURN
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full border-y border-white/5 py-12">
-                <div className="space-y-6">
-                  <div className="space-y-2">
-                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Core_Metrics</span>
-                    <div className="flex items-center gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                      <span className="text-slate-200 font-bold text-[11px] tabular-nums tracking-widest">{selectedProject.metrics}</span>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Kernel_Status</span>
-                    <div className="text-emerald-500/80 font-black text-[11px] tracking-widest">{selectedProject.status}</div>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                   <div className="space-y-2">
-                    <span className="text-[8px] text-white/20 font-black tracking-[0.4em] uppercase">Architecture_Stack</span>
-                    <div className="flex flex-wrap gap-2.5 pt-1">
-                      {selectedProject.tech.split(', ').map((t, i) => (
-                        <span key={i} className="text-[8px] text-slate-400 font-bold bg-white/5 px-3 py-1 border border-white/10 rounded-md tracking-widest">{t}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-slate-400 text-[12px] leading-loose max-w-2xl font-medium">
-                <span className="text-emerald-500/40 mr-2">DESCRIPTION:</span>
-                {selectedProject.desc}
-              </div>
-            </motion.div>
-          )}
-
-          {terminalState === 'identity' && (
-            <motion.div
-              key="identity"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onViewportEnter={() => {
-                const name = "HARSHIL GORASIYA";
-                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-                let iterations = 0;
-                const interval = setInterval(() => {
-                  setScrambledName(name.split("").map((char, index) => {
-                    if (index < iterations) return name[index];
-                    return chars[Math.floor(Math.random() * chars.length)];
-                  }).join(""));
-                  iterations += 1/3;
-                  if (iterations >= name.length) clearInterval(interval);
-                }, 40);
-              }}
-              className="w-full h-full flex flex-col items-center justify-center space-y-12"
-            >
-              <div className="text-center space-y-6">
-                <div className="text-slate-800 text-[9px] font-black tracking-[1.5em] uppercase border-y border-white/5 py-4 w-full">ESTABLISHING_SECURE_CHANNEL</div>
-                <div className="text-emerald-500 font-black text-4xl md:text-5xl tracking-tighter drop-shadow-[0_0_25px_rgba(16,185,129,0.5)] py-4">
-                  {scrambledName}
-                </div>
-                <div className="flex items-center justify-center gap-4">
-                  <div className="h-px w-12 bg-emerald-500/20" />
-                  <div className="text-emerald-500/80 text-[10px] tracking-[0.5em] font-black uppercase">CHANNEL_ESTABLISHED</div>
-                  <div className="h-px w-12 bg-emerald-500/20" />
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{
-                      height: [4, 24, 4],
-                      opacity: [0.2, 1, 0.2]
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: i * 0.1
-                    }}
-                    className="w-1 bg-emerald-500 rounded-full"
-                  />
-                ))}
-              </div>
-
-              <div className="text-slate-800 text-[9px] font-mono uppercase tracking-[0.4em] pt-10">SECURE_LEVEL_ALPHA_CLEARANCE_GRANTED</div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-};
 
 const HeroSection = () => {
-  const [triggerAnim, setTriggerAnim] = useState(false);
-
-  const handleIdentityClick = () => {
-    setTriggerAnim(true);
-    setTimeout(() => setTriggerAnim(false), 100);
-  };
-
   return (
     <section className="relative pt-48 pb-20 px-6 overflow-hidden">
       {/* Gradient Mesh Highlights */}
@@ -839,8 +606,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", damping: 12 }}
-            onClick={handleIdentityClick}
-            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-pointer hover:text-emerald-600 transition-colors duration-500 select-none whitespace-nowrap hover-trigger"
+            className="text-6xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-default select-none whitespace-nowrap hover-trigger"
           >
             Harshil Gorasiya
           </motion.h1>
@@ -855,23 +621,11 @@ const HeroSection = () => {
           Applied AI Engineer Specializing in RAG, Autonomous Agentic Pipelines & Intelligent Infrastructure
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="relative group"
-        >
-          <div className="absolute -inset-10 bg-navy/5 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-          <div className="relative z-50">
-            <Terminal triggerIdentityAnim={triggerAnim} />
-          </div>
-        </motion.div>
-
         {/* Contact Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.2 }}
           className="flex flex-wrap justify-center gap-10 py-6 text-navy font-black tracking-tight"
         >
           <div className="flex items-center gap-3 group">
@@ -894,7 +648,14 @@ const HeroSection = () => {
           </a>
         </motion.div>
 
-        <NeuralDiagnosticsBridge />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          <NeuralCoreInterface />
+        </motion.div>
+
 
         {/* CTAs */}
         <motion.div
