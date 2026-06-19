@@ -449,80 +449,6 @@ const ContactForm = () => {
   );
 };
 
-const SovereignTerminal = () => {
-  const terminalRef = useRef(null);
-  const [lines, setLines] = useState([
-    "INITIALIZING_CORE...",
-    "HANDSHAKE_COMPLETE",
-    "UPLINK_STABLE",
-    "READY"
-  ]);
-
-  useEffect(() => {
-    anime({
-      targets: terminalRef.current,
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 1500,
-      easing: 'easeOutExpo'
-    });
-
-    const pool = [
-      "SYNCHRONIZING_AGENTS...",
-      "ENCRYPTING_PIPELINE...",
-      "DECODING_INTENT...",
-      "NODE_ACTIVE: EU_WEST",
-      "LATENCY: 12ms",
-      "MEMORY_ALLOCATED",
-      "CORE_TEMP: 32°C",
-      "INJECTING_RAG_CONTEXT...",
-      "VECTOR_DB_SYNC: OK"
-    ];
-
-    const interval = setInterval(() => {
-      setLines(prev => [...prev.slice(1), pool[Math.floor(Math.random() * pool.length)]]);
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div ref={terminalRef} className="relative group opacity-0 max-w-xs w-full mx-auto">
-      <div className="absolute -inset-2 bg-emerald-500/5 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      <div className="bg-navy-dark/90 backdrop-blur-xl border border-white/10 rounded-xl p-3 font-mono shadow-2xl overflow-hidden relative">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] pointer-events-none bg-[length:100%_2px,3px_100%]" />
-
-        <div className="flex items-center justify-between mb-2 border-b border-white/5 pb-1 relative z-10">
-          <div className="flex gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-500/40" />
-            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/40" />
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/40" />
-          </div>
-          <span className="text-[6px] font-black text-white/20 uppercase tracking-[0.2em]">Neural_Terminal_v4.0</span>
-        </div>
-
-        <div className="space-y-1 relative z-10">
-          {lines.map((line, i) => (
-            <motion.div
-              key={line + i}
-              initial={{ opacity: 0, x: -5 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-[7px] md:text-[8px] flex gap-2"
-            >
-              <span className="text-emerald-500/60">»</span>
-              <span className="text-white/70 uppercase tracking-tighter">{line}</span>
-            </motion.div>
-          ))}
-          <div className="flex items-center gap-1">
-            <span className="text-emerald-500/60">»</span>
-            <div className="w-1.5 h-3 bg-emerald-500/40 animate-pulse" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const HeroSection = () => {
   const [displayName, setDisplayName] = useState("Harshil Gorasiya");
 
@@ -567,10 +493,6 @@ const HeroSection = () => {
             >
               {displayName}
             </motion.h1>
-
-            <div className="flex justify-center -mt-2 mb-6">
-               <SovereignTerminal />
-            </div>
           </div>
 
           <motion.p
