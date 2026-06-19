@@ -10,20 +10,13 @@ import {
   Linkedin,
   Github,
   Download,
-  Terminal as TerminalIcon,
   ChevronRight,
   ExternalLink,
-  Code2,
   Cpu,
-  Database,
   Layers,
   GraduationCap,
-  Globe2,
   Award,
   Zap,
-  Timer,
-  Lock,
-  Monitor,
   Briefcase,
   Languages,
   Send
@@ -196,31 +189,36 @@ const NeuralCoreInterface = () => {
   const containerRef = useRef(null);
 
   const logEntries = useMemo(() => [
-    { id: 1, label: "CORE", text: "Neural Core Baseline Established", type: "success" },
-    { id: 2, label: "SYNC", text: "Distributed Node Consensus: 99.8%", type: "info" },
-    { id: 3, label: "AI_INF", text: "Inference Engine v4.2 Loaded", type: "info" },
-    { id: 4, label: "SECURE", text: "Encrypted Protocol Alpha Active", type: "success" },
-    { id: 5, label: "MESH", text: "Topology: Optimized", type: "info" },
-    { id: 6, label: "ALLOC", text: "Resource Allocation: Nominal", type: "info" }
+    { id: 1, label: "EDUCATION", text: "M.Sc. Software Engineering | Heilbronn", type: "success" },
+    { id: 2, label: "EXPERTISE", text: "RAG & Autonomous Agent Architect", type: "info" },
+    { id: 3, label: "CERTIFIED", text: "Claude API Developer (Anthropic)", type: "success" },
+    { id: 4, label: "RESIDENCY", text: "Heilbronn, Germany", type: "info" },
+    { id: 5, label: "LANGUAGE", text: "English (C1) | German (A2+)", type: "info" },
+    { id: 6, label: "CORE_STATUS", text: "Seeking Werkstudent Positions", type: "success" }
   ], []);
 
-  useEffect(() => {
-    let interval;
-    let index = 0;
+  const indexRef = useRef(0);
 
+  useEffect(() => {
+    let intervalId;
     const addLog = () => {
-      const entry = { ...logEntries[index], timestamp: Date.now() };
       setLogs(prev => {
+        const entry = { ...logEntries[indexRef.current], timestamp: Date.now() };
+        indexRef.current = (indexRef.current + 1) % logEntries.length;
         const next = [...prev, entry];
         return next.length > 5 ? next.slice(1) : next;
       });
-      index = (index + 1) % logEntries.length;
     };
 
-    addLog();
-    interval = setInterval(addLog, 3000);
+    const timerId = setTimeout(() => {
+      addLog();
+      intervalId = setInterval(addLog, 3000);
+    }, 100);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timerId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [logEntries]);
 
   return (
@@ -310,9 +308,9 @@ const NeuralCoreInterface = () => {
             {/* System Metrics Footer */}
             <div className="pt-6 grid grid-cols-3 gap-10 border-t border-navy/5 mt-8">
               {[
-                { label: "CORE_LOAD", value: "81%" },
-                { label: "LATENCY", value: "0.02ms" },
-                { label: "CONSENSUS", value: "SYNCED" }
+                { label: "ACADEMIC_GPA", value: "1.9 (DE)" },
+                { label: "AVAILABILITY", value: "20H/WK" },
+                { label: "ENTITLEMENT", value: "EU_PERMIT" }
               ].map((m, i) => (
                 <div key={i} className="flex flex-col gap-1.5">
                   <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">{m.label}</span>
