@@ -3,7 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ContactPortal = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('IDLE'); // IDLE, SENDING, SUCCESS, ERROR
+  const [status, setStatus] = useState('IDLE'); // IDLE, SENDING, SUCCESS, ERROR, COPIED
+  const [copyStatus, setCopyStatus] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('harshil.gorasiya.0011@gmail.com');
+    setCopyStatus(true);
+    setTimeout(() => setCopyStatus(false), 2000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,9 +58,17 @@ const ContactPortal = () => {
             <div className="space-y-12">
                <div>
                   <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">E-Mail</p>
-                  <a href="mailto:harshil.gorasiya.0011@gmail.com" className="text-3xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors">
-                    HARSHIL.GORASIYA.0011@GMAIL.COM
-                  </a>
+                  <div className="flex flex-col items-start gap-2">
+                    <a href="mailto:harshil.gorasiya.0011@gmail.com" className="text-3xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">
+                      harshil.gorasiya.0011@gmail.com
+                    </a>
+                    <button
+                      onClick={handleCopyEmail}
+                      className="font-mono text-[10px] text-safety-orange/60 hover:text-safety-orange transition-colors uppercase tracking-widest"
+                    >
+                      {copyStatus ? '[COPIED_TO_CLIPBOARD]' : '[COPY_ADDRESS]'}
+                    </button>
+                  </div>
                </div>
                <div>
                   <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">Social_Nodes</p>

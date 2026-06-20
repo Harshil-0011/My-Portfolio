@@ -64,6 +64,16 @@ function App() {
         <div className="grid-line grid-line-h top-3/4" />
       </div>
 
+      {/* Technical Navigation */}
+      <nav className="fixed top-10 left-10 z-[100] mix-blend-difference">
+        <div className="flex gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
+           <a href="#" className="hover:text-safety-orange transition-colors">[IDENTITY]</a>
+           <a href="#" onClick={(e) => { e.preventDefault(); document.documentElement.scrollTo({ top: 1200, behavior: 'smooth' }); }} className="hover:text-safety-orange transition-colors">[MATRIX]</a>
+           <a href="#" onClick={(e) => { e.preventDefault(); document.documentElement.scrollTo({ top: 2500, behavior: 'smooth' }); }} className="hover:text-safety-orange transition-colors">[ARCHIVE]</a>
+           <a href="#" onClick={(e) => { e.preventDefault(); document.documentElement.scrollTo({ top: 5000, behavior: 'smooth' }); }} className="hover:text-safety-orange transition-colors">[PORTAL]</a>
+        </div>
+      </nav>
+
       {/* Floating System Stats */}
       <div className="fixed top-10 right-10 z-[100] mix-blend-difference hidden md:block">
         <div className="font-mono text-[10px] text-pure-white/40 space-y-1 text-right uppercase tracking-[0.2em]">

@@ -7,7 +7,8 @@ const SkillCard = ({ title, skills, index }) => (
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, delay: index * 0.1 }}
     viewport={{ once: true }}
-    className="relative p-8 border border-pure-white/10 bg-pure-white/[0.02] group overflow-hidden"
+    whileHover={{ backgroundColor: "rgba(255, 51, 0, 0.03)" }}
+    className="relative p-8 border border-pure-white/10 bg-pure-white/[0.02] group overflow-hidden transition-colors"
   >
     <div className="absolute top-0 left-0 w-full h-[2px] bg-safety-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     <span className="font-mono text-[10px] text-safety-orange mb-6 block opacity-50">

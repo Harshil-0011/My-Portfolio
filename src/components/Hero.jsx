@@ -64,6 +64,8 @@ const NeuralCore = () => {
 const Hero = () => {
   return (
     <section className="relative min-h-screen split-screen bg-obsidian overflow-hidden">
+      <div className="scanning-line" />
+
       {/* Left Column: Identity */}
       <div className="flex flex-col justify-center p-8 md:p-20 z-10">
         <motion.div
@@ -83,7 +85,18 @@ const Hero = () => {
           </p>
 
           <div className="mt-16 flex flex-wrap gap-6">
-            <button className="magnetic-button">
+            <button
+              className="magnetic-button"
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                e.currentTarget.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = `translate(0px, 0px)`;
+              }}
+            >
               View Case Files
             </button>
             <div className="flex items-center gap-4 text-technical text-pure-white/40">
