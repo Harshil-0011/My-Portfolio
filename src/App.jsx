@@ -1,971 +1,485 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import gsap from 'gsap';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import {
-  Clock,
-  CalendarCheck,
-  IdCard,
-  MapPin,
-  Phone,
-  Mail,
-  Linkedin,
+  ArrowDown,
+  ArrowUpRight,
   Github,
-  Download,
-  ChevronRight,
-  ExternalLink,
-  Cpu,
-  Layers,
-  GraduationCap,
-  Award,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+  Activity,
   Zap,
-  Briefcase,
-  Languages,
   Send
 } from 'lucide-react';
 
-// --- System Critical: Sovereign Magnifier (Mosaic Intel Interface) ---
+// --- Core Branding Components ---
 
-const SovereignMagnifier = () => {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const c = canvasRef.current;
-    if (!c) return;
-    const ctx = c.getContext('2d');
-    const cw = 2000;
-    const ch = cw;
-    c.width = c.height = cw;
-
-    let cRect = c.getBoundingClientRect();
-    let sx = cw / cRect.width;
-    let sy = ch / cRect.height;
-
-    const T = Math.PI * 2;
-    const m = { x: cw / 2, y: ch / 2, s: 1.5, x2: cw / 2, y2: ch / 2 };
-    const xTo = gsap.quickTo(m, "x", { duration: 1, ease: "expo" });
-    const yTo = gsap.quickTo(m, "y", { duration: 1, ease: "expo" });
-    const sTo = gsap.quickTo(m, "s", { duration: 2, ease: "power2" });
-    let boxes = [];
-
-    const props = {
-      // High-end abstract neural mesh - Executive Tech aesthetic
-      img: 'https://images.unsplash.com/photo-1620712943543-bcc46386ca00?q=80&w=2000',
-      boxSize: 20, // Retina-grade micro-mosaic
-      fade: true,
-      dots: true,
-      dotColor: 'rgba(27, 42, 74, 0.02)', // Even more subtle
-    };
-
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = props.img;
-
-    const initImg = () => {
-      boxes = [];
-      for (let x = 0; x <= cw; x += props.boxSize) {
-        for (let y = 0; y <= ch; y += props.boxSize) {
-          boxes.push({ x, y, d: 0, s: 0 });
-        }
-      }
-    };
-
-    const drawImg = (box) => {
-      box.d = Math.hypot((box.x - m.x), (box.y - m.y));
-      box.s = 1 - gsap.utils.clamp(0, 1, box.d / cw / m.s);
-      if (box.s < 0.001) return;
-      let boxScaled = props.boxSize * (box.s);
-      if (props.fade) ctx.globalAlpha = box.s;
-      ctx.drawImage(img, box.x + boxScaled / 2, box.y + boxScaled / 2, props.boxSize - boxScaled, props.boxSize - boxScaled, box.x, box.y, props.boxSize, props.boxSize);
-    };
-
-    const drawDots = (box) => {
-      ctx.beginPath();
-      ctx.arc(box.x, box.y, props.boxSize * 0.15 * box.s, 0, T);
-      ctx.fill();
-    };
-
-    const update = () => {
-      const d = Math.hypot((m.x - m.x2), (m.y - m.y2));
-      sTo(d / cw * 3);
-      ctx.clearRect(0, 0, cw, ch);
-
-      // Draw static background at ultra-low opacity for depth
-      ctx.globalAlpha = 0.015;
-      ctx.drawImage(img, 0, 0, cw, ch);
-
-      // Draw the interactive mosaic
-      ctx.fillStyle = props.dotColor;
-      boxes.forEach(drawImg);
-
-      // Reset alpha for dots
-      ctx.globalAlpha = 0.3;
-      if (props.dots) boxes.forEach(drawDots);
-    };
-
-    img.onload = () => {
-      initImg();
-      gsap.ticker.add(update);
-    };
-
-    const handleMouseMove = (e) => {
-      cRect = c.getBoundingClientRect();
-      sx = cw / cRect.width;
-      sy = ch / cRect.height;
-      m.x2 = (e.clientX - cRect.left) * sx;
-      m.y2 = (e.clientY - cRect.top) * sy;
-      xTo(m.x2);
-      yTo(m.y2);
-    };
-
-    const handleResize = () => {
-      cRect = c.getBoundingClientRect();
-      sx = cw / cRect.width;
-      sy = ch / cRect.height;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      gsap.ticker.remove(update);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  return (
-    <div ref={containerRef} className="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-20">
-      <canvas
-        ref={canvasRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-auto lg:w-full lg:h-auto aspect-square mix-blend-multiply"
+const MonolithLogo = () => (
+  <div className="flex items-center gap-4 group cursor-none">
+    <div className="w-12 h-12 bg-white flex items-center justify-center border-2 border-white group-hover:bg-accent group-hover:border-accent transition-colors duration-300 relative overflow-hidden">
+      <span className="text-black font-display font-black text-2xl group-hover:text-white transition-colors z-10">H</span>
+      <motion.div
+        animate={{ x: ["-100%", "100%"] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 bg-accent/20 skew-x-12"
       />
     </div>
-  );
-};
-
-// --- Shared Components ---
-
-const Badge = ({ icon, text }) => (
-  <div className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md border border-white/20 rounded-full shadow-sm hover:scale-105 transition-transform duration-300">
-    <span className="text-navy/60">{icon}</span>
-    <span className="text-[10px] font-black text-navy/70 uppercase tracking-tight whitespace-nowrap">
-      {text}
-    </span>
-  </div>
-);
-
-const SectionDivider = () => (
-  <div className="group relative py-24 px-6 max-w-7xl mx-auto w-full">
-    <hr className="border-t-2 border-silver-blue/10 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-navy group-hover:shadow-[0_0_25px_rgba(27,42,74,0.5)]" />
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-navy opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-full shadow-[0_0_20px_#1B2A4A]" />
-  </div>
-);
-
-const SectionHeading = ({ children, icon: Icon }) => (
-  <div className="flex items-center gap-5 mb-16">
-    <div className="p-3 bg-navy/5 rounded-2xl">
-      {Icon && <Icon className="text-navy" size={28} />}
-    </div>
-    <h2 className="text-4xl md:text-6xl font-display font-black text-navy tracking-tight">{children}</h2>
-  </div>
-);
-
-const NeuralCoreInterface = () => {
-  const [activeLog, setActiveLog] = useState(0);
-
-  const coreData = useMemo(() => [
-    { label: "COGNITIVE_CORE", text: "RAG & Agentic Architecture" },
-    { label: "ACADEMIC_SYNC", text: "M.Sc. Software Engineering" },
-    { label: "VALIDATED_INTEL", text: "Anthropic Claude Certified" },
-    { label: "LINGUAL_BRIDGE", text: "Bilingual: EN (C1) / DE (A2+)" }
-  ], []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveLog(prev => (prev + 1) % coreData.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [coreData.length]);
-
-  return (
-    <div className="w-full max-w-3xl mx-auto px-6 relative">
-      <div className="relative group flex items-center h-14 rounded-xl bg-white/20 backdrop-blur-xl border border-white/30 overflow-hidden transition-all duration-1000 shadow-2xl shadow-navy/5">
-
-        {/* Left: Technical ID */}
-        <div className="hidden md:flex items-center gap-4 px-8 h-full border-r border-white/20 bg-navy/[0.02]">
-           <div className="flex flex-col items-start">
-             <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Protocol</span>
-             <span className="text-[10px] font-black text-navy/80 tracking-tighter">SOV_CORE_V5</span>
-           </div>
-           <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-        </div>
-
-        {/* Center: Intelligence Stream */}
-        <div className="flex-grow h-full relative flex items-center px-10 overflow-hidden">
-           <AnimatePresence mode="wait">
-            <motion.div
-              key={activeLog}
-              initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(8px)" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6 w-full"
-            >
-              <span className="text-[8px] font-black text-emerald-600/60 uppercase tracking-[0.5em] whitespace-nowrap">{coreData[activeLog].label}</span>
-              <div className="hidden md:block w-1.5 h-1.5 bg-navy/10 rounded-full" />
-              <span className="text-[11px] font-black text-navy tracking-tight uppercase whitespace-nowrap">
-                {coreData[activeLog].text}
-              </span>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Right: Metrics Cluster */}
-        <div className="flex items-center gap-8 px-10 h-full border-l border-white/20 bg-navy/[0.02]">
-          <div className="flex flex-col items-end">
-            <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Academic</span>
-            <span className="text-[10px] font-black text-navy/80 tracking-tighter">GPA 1.9</span>
-          </div>
-          <div className="hidden lg:flex flex-col items-end">
-            <span className="text-[8px] font-black text-navy/30 uppercase tracking-[0.3em]">Bandwidth</span>
-            <span className="text-[10px] font-black text-navy/80 tracking-tighter">20H/WK</span>
-          </div>
-        </div>
-
-        {/* Scanning Line Overlay */}
-        <motion.div
-          animate={{ x: ["-100%", "200%"] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none"
-        />
-      </div>
-    </div>
-  );
-};
-
-// --- Sub-Components ---
-
-const Logo = () => (
-  <div className="flex items-center gap-3 group cursor-none select-none">
-    <div className="relative">
-      <div className="w-11 h-11 bg-navy rounded-2xl flex items-center justify-center shadow-xl group-hover:rotate-[20deg] transition-all duration-700">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="2" fill="white" />
-          <circle cx="6" cy="6" r="1.5" fill="white" opacity="0.6" />
-          <circle cx="18" cy="6" r="1.5" fill="white" opacity="0.6" />
-          <circle cx="6" cy="18" r="1.5" fill="white" opacity="0.6" />
-          <circle cx="18" cy="18" r="1.5" fill="white" opacity="0.6" />
-          <path d="M12 12L6 6" stroke="white" strokeWidth="1.5" opacity="0.4" />
-          <path d="M12 12L18 6" stroke="white" strokeWidth="1.5" opacity="0.4" />
-          <path d="M12 12L6 18" stroke="white" strokeWidth="1.5" opacity="0.4" />
-          <path d="M12 12L18 18" stroke="white" strokeWidth="1.5" opacity="0.4" />
-        </svg>
-      </div>
-      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white border-2 border-navy rounded-md flex items-center justify-center">
-        <div className="w-1.5 h-1.5 bg-navy rounded-full animate-pulse" />
-      </div>
-    </div>
-    <div className="hidden sm:block">
-      <div className="text-[11px] font-black text-navy tracking-[0.25em] leading-none">HARSHIL</div>
-      <div className="text-[9px] font-bold text-silver-blue tracking-[0.1em] leading-none mt-1">GORASIYA</div>
+    <div className="flex flex-col">
+      <span className="font-display font-black text-xl tracking-tighter leading-none group-hover:text-accent transition-colors">GORASIYA</span>
+      <span className="font-mono text-[10px] text-white/50 tracking-widest mt-1">ENGINEER_05</span>
     </div>
   </div>
 );
 
-const PersistentNavbar = () => {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] h-20 px-6 flex items-center justify-between glass shadow-sm border-b border-white/40 pointer-events-none child-pointer-events-auto">
-      {/* Left: Logo & Status */}
-      <div className="flex items-center gap-6">
-        <Logo />
-        <div className="h-8 w-px bg-silver-blue/20 hidden md:block" />
-        <div className="flex items-center gap-3">
-          <div className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-          </div>
-          <span className="text-[9px] md:text-[10px] font-black text-navy tracking-widest uppercase select-none leading-tight">
-            <strong>Status:</strong> Seeking <span className="text-emerald-600">Werkstudent</span> Positions in DE
+const KineticTicker = () => (
+  <div className="w-full bg-accent py-2 overflow-hidden flex whitespace-nowrap border-y-2 border-black relative z-20 my-4 rotate-[-1deg] scale-[1.02]">
+    <motion.div
+      animate={{ x: [0, -1000] }}
+      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      className="flex gap-12 items-center"
+    >
+      {[...Array(10)].map((_, i) => (
+        <div key={i} className="flex gap-12 items-center">
+          <span className="font-mono font-black text-black text-xs tracking-widest">
+            SYSTEM_STATUS: OPTIMIZED // LATENCY: 4MS // NEURAL_LOAD: 12% // PROTOCOL: ARDAN_V2
           </span>
+          <Zap size={14} className="text-black fill-black" />
+          <span className="font-mono font-black text-black text-xs tracking-widest">
+             AI_AGENT_PIPELINE_ACTIVE // RAG_STATE: SYNCHRONIZED // MCP_VERSION: 1.0.4
+          </span>
+          <Activity size={14} className="text-black" />
+        </div>
+      ))}
+    </motion.div>
+  </div>
+);
+
+const NavLink = ({ href, children }) => (
+  <a
+    href={href}
+    className="font-mono text-[11px] font-bold uppercase tracking-widest hover:text-accent transition-colors py-2 px-4 border-b-2 border-transparent hover:border-accent"
+  >
+    {children}
+  </a>
+);
+
+// --- Structural UI Components ---
+
+const BrutalistSection = ({ id, title, subtitle, children, dark = true }) => (
+  <section id={id} className={`py-32 px-6 md:px-12 border-b-2 border-white/10 ${dark ? 'bg-black' : 'bg-white text-black'}`}>
+    <div className="max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+        <div className="space-y-4">
+          <span className={`font-mono text-xs uppercase tracking-[0.4em] ${dark ? 'text-white/40' : 'text-black/40'}`}>
+            {subtitle}
+          </span>
+          <h2 className={`text-6xl md:text-9xl tracking-tighter leading-none ${!dark && 'text-outline'}`}>
+            {title}
+          </h2>
+        </div>
+        <div className={`hidden md:block h-px flex-grow mx-12 ${dark ? 'bg-white/10' : 'bg-black/10'}`} />
+        <div className="flex items-center gap-4">
+           <div className={`w-3 h-3 rounded-full animate-pulse ${dark ? 'bg-white' : 'bg-black'}`} />
+           <span className="font-mono text-[10px] opacity-50 uppercase tracking-widest">LIVE_FEED_01</span>
         </div>
       </div>
+      {children}
+    </div>
+  </section>
+);
 
-      {/* Right: Logistics Badges */}
-      <div className="hidden xl:flex items-center gap-3">
-        <Badge icon={<Clock size={12} />} text="20h/Week (Semester)" />
-        <Badge icon={<CalendarCheck size={12} />} text="Full-time (Breaks)" />
-        <Badge icon={<IdCard size={12} />} text="Valid Aufenthaltserlaubnis" />
-      </div>
-    </nav>
-  );
-};
+const ProjectCard = ({ title, desc, tags, link }) => (
+  <motion.div
+    whileHover={{ x: 20 }}
+    className="group relative flex flex-col md:flex-row items-stretch border-2 border-white mb-12 overflow-hidden bg-black hover:border-accent transition-all duration-300"
+  >
+    <div className="md:w-1/3 p-12 flex flex-col justify-between border-b-2 md:border-b-0 md:border-r-2 border-white group-hover:border-accent transition-colors">
+       <div className="space-y-6">
+          <h3 className="text-4xl md:text-5xl tracking-tighter leading-tight group-hover:text-accent transition-colors">{title}</h3>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag, i) => (
+              <span key={i} className="font-mono text-[9px] border border-white/30 px-2 py-1 uppercase tracking-widest">{tag}</span>
+            ))}
+          </div>
+       </div>
+       <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-12 flex items-center gap-4 group/btn"
+       >
+          <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:border-accent transition-all">
+            <ArrowUpRight size={20} className="group-hover/btn:rotate-45 transition-transform" />
+          </div>
+          <span className="font-mono text-xs uppercase tracking-widest font-black">View Repository</span>
+       </a>
+    </div>
+    <div className="flex-grow p-12 flex flex-col justify-center">
+       <p className="text-xl md:text-2xl font-sans leading-relaxed text-white/70 max-w-2xl">
+         {desc}
+       </p>
+       <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="h-1 bg-white/10 relative overflow-hidden">
+               <motion.div
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                className="absolute inset-0 bg-accent"
+               />
+            </div>
+          ))}
+       </div>
+    </div>
+  </motion.div>
+);
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [isSending, setIsSending] = useState(false);
-  const [isSent, setIsSent] = useState(false);
-  const [error, setError] = useState('');
+// --- Sections ---
 
-  const validateEmail = (email) => {
-    const emailLower = email.toLowerCase().trim();
+const ManifestoHero = () => {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, -200]);
 
-    // Strict Gmail Check: Must end with @gmail.com
-    if (!emailLower.endsWith('@gmail.com')) {
-      return "Access Denied: Only authenticated @gmail.com addresses are permitted.";
-    }
-
-    // Gmail username rules: 6-30 chars, alphanumeric or dots
-    // Note: Gmail ignores dots but they are valid in the address.
-    const username = emailLower.split('@')[0];
-
-    // Strict Gmail check (6-30 characters)
-    if (username.length < 6 || username.length > 30) {
-      return "Identity Check Failed: Gmail usernames must be between 6 and 30 characters.";
-    }
-
-    const gmailUsernameRegex = /^[a-z0-9.]+$/;
-    if (!gmailUsernameRegex.test(username)) {
-      return "Identity Check Failed: Invalid Gmail username structure (6-30 characters, alphanumeric or dots).";
-    }
-
-    // Block suspicious patterns and common bot-like Gmails
-    const suspiciousPatterns = ['temp', 'bot', 'fake', 'test', 'trash'];
-    if (suspiciousPatterns.some(pattern => username.includes(pattern))) {
-       return "Access Denied: Suspicious account signature detected.";
-    }
-
-    return "";
+  const textVariants = {
+    hidden: { opacity: 0, x: -100 },
+    visible: (i) => ({
+      opacity: 1,
+      x: 0,
+      transition: {
+        delay: 0.1 * i,
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    })
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+  return (
+    <section className="relative h-screen flex items-center px-6 md:px-12 overflow-hidden bg-black">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4 mb-8"
+        >
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-xs uppercase tracking-[0.5em] text-accent font-black">Portfolio_v2.0</span>
+            <div className="h-px w-24 bg-accent" />
+          </div>
+          <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col relative">
+            <motion.span
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+              whileHover={{
+                x: [0, -5, 5, -5, 5, 0],
+                transition: { duration: 0.2, repeat: Infinity }
+              }}
+              className="text-white cursor-none hover:text-accent transition-colors"
+            >
+              HARSHIL
+            </motion.span>
 
-    const emailValidationError = validateEmail(formData.email);
-    if (emailValidationError) {
-      setError(emailValidationError);
-      return;
-    }
+            <KineticTicker />
 
-    setIsSending(true);
+            <motion.span
+              custom={2}
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+              whileHover={{
+                skewX: [0, -10, 10, -5, 5, 0],
+                transition: { duration: 0.2, repeat: Infinity }
+              }}
+              className="text-outline cursor-none hover:text-accent transition-colors"
+            >
+              GORASIYA
+            </motion.span>
+          </h1>
+        </motion.div>
 
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "f768b753-9133-4f99-906d-e435f9923838", // Note: User should replace this with their unique key from web3forms.com
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          from_name: "Portfolio Contact System"
-        }),
-      });
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl md:text-3xl font-sans leading-tight max-w-xl text-white/60"
+          >
+            APPLIED AI ENGINEER. ARCHITECT OF AUTONOMOUS AGENTIC PIPELINES AND INTELLIGENT INFRASTRUCTURE.
+          </motion.p>
 
-      const result = await response.json();
-      if (result.success) {
-        setIsSent(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setIsSent(false), 5000);
-      } else {
-        setError("Protocol Error: Transmission could not be completed.");
-      }
-    } catch (err) {
-      setError("Network Failure: Connection to central core lost.");
-    } finally {
-      setIsSending(false);
-    }
+          <div className="flex flex-col justify-end gap-6 md:items-end">
+            <div className="flex gap-4">
+               <div className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                  <Github size={24} />
+               </div>
+               <div className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                  <Linkedin size={24} />
+               </div>
+            </div>
+            <a href="#archives" className="brutalist-button flex items-center gap-3">
+               Explore Work <ArrowDown size={20} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Background Kinetic Element */}
+      <motion.div
+        style={{ y }}
+        className="absolute top-0 right-0 text-[30vw] font-display font-black text-white/[0.02] select-none pointer-events-none leading-none"
+      >
+        SYSTEM_01
+      </motion.div>
+    </section>
+  );
+};
+
+const TheArsenal = () => {
+  const categories = [
+    { title: "Agentic Systems", items: ["LangChain", "FAISS", "MCP", "RAG Pipelines", "Ollama"] },
+    { title: "Deep Learning", items: ["PyTorch", "TensorFlow", "YOLOv8", "HuggingFace", "CNNs"] },
+    { title: "Core Architecture", items: ["Python", "C++", "Docker", "FastAPI", "Linux"] },
+    { title: "Data Engines", items: ["SQL", "MongoDB", "VectorDB", "Elastic", "Spark"] }
+  ];
+
+  return (
+    <BrutalistSection id="arsenal" title="Arsenal" subtitle="Technological Stack">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
+        {categories.map((cat, i) => (
+          <div key={i} className="bg-black p-12 border-2 border-white group hover:bg-white transition-all duration-500">
+            <h3 className="text-2xl mb-8 group-hover:text-black transition-colors">{cat.title}</h3>
+            <div className="space-y-4">
+               {cat.items.map((item, j) => (
+                 <div key={j} className="flex items-center justify-between group/item">
+                    <span className="font-mono text-sm group-hover:text-black transition-colors">{item}</span>
+                    <Zap size={14} className="text-white/20 group-hover:text-accent transition-colors" />
+                 </div>
+               ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </BrutalistSection>
+  );
+};
+
+const TheArchives = () => (
+  <BrutalistSection id="archives" title="Archives" subtitle="Selected Operations" dark={false}>
+    <ProjectCard
+      title="ARDAN-CLI"
+      desc="ENGINEERED A STANDALONE, TERMINAL-BASED AI SOFTWARE ENGINEER UTILIZING AN EXPLICIT REACT EXECUTION LOOP IN PYTHON."
+      tags={["PYTHON", "REACT", "MCP"]}
+      link="https://github.com/N0t-Harshil/Ardan-CLI"
+    />
+    <ProjectCard
+      title="GRAPH-RAG"
+      desc="HIERARCHICAL GRAPH-BASED RAG SYSTEM. 4S LATENCY @ $0 INFRASTRUCTURE COST. 5-LEVEL DOCUMENT ENTITY INDEXING."
+      tags={["FAISS", "GRAPHS", "PYTHON"]}
+      link="https://github.com/N0t-Harshil"
+    />
+    <ProjectCard
+      title="LOCAL PERPLEX"
+      desc="PRIVATE MULTIMODAL AI RESEARCH ENGINE. ZERO-DATA-LEAKAGE DESKTOP RESEARCH PLATFORM SUPPORTING MULTIMODAL ANALYTICS."
+      tags={["C++ ENGINE", "OLLAMA", "OCR"]}
+      link="https://github.com/N0t-Harshil/Local-Perplex"
+    />
+  </BrutalistSection>
+);
+
+const TheLedger = () => {
+  const data = [
+    { type: "Experience", title: "Deep Learning Intern", org: "PD Avenue", date: "2023 - 2024" },
+    { type: "Experience", title: "Machine Learning Intern", org: "Dotcom IoT", date: "2023" },
+    { type: "Education", title: "M.Sc. Software Engineering", org: "HH Heilbronn", date: "2024 - 2027" },
+    { type: "Education", title: "B.Tech. IT", org: "ADIT India", date: "2024" }
+  ];
+
+  return (
+    <BrutalistSection id="ledger" title="Ledger" subtitle="Timeline of Progress">
+      <div className="space-y-2">
+        {data.map((item, i) => (
+          <motion.div
+            key={i}
+            whileHover={{ backgroundColor: "rgba(255,255,255,1)", color: "#000000" }}
+            className="group flex flex-col md:flex-row md:items-center justify-between p-12 border-2 border-white transition-all duration-300"
+          >
+            <div className="flex items-center gap-8">
+               <span className="font-mono text-xs uppercase tracking-widest text-white/40 group-hover:text-black/40">{item.type}</span>
+               <h3 className="text-3xl md:text-5xl tracking-tighter">{item.title}</h3>
+            </div>
+            <div className="mt-4 md:mt-0 flex items-center gap-8 text-right">
+               <span className="font-display text-xl">{item.org}</span>
+               <span className="font-mono text-sm border-l-2 border-white/20 pl-8 group-hover:border-black/20">{item.date}</span>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </BrutalistSection>
+  );
+};
+
+const TheGateway = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // idle, sending, success, error, error_email
+
+  const validateEmail = (email) => {
+    const gmailRegex = /^[a-z0-9.]{6,30}@gmail\.com$/i;
+    return gmailRegex.test(email);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (status !== 'idle') setStatus('idle');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateEmail(formData.email)) {
+      setStatus('error_email');
+      return;
+    }
+
+    setStatus('sending');
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'f768b753-9133-4f99-906d-e435f9923838',
+          ...formData
+        })
+      });
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
   };
 
   return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={Mail}>Get in Touch</SectionHeading>
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="p-10 md:p-16 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm relative overflow-hidden group"
-        >
-          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+    <BrutalistSection id="gateway" title="Gateway" subtitle="Establish Contact" dark={false}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
+        <div className="space-y-12">
+          <p className="text-4xl font-display leading-tight tracking-tighter">
+            INITIATE SECURE TRANSMISSION FOR COLLABORATIONS, DEPLOYMENTS, OR STRATEGIC CONSULTATIONS.
+          </p>
+          <div className="space-y-6">
+             <div className="flex items-center gap-6 group">
+                <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
+                   <Mail size={20} />
+                </div>
+                <span className="font-mono text-xl">harshil.gorasiya.0011@gmail.com</span>
+             </div>
+             <div className="flex items-center gap-6 group">
+                <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
+                   <Phone size={20} />
+                </div>
+                <span className="font-mono text-xl">+49 155 6351 7346</span>
+             </div>
+             <div className="flex items-center gap-6 group">
+                <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
+                   <MapPin size={20} />
+                </div>
+                <span className="font-mono text-xl">Heilbronn, Germany</span>
+             </div>
+          </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Full Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Alan Turing"
-                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="alan.turing@gmail.com"
-                  className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
-                />
-              </div>
-            </div>
-
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Subject</label>
               <input
                 type="text"
-                name="subject"
-                required
-                value={formData.subject}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
-                placeholder="Collaboration on Neural Architectures"
-                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all"
+                placeholder="NAME_ID"
+                required
+                className="w-full bg-transparent border-b-4 border-black p-4 font-mono text-xl focus:outline-none focus:border-accent transition-colors"
               />
             </div>
-
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-4">Message</label>
-              <textarea
-                name="message"
-                required
-                rows="5"
-                value={formData.message}
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                placeholder="Describe your vision..."
-                className="w-full px-8 py-5 bg-white border border-silver-blue/10 rounded-2xl text-navy font-medium focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy transition-all resize-none"
+                placeholder="CONTACT_ADDR"
+                required
+                className={`w-full bg-transparent border-b-4 p-4 font-mono text-xl focus:outline-none transition-colors ${status === 'error_email' ? 'border-accent text-accent' : 'border-black focus:border-accent'}`}
               />
-            </div>
-
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="px-6 py-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-4"
-              >
-                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-red-900 text-[10px] font-black uppercase tracking-widest leading-none">{error}</span>
-              </motion.div>
-            )}
-
-            <div className="pt-4 flex flex-col md:flex-row items-center justify-between gap-8">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs text-center md:text-left">
-                Your message will be sent directly to my secure inbox.
-              </p>
-
-              <button
-                type="submit"
-                disabled={isSending || isSent}
-                className={`flex items-center gap-3 px-12 py-5 rounded-2xl font-black transition-all duration-500 shadow-xl hover:scale-105 active:scale-95 whitespace-nowrap ${
-                  isSent
-                    ? 'bg-emerald-500 text-white shadow-emerald-200'
-                    : 'bg-navy text-white shadow-navy/20'
-                }`}
-              >
-                {isSending ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Sending...
-                  </>
-                ) : isSent ? (
-                  <>
-                    <Zap size={20} className="animate-pulse" />
-                    Message Sent
-                  </>
-                ) : (
-                  <>
-                    <Send size={20} />
-                    Send Message
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-
-const HeroSection = () => {
-  const [displayName, setDisplayName] = useState("Harshil Gorasiya");
-  const originalName = "Harshil Gorasiya";
-  const chars = "!<>-_\\/[]{}—=+*^?#________";
-  const intervalRef = useRef(null);
-
-  const scramble = () => {
-    let iteration = 0;
-    clearInterval(intervalRef.current);
-
-    intervalRef.current = setInterval(() => {
-      setDisplayName(originalName.split("")
-        .map((char, index) => {
-          if (index < iteration) return originalName[index];
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join("")
-      );
-
-      if (iteration >= originalName.length) clearInterval(intervalRef.current);
-      iteration += 1 / 3;
-    }, 30);
-  };
-
-  return (
-    <section className="relative pt-48 pb-32 px-6 overflow-hidden">
-      {/* Gradient Mesh Highlights */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[800px] bg-navy/5 blur-[160px] rounded-full pointer-events-none -z-10" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto text-center">
-        <div className="space-y-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-block px-4 py-1 rounded-full border border-navy/10 bg-navy/5 text-[10px] font-black text-navy uppercase tracking-[0.3em] mb-4"
-          >
-            Applied AI Engineer
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", damping: 12 }}
-            onMouseEnter={scramble}
-            className="text-7xl md:text-9xl font-display font-black text-navy tracking-tighter cursor-default select-none whitespace-nowrap hover-trigger"
-          >
-            {displayName}
-          </motion.h1>
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-lg md:text-2xl text-charcoal max-w-4xl mx-auto font-medium leading-relaxed px-6 opacity-80 mb-12"
-        >
-          Applied AI Engineer Specializing in RAG, Autonomous Agentic Pipelines & Intelligent Infrastructure
-        </motion.p>
-
-        {/* Information Cluster: The Hook Architecture */}
-        <div className="space-y-16">
-
-          {/* Row 1: Primary Coordinates */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-10 text-navy font-black tracking-tight"
-          >
-            <div className="flex items-center gap-3 group">
-              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-                <MapPin size={16} />
-              </div>
-              <span className="text-sm">Heilbronn, Germany</span>
-            </div>
-            <a href="tel:+4915563517346" className="flex items-center gap-3 group">
-              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-                <Phone size={16} />
-              </div>
-              <span className="text-sm">0 155 6351 7346</span>
-            </a>
-            <a href="mailto:harshil.gorasiya.0011@gmail.com" className="flex items-center gap-3 group">
-              <div className="p-2 bg-navy/5 rounded-lg group-hover:bg-navy group-hover:text-white transition-colors duration-300">
-                <Mail size={16} />
-              </div>
-              <span className="text-sm">harshil.gorasiya.0011@gmail.com</span>
-            </a>
-          </motion.div>
-
-          {/* Row 2: The Neural Ribbon (Dynamic Hook) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <NeuralCoreInterface />
-          </motion.div>
-
-          {/* Row 3: Action & Authority */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-6"
-          >
-            <a
-              href="https://linkedin.com/in/harshil-gorasiya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group shadow-sm hover:shadow-xl"
-            >
-              <Linkedin size={18} className="group-hover:rotate-12 transition-transform" />
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com/N0t-Harshil"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 rounded-2xl border-2 border-navy/10 text-navy font-black hover:bg-navy hover:text-white hover:border-navy transition-all duration-500 group shadow-sm hover:shadow-xl"
-            >
-              <Github size={18} className="group-hover:-rotate-12 transition-transform" />
-              GitHub
-            </a>
-            <button className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-[#0F172A] text-white font-black shadow-[0_20px_40px_rgba(15,23,42,0.3)] hover:scale-105 active:scale-95 transition-all duration-500">
-              <Download size={18} />
-              Download Full LaTeX CV (PDF)
-            </button>
-          </motion.div>
-
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const SkillsMatrix = () => {
-  const categories = [
-    {
-      title: "LLM & Agentic Orchestration",
-      skills: ["LangChain", "FAISS", "SentenceTransformers", "Ollama", "RAG Pipelines", "Knowledge Graphs", "ReAct Loops", "Model Quantization", "Model Context Protocol (MCP)"]
-    },
-    {
-      title: "Deep Learning & CV",
-      skills: ["PyTorch", "TensorFlow", "Keras", "Hugging Face Transformers", "scikit-learn", "YOLOv8", "CNNs", "Real-ESRGAN Super-Resolution"]
-    },
-    {
-      title: "Languages & Architecture",
-      skills: ["Python", "C++ (Multithreaded Engines)", "SQL", "Bash", "Low-latency CLI Design"]
-    },
-    {
-      title: "MLOps & Infrastructure",
-      skills: ["MLflow", "Docker", "FastAPI", "REST APIs", "Git Version Control", "Linux Systems", "AWS Foundation", "MySQL", "MongoDB", "SQLite"]
-    }
-  ];
-
-  return (
-    <section className="py-24 px-6 max-w-[1400px] mx-auto">
-      <SectionHeading icon={Layers}>Skills Matrix</SectionHeading>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {categories.map((cat, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -10 }}
-            className="p-10 bg-soft-off-white rounded-[2.5rem] border border-silver-blue/10 shadow-sm group hover:shadow-2xl hover:bg-white transition-all duration-700 flex flex-col items-center text-center relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 w-1 h-full bg-navy/20 group-hover:bg-navy transition-colors duration-500" />
-            <h3 className="text-[10px] font-black text-slate-400 mb-10 uppercase tracking-[0.3em]">{cat.title}</h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {cat.skills.map((skill, si) => (
-                <span
-                  key={si}
-                  className="px-5 py-2.5 bg-white border border-silver-blue/10 rounded-2xl text-[11px] font-black text-navy shadow-sm hover:scale-105 hover:bg-navy hover:text-white hover:shadow-lg transition-all duration-300 cursor-none ease-[cubic-bezier(0.16,1,0.3,1)]"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="mt-20 flex flex-wrap justify-center gap-8">
-        {[
-          { text: "Anthropic: Claude API Developer", url: "https://verify.skilljar.com/c/abtyb7rnh5gg" },
-          { text: "Anthropic: MCP Advanced Topics", url: "https://verify.skilljar.com/c/9ogn74na4fmf" },
-          { text: "IBM: Machine Learning with Python" },
-          { text: "Databricks: Data Science Fundamentals" }
-        ].map((badge, i) => (
-          <a
-            key={i}
-            href={badge.url || "#"}
-            target={badge.url ? "_blank" : undefined}
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-6 py-3 bg-white border border-silver-blue/20 rounded-2xl text-[11px] font-black text-navy hover:bg-navy hover:text-white transition-all duration-500 shadow-sm"
-          >
-            <Award size={16} /> {badge.text}
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const SystemShowcase = () => {
-  const projects = [
-    {
-      title: "Ardan-CLI — Autonomous Multi-Provider Coding Agent",
-      link: "https://github.com/N0t-Harshil/Ardan-CLI",
-      overview: "Engineered a standalone, terminal-based AI software engineer utilizing an explicit ReAct execution loop in Python.",
-      bullets: [
-        "Supports 6 major LLM providers with instant runtime failover setups.",
-        "Parallel tool executions across Git, Docker containment structures, and system compilers.",
-        "Secure local environment handling via embedded AES-encrypted keys."
-      ],
-      tags: ["Python", "ReAct Framework", "Anthropic MCP"]
-    },
-    {
-      title: "Hierarchical Graph-Based RAG System",
-      link: "https://github.com/N0t-Harshil",
-      badge: { text: "⚡ 4s Latency @ $0 Infrastructure Cost", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-      overview: "Designed a complete production alternatives architecture replacing expensive graph calls with deterministic multi-level mappings.",
-      bullets: [
-        "5-level document entity indexing (Document down to raw sentences) to minimize hallucinations.",
-        "Indexes entire 75-page corpora variants locally within 19 seconds using FAISS + Ollama."
-      ],
-      tags: ["Python", "Knowledge Graphs", "FAISS Vector DB"]
-    },
-    {
-      title: "Local Perplex — Private Multimodal AI Research Engine",
-      link: "https://github.com/N0t-Harshil/Local-Perplex",
-      badge: { text: "⏱️ Sub-10ms Ranking Latency", color: "bg-blue-100 text-blue-800 border-blue-200" },
-      overview: "A completely sandboxed, zero-data-leakage desktop research platform supporting multimodal analytics.",
-      bullets: [
-        "Custom native multi-threaded search rankings parsing over 10,000 documents under 10ms.",
-        "Fully functional local OCR subsystems for processing layouts and optical assets."
-      ],
-      tags: ["C++ Engine", "Ollama Core", "Multithreading"]
-    },
-    {
-      title: "AI-Powered Video Upscaling App",
-      link: "https://github.com/N0t-Harshil/AI-Powered-Video-Upscaling-Windows-Application",
-      overview: "Native Windows desktop deployment infrastructure built for executing real-time video super-resolution.",
-      bullets: [
-        "Integrated Real-ESRGAN networks with structural selection models.",
-        "Features clean local hardware monitors tracking real-time VRAM/GPU limits.",
-        "Evaluated model configs objectively via structural peak signal-to-noise metrics (PSNR/SSIM)."
-      ],
-      tags: ["PyTorch", "Super-Resolution", "Windows Application"]
-    }
-  ];
-
-  return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={Cpu}>Architecture & System Projects</SectionHeading>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {projects.map((proj, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -12 }}
-            className="relative group p-10 rounded-[3rem] bg-white border border-silver-blue/20 shadow-2xl overflow-hidden"
-          >
-            <div className="absolute -inset-px bg-gradient-to-br from-navy/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <h3 className="text-3xl font-black text-navy leading-tight pr-6">{proj.title}</h3>
-                <a href={proj.link} target="_blank" rel="noopener noreferrer" className="p-3 bg-navy/5 rounded-2xl hover:bg-navy hover:text-white transition-all duration-500">
-                  <ExternalLink size={24} />
-                </a>
-              </div>
-
-              {proj.badge && (
-                <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${proj.badge.color} mb-6 w-fit`}>
-                  <Zap size={12} /> {proj.badge.text}
-                </div>
+              {status === 'error_email' && (
+                <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-black">Error: Must be a valid @gmail.com address (6-30 chars).</p>
               )}
-
-              <p className="text-charcoal mb-8 text-sm font-medium leading-relaxed italic opacity-80 border-l-4 border-navy/10 pl-6">
-                "{proj.overview}"
-              </p>
-
-              <ul className="space-y-4 mb-10 flex-grow">
-                {proj.bullets.map((bullet, bi) => (
-                  <li key={bi} className="flex gap-4 text-[13px] text-slate-600 font-medium">
-                    <ChevronRight size={18} className="text-navy shrink-0 mt-0.5" />
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-3 pt-8 border-t border-silver-blue/10">
-                {proj.tags.map((tag, ti) => (
-                  <span key={ti} className="text-[10px] font-black uppercase tracking-[0.2em] text-navy/60 bg-navy/5 px-3 py-1.5 rounded-lg">
-                    {tag}
-                  </span>
-                ))}
-              </div>
             </div>
-          </motion.div>
-        ))}
+          </div>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            placeholder="TRANSMISSION_DATA"
+            rows="5"
+            required
+            className="w-full bg-transparent border-b-4 border-black p-4 font-mono text-xl focus:outline-none focus:border-accent transition-colors resize-none"
+          />
+
+          <div className="relative">
+            <button
+              type="submit"
+              disabled={status === 'sending'}
+              className={`brutalist-button w-full border-black transition-all ${status === 'sending' ? 'bg-black/50 cursor-wait' : 'bg-black text-white hover:bg-accent hover:border-accent'}`}
+            >
+              {status === 'sending' ? 'TRANSMITTING...' : 'Send Transmission'}
+              {status !== 'sending' && <Send className="inline ml-3" size={20} />}
+            </button>
+
+            <AnimatePresence>
+              {status === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute -bottom-12 left-0 right-0 text-center font-mono text-xs uppercase tracking-widest text-green-600 font-black"
+                >
+                  Transmission Received. Protocol Complete.
+                </motion.div>
+              )}
+              {status === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute -bottom-12 left-0 right-0 text-center font-mono text-xs uppercase tracking-widest text-accent font-black"
+                >
+                  Transmission Failed. Check Connection.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </form>
       </div>
-    </section>
+    </BrutalistSection>
   );
 };
 
-const ExperienceTimeline = () => {
-  const experiences = [
-    {
-      title: "Deep Learning Intern",
-      company: "PD Avenue",
-      duration: "12/2023 — 04/2024",
-      context: "PD Avenue (Remote)",
-      bullets: [
-        "Built custom classification heads using TensorFlow/Keras, achieving a +8% boost in validation accuracy via systematic architecture search and tuning.",
-        "Slashed total baseline processing runtimes by 20% through adaptive schedule adjustments.",
-        "Isolated structural overfitting patterns across 10+ core test branches with strict config tracing."
-      ]
-    },
-    {
-      title: "Machine Learning Intern",
-      company: "Dotcom IoT LLP",
-      duration: "05/2023 — 06/2023",
-      context: "Dotcom IoT LLP (India)",
-      bullets: [
-        "Deployed YOLOv8 tracking frameworks processing 35,000+ frames per hour at 28-32 FPS purely on CPU-only edge hardware.",
-        "Curated, audited, and hand-annotated 3,000+ custom evaluation frames to stabilize structural accuracy drops."
-      ]
-    }
-  ];
+// --- Global UI Components ---
 
-  return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={Briefcase}>Professional Experience</SectionHeading>
-      <div className="relative border-l-4 border-navy/5 ml-4 md:ml-12 space-y-20 py-8">
-        {experiences.map((exp, i) => (
-          <div key={i} className="relative pl-16 group">
-            {/* Timeline Node */}
-            <div className="absolute left-[-14px] top-0 w-6 h-6 rounded-full bg-white border-4 border-navy shadow-[0_0_15px_rgba(27,42,74,0.3)] group-hover:scale-125 transition-transform duration-500" />
-
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-baseline gap-6">
-                <h3 className="text-3xl font-black text-navy">{exp.title}</h3>
-                <span className="text-slate-400 font-mono text-sm font-bold uppercase tracking-widest">{exp.duration}</span>
-              </div>
-              <p className="text-navy/70 font-black text-sm uppercase tracking-[0.3em]">{exp.context}</p>
-
-              <ul className="mt-8 space-y-5 max-w-4xl">
-                {exp.bullets.map((bullet, bi) => (
-                  <li key={bi} className="flex gap-5 text-charcoal leading-relaxed font-semibold text-sm">
-                    <span className="text-navy font-black text-lg">/</span>
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const AcademicMatrix = () => {
-  return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={GraduationCap}>Academic Foundations</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* M.Sc. Card */}
-        <motion.div
-          whileHover={{ y: -8 }}
-          className="p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm flex flex-col h-full group relative overflow-hidden"
-        >
-          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <div className="relative z-10">
-            <div className="flex justify-between items-start mb-8">
-              <h3 className="text-3xl font-black text-navy max-w-[240px]">M.Sc. Software Engineering & Management</h3>
-              <span className="px-5 py-2.5 bg-navy text-white text-xs font-black rounded-2xl shadow-xl">GPA: 1.9 (DE Scale)</span>
-            </div>
-            <div className="space-y-2 mb-10">
-              <p className="text-navy font-black text-lg">Hochschule Heilbronn, Germany</p>
-              <p className="text-slate-500 text-sm font-bold">Current Semester 3 | Expected Graduation: 09/2027</p>
-            </div>
-            <div className="mt-auto pt-8 border-t border-silver-blue/10">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Relevant Modules</p>
-              <div className="flex flex-wrap gap-2.5">
-                {["Advanced ML", "Software Architecture", "Cloud Computing", "Distributed Systems", "Data Engineering"].map((mod, i) => (
-                  <span key={i} className="px-4 py-1.5 bg-white border border-silver-blue/10 rounded-xl text-[10px] font-black text-slate-600 shadow-sm">
-                    {mod}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* B.Tech. Card */}
-        <motion.div
-          whileHover={{ y: -8 }}
-          className="p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm flex flex-col h-full group relative overflow-hidden"
-        >
-          <div className="absolute -inset-20 bg-navy/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <div className="relative z-10">
-            <div className="flex justify-between items-start mb-8">
-              <h3 className="text-3xl font-black text-navy max-w-[240px]">B.Tech. Information Technology</h3>
-              <span className="px-5 py-2.5 bg-navy/5 text-navy text-xs font-black rounded-2xl border border-navy/10">GPA: 8.4/10</span>
-            </div>
-            <div className="space-y-2 mb-10">
-              <p className="text-navy font-black text-lg">A.D. Patel Institute of Technology, India</p>
-              <p className="text-slate-500 text-sm font-bold">Graduated: 05/2024</p>
-            </div>
-            <div className="mt-auto pt-8 border-t border-silver-blue/10">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Relevant Modules</p>
-              <div className="flex flex-wrap gap-2.5">
-                {["Deep Learning", "Computer Vision", "Advanced Data Structures"].map((mod, i) => (
-                  <span key={i} className="px-4 py-1.5 bg-white border border-silver-blue/10 rounded-xl text-[10px] font-black text-slate-600 shadow-sm">
-                    {mod}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const LanguageRobustness = () => {
-  const langs = [
-    { code: "EN", name: "English", level: "C1 — Professional Working Proficiency", color: "bg-navy" },
-    { code: "DE", name: "German", level: "A2 — Basic Proficiency (Actively Learning)", color: "bg-silver-blue/20" }
-  ];
-
-  return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <SectionHeading icon={Languages}>Language Robustness</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {langs.map((lang, i) => (
-          <div key={i} className="flex items-center gap-8 p-10 bg-soft-off-white rounded-[3rem] border border-silver-blue/10 shadow-sm group">
-            <div className={`w-20 h-20 rounded-3xl ${lang.color} flex items-center justify-center text-2xl font-black ${lang.code === 'EN' ? 'text-white' : 'text-navy'} shadow-2xl group-hover:rotate-12 transition-transform duration-500`}>
-              {lang.code}
-            </div>
-            <div>
-              <h3 className="text-3xl font-black text-navy">{lang.name}</h3>
-              <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mt-2">{lang.level}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// --- Main App ---
-
-const DotMatrixBackground = () => (
-  <div
-    className="fixed inset-0 pointer-events-none -z-20 opacity-[0.03]"
-    style={{
-      backgroundImage: 'radial-gradient(#1B2A4A 0.5px, transparent 0.5px)',
-      backgroundSize: '24px 24px'
-    }}
-  />
+const MonolithNavbar = () => (
+  <nav className="fixed top-0 left-0 right-0 z-[100] h-24 px-6 md:px-12 flex items-center justify-between mix-blend-difference">
+     <MonolithLogo />
+     <div className="hidden lg:flex items-center gap-8">
+        <NavLink href="#archives">Archives</NavLink>
+        <NavLink href="#arsenal">Arsenal</NavLink>
+        <NavLink href="#ledger">Ledger</NavLink>
+        <NavLink href="#gateway">Gateway</NavLink>
+     </div>
+  </nav>
 );
 
 const CustomCursor = () => {
@@ -973,7 +487,7 @@ const CustomCursor = () => {
   const mouseY = useMotionValue(0);
   const [isHovering, setIsHovering] = useState(false);
 
-  const springConfig = { damping: 40, stiffness: 400, mass: 0.1 };
+  const springConfig = { damping: 20, stiffness: 200, mass: 0.5 };
   const cursorX = useSpring(mouseX, springConfig);
   const cursorY = useSpring(mouseY, springConfig);
 
@@ -982,19 +496,15 @@ const CustomCursor = () => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
-
     const handleMouseOver = (e) => {
-      const target = e.target;
-      if (target.closest('a') || target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('.hover-trigger')) {
+      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
       }
     };
-
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseover', handleMouseOver);
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
@@ -1003,63 +513,49 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="custom-cursor hidden md:block fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999]"
+      className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999] mix-blend-difference"
       style={{
         x: cursorX,
         y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
-        scale: isHovering ? 2.5 : 1,
-        backgroundColor: isHovering ? 'transparent' : '#1B2A4A',
-        border: isHovering ? '1px solid #1B2A4A' : 'none',
-        backdropFilter: isHovering ? 'blur(4px)' : 'none'
       }}
     >
-      {isHovering && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          className="absolute inset-0 bg-navy/10 rounded-full"
-        />
-      )}
+      <motion.div
+        animate={{
+          scale: isHovering ? 2 : 1,
+          rotate: isHovering ? 45 : 0
+        }}
+        className="w-full h-full border-2 border-white"
+      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-white" />
     </motion.div>
   );
 };
 
 function App() {
   return (
-    <div className="relative min-h-screen selection:bg-navy selection:text-white font-sans overflow-x-hidden">
-      {/* Base Background Layer */}
-      <div className="fixed inset-0 bg-white -z-30" />
-
-      <DotMatrixBackground />
-      <SovereignMagnifier />
+    <div className="relative min-h-screen selection:bg-accent selection:text-white font-sans bg-black text-white">
+      <div className="noise" />
       <CustomCursor />
+      <MonolithNavbar />
 
-      <PersistentNavbar />
-
-      <main className="relative z-10">
-        <HeroSection />
-        <SectionDivider />
-        <SkillsMatrix />
-        <SectionDivider />
-        <SystemShowcase />
-        <SectionDivider />
-        <ExperienceTimeline />
-        <SectionDivider />
-        <AcademicMatrix />
-        <SectionDivider />
-        <LanguageRobustness />
-        <SectionDivider />
-        <ContactForm />
+      <main>
+        <ManifestoHero />
+        <TheArchives />
+        <TheArsenal />
+        <TheLedger />
+        <TheGateway />
       </main>
 
-      <footer className="py-24 text-center border-t border-silver-blue/10 bg-soft-off-white/50">
-        <div className="mb-10 flex justify-center items-center gap-6">
-          <Logo />
+      <footer className="py-24 px-12 border-t-2 border-white/10 flex flex-col md:flex-row justify-between items-center gap-12 bg-black">
+        <MonolithLogo />
+        <div className="font-mono text-[10px] uppercase tracking-[0.6em] opacity-40 text-center md:text-right">
+          © 2025 HARSHIL GORASIYA // SYSTEM_OPTIMIZED_FOR_AI
         </div>
-        <div className="text-slate-400 font-black text-[10px] uppercase tracking-[0.8em] opacity-60">
-          © {new Date().getFullYear()} Harshil Gorasiya — Engineered for Autonomous Intelligence
+        <div className="flex gap-12 font-mono text-[11px] font-black uppercase tracking-widest">
+           <a href="#" className="hover:text-accent transition-colors">Top</a>
+           <a href="https://github.com/N0t-Harshil" className="hover:text-accent transition-colors">GitHub</a>
         </div>
       </footer>
     </div>
