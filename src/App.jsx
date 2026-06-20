@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import {
   ArrowDown,
@@ -10,8 +10,47 @@ import {
   MapPin,
   Activity,
   Zap,
-  Send
+  Send,
+  Copy,
+  Check
 } from 'lucide-react';
+
+// --- Utility Components ---
+
+const Magnetic = ({ children, strength = 0.5 }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const deltaX = (clientX - centerX) * strength;
+    const deltaY = (clientY - centerY) * strength;
+    x.set(deltaX);
+    y.set(deltaY);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 // --- Core Branding Components ---
 
@@ -226,9 +265,11 @@ const ManifestoHero = () => {
                   <Linkedin size={24} />
                </div>
             </div>
-            <a href="#archives" className="brutalist-button flex items-center gap-3">
-               Explore Work <ArrowDown size={20} />
-            </a>
+            <Magnetic>
+              <a href="#archives" className="brutalist-button flex items-center gap-3">
+                 Explore Work <ArrowDown size={20} />
+              </a>
+            </Magnetic>
           </div>
         </div>
       </div>
@@ -352,6 +393,13 @@ const TheLedger = () => {
 const TheGateway = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error, error_email
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("harshil.gorasiya.0011@gmail.com");
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
 
   const validateEmail = (email) => {
     const gmailRegex = /^[a-z0-9.]{6,30}@gmail\.com$/i;
@@ -405,7 +453,16 @@ const TheGateway = () => {
                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
                    <Mail size={20} />
                 </div>
-                <span className="font-mono text-xl">harshil.gorasiya.0011@gmail.com</span>
+                <div className="flex flex-col">
+                  <span className="font-mono text-xl">harshil.gorasiya.0011@gmail.com</span>
+                  <button
+                    onClick={handleCopy}
+                    className="font-mono text-[10px] text-accent uppercase tracking-widest flex items-center gap-2 mt-1 hover:underline decoration-2"
+                  >
+                    {copySuccess ? <Check size={10} /> : <Copy size={10} />}
+                    {copySuccess ? "Address_Copied" : "Copy_to_Clipboard"}
+                  </button>
+                </div>
              </div>
              <div className="flex items-center gap-6 group">
                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
@@ -588,7 +645,8 @@ const CustomCursor = () => {
       mouseY.set(e.clientY);
     };
     const handleMouseOver = (e) => {
-      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('input') || e.target.closest('textarea')) {
+      const target = e.target.closest('a, button, input, textarea, h1, h2, .magnetic-target');
+      if (target) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -628,6 +686,16 @@ function App() {
   return (
     <div className="relative min-h-screen selection:bg-accent selection:text-white font-sans bg-black text-white">
       <div className="noise" />
+      <div className="scanning-line" />
+
+      {/* Technical Metadata Overlays */}
+      <div className="fixed top-28 left-6 md:left-12 z-50 font-mono text-[8px] text-white/30 uppercase tracking-[0.3em] vertical-text pointer-events-none hidden md:block">
+        BUILD_REF: BRUTALIST_V4.0 // COORDS: 49.1427°N 9.2109°E
+      </div>
+      <div className="fixed bottom-12 left-6 md:left-12 z-50 font-mono text-[8px] text-white/30 uppercase tracking-[0.3em] vertical-text pointer-events-none hidden md:block rotate-180">
+        TIME_STAMP: {new Date().toISOString().split('T')[0]} // STATUS: ONLINE
+      </div>
+
       <CustomCursor />
       <NeuralScroll />
       <MonolithNavbar />
@@ -640,14 +708,17 @@ function App() {
         <TheGateway />
       </main>
 
-      <footer className="py-24 px-12 border-t-2 border-white/10 flex flex-col md:flex-row justify-between items-center gap-12 bg-black">
-        <MonolithLogo />
+      <footer className="py-24 px-12 border-t-2 border-white/10 flex flex-col md:flex-row justify-between items-center gap-12 bg-black relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-20" />
+        <Magnetic>
+          <MonolithLogo />
+        </Magnetic>
         <div className="font-mono text-[10px] uppercase tracking-[0.6em] opacity-40 text-center md:text-right">
           © 2025 HARSHIL GORASIYA // SYSTEM_OPTIMIZED_FOR_AI
         </div>
         <div className="flex gap-12 font-mono text-[11px] font-black uppercase tracking-widest">
-           <a href="#" className="hover:text-accent transition-colors">Top</a>
-           <a href="https://github.com/N0t-Harshil" className="hover:text-accent transition-colors">GitHub</a>
+           <Magnetic strength={0.2}><a href="#" className="hover:text-accent transition-colors">Top</a></Magnetic>
+           <Magnetic strength={0.2}><a href="https://github.com/N0t-Harshil" className="hover:text-accent transition-colors">GitHub</a></Magnetic>
         </div>
       </footer>
     </div>
