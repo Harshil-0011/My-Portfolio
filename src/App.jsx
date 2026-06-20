@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import {
   ArrowDown,
@@ -33,22 +33,26 @@ const MonolithLogo = () => (
 );
 
 const KineticTicker = () => (
-  <div className="w-full bg-accent py-2 overflow-hidden flex whitespace-nowrap border-y-2 border-black relative z-20 my-4 rotate-[-1deg] scale-[1.02]">
+  <div className="w-full bg-accent py-2 overflow-hidden flex whitespace-nowrap border-y-2 border-black relative z-20 my-4 rotate-[-1deg] scale-[1.05] shadow-[0_0_30px_rgba(255,62,62,0.3)]">
     <motion.div
-      animate={{ x: [0, -1000] }}
-      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      animate={{ x: [0, -2000] }}
+      transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
       className="flex gap-12 items-center"
     >
-      {[...Array(10)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <div key={i} className="flex gap-12 items-center">
-          <span className="font-mono font-black text-black text-xs tracking-widest">
-            SYSTEM_STATUS: OPTIMIZED // LATENCY: 4MS // NEURAL_LOAD: 12% // PROTOCOL: ARDAN_V2
+          <span className="font-mono font-black text-black text-[10px] tracking-widest">
+            SYSTEM_STATUS: OPTIMIZED // LATENCY: 4MS // NEURAL_LOAD: 12% // PROTOCOL: ARDAN_V2 // ENCRYPTION: AES-256
           </span>
-          <Zap size={14} className="text-black fill-black" />
-          <span className="font-mono font-black text-black text-xs tracking-widest">
-             AI_AGENT_PIPELINE_ACTIVE // RAG_STATE: SYNCHRONIZED // MCP_VERSION: 1.0.4
+          <Zap size={14} className="text-black fill-black animate-pulse" />
+          <span className="font-mono font-black text-black text-[10px] tracking-widest">
+             AI_AGENT_PIPELINE_ACTIVE // RAG_STATE: SYNCHRONIZED // MCP_VERSION: 1.0.4 // UPLINK: STABLE
           </span>
           <Activity size={14} className="text-black" />
+          <span className="font-mono font-black text-black text-[10px] tracking-widest">
+             CORE_TEMP: 32°C // MEMORY_USAGE: 4.2GB // THREADS: 128_ACTIVE
+          </span>
+          <div className="w-2 h-2 bg-black rounded-full animate-ping" />
         </div>
       ))}
     </motion.div>
@@ -92,9 +96,9 @@ const BrutalistSection = ({ id, title, subtitle, children, dark = true }) => (
 const ProjectCard = ({ title, desc, tags, link }) => (
   <motion.div
     whileHover={{ x: 20 }}
-    className="group relative flex flex-col md:flex-row items-stretch border-2 border-white mb-12 overflow-hidden bg-black hover:border-accent transition-all duration-300"
+    className="group relative flex flex-col md:flex-row items-stretch border-2 border-white mb-12 overflow-hidden bg-black hover:border-accent transition-all duration-300 glitch-border"
   >
-    <div className="md:w-1/3 p-12 flex flex-col justify-between border-b-2 md:border-b-0 md:border-r-2 border-white group-hover:border-accent transition-colors">
+    <div className="md:w-1/3 p-12 flex flex-col justify-between border-b-2 md:border-b-0 md:border-r-2 border-white group-hover:border-accent transition-colors bg-black group-hover:bg-white group-hover:text-black">
        <div className="space-y-6">
           <h3 className="text-4xl md:text-5xl tracking-tighter leading-tight group-hover:text-accent transition-colors">{title}</h3>
           <div className="flex flex-wrap gap-2">
@@ -109,13 +113,13 @@ const ProjectCard = ({ title, desc, tags, link }) => (
         rel="noopener noreferrer"
         className="mt-12 flex items-center gap-4 group/btn"
        >
-          <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:border-accent transition-all">
+          <div className="w-12 h-12 rounded-full border-2 border-white group-hover:border-black flex items-center justify-center group-hover/btn:bg-accent group-hover/btn:border-accent transition-all">
             <ArrowUpRight size={20} className="group-hover/btn:rotate-45 transition-transform" />
           </div>
-          <span className="font-mono text-xs uppercase tracking-widest font-black">View Repository</span>
+          <span className="font-mono text-xs uppercase tracking-widest font-black group-hover:text-black">View Repository</span>
        </a>
     </div>
-    <div className="flex-grow p-12 flex flex-col justify-center">
+    <div className="flex-grow p-12 flex flex-col justify-center group-hover:bg-accent/10 transition-colors">
        <p className="text-xl md:text-2xl font-sans leading-relaxed text-white/70 max-w-2xl">
          {desc}
        </p>
@@ -141,13 +145,14 @@ const ManifestoHero = () => {
   const y = useTransform(scrollYProgress, [0, 1], [0, -200]);
 
   const textVariants = {
-    hidden: { opacity: 0, x: -100 },
+    hidden: { opacity: 0, x: -200, skewX: -20 },
     visible: (i) => ({
       opacity: 1,
       x: 0,
+      skewX: 0,
       transition: {
         delay: 0.1 * i,
-        duration: 0.8,
+        duration: 1,
         ease: [0.16, 1, 0.3, 1]
       }
     })
@@ -165,37 +170,41 @@ const ManifestoHero = () => {
             <span className="font-mono text-xs uppercase tracking-[0.5em] text-accent font-black">Portfolio_v2.0</span>
             <div className="h-px w-24 bg-accent" />
           </div>
-          <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col relative">
-            <motion.span
-              custom={1}
-              initial="hidden"
-              animate="visible"
-              variants={textVariants}
-              whileHover={{
-                x: [0, -5, 5, -5, 5, 0],
-                transition: { duration: 0.2, repeat: Infinity }
-              }}
-              className="text-white cursor-none hover:text-accent transition-colors"
-            >
-              HARSHIL
-            </motion.span>
+          <div className="flex flex-col relative">
+            <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+              <motion.span
+                custom={1}
+                initial="hidden"
+                animate="visible"
+                variants={textVariants}
+                whileHover={{
+                  x: [0, -5, 5, -5, 5, 0],
+                  transition: { duration: 0.2, repeat: Infinity }
+                }}
+                className="text-white cursor-none hover:text-accent transition-colors"
+              >
+                HARSHIL
+              </motion.span>
+            </h1>
 
             <KineticTicker />
 
-            <motion.span
-              custom={2}
-              initial="hidden"
-              animate="visible"
-              variants={textVariants}
-              whileHover={{
-                skewX: [0, -10, 10, -5, 5, 0],
-                transition: { duration: 0.2, repeat: Infinity }
-              }}
-              className="text-outline cursor-none hover:text-accent transition-colors"
-            >
-              GORASIYA
-            </motion.span>
-          </h1>
+            <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+              <motion.span
+                custom={2}
+                initial="hidden"
+                animate="visible"
+                variants={textVariants}
+                whileHover={{
+                  skewX: [0, -10, 10, -5, 5, 0],
+                  transition: { duration: 0.2, repeat: Infinity }
+                }}
+                className="text-outline cursor-none hover:text-accent transition-colors"
+              >
+                GORASIYA
+              </motion.span>
+            </h1>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
@@ -237,25 +246,46 @@ const ManifestoHero = () => {
 
 const TheArsenal = () => {
   const categories = [
-    { title: "Agentic Systems", items: ["LangChain", "FAISS", "MCP", "RAG Pipelines", "Ollama"] },
-    { title: "Deep Learning", items: ["PyTorch", "TensorFlow", "YOLOv8", "HuggingFace", "CNNs"] },
-    { title: "Core Architecture", items: ["Python", "C++", "Docker", "FastAPI", "Linux"] },
-    { title: "Data Engines", items: ["SQL", "MongoDB", "VectorDB", "Elastic", "Spark"] }
+    { title: "Agentic Systems", items: ["LangChain", "FAISS", "MCP", "RAG Pipelines", "Ollama"], load: "92%" },
+    { title: "Deep Learning", items: ["PyTorch", "TensorFlow", "YOLOv8", "HuggingFace", "CNNs"], load: "88%" },
+    { title: "Core Architecture", items: ["Python", "C++", "Docker", "FastAPI", "Linux"], load: "95%" },
+    { title: "Data Engines", items: ["SQL", "MongoDB", "VectorDB", "Elastic", "Spark"], load: "84%" }
   ];
 
   return (
     <BrutalistSection id="arsenal" title="Arsenal" subtitle="Technological Stack">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((cat, i) => (
-          <div key={i} className="bg-black p-12 border-2 border-white group hover:bg-white transition-all duration-500">
-            <h3 className="text-2xl mb-8 group-hover:text-black transition-colors">{cat.title}</h3>
-            <div className="space-y-4">
+          <div key={i} className="bg-black p-8 border-2 border-white group hover:border-accent transition-all duration-500 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-2 border-l-2 border-b-2 border-white group-hover:border-accent font-mono text-[8px] opacity-40">
+               VER: 2.0.4 // LOAD: {cat.load}
+            </div>
+            <h3 className="text-2xl mb-12 group-hover:text-accent transition-colors flex items-center gap-2">
+              <Zap size={18} className="text-accent fill-accent" />
+              {cat.title}
+            </h3>
+            <div className="space-y-6">
                {cat.items.map((item, j) => (
-                 <div key={j} className="flex items-center justify-between group/item">
-                    <span className="font-mono text-sm group-hover:text-black transition-colors">{item}</span>
-                    <Zap size={14} className="text-white/20 group-hover:text-accent transition-colors" />
+                 <div key={j} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                       <span className="font-mono text-xs uppercase tracking-widest">{item}</span>
+                       <span className="font-mono text-[8px] opacity-30">READY</span>
+                    </div>
+                    <div className="h-1 bg-white/10 w-full overflow-hidden">
+                       <motion.div
+                        initial={{ x: "-100%" }}
+                        whileInView={{ x: "0%" }}
+                        transition={{ duration: 1, delay: j * 0.1 }}
+                        className="h-full bg-white group-hover:bg-accent"
+                        style={{ width: `${((i * 7 + j * 13) % 40) + 60}%` }}
+                       />
+                    </div>
                  </div>
                ))}
+            </div>
+            <div className="mt-12 pt-4 border-t border-white/10 flex justify-between items-center">
+               <Activity size={12} className="text-white/20" />
+               <span className="font-mono text-[8px] opacity-20">SYSTEM_READY_FOR_DEPLOYMENT</span>
             </div>
           </div>
         ))}
@@ -357,7 +387,8 @@ const TheGateway = () => {
       } else {
         setStatus('error');
       }
-    } catch (error) {
+    } catch (err) {
+      console.error('Transmission Error:', err);
       setStatus('error');
     }
   };
@@ -470,17 +501,77 @@ const TheGateway = () => {
 
 // --- Global UI Components ---
 
-const MonolithNavbar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-[100] h-24 px-6 md:px-12 flex items-center justify-between mix-blend-difference">
-     <MonolithLogo />
-     <div className="hidden lg:flex items-center gap-8">
-        <NavLink href="#archives">Archives</NavLink>
-        <NavLink href="#arsenal">Arsenal</NavLink>
-        <NavLink href="#ledger">Ledger</NavLink>
-        <NavLink href="#gateway">Gateway</NavLink>
-     </div>
-  </nav>
-);
+const MonolithNavbar = () => {
+  const [activeSection, setActiveSection] = useState('HERO');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['archives', 'arsenal', 'ledger', 'gateway'];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element && scrollPosition >= element.offsetTop && scrollPosition < element.offsetTop + element.offsetHeight) {
+          setActiveSection(section.toUpperCase());
+          return;
+        }
+      }
+      if (window.scrollY < 300) setActiveSection('HERO');
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-[100] h-24 px-6 md:px-12 flex items-center justify-between mix-blend-difference">
+       <div className="flex items-center gap-12">
+         <MonolithLogo />
+         <div className="hidden xl:flex items-center gap-4 font-mono text-[10px] text-accent font-black tracking-widest border-l border-white/20 pl-8">
+            <span className="opacity-40">CURRENT_LOC:</span>
+            <motion.span
+              key={activeSection}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-accent text-black px-2"
+            >
+              {activeSection}
+            </motion.span>
+         </div>
+       </div>
+       <div className="hidden lg:flex items-center gap-8">
+          <NavLink href="#archives">Archives</NavLink>
+          <NavLink href="#arsenal">Arsenal</NavLink>
+          <NavLink href="#ledger">Ledger</NavLink>
+          <NavLink href="#gateway">Gateway</NavLink>
+       </div>
+    </nav>
+  );
+};
+
+const NeuralScroll = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  return (
+    <div className="fixed right-4 top-1/2 -translate-y-1/2 h-64 w-1 bg-white/10 z-[100] hidden md:block border border-white/20">
+      <motion.div
+        className="absolute top-0 left-0 right-0 bg-accent origin-top"
+        style={{ scaleY }}
+      />
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 font-mono text-[8px] text-white/40 tracking-tighter vertical-text">
+        SCROLL_PROGRESS
+      </div>
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 font-mono text-[8px] text-white/40 tracking-tighter">
+        100%
+      </div>
+    </div>
+  );
+};
 
 const CustomCursor = () => {
   const mouseX = useMotionValue(0);
@@ -538,6 +629,7 @@ function App() {
     <div className="relative min-h-screen selection:bg-accent selection:text-white font-sans bg-black text-white">
       <div className="noise" />
       <CustomCursor />
+      <NeuralScroll />
       <MonolithNavbar />
 
       <main>

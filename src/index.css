@@ -68,6 +68,54 @@ body::before {
     box-shadow: 10px 10px 0px 0px #FF3E3E;
   }
 
+  .glitch-border {
+    position: relative;
+  }
+
+  .glitch-border::before,
+  .glitch-border::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border: 2px solid #FF3E3E;
+    opacity: 0;
+    transition: all 0.1s ease;
+    pointer-events: none;
+  }
+
+  .group:hover .glitch-border::before {
+    opacity: 1;
+    animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+  }
+
+  .group:hover .glitch-border::after {
+    opacity: 1;
+    animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+    border-color: #FFFFFF;
+  }
+
+  @keyframes glitch-anim-1 {
+    0% { clip-path: inset(80% 0 0 0); transform: translate(-2px, -2px); }
+    20% { clip-path: inset(20% 0 50% 0); transform: translate(2px, 2px); }
+    40% { clip-path: inset(50% 0 20% 0); transform: translate(-2px, 2px); }
+    60% { clip-path: inset(10% 0 70% 0); transform: translate(2px, -2px); }
+    80% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, -2px); }
+    100% { clip-path: inset(30% 0 40% 0); transform: translate(2px, 2px); }
+  }
+
+  @keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 70% 0); transform: translate(2px, 2px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, -2px); }
+    40% { clip-path: inset(30% 0 40% 0); transform: translate(2px, -2px); }
+    60% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); }
+    80% { clip-path: inset(20% 0 50% 0); transform: translate(2px, 2px); }
+    100% { clip-path: inset(50% 0 20% 0); transform: translate(-2px, -2px); }
+  }
+
+  .invert-on-hover:hover {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
   .noise {
     position: fixed;
     top: 0;
@@ -88,6 +136,11 @@ body::before {
 
   html {
     scroll-behavior: smooth;
+  }
+
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
   }
 
   ::selection {
