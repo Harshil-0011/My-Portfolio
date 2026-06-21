@@ -117,7 +117,7 @@ const BrutalistSection = ({ id, title, subtitle, children, dark = true }) => (
           <span className={`font-mono text-xs uppercase tracking-[0.4em] ${dark ? 'text-white/40' : 'text-black/40'}`}>
             {subtitle}
           </span>
-          <h2 className={`text-6xl md:text-9xl tracking-tighter leading-none ${!dark && 'text-outline'}`}>
+          <h2 className={`text-6xl md:text-9xl tracking-tighter leading-none ${!dark && 'text-outline-black'}`}>
             {title}
           </h2>
         </div>
@@ -238,7 +238,7 @@ const ManifestoHero = () => {
                   skewX: [0, -10, 10, -5, 5, 0],
                   transition: { duration: 0.2, repeat: Infinity }
                 }}
-                className="text-outline cursor-none hover:text-accent transition-colors"
+                className="text-outline-white cursor-none hover:text-accent transition-colors"
               >
                 GORASIYA
               </motion.span>
@@ -690,10 +690,10 @@ function App() {
 
       {/* Technical Metadata Overlays */}
       <div className="fixed top-28 left-6 md:left-12 z-50 font-mono text-[8px] text-white/30 uppercase tracking-[0.3em] vertical-text pointer-events-none hidden md:block">
-        BUILD_REF: BRUTALIST_V4.0 // COORDS: 49.1427°N 9.2109°E
+        BUILD_REF: BRUTALIST_V4.0 / COORDS: 49.1427°N 9.2109°E
       </div>
       <div className="fixed bottom-12 left-6 md:left-12 z-50 font-mono text-[8px] text-white/30 uppercase tracking-[0.3em] vertical-text pointer-events-none hidden md:block rotate-180">
-        TIME_STAMP: {new Date().toISOString().split('T')[0]} // STATUS: ONLINE
+        TIME_STAMP: {new Date().toISOString().split('T')[0]} / STATUS: ONLINE
       </div>
 
       <CustomCursor />
