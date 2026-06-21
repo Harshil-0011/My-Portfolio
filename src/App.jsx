@@ -260,7 +260,7 @@ const ManifestoHero = () => {
             APPLIED AI ENGINEER. ARCHITECT OF AUTONOMOUS AGENTIC PIPELINES AND INTELLIGENT INFRASTRUCTURE.
           </motion.p>
 
-          <div className="flex flex-col gap-8 lg:items-end">
+          <div className="flex flex-col gap-8 lg:items-end w-full">
             <div className="flex gap-4">
                <a href="https://github.com/N0t-Harshil" target="_blank" rel="noopener noreferrer" className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
                   <Github size={24} />
@@ -269,6 +269,36 @@ const ManifestoHero = () => {
                   <Linkedin size={24} />
                </a>
             </div>
+
+            {/* Neural Bridge: The engagement hook between link rows */}
+            <div className="w-full h-12 border-y border-white/10 relative overflow-hidden flex items-center">
+               <div className="absolute inset-0 flex items-center justify-between px-4">
+                  {[...Array(12)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{
+                        opacity: [0.2, 1, 0.2],
+                        scale: [1, 1.5, 1]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: i * 0.2
+                      }}
+                      className="w-1 h-1 bg-accent rounded-full"
+                    />
+                  ))}
+               </div>
+               <motion.div
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                className="h-[1px] w-full bg-gradient-to-r from-transparent via-accent to-transparent"
+               />
+               <div className="absolute right-4 font-mono text-[8px] text-accent/50 animate-pulse">
+                 ENCRYPTED_HANDSHAKE_ACTIVE
+               </div>
+            </div>
+
             <div className="flex flex-wrap gap-4 lg:justify-end">
               <Magnetic>
                 <a href="#archives" className="brutalist-button flex items-center gap-3">
@@ -298,10 +328,10 @@ const ManifestoHero = () => {
 
 const TheArsenal = () => {
   const categories = [
-    { title: "Agentic Systems", items: ["LangChain", "FAISS", "MCP", "RAG Pipelines", "Ollama"], load: "92%" },
-    { title: "Deep Learning", items: ["PyTorch", "TensorFlow", "YOLOv8", "HuggingFace", "CNNs"], load: "88%" },
-    { title: "Core Architecture", items: ["Python", "C++", "Docker", "FastAPI", "Linux"], load: "95%" },
-    { title: "Data Engines", items: ["SQL", "MongoDB", "VectorDB", "Elastic", "Spark"], load: "84%" }
+    { title: "Agentic Systems", items: ["LangChain", "Graph-RAG", "MCP", "CLI Engineering", "Ollama"], load: "92%" },
+    { title: "Intelligence Lab", items: ["PyTorch", "LLM Fine-tuning", "YOLOv8", "HuggingFace", "OCR"], load: "88%" },
+    { title: "Core & Graphs", items: ["Python", "C++", "Graph Theory", "FastAPI", "Docker"], load: "95%" },
+    { title: "Human Intelligence", items: ["Strategic Leadership", "Solution Architecture", "Systems Thinking", "Technical Strategy", "Mentorship"], load: "99%" }
   ];
 
   return (
