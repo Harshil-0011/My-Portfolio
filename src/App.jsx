@@ -12,7 +12,10 @@ import {
   Zap,
   Send,
   Copy,
-  Check
+  Check,
+  FileDown,
+  Menu,
+  X
 } from 'lucide-react';
 
 // --- Utility Components ---
@@ -55,7 +58,7 @@ const Magnetic = ({ children, strength = 0.5 }) => {
 // --- Core Branding Components ---
 
 const MonolithLogo = () => (
-  <div className="flex items-center gap-4 group cursor-none">
+  <div className="flex items-center gap-4 group cursor-none hover-trigger" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
     <div className="w-12 h-12 bg-white flex items-center justify-center border-2 border-white group-hover:bg-accent group-hover:border-accent transition-colors duration-300 relative overflow-hidden">
       <span className="text-black font-display font-black text-2xl group-hover:text-white transition-colors z-10">H</span>
       <motion.div
@@ -98,9 +101,10 @@ const KineticTicker = () => (
   </div>
 );
 
-const NavLink = ({ href, children }) => (
+const NavLink = ({ href, children, onClick }) => (
   <a
     href={href}
+    onClick={onClick}
     className="font-mono text-[11px] font-bold uppercase tracking-widest hover:text-accent transition-colors py-2 px-4 border-b-2 border-transparent hover:border-accent"
   >
     {children}
@@ -110,7 +114,7 @@ const NavLink = ({ href, children }) => (
 // --- Structural UI Components ---
 
 const BrutalistSection = ({ id, title, subtitle, children, dark = true }) => (
-  <section id={id} className={`py-32 px-6 md:px-12 border-b-2 border-white/10 ${dark ? 'bg-black' : 'bg-white text-black'}`}>
+  <section id={id} className={`py-32 px-6 md:px-12 border-b-2 border-white/10 scroll-mt-24 ${dark ? 'bg-black' : 'bg-white text-black'}`}>
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
         <div className="space-y-4">
@@ -198,7 +202,7 @@ const ManifestoHero = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center px-6 md:px-12 overflow-hidden bg-black">
+    <section className="relative min-h-screen flex items-center pt-32 pb-24 px-6 md:px-12 overflow-hidden bg-black">
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 100 }}
@@ -210,7 +214,7 @@ const ManifestoHero = () => {
             <div className="h-px w-24 bg-accent" />
           </div>
           <div className="flex flex-col relative">
-            <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+            <h1 className="text-[17vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
               <motion.span
                 custom={1}
                 initial="hidden"
@@ -228,7 +232,7 @@ const ManifestoHero = () => {
 
             <KineticTicker />
 
-            <h1 className="text-[15vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+            <h1 className="text-[17vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
               <motion.span
                 custom={2}
                 initial="hidden"
@@ -246,7 +250,7 @@ const ManifestoHero = () => {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -256,20 +260,27 @@ const ManifestoHero = () => {
             APPLIED AI ENGINEER. ARCHITECT OF AUTONOMOUS AGENTIC PIPELINES AND INTELLIGENT INFRASTRUCTURE.
           </motion.p>
 
-          <div className="flex flex-col justify-end gap-6 md:items-end">
+          <div className="flex flex-col gap-8 lg:items-end">
             <div className="flex gap-4">
-               <div className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+               <a href="https://github.com/N0t-Harshil" target="_blank" rel="noopener noreferrer" className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
                   <Github size={24} />
-               </div>
-               <div className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
+               </a>
+               <a href="https://linkedin.com/in/harshil-gorasiya" target="_blank" rel="noopener noreferrer" className="w-16 h-16 border-2 border-white flex items-center justify-center hover:bg-white hover:text-black transition-all">
                   <Linkedin size={24} />
-               </div>
+               </a>
             </div>
-            <Magnetic>
-              <a href="#archives" className="brutalist-button flex items-center gap-3">
-                 Explore Work <ArrowDown size={20} />
-              </a>
-            </Magnetic>
+            <div className="flex flex-wrap gap-4 lg:justify-end">
+              <Magnetic>
+                <a href="#archives" className="brutalist-button flex items-center gap-3">
+                  Explore Work <ArrowDown size={20} />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="/Harshil_Gorasiya_CV.pdf" target="_blank" className="brutalist-button bg-black text-white hover:bg-white hover:text-black flex items-center gap-3">
+                  Download CV <FileDown size={20} />
+                </a>
+              </Magnetic>
+            </div>
           </div>
         </div>
       </div>
@@ -560,11 +571,12 @@ const TheGateway = () => {
 
 const MonolithNavbar = () => {
   const [activeSection, setActiveSection] = useState('HERO');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['archives', 'arsenal', 'ledger', 'gateway'];
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -579,6 +591,13 @@ const MonolithNavbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const navItems = [
+    { name: 'Archives', href: '#archives' },
+    { name: 'Arsenal', href: '#arsenal' },
+    { name: 'Ledger', href: '#ledger' },
+    { name: 'Gateway', href: '#gateway' }
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-[100] h-24 px-6 md:px-12 flex items-center justify-between mix-blend-difference">
@@ -596,12 +615,51 @@ const MonolithNavbar = () => {
             </motion.span>
          </div>
        </div>
+
+       {/* Desktop Nav */}
        <div className="hidden lg:flex items-center gap-8">
-          <NavLink href="#archives">Archives</NavLink>
-          <NavLink href="#arsenal">Arsenal</NavLink>
-          <NavLink href="#ledger">Ledger</NavLink>
-          <NavLink href="#gateway">Gateway</NavLink>
+          {navItems.map(item => (
+            <NavLink key={item.name} href={item.href}>{item.name}</NavLink>
+          ))}
        </div>
+
+       {/* Mobile Nav Trigger */}
+       <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="lg:hidden w-12 h-12 flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-black transition-all"
+       >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+       </button>
+
+       {/* Mobile Menu Overlay */}
+       <AnimatePresence>
+         {isMenuOpen && (
+           <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 top-24 bg-black border-t-2 border-white/10 p-12 lg:hidden z-50 flex flex-col gap-8"
+           >
+              {navItems.map((item, i) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-5xl font-display font-black tracking-tighter hover:text-accent transition-colors"
+                >
+                  {item.name}
+                </motion.a>
+              ))}
+              <div className="mt-auto pt-12 border-t-2 border-white/10 flex gap-8">
+                  <a href="https://github.com/N0t-Harshil" className="font-mono text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors">Github</a>
+                  <a href="https://linkedin.com/in/harshil-gorasiya" className="font-mono text-xs uppercase tracking-widest text-white/50 hover:text-white transition-colors">Linkedin</a>
+              </div>
+           </motion.div>
+         )}
+       </AnimatePresence>
     </nav>
   );
 };
@@ -645,7 +703,7 @@ const CustomCursor = () => {
       mouseY.set(e.clientY);
     };
     const handleMouseOver = (e) => {
-      const target = e.target.closest('a, button, input, textarea, h1, h2, .magnetic-target');
+      const target = e.target.closest('a, button, input, textarea, h1, h2, .magnetic-target, .hover-trigger');
       if (target) {
         setIsHovering(true);
       } else {
@@ -683,6 +741,15 @@ const CustomCursor = () => {
 };
 
 function App() {
+  const [time, setTime] = useState(new Date().toISOString().split('T')[1].split('.')[0]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date().toISOString().split('T')[1].split('.')[0]);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="relative min-h-screen selection:bg-accent selection:text-white font-sans bg-black text-white">
       <div className="noise" />
@@ -693,7 +760,7 @@ function App() {
         BUILD_REF: BRUTALIST_V4.0 / COORDS: 49.1427°N 9.2109°E
       </div>
       <div className="fixed bottom-12 left-6 md:left-12 z-50 font-mono text-[8px] text-white/30 uppercase tracking-[0.3em] vertical-text pointer-events-none hidden md:block rotate-180">
-        TIME_STAMP: {new Date().toISOString().split('T')[0]} / STATUS: ONLINE
+        TS: {time} / STATUS: ONLINE
       </div>
 
       <CustomCursor />
@@ -717,8 +784,9 @@ function App() {
           © 2025 HARSHIL GORASIYA // SYSTEM_OPTIMIZED_FOR_AI
         </div>
         <div className="flex gap-12 font-mono text-[11px] font-black uppercase tracking-widest">
-           <Magnetic strength={0.2}><a href="#" className="hover:text-accent transition-colors">Top</a></Magnetic>
-           <Magnetic strength={0.2}><a href="https://github.com/N0t-Harshil" className="hover:text-accent transition-colors">GitHub</a></Magnetic>
+           <Magnetic strength={0.2}><a href="#" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-accent transition-colors">Top</a></Magnetic>
+           <Magnetic strength={0.2}><a href="https://github.com/N0t-Harshil" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">GitHub</a></Magnetic>
+           <Magnetic strength={0.2}><a href="https://linkedin.com/in/harshil-gorasiya" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">LinkedIn</a></Magnetic>
         </div>
       </footer>
     </div>
