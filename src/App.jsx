@@ -137,7 +137,7 @@ const ProjectCard = ({ title, desc, tags, link }) => (
     whileHover={{ x: 20 }}
     className="group relative flex flex-col md:flex-row items-stretch border-2 border-white mb-12 overflow-hidden bg-black hover:border-accent transition-all duration-300 glitch-border"
   >
-    <div className="md:w-1/3 p-12 flex flex-col justify-between border-b-2 md:border-b-0 md:border-r-2 border-white group-hover:border-accent transition-colors bg-black group-hover:bg-white group-hover:text-black">
+    <div className="md:w-1/3 p-12 flex flex-col justify-between border-b-2 md:border-b-0 md:border-r-2 border-white group-hover:border-accent transition-colors bg-black text-white group-hover:bg-white group-hover:text-black">
        <div className="space-y-6">
           <h3 className="text-4xl md:text-5xl tracking-tighter leading-tight group-hover:text-accent transition-colors">{title}</h3>
           <div className="flex flex-wrap gap-2">
@@ -158,7 +158,7 @@ const ProjectCard = ({ title, desc, tags, link }) => (
           <span className="font-mono text-xs uppercase tracking-widest font-black group-hover:text-black">View Repository</span>
        </a>
     </div>
-    <div className="flex-grow p-12 flex flex-col justify-center group-hover:bg-accent/10 transition-colors">
+    <div className="flex-grow p-12 flex flex-col justify-center group-hover:bg-accent/10 transition-colors text-white">
        <p className="text-xl md:text-2xl font-sans leading-relaxed text-white/70 max-w-2xl">
          {desc}
        </p>
@@ -336,7 +336,7 @@ const TheArsenal = () => {
 };
 
 const TheArchives = () => (
-  <BrutalistSection id="archives" title="Archives" subtitle="Selected Operations" dark={false}>
+  <BrutalistSection id="archives" title="Archives" subtitle="Selected Operations" dark={true}>
     <ProjectCard
       title="ARDAN-CLI"
       desc="ENGINEERED A STANDALONE, TERMINAL-BASED AI SOFTWARE ENGINEER UTILIZING AN EXPLICIT REACT EXECUTION LOOP IN PYTHON."
