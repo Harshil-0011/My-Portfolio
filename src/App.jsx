@@ -214,7 +214,7 @@ const ManifestoHero = () => {
             <div className="h-px w-24 bg-accent" />
           </div>
           <div className="flex flex-col relative">
-            <h1 className="text-[17vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+            <h1 className="text-[clamp(3rem,15vw,12rem)] leading-[0.8] tracking-tighter flex flex-col">
               <motion.span
                 custom={1}
                 initial="hidden"
@@ -232,7 +232,7 @@ const ManifestoHero = () => {
 
             <KineticTicker />
 
-            <h1 className="text-[17vw] md:text-[12vw] leading-[0.8] tracking-tighter flex flex-col">
+            <h1 className="text-[clamp(3rem,15vw,12rem)] leading-[0.8] tracking-tighter flex flex-col">
               <motion.span
                 custom={2}
                 initial="hidden"
@@ -242,7 +242,7 @@ const ManifestoHero = () => {
                   skewX: [0, -10, 10, -5, 5, 0],
                   transition: { duration: 0.2, repeat: Infinity }
                 }}
-                className="text-outline-white cursor-none hover:text-accent transition-colors"
+                className="text-white cursor-none hover:text-accent transition-colors"
               >
                 GORASIYA
               </motion.span>
@@ -306,8 +306,21 @@ const ManifestoHero = () => {
                 </a>
               </Magnetic>
               <Magnetic>
-                <a href="/Harshil_Gorasiya_CV.pdf" target="_blank" className="brutalist-button bg-black text-white hover:bg-white hover:text-black flex items-center gap-3">
-                  Download CV <FileDown size={20} />
+                <a
+                  href="#gateway"
+                  className="brutalist-button bg-black text-white hover:bg-white hover:text-black flex items-center gap-3 relative overflow-hidden group/cv"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('gateway')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  Request Full CV <FileDown size={20} />
+                  <motion.div
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0 bg-accent/20 skew-x-12 pointer-events-none"
+                  />
                 </a>
               </Magnetic>
             </div>
@@ -328,10 +341,10 @@ const ManifestoHero = () => {
 
 const TheArsenal = () => {
   const categories = [
-    { title: "Agentic Systems", items: ["LangChain", "Graph-RAG", "MCP", "CLI Engineering", "Ollama"], load: "92%" },
-    { title: "Intelligence Lab", items: ["PyTorch", "LLM Fine-tuning", "YOLOv8", "HuggingFace", "OCR"], load: "88%" },
-    { title: "Core & Graphs", items: ["Python", "C++", "Graph Theory", "FastAPI", "Docker"], load: "95%" },
-    { title: "Human Intelligence", items: ["Strategic Leadership", "Solution Architecture", "Systems Thinking", "Technical Strategy", "Mentorship"], load: "99%" }
+    { title: "Agentic Systems", items: ["LangGraph", "Multi-Agent Systems", "MCP Protocol", "Vector Databases", "Autonomous Loops"], load: "94%" },
+    { title: "Intelligence Lab", items: ["LLM Fine-tuning", "Computer Vision", "Diffusion Models", "RAG Optimization", "PyTorch"], load: "91%" },
+    { title: "Core Architecture", items: ["Distributed Systems", "Graph Theory", "High-Perf C++", "FastAPI", "Kubernetes"], load: "96%" },
+    { title: "Strategic Impact", items: ["Systems Thinking", "Technical Leadership", "Solution Architecture", "Product Strategy", "R&D Management"], load: "98%" }
   ];
 
   return (
@@ -401,29 +414,69 @@ const TheArchives = () => (
 
 const TheLedger = () => {
   const data = [
-    { type: "Experience", title: "Deep Learning Intern", org: "PD Avenue", date: "2023 - 2024" },
-    { type: "Experience", title: "Machine Learning Intern", org: "Dotcom IoT", date: "2023" },
-    { type: "Education", title: "M.Sc. Software Engineering", org: "HH Heilbronn", date: "2024 - 2027" },
-    { type: "Education", title: "B.Tech. IT", org: "ADIT India", date: "2024" }
+    {
+      type: "Experience",
+      title: "Deep Learning Intern",
+      org: "PD Avenue",
+      date: "10/2023 - 01/2024",
+      bullets: [
+        "Engineered RAG-enhanced conversational engines processing 2,000+ local documents with < 500ms latency.",
+        "Orchestrated autonomous agentic pipelines for automated technical research, reducing manual literature review time by 75%."
+      ]
+    },
+    {
+      type: "Experience",
+      title: "Machine Learning Intern",
+      org: "Dotcom IoT",
+      date: "05/2023 - 07/2023",
+      bullets: [
+        "Deployed YOLOv8 tracking frameworks processing 35,000+ frames per hour at 28-32 FPS purely on CPU-only edge hardware.",
+        "Curated, audited, and hand-annotated 3,000+ custom evaluation frames to stabilize structural accuracy drops."
+      ]
+    },
+    {
+      type: "Education",
+      title: "M.Sc. Software Engineering",
+      org: "HH Heilbronn",
+      date: "2024 - 2027",
+      bullets: ["GPA: 1.9 (DE Scale)", "Focus: Advanced ML, Software Architecture, Distributed Systems"]
+    },
+    {
+      type: "Education",
+      title: "B.Tech. IT",
+      org: "ADIT India",
+      date: "2024",
+      bullets: ["GPA: 8.4/10", "Focus: Deep Learning, Computer Vision, Advanced Data Structures"]
+    }
   ];
 
   return (
     <BrutalistSection id="ledger" title="Ledger" subtitle="Timeline of Progress">
-      <div className="space-y-2">
+      <div className="space-y-4">
         {data.map((item, i) => (
           <motion.div
             key={i}
             whileHover={{ backgroundColor: "rgba(255,255,255,1)", color: "#000000" }}
-            className="group flex flex-col md:flex-row md:items-center justify-between p-12 border-2 border-white transition-all duration-300"
+            className="group p-12 border-2 border-white transition-all duration-300"
           >
-            <div className="flex items-center gap-8">
-               <span className="font-mono text-xs uppercase tracking-widest text-white/40 group-hover:text-black/40">{item.type}</span>
-               <h3 className="text-3xl md:text-5xl tracking-tighter">{item.title}</h3>
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+              <div className="flex items-center gap-8">
+                 <span className="font-mono text-xs uppercase tracking-widest text-white/40 group-hover:text-black/40">{item.type}</span>
+                 <h3 className="text-3xl md:text-5xl tracking-tighter">{item.title}</h3>
+              </div>
+              <div className="mt-4 md:mt-0 flex items-center gap-8 text-right">
+                 <span className="font-display text-xl">{item.org}</span>
+                 <span className="font-mono text-sm border-l-2 border-white/20 pl-8 group-hover:border-black/20">{item.date}</span>
+              </div>
             </div>
-            <div className="mt-4 md:mt-0 flex items-center gap-8 text-right">
-               <span className="font-display text-xl">{item.org}</span>
-               <span className="font-mono text-sm border-l-2 border-white/20 pl-8 group-hover:border-black/20">{item.date}</span>
-            </div>
+            <ul className="space-y-4 max-w-4xl">
+              {item.bullets.map((bullet, j) => (
+                <li key={j} className="flex gap-4 font-sans text-lg opacity-60 group-hover:opacity-100 transition-opacity">
+                  <span className="text-accent font-black">/</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
           </motion.div>
         ))}
       </div>
@@ -432,7 +485,7 @@ const TheLedger = () => {
 };
 
 const TheGateway = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', botcheck: '' });
   const [status, setStatus] = useState('idle'); // idle, sending, success, error, error_email
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -443,8 +496,8 @@ const TheGateway = () => {
   };
 
   const validateEmail = (email) => {
-    const gmailRegex = /^[a-z0-9.]{6,30}@gmail\.com$/i;
-    return gmailRegex.test(email);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   const handleChange = (e) => {
@@ -454,6 +507,13 @@ const TheGateway = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Simple honeypot
+    if (formData.botcheck) {
+      setStatus('success');
+      return;
+    }
+
     if (!validateEmail(formData.email)) {
       setStatus('error_email');
       return;
@@ -465,14 +525,16 @@ const TheGateway = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-          access_key: 'f768b753-9133-4f99-906d-e435f9923838',
+          access_key: 'f768b753-9133-4f99-906d-e435f9923838', // User's Web3Forms Access Key
+          subject: `New Transmission from ${formData.name}`,
+          from_name: "Monolith Portfolio Gateway",
           ...formData
         })
       });
       const result = await response.json();
       if (result.success) {
         setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', message: '', botcheck: '' });
       } else {
         setStatus('error');
       }
@@ -509,7 +571,17 @@ const TheGateway = () => {
                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
                    <Phone size={20} />
                 </div>
-                <span className="font-mono text-xl">+49 155 6351 7346</span>
+                <div className="flex flex-col">
+                  <span className="font-mono text-xl">+49 155 6351 7346</span>
+                  <a
+                    href="https://wa.me/4915563517346"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-[10px] text-accent uppercase tracking-widest flex items-center gap-2 mt-1 hover:underline decoration-2"
+                  >
+                    Open_WhatsApp_Uplink
+                  </a>
+                </div>
              </div>
              <div className="flex items-center gap-6 group">
                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center group-hover:bg-accent transition-colors">
@@ -522,6 +594,7 @@ const TheGateway = () => {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} onChange={(e) => setFormData({...formData, botcheck: e.target.checked})} />
             <div className="space-y-2">
               <input
                 type="text"
@@ -544,7 +617,7 @@ const TheGateway = () => {
                 className={`w-full bg-transparent border-b-4 p-4 font-mono text-xl focus:outline-none transition-colors ${status === 'error_email' ? 'border-accent text-accent' : 'border-black focus:border-accent'}`}
               />
               {status === 'error_email' && (
-                <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-black">Error: Must be a valid @gmail.com address (6-30 chars).</p>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-black">Error: Must be a valid email address.</p>
               )}
             </div>
           </div>
