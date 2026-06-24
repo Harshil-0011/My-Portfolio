@@ -1,16 +1,37 @@
-# React + Vite
+# Harshil Gorasiya Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# ⚠️ CRITICAL DEPLOYMENT STEP
+This project MUST be deployed using **GitHub Actions**. If you use the default "Deploy from a branch" setting, the site WILL fail with MIME type errors.
 
-Currently, two official plugins are available:
+### Setup Instructions:
+1. Go to your repository on GitHub.
+2. Click on **Settings** -> **Pages**.
+3. Under **Build and deployment** > **Source**, select **GitHub Actions**.
+4. The site will now automatically build and deploy correctly using the workflow in `.github/workflows/deploy.yml`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Technical Stack
+- **Framework**: React 19 + Vite 6
+- **Styling**: Tailwind CSS 4
+- **Animations**: Anime.js + Framer Motion
+- **Icons**: Lucide React
+- **Deployment**: GitHub Pages (via Actions)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
+- **3D Neural Quantum Vault**: Interactive scroll-linked animation.
+- **Vector Particle Field**: Physics-based background engine.
+- **Identity Reveal**: Overclocking interaction on brand name.
+- **Adaptive Logistics**: Real-time status indicators for recruitment.
 
-## Expanding the ESLint configuration
+## Local Development
+```bash
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Production Build
+```bash
+npm run build
+npm run preview
+```
