@@ -1,7 +1,6 @@
-import React, { useRef, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial, PerspectiveCamera } from '@react-three/drei';
-import * as THREE from 'three';
 import { motion } from 'framer-motion';
 
 const NeuralCore = () => {

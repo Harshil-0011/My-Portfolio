@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 const Loader = ({ onComplete }) => {
@@ -15,7 +15,6 @@ const Loader = ({ onComplete }) => {
       "ACCESS_GRANTED."
     ];
 
-    let currentLine = 0;
     const tl = gsap.timeline({
       onComplete: () => {
         gsap.to(containerRef.current, {
