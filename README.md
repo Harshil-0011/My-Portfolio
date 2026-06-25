@@ -29,11 +29,60 @@
 ## 01 // MISSION_PROFILE
 A high-impact, **Hyper-Functional Brutalist** portfolio engineered to showcase advanced capabilities in **RAG architectures**, **Agentic Pipelines**, and **High-Performance Neural Infrastructure**.
 
-This is not a typical developer site; it is a technical artifact designed to capture attention through kinetic micro-interactions, 3D neural cores, and real-time system telemetry.
+---
+
+## 02 // PERSONAL_DATA
+- **LOCATION**: Heilbronn, Germany
+- **EDUCATION**: M.Sc. in Software Engineering (Current Environment)
+- **SPECIALIZATION**: Autonomous Intelligence, Distributed Neural Systems
+- **CONTACT**: [harshil.gorasiya.0011@gmail.com](mailto:harshil.gorasiya.0011@gmail.com)
 
 ---
 
-## 02 // SYSTEMS_SPECIFICATION
+## 03 // SYSTEM_LOG (EXPERIENCE)
+
+### DEEP LEARNING INTERN // PD AVENUE
+**2023_12 — 2024_04 [REMOTE]**
+- Built custom classification heads using TensorFlow/Keras, achieving +8% validation accuracy.
+- Slashed baseline processing runtimes by 20% through adaptive scheduling.
+- Isolated structural overfitting patterns across 10+ core test branches.
+
+### MACHINE LEARNING INTERN // DOTCOM IOT LLP
+**2023_05 — 2023_06 [INDIA]**
+- Deployed YOLOv8 tracking frameworks processing 35,000+ frames per hour on CPU-only hardware.
+- Curated and audited 3,000+ custom evaluation frames for model stabilization.
+
+---
+
+## 04 // PROJECT_ARCHIVE (SELECTED_CASEFILES)
+
+### [CASEFILE_01] ARDAN-CLI
+> Autonomous terminal-based AI software engineer utilizing a ReAct execution loop.
+- **TECH**: Python, ReAct, MCP
+- **INTEL**: Supports 6 major LLM providers, Parallel tool execution, AES-encrypted keys.
+
+### [CASEFILE_02] GRAPH RAG
+> Hierarchical graph-based retrieval system replacing expensive graph calls with deterministic mappings.
+- **TECH**: Python, FAISS, Ollama
+- **INTEL**: 5-level document indexing, Sub-4s latency, Zero infrastructure cost.
+
+### [CASEFILE_03] LOCAL PERPLEX
+> Private multimodal AI research engine with custom native multi-threaded rankings.
+- **TECH**: C++, Ollama, Multithreading
+- **INTEL**: Sub-10ms ranking latency, Zero data leakage, Native OCR subsystem.
+
+---
+
+## 05 // CAPABILITY_MATRIX (SKILLS)
+
+- **AGENTIC SYSTEMS**: LangChain, ReAct Loops, MCP, Autonomous Agents, RAG Pipelines
+- **NEURAL ENGINE**: PyTorch, TensorFlow, Transformers, YOLOv8, Computer Vision
+- **CORE ARCHITECTURE**: C++ Engines, Python, Multithreading, REST APIs, FastAPI
+- **DATA INFRASTRUCTURE**: FAISS, Vector DBs, PostgreSQL, Docker, MLOps
+
+---
+
+## 06 // SYSTEMS_SPECIFICATION
 
 ### CORE_INFRASTRUCTURE
 - **Framework**: React 19 (Experimental Features)
@@ -45,43 +94,6 @@ This is not a typical developer site; it is a technical artifact designed to cap
 - **3D**: @react-three/fiber + Drei
 - **Motion**: GSAP 3.15 + Framer Motion 12
 - **Interactions**: Magnetic UI + Custom Coordinate Cursor
-
----
-
-## 03 // ARCHITECTURAL_MODULES
-
-- **Neural Core V1**: A scroll-reactive 3D distortion mesh that responds to user input and time-dilation.
-- **Data-Sweep Scan**: A viewport-traversing horizontal laser with integrated technical metadata overlays.
-- **The Ledger**: A structured experience timeline documenting RAG engineering and autonomous systems development.
-- **Contact Portal**: A high-voltage, Web3Forms-integrated communication gateway.
-
----
-
-## 04 // COMMAND_LINE_OPERATIONS
-
-### INITIALIZATION
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/portfolio.git
-
-# Install system dependencies
-npm install
-```
-
-### DEVELOPMENT_SERVER
-```bash
-# Launch optimized development environment
-npm run dev
-```
-
-### PRODUCTION_STAGING
-```bash
-# Generate optimized build artifacts in /docs
-npm run build
-
-# Preview production build locally
-npm run preview
-```
 
 ---
 
