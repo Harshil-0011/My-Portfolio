@@ -75,7 +75,7 @@ const Hero = () => {
           <span className="text-technical text-safety-orange mb-6 block">
             APPLIED AI ENGINEER // SYSTEMS ARCHITECT
           </span>
-          <h1 className="text-huge font-headline font-black text-pure-white uppercase">
+          <h1 className="text-huge font-headline font-black text-pure-white uppercase hover:text-safety-orange transition-colors duration-700 cursor-default">
             Harshil<br />
             Gorasiya
           </h1>

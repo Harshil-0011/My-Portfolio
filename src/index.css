@@ -166,26 +166,40 @@ html.lenis, html.lenis body {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(to right,
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom,
       transparent 0%,
-      rgba(255, 51, 0, 0.1) 10%,
-      rgba(255, 51, 0, 0.8) 50%,
-      rgba(255, 51, 0, 0.1) 90%,
+      rgba(255, 51, 0, 0.05) 10%,
+      rgba(255, 51, 0, 0.6) 50%,
+      rgba(255, 51, 0, 0.05) 90%,
       transparent 100%
     );
-    box-shadow: 0 0 15px rgba(255, 51, 0, 0.8), 0 0 30px rgba(255, 51, 0, 0.4);
-    opacity: 0.8;
+    box-shadow: 0 0 20px rgba(255, 51, 0, 0.4);
+    opacity: 0.6;
     pointer-events: none;
     z-index: 20;
-    animation: scanning 6s ease-in-out infinite alternate, flicker 0.1s infinite;
+    animation: scanning-v 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
 
-  @keyframes scanning {
-    0% { transform: translateY(0); opacity: 0.3; }
-    50% { opacity: 0.8; }
-    100% { transform: translateY(100vh); opacity: 0.3; }
+  .scanning-line::after {
+    content: "SCAN_MODE: ACTIVE // DECRYPTING_IDENTITY";
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #FF3300;
+    white-space: nowrap;
+    letter-spacing: 0.2em;
+    opacity: 0.4;
+  }
+
+  @keyframes scanning-v {
+    0% { transform: translateX(0); opacity: 0; }
+    5%, 95% { opacity: 1; }
+    100% { transform: translateX(100vw); opacity: 0; }
   }
 
   @keyframes flicker {
