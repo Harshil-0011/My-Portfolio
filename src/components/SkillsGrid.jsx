@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 const SkillCard = ({ title, skills, index }) => (
@@ -54,7 +53,7 @@ const SkillsGrid = () => {
     <section className="py-32 px-8 bg-obsidian">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
-          <h2 className="text-huge font-headline font-black text-pure-white uppercase">
+          <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-x-12 transition-transform duration-300">
             Capability<br />Matrix
           </h2>
           <p className="max-w-md font-body text-lg text-pure-white/40 leading-relaxed">

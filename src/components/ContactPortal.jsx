@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ContactPortal = () => {
@@ -87,7 +87,7 @@ const ContactPortal = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-12">
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">// Identity</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Identity'}</label>
                 <input
                   type="text"
                   required
@@ -98,7 +98,7 @@ const ContactPortal = () => {
                 />
               </div>
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">// Protocol</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Protocol'}</label>
                 <input
                   type="email"
                   required
@@ -109,7 +109,7 @@ const ContactPortal = () => {
                 />
               </div>
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">// Payload</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Payload'}</label>
                 <textarea
                   required
                   rows="4"

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 const LogEntry = ({ entry, index }) => (
@@ -62,7 +61,7 @@ const ExperienceLog = () => {
     <section className="py-32 px-8 bg-obsidian">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-          <h2 className="text-huge font-headline font-black text-pure-white uppercase">
+          <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-y-3 transition-transform duration-300">
             System<br />Log
           </h2>
           <div className="text-right">

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 const ProjectCard = ({ project, index }) => {
@@ -28,7 +28,7 @@ const ProjectCard = ({ project, index }) => {
               {project.title}
             </h3>
             <p className="text-xl font-body text-pure-white/60 mb-10 leading-relaxed italic">
-              "{project.overview}"
+              &quot;{project.overview}&quot;
             </p>
             <div className="flex flex-wrap gap-4 mb-12">
               {project.tags.map((tag, i) => (
@@ -61,7 +61,7 @@ const ProjectCard = ({ project, index }) => {
           {/* Detailed stats */}
           <div className="absolute bottom-6 right-6 font-mono text-[10px] text-pure-white/20 space-y-1 text-right">
              {project.bullets.map((b, i) => (
-               <p key={i}>// {b.substring(0, 40)}...</p>
+               <p key={i}>{'//'} {b.substring(0, 40)}...</p>
              ))}
           </div>
         </div>
@@ -97,9 +97,9 @@ const ProjectArchive = () => {
 
   return (
     <section className="bg-obsidian">
-      <div className="py-32 px-8 border-y border-pure-white/10">
-        <h2 className="text-huge font-headline font-black text-pure-white uppercase text-right">
-          The<br />Archive
+      <div className="py-32 px-8 border-y border-pure-white/10 overflow-hidden">
+        <h2 className="text-huge font-headline font-black text-pure-white uppercase text-right hover:-skew-x-12 transition-transform duration-300">
+          The<br />{'Archive'}
         </h2>
       </div>
 
