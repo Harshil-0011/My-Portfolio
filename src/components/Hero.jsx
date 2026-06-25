@@ -84,8 +84,10 @@ const Hero = () => {
           </p>
 
           <div className="mt-16 flex flex-wrap gap-6">
-            <button
-              className="magnetic-button"
+            <a
+              href="./Harshil_Gorasiya_CV.pdf"
+              download
+              className="magnetic-button flex items-center justify-center"
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
@@ -96,8 +98,8 @@ const Hero = () => {
                 e.currentTarget.style.transform = `translate(0px, 0px)`;
               }}
             >
-              View Case Files
-            </button>
+              Download CV
+            </a>
             <div className="flex items-center gap-4 text-technical text-pure-white/40">
               <span className="w-12 h-[1px] bg-pure-white/20" />
               BASED IN GERMANY
