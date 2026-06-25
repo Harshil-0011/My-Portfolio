@@ -1,6 +1,6 @@
 import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Sphere, MeshDistortMaterial, PerspectiveCamera } from '@react-three/drei';
+import { Float, Sphere, MeshDistortMaterial, PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { motion } from 'framer-motion';
 
 const NeuralCore = () => {
@@ -122,6 +122,13 @@ const Hero = () => {
         <Canvas shadows gl={{ antialias: true }}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} />
           <NeuralCore />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            autoRotate={true}
+            autoRotateSpeed={0.5}
+            makeDefault
+          />
         </Canvas>
 
         {/* Interaction Prompt */}
