@@ -29,7 +29,8 @@ const ContactPortal = () => {
           email: formData.email,
           message: formData.message,
           subject: `New Message from ${formData.name} via Portfolio`,
-          from_name: "QUANTUM_MONO_PORTAL"
+          from_name: "QUANTUM_MONO_PORTAL",
+          botcheck: ""
         }),
       });
 
@@ -40,9 +41,11 @@ const ContactPortal = () => {
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setStatus('IDLE'), 5000);
       } else {
+        console.error("Web3Forms Error:", data);
         setStatus('ERROR');
       }
     } catch (err) {
+      console.error("Fetch Error:", err);
       setStatus('ERROR');
     }
   };
@@ -94,6 +97,8 @@ const ContactPortal = () => {
             className="p-12 border border-pure-white/10 bg-pure-white/[0.02] backdrop-blur-xl"
           >
             <form onSubmit={handleSubmit} className="space-y-12">
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
               <div className="space-y-2 group">
                 <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Identity'}</label>
                 <input
@@ -109,6 +114,7 @@ const ContactPortal = () => {
                 <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Protocol'}</label>
                 <input
                   type="email"
+                  name="email"
                   required
                   placeholder="EMAIL@DOMAIN.COM"
                   className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase"

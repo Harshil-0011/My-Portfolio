@@ -29,10 +29,9 @@ const Loader = ({ onComplete }) => {
     lines.forEach((line, index) => {
       tl.to(textRef.current, {
         duration: 0.4,
-        text: line,
         opacity: 1,
         onStart: () => {
-           if (textRef.current) textRef.current.innerText = line;
+          if (textRef.current) textRef.current.innerText = line;
         },
         delay: index === 0 ? 0.5 : 0.2
       });
