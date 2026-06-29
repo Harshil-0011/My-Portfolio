@@ -1,112 +1,104 @@
-import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
-const ProjectCard = ({ project, index }) => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+const ProjectCard = ({ title, tech, description, index }) => {
+  const cardRef = useRef(null);
 
   return (
-    <div ref={ref} className="relative py-24 border-b border-pure-white/10 group">
-      <div className="max-w-[1400px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Project Info */}
-        <div className="lg:col-span-5 z-10">
-          <motion.div
-             initial={{ opacity: 0, x: -30 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             transition={{ duration: 0.8 }}
-             viewport={{ once: true }}
-          >
-            <span className="font-mono text-xs text-safety-orange mb-4 block">
-              CASEFILE_0{index + 1}
-            </span>
-            <h3 className="text-5xl md:text-7xl font-headline font-black text-pure-white uppercase tracking-tighter mb-8 group-hover:text-safety-orange transition-colors duration-500">
-              {project.title}
-            </h3>
-            <p className="text-xl font-body text-pure-white/60 mb-10 leading-relaxed italic">
-              &quot;{project.overview}&quot;
-            </p>
-            <div className="flex flex-wrap gap-4 mb-12">
-              {project.tags.map((tag, i) => (
-                <span key={i} className="text-technical text-pure-white/40">
-                  [{tag}]
-                </span>
-              ))}
-            </div>
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-4 font-mono text-xs text-pure-white group-hover:text-safety-orange transition-colors"
-            >
-              ACCESS_REPOSITORY
-              <span className="w-8 h-[1px] bg-pure-white/20 group-hover:bg-safety-orange transition-colors" />
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Project Visual (Placeholder for now, keeping it abstract/minimal) */}
-        <div className="lg:col-span-7 relative h-[400px] overflow-hidden bg-pure-white/[0.03] border border-pure-white/5">
-          <motion.div style={{ y }} className="absolute inset-0 flex items-center justify-center">
-             <div className="w-[120%] h-[120%] opacity-20 bg-gradient-to-br from-safety-orange/40 to-transparent blur-3xl animate-pulse" />
-             <span className="font-headline font-black text-9xl text-pure-white/[0.05] select-none uppercase">
-                {project.title.split(' ')[0]}
-             </span>
-          </motion.div>
-
-          {/* Detailed stats */}
-          <div className="absolute bottom-6 right-6 font-mono text-[10px] text-pure-white/20 space-y-1 text-right">
-             {project.bullets.map((b, i) => (
-               <p key={i}>{'//'} {b.substring(0, 40)}...</p>
-             ))}
-          </div>
-        </div>
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className="glass glass-hover p-10 group relative overflow-hidden"
+    >
+      <div className="absolute top-0 right-0 p-6 font-mono text-[8px] text-cyan-glow/20 uppercase tracking-widest">
+        ARCHIVE_ID: {index + 101}
       </div>
-    </div>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+        {tech.map((t, i) => (
+          <span key={i} className="px-3 py-1 border border-cyan-glow/20 text-[10px] font-mono text-cyan-glow/60 uppercase">
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <h3 className="text-4xl font-headline font-black text-silver uppercase mb-6 group-hover:text-cyan-glow transition-colors duration-500">
+        {title}
+      </h3>
+
+      <p className="font-body text-silver/50 leading-relaxed mb-10 text-lg">
+        {description}
+      </p>
+
+      <motion.button
+        className="text-technical text-cyan-glow flex items-center gap-4 hover:gap-6 transition-all"
+        whileHover={{ x: 5 }}
+      >
+        <span className="w-10 h-[1px] bg-cyan-glow" />
+        EXPLORE_CASEFILE
+      </motion.button>
+    </motion.div>
   );
 };
 
 const ProjectArchive = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
   const projects = [
     {
       title: "Ardan-CLI",
-      overview: "Autonomous terminal-based AI software engineer utilizing a ReAct execution loop.",
-      link: "https://github.com/N0t-Harshil/Ardan-CLI",
-      tags: ["Python", "ReAct", "MCP"],
-      bullets: ["Supports 6 major LLM providers", "Parallel tool execution", "AES-encrypted keys"]
+      tech: ["Python", "ReAct", "MCP"],
+      description: "Autonomous terminal AI engineer with a deterministic ReAct execution loop and native multi-provider support."
     },
     {
       title: "Graph RAG",
-      overview: "Hierarchical graph-based retrieval system replacing expensive graph calls with deterministic mappings.",
-      link: "https://github.com/N0t-Harshil",
-      tags: ["Python", "FAISS", "Ollama"],
-      bullets: ["5-level document indexing", "Sub-4s latency", "Zero infrastructure cost"]
+      tech: ["FAISS", "Ollama", "Python"],
+      description: "Deterministic hierarchical graph retrieval system optimizing cross-document knowledge mapping."
     },
     {
       title: "Local Perplex",
-      overview: "Private multimodal AI research engine with custom native multi-threaded rankings.",
-      link: "https://github.com/N0t-Harshil/Local-Perplex",
-      tags: ["C++", "Ollama", "Multithreading"],
-      bullets: ["Sub-10ms ranking latency", "Zero data leakage", "Native OCR subsystem"]
+      tech: ["C++", "Ollama", "Multithreading"],
+      description: "Native multimodal AI research engine with sub-10ms ranking latency and isolated local OCR."
     }
   ];
 
   return (
-    <section className="bg-obsidian">
-      <div className="py-32 px-8 border-y border-pure-white/10 overflow-hidden">
-        <h2 className="text-huge font-headline font-black text-pure-white uppercase text-right hover:-skew-x-12 transition-transform duration-300">
-          The<br />{'Archive'}
-        </h2>
-      </div>
+    <section ref={containerRef} className="py-40 px-10 bg-space-950 relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="mb-24">
+          <motion.h2
+            style={{ y }}
+            className="text-hero text-silver/5 uppercase opacity-20 absolute top-0 left-0 -translate-x-10 pointer-events-none"
+          >
+            PROJECTS
+          </motion.h2>
+          <div className="flex flex-col md:flex-row justify-between items-baseline gap-8 relative z-10">
+            <h2 className="text-7xl font-headline font-black text-silver uppercase leading-tight">
+              Project<br />
+              <span className="text-cyan-glow">Archive</span>
+            </h2>
+            <p className="max-w-md font-body text-lg text-silver/40 leading-relaxed">
+              Curated selection of high-impact neural systems and autonomous agentic frameworks.
+            </p>
+          </div>
+        </div>
 
-      <div>
-        {projects.map((proj, i) => (
-          <ProjectCard key={i} index={i} project={proj} />
-        ))}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+          {projects.map((p, i) => (
+            <div key={i} className={i === 0 ? "lg:col-span-2" : ""}>
+               <ProjectCard {...p} index={i} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

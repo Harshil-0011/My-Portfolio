@@ -1,29 +1,36 @@
 import { motion } from 'framer-motion';
 
-const SkillCard = ({ title, skills, index }) => (
+const SkillCategory = ({ title, skills, index }) => (
   <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay: index * 0.1 }}
+    initial={{ opacity: 0, scale: 0.95 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8, delay: index * 0.1 }}
     viewport={{ once: true }}
-    whileHover={{ backgroundColor: "rgba(255, 51, 0, 0.03)" }}
-    className="relative p-8 border border-pure-white/10 bg-pure-white/[0.02] group overflow-hidden transition-colors"
+    className="p-8 glass glass-hover group"
   >
-    <div className="absolute top-0 left-0 w-full h-[2px] bg-safety-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-    <span className="font-mono text-[10px] text-safety-orange mb-6 block opacity-50">
-      0{index + 1}_STACK
-    </span>
-    <h3 className="font-headline font-bold text-2xl text-pure-white mb-8 tracking-tight uppercase">
-      {title}
-    </h3>
-    <div className="flex flex-wrap gap-2">
+    <div className="flex justify-between items-start mb-10">
+      <h3 className="font-headline font-black text-2xl text-silver uppercase tracking-tighter group-hover:text-cyan-glow transition-colors">
+        {title}
+      </h3>
+      <span className="font-mono text-[10px] text-silver/20">/0{index + 1}</span>
+    </div>
+
+    <div className="space-y-4">
       {skills.map((skill, i) => (
-        <span
-          key={i}
-          className="px-3 py-1 border border-pure-white/20 text-technical text-pure-white/60 hover:border-safety-orange hover:text-safety-orange transition-colors duration-300"
-        >
-          {skill}
-        </span>
+        <div key={i} className="group/skill">
+          <div className="flex justify-between items-center mb-1">
+            <span className="font-mono text-xs text-silver/60 uppercase tracking-widest">{skill}</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-cyan-glow opacity-0 group-hover/skill:opacity-100 transition-opacity" />
+          </div>
+          <div className="h-[1px] w-full bg-silver/10 overflow-hidden">
+            <motion.div
+              initial={{ x: "-100%" }}
+              whileInView={{ x: "0%" }}
+              transition={{ duration: 1.5, delay: 0.5 + (i * 0.1) }}
+              className="h-full w-full bg-gradient-to-r from-transparent via-cyan-glow/40 to-transparent"
+            />
+          </div>
+        </div>
       ))}
     </div>
   </motion.div>
@@ -50,20 +57,21 @@ const SkillsGrid = () => {
   ];
 
   return (
-    <section className="py-32 px-8 bg-obsidian">
+    <section className="py-40 px-10 bg-space-950">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
-          <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-x-12 transition-transform duration-300">
-            Capability<br />Matrix
+        <div className="flex flex-col md:flex-row justify-between items-baseline mb-32 gap-12">
+          <h2 className="text-hero text-silver uppercase leading-[0.8] tracking-tighter">
+            Neural<br />
+            <span className="text-cyan-glow">Matrix</span>
           </h2>
-          <p className="max-w-md font-body text-lg text-pure-white/40 leading-relaxed">
-            A comprehensive overview of technical competencies categorized by system architecture and deployment readiness.
+          <p className="max-w-md font-body text-xl text-silver/40 leading-relaxed italic border-l-2 border-violet-glow pl-8">
+            Technical competencies mapped across autonomous intelligence, distributed neural systems, and infrastructure optimization.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((cat, i) => (
-            <SkillCard key={i} index={i} {...cat} />
+            <SkillCategory key={i} index={i} {...cat} />
           ))}
         </div>
       </div>

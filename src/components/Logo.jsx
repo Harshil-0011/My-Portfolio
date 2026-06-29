@@ -1,32 +1,21 @@
+import { motion } from 'framer-motion';
+
 const Logo = () => {
   return (
-    <div className="flex items-center gap-3 group select-none">
+    <motion.div
+      className="flex items-center gap-3 cursor-pointer group"
+      whileHover={{ scale: 1.05 }}
+    >
       <div className="relative w-8 h-8 flex items-center justify-center">
-        {/* Geometric Framework */}
-        <div className="absolute inset-0 border border-pure-white/10 group-hover:border-safety-orange transition-colors" />
-
-        {/* Core Elements */}
-        <div className="w-1.5 h-1.5 bg-pure-white group-hover:bg-safety-orange group-hover:scale-150 transition-all duration-500" />
-
-        {/* Decorative Corner Dots */}
-        <div className="absolute top-0 left-0 w-0.5 h-0.5 bg-pure-white/40" />
-        <div className="absolute top-0 right-0 w-0.5 h-0.5 bg-pure-white/40" />
-        <div className="absolute bottom-0 left-0 w-0.5 h-0.5 bg-pure-white/40" />
-        <div className="absolute bottom-0 right-0 w-0.5 h-0.5 bg-pure-white/40" />
-
-        {/* Pulse Ring */}
-        <div className="absolute inset-[-4px] border border-safety-orange/0 group-hover:border-safety-orange/50 group-hover:inset-0 transition-all duration-500 rounded-full" />
+        <motion.div
+          className="absolute inset-0 border border-cyan-glow/40 rounded-sm rotate-45 group-hover:rotate-90 transition-transform duration-700"
+        />
+        <div className="w-1.5 h-1.5 bg-cyan-glow shadow-[0_0_10px_#22D3EE]" />
       </div>
-
-      <div className="overflow-hidden">
-        <div className="font-headline font-black text-xs text-pure-white tracking-widest leading-none">
-          HG_ARCHIVE
-        </div>
-        <div className="font-mono text-[8px] text-pure-white/20 tracking-[0.4em] leading-none mt-1">
-          EST_2026
-        </div>
-      </div>
-    </div>
+      <span className="font-headline font-black text-xl tracking-tighter text-silver">
+        HG<span className="text-cyan-glow">.</span>LAB
+      </span>
+    </motion.div>
   );
 };
 

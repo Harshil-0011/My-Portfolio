@@ -2,15 +2,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ContactPortal = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('IDLE'); // IDLE, SENDING, SUCCESS, ERROR, COPIED
-  const [copyStatus, setCopyStatus] = useState(false);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('harshil.gorasiya.0011@gmail.com');
-    setCopyStatus(true);
-    setTimeout(() => setCopyStatus(false), 2000);
-  };
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState('IDLE'); // IDLE, SENDING, SUCCESS, ERROR
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,150 +18,129 @@ const ContactPortal = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          Accept: "application/json",
         },
         body: JSON.stringify({
           access_key: "f768b753-9133-4f99-906d-e435f9923838",
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          subject: `New Message from ${formData.name} via Portfolio`,
-          from_name: "QUANTUM_MONO_PORTAL",
-          botcheck: ""
+          subject: `New Contact from Portfolio: ${formData.name}`,
         }),
       });
 
-      const data = await response.json();
-
-      if (data.success) {
+      const result = await response.json();
+      if (result.success) {
         setStatus('SUCCESS');
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setStatus('IDLE'), 5000);
       } else {
-        console.error("Web3Forms Error:", data);
         setStatus('ERROR');
       }
-    } catch (err) {
-      console.error("Fetch Error:", err);
+    } catch (error) {
+      console.error("Form error:", error);
       setStatus('ERROR');
     }
   };
 
   return (
-    <section className="min-h-screen bg-obsidian flex flex-col justify-center px-8 py-32 relative overflow-hidden">
-      {/* Decorative Grid */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <div className="w-full h-full" style={{ backgroundImage: 'linear-gradient(#FFFFFF 1px, transparent 1px), linear-gradient(90deg, #FFFFFF 1px, transparent 1px)', backgroundSize: '100px 100px' }} />
-      </div>
+    <section id="portal" className="py-40 px-10 bg-space-950 relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
 
-      <div className="max-w-[1400px] mx-auto w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-          <div>
-            <span className="font-mono text-xs text-safety-orange mb-8 block uppercase tracking-widest">
-              [ESTABLISH_CONNECTION]
-            </span>
-            <h2 className="text-huge font-headline font-black text-pure-white uppercase mb-12">
-              Start<br />Thread
-            </h2>
-            <div className="space-y-12">
-               <div>
-                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">E-Mail</p>
-                  <div className="flex flex-col items-start gap-2">
-                    <a href="mailto:harshil.gorasiya.0011@gmail.com" className="text-3xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">
-                      harshil.gorasiya.0011@gmail.com
-                    </a>
-                    <button
-                      onClick={handleCopyEmail}
-                      className="font-mono text-[10px] text-safety-orange/60 hover:text-safety-orange transition-colors uppercase tracking-widest"
-                    >
-                      {copyStatus ? '[COPIED_TO_CLIPBOARD]' : '[COPY_ADDRESS]'}
-                    </button>
-                  </div>
-               </div>
-               <div>
-                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">Social_Nodes</p>
-                  <div className="flex gap-8">
-                    <a href="https://www.linkedin.com/in/harshil-gorasiya-054a58319/" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">LinkedIn</a>
-                    <a href="https://github.com/N0t-Harshil" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">GitHub</a>
-                  </div>
-               </div>
+        <div>
+          <h2 className="text-7xl font-headline font-black text-silver uppercase mb-8 leading-[0.85]">
+            Establish<br />
+            <span className="text-cyan-glow">Connection</span>
+          </h2>
+          <p className="font-body text-xl text-silver/40 max-w-md leading-relaxed mb-12">
+            Ready to integrate advanced intelligence into your infrastructure? Initialize the communication protocol below.
+          </p>
+
+          <div className="space-y-8">
+            <div className="flex items-center gap-6 group cursor-pointer">
+              <div className="w-12 h-12 glass flex items-center justify-center group-hover:bg-cyan-glow/10 transition-colors">
+                <span className="text-cyan-glow font-mono text-xs">01</span>
+              </div>
+              <div>
+                <p className="font-mono text-[10px] text-silver/20 uppercase tracking-widest mb-1">Direct Comms</p>
+                <p className="font-headline font-bold text-lg text-silver group-hover:text-cyan-glow transition-colors">harshil.gorasiya.0011@gmail.com</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-6 group cursor-pointer">
+              <div className="w-12 h-12 glass flex items-center justify-center group-hover:bg-cyan-glow/10 transition-colors">
+                <span className="text-cyan-glow font-mono text-xs">02</span>
+              </div>
+              <div>
+                <p className="font-mono text-[10px] text-silver/20 uppercase tracking-widest mb-1">Secure Line</p>
+                <p className="font-headline font-bold text-lg text-silver group-hover:text-cyan-glow transition-colors">+49 155 6351 7346</p>
+              </div>
             </div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="p-12 border border-pure-white/10 bg-pure-white/[0.02] backdrop-blur-xl"
-          >
-            <form onSubmit={handleSubmit} className="space-y-12">
-              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
-
-              <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Identity'}</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="NAME_OR_ORG"
-                  className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-              <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Protocol'}</label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="EMAIL@DOMAIN.COM"
-                  className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                />
-              </div>
-              <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Payload'}</label>
-                <textarea
-                  required
-                  rows="4"
-                  placeholder="MESSAGE_CONTENT..."
-                  className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase resize-none"
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === 'SENDING'}
-                className="w-full magnetic-button"
-              >
-                {status === 'SENDING' ? 'TRANSMITTING...' : 'SEND_MESSAGE'}
-              </button>
-
-              <AnimatePresence>
-                {status === 'SUCCESS' && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="font-mono text-[10px] text-safety-orange text-center tracking-widest"
-                  >
-                    TRANSMISSION_COMPLETE. I WILL RESPOND SHORTLY.
-                  </motion.p>
-                )}
-                {status === 'ERROR' && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="font-mono text-[10px] text-red-500 text-center tracking-widest"
-                  >
-                    TRANSMISSION_FAILED. PLEASE RETRY OR USE DIRECT EMAIL.
-                  </motion.p>
-                )}
-              </AnimatePresence>
-            </form>
-          </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="glass p-12 relative"
+        >
+          <div className="absolute top-0 right-0 p-4 font-mono text-[8px] text-cyan-glow/30 uppercase">
+            Protocol: HTTPS // AES-256
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="space-y-2">
+              <label className="font-mono text-[10px] text-silver/40 uppercase tracking-widest ml-1">Identity // Name</label>
+              <input
+                required
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full bg-space-950 border border-silver/10 p-4 font-body text-silver focus:border-cyan-glow/50 outline-none transition-colors"
+                placeholder="SYSTEM_ENTITY_ID"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-mono text-[10px] text-silver/40 uppercase tracking-widest ml-1">Archive // Email</label>
+              <input
+                required
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full bg-space-950 border border-silver/10 p-4 font-body text-silver focus:border-cyan-glow/50 outline-none transition-colors"
+                placeholder="CONTACT_NODES@DOMAIN.COM"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="font-mono text-[10px] text-silver/40 uppercase tracking-widest ml-1">Protocol // Message</label>
+              <textarea
+                required
+                rows="4"
+                value={formData.message}
+                onChange={(e) => setFormData({...formData, message: e.target.value})}
+                className="w-full bg-space-950 border border-silver/10 p-4 font-body text-silver focus:border-cyan-glow/50 outline-none transition-colors resize-none"
+                placeholder="INPUT_COMMUNICATION_DATA..."
+              />
+            </div>
+
+            <button
+              disabled={status === 'SENDING'}
+              className="btn-premium w-full mt-4 flex items-center justify-center gap-4"
+            >
+              <AnimatePresence mode="wait">
+                {status === 'IDLE' && <motion.span key="idle">Send Transmission</motion.span>}
+                {status === 'SENDING' && <motion.span key="sending">Transmitting...</motion.span>}
+                {status === 'SUCCESS' && <motion.span key="success" className="text-green-400">Success: Data Synchronized</motion.span>}
+                {status === 'ERROR' && <motion.span key="error" className="text-red-400">Error: Uplink Failed</motion.span>}
+              </AnimatePresence>
+            </button>
+          </form>
+        </motion.div>
+
       </div>
     </section>
   );

@@ -1,71 +1,45 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..800&family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
 
 @theme {
-  --color-obsidian: #050505;
-  --color-pure-white: #FFFFFF;
-  --color-safety-orange: #FF3300;
+  --color-space-950: #020617;
+  --color-space-900: #0f172a;
+  --color-silver: #E2E8F0;
+  --color-cyan-glow: #22D3EE;
+  --color-violet-glow: #8B5CF6;
 
-  --font-headline: "Inter Tight", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --font-body: "Geist", sans-serif;
+  --font-headline: "Inter", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-body: "Inter", sans-serif;
 
   --breakpoint-xs: 375px;
 }
 
 :root {
-  font-family: 'Geist', sans-serif;
-  background-color: #050505;
-  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  background-color: #020617;
+  color: #E2E8F0;
 }
 
 body {
   margin: 0;
-  background-color: #050505;
-  color: #FFFFFF;
+  background-color: #020617;
+  color: #E2E8F0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: -1;
+/* Glassmorphism utility */
+.glass {
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.1);
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 999;
-  animation: noise 8s steps(10) infinite;
-}
-
-@keyframes noise {
-  0%, 100% { transform:translate(0, 0); }
-  10% { transform:translate(-5%, -10%); }
-  20% { transform:translate(-15%, 5%); }
-  30% { transform:translate(7%, -25%); }
-  40% { transform:translate(-5%, 25%); }
-  50% { transform:translate(-15%, 10%); }
-  60% { transform:translate(15%, 0%); }
-  70% { transform:translate(0%, 15%); }
-  80% { transform:translate(3%, 35%); }
-  90% { transform:translate(-10%, 10%); }
+.glass-hover:hover {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(34, 211, 238, 0.3);
 }
 
 /* Lenis Recommended Styles */
@@ -89,124 +63,45 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Grid Overlay */
-.grid-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0.05;
-}
-
-.grid-line {
-  position: absolute;
-  background-color: #FFFFFF;
-}
-
-.grid-line-v {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-}
-
-.grid-line-h {
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
 /* Custom Utilities */
 @layer utilities {
-  .text-huge {
-    font-size: clamp(4rem, 15vw, 12rem);
-    line-height: 0.9;
-    letter-spacing: -0.05em;
+  .text-hero {
+    font-size: clamp(3.5rem, 12vw, 10rem);
+    line-height: 0.85;
+    font-weight: 900;
+    letter-spacing: -0.04em;
   }
 
-  .text-technical {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+  .text-glow-cyan {
+    text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
   }
 
-  .split-screen {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
+  .text-glow-violet {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
   }
 
-  @media (max-width: 1024px) {
-    .split-screen {
-      grid-template-columns: 1fr;
-    }
+  .bg-mesh {
+    background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, rgba(34, 211, 238, 0.1) 0%, transparent 40%);
   }
 
-  .magnetic-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2rem;
-    background-color: #FFFFFF;
-    color: #050505;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  .btn-premium {
+    @apply relative px-8 py-4 bg-silver text-space-950 font-bold uppercase tracking-widest overflow-hidden transition-all duration-500;
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
   }
 
-  .magnetic-button:hover {
-    background-color: #FF3300;
-    color: #FFFFFF;
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 51, 0, 0.4);
+  .btn-premium:hover {
+    @apply bg-cyan-glow text-space-950 scale-105;
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
   }
 
-  .scanning-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(to bottom,
-      transparent 0%,
-      rgba(255, 51, 0, 0.05) 10%,
-      rgba(255, 51, 0, 0.6) 50%,
-      rgba(255, 51, 0, 0.05) 90%,
-      transparent 100%
-    );
-    box-shadow: 0 0 20px rgba(255, 51, 0, 0.4);
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 20;
-    animation: scanning-v 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  @keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
-  .scanning-line::after {
-    content: "SCAN_MODE: ACTIVE // DECRYPTING_IDENTITY";
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%) rotate(90deg);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    color: #FF3300;
-    white-space: nowrap;
-    letter-spacing: 0.2em;
-    opacity: 0.4;
-  }
-
-  @keyframes scanning-v {
-    0% { transform: translateX(0); opacity: 0; }
-    5%, 95% { opacity: 1; }
-    100% { transform: translateX(100vw); opacity: 0; }
-  }
-
-  @keyframes flicker {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.6; }
+  .animate-gradient-flow {
+    animation: gradient-flow 6s linear infinite;
   }
 }

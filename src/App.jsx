@@ -63,34 +63,16 @@ function App() {
       <CustomCursor />
       {loading && <Loader onComplete={() => setLoading(false)} />}
 
-      {/* Visual Identity Grid Overlay */}
-      <div className="grid-overlay">
-        <div className="grid-line grid-line-v left-1/4" />
-        <div className="grid-line grid-line-v left-1/2" />
-        <div className="grid-line grid-line-v left-3/4" />
-        <div className="grid-line grid-line-h top-1/4" />
-        <div className="grid-line grid-line-h top-1/2" />
-        <div className="grid-line grid-line-h top-3/4" />
-      </div>
-
-      {/* Technical Navigation */}
-      <nav className="fixed top-10 left-10 z-[100] flex items-center gap-12 mix-blend-difference">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-[100] px-10 py-6 flex justify-between items-center glass">
         <Logo />
-        <div className="flex gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
-           <button onClick={() => scrollTo(heroRef)} className="hover:text-safety-orange transition-colors">[IDENTITY]</button>
-           <button onClick={() => scrollTo(matrixRef)} className="hover:text-safety-orange transition-colors">[MATRIX]</button>
-           <button onClick={() => scrollTo(archiveRef)} className="hover:text-safety-orange transition-colors">[ARCHIVE]</button>
-           <button onClick={() => scrollTo(portalRef)} className="hover:text-safety-orange transition-colors">[PORTAL]</button>
+        <div className="flex gap-10 font-mono text-[10px] text-silver/60 uppercase tracking-widest">
+           <button onClick={() => scrollTo(heroRef)} className="hover:text-cyan-glow transition-colors cursor-pointer">/IDENTITY</button>
+           <button onClick={() => scrollTo(matrixRef)} className="hover:text-cyan-glow transition-colors cursor-pointer">/MATRIX</button>
+           <button onClick={() => scrollTo(archiveRef)} className="hover:text-cyan-glow transition-colors cursor-pointer">/ARCHIVE</button>
+           <button onClick={() => scrollTo(portalRef)} className="hover:text-cyan-glow transition-colors cursor-pointer">/PORTAL</button>
         </div>
       </nav>
-
-      {/* Floating System Stats */}
-      <div className="fixed top-10 right-10 z-[100] mix-blend-difference hidden md:block">
-        <div className="font-mono text-[10px] text-pure-white/40 space-y-1 text-right uppercase tracking-[0.2em]">
-           <p>SYSTEM_V6.1.0 // STABLE</p>
-           <p id="coord-display">SYNC_COORD: [0.000, 0.000]</p>
-        </div>
-      </div>
 
       <main className={loading ? 'opacity-0' : 'opacity-100 transition-opacity duration-1000'}>
         <div ref={heroRef}><Hero /></div>

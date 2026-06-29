@@ -1,92 +1,36 @@
-import { useEffect, useState } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
-  const [isHovering, setIsHovering] = useState(false);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth springs for the cursor follow effect
-  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
-  const cursorX = useSpring(mouseX, springConfig);
-  const cursorY = useSpring(mouseY, springConfig);
+  const cursorRef = useRef(null);
+  const ringX = useSpring(0, { stiffness: 150, damping: 20 });
+  const ringY = useSpring(0, { stiffness: 150, damping: 20 });
+  const dotX = useSpring(0, { stiffness: 400, damping: 30 });
+  const dotY = useSpring(0, { stiffness: 400, damping: 30 });
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-
-      // Direct DOM update for performance (avoiding React re-renders)
-      const coordDisplay = document.getElementById('coord-display');
-      const cursorCoord = document.getElementById('cursor-coord');
-      if (coordDisplay) {
-        const xPercent = (e.clientX / window.innerWidth).toFixed(3);
-        const yPercent = (e.clientY / window.innerHeight).toFixed(3);
-        coordDisplay.innerText = `SYNC_COORD: [${xPercent}, ${yPercent}]`;
-      }
-      if (cursorCoord) {
-        cursorCoord.innerText = `[${e.clientX.toFixed(0)}, ${e.clientY.toFixed(0)}]`;
-      }
+    const moveCursor = (e) => {
+      ringX.set(e.clientX - 20);
+      ringY.set(e.clientY - 20);
+      dotX.set(e.clientX - 4);
+      dotY.set(e.clientY - 4);
     };
 
-    const handleMouseOver = (e) => {
-      if (e.target.closest('a') || e.target.closest('button') || e.target.classList.contains('interactive')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
-    };
-  }, [mouseX, mouseY]);
+    window.addEventListener('mousemove', moveCursor);
+    return () => window.removeEventListener('mousemove', moveCursor);
+  }, [ringX, ringY, dotX, dotY]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999] hidden md:block">
-      {/* Main Cursor Dot */}
+    <>
       <motion.div
-        className="absolute w-2 h-2 bg-safety-orange rounded-full"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "-50%",
-          translateY: "-50%",
-          scale: isHovering ? 4 : 1,
-        }}
+        className="fixed top-0 left-0 w-10 h-10 border border-cyan-glow/50 rounded-full pointer-events-none z-[999] hidden md:block"
+        style={{ x: ringX, y: ringY }}
       />
-
-      {/* Trailing Ring */}
       <motion.div
-        className="absolute w-8 h-8 border border-pure-white/20 rounded-full"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "-50%",
-          translateY: "-50%",
-          scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0.8 : 0.4,
-        }}
+        className="fixed top-0 left-0 w-2 h-2 bg-cyan-glow rounded-full pointer-events-none z-[999] hidden md:block shadow-[0_0_10px_#22D3EE]"
+        style={{ x: dotX, y: dotY }}
       />
-
-      {/* Coordinate Display */}
-      <motion.div
-        id="cursor-coord"
-        className="absolute font-mono text-[8px] text-pure-white/40 tracking-widest whitespace-nowrap"
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: "20px",
-          translateY: "20px",
-        }}
-      >
-        [0, 0]
-      </motion.div>
-    </div>
+    </>
   );
 };
 
