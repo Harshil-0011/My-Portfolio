@@ -19,13 +19,17 @@ const ContactPortal = () => {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({
           access_key: "f768b753-9133-4f99-906d-e435f9923838",
-          ...formData,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
           subject: `New Message from ${formData.name} via Portfolio`,
-          from_name: "QUANTUM_MONO_PORTAL",
-          botcheck: ""
+          from_name: "QUANTUM_MONO_PORTAL"
         }),
       });
 
