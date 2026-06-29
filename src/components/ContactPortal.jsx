@@ -23,11 +23,15 @@ const ContactPortal = () => {
         body: JSON.stringify({
           access_key: "f768b753-9133-4f99-906d-e435f9923838",
           ...formData,
-          from_name: "QUANTUM_MONO_PORTAL"
+          subject: `New Message from ${formData.name} via Portfolio`,
+          from_name: "QUANTUM_MONO_PORTAL",
+          botcheck: ""
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         setStatus('SUCCESS');
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setStatus('IDLE'), 5000);
@@ -73,7 +77,7 @@ const ContactPortal = () => {
                <div>
                   <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">Social_Nodes</p>
                   <div className="flex gap-8">
-                    <a href="https://linkedin.com/in/harshil-gorasiya" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">LinkedIn</a>
+                    <a href="https://www.linkedin.com/in/harshil-gorasiya-054a58319/" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">LinkedIn</a>
                     <a href="https://github.com/N0t-Harshil" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">GitHub</a>
                   </div>
                </div>
