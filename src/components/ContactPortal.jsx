@@ -17,13 +17,20 @@ const ContactPortal = () => {
     setStatus('SENDING');
 
     try {
+      // NOTE: To receive emails at your own address, get a free access key from https://web3forms.com/
+      // and replace the 'access_key' value below.
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({
           access_key: "f768b753-9133-4f99-906d-e435f9923838",
           ...formData,
-          from_name: "QUANTUM_MONO_PORTAL"
+          subject: "New Message from Portfolio",
+          from_name: "QUANTUM_MONO_PORTAL",
+          botcheck: ""
         }),
       });
 
@@ -34,7 +41,7 @@ const ContactPortal = () => {
       } else {
         setStatus('ERROR');
       }
-    } catch (err) {
+    } catch {
       setStatus('ERROR');
     }
   };
