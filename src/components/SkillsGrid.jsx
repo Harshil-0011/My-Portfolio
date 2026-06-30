@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
-const SkillCard = ({ title, skills, index }) => (
+const SkillCard = ({ title, skills, index }) => {
+  const { t } = useLanguage();
+  return (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -11,7 +14,7 @@ const SkillCard = ({ title, skills, index }) => (
   >
     <div className="absolute top-0 left-0 w-full h-[2px] bg-safety-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
     <span className="font-mono text-[10px] text-safety-orange mb-6 block opacity-50">
-      0{index + 1}_STACK
+      0{index + 1}_{t('skills.stack')}
     </span>
     <h3 className="font-headline font-bold text-2xl text-pure-white mb-8 tracking-tight uppercase">
       {title}
@@ -27,24 +30,26 @@ const SkillCard = ({ title, skills, index }) => (
       ))}
     </div>
   </motion.div>
-);
+)};
 
 const SkillsGrid = () => {
+  const { t } = useLanguage();
+
   const categories = [
     {
-      title: "Agentic Systems",
+      title: t('skills.categories.0'),
       skills: ["LangChain", "ReAct Loops", "MCP", "Autonomous Agents", "RAG Pipelines"]
     },
     {
-      title: "Neural Engine",
+      title: t('skills.categories.1'),
       skills: ["PyTorch", "TensorFlow", "Transformers", "YOLOv8", "Computer Vision"]
     },
     {
-      title: "Core Architecture",
+      title: t('skills.categories.2'),
       skills: ["C++ Engines", "Python", "Multithreading", "REST APIs", "FastAPI"]
     },
     {
-      title: "Data Infrastructure",
+      title: t('skills.categories.3'),
       skills: ["FAISS", "Vector DBs", "PostgreSQL", "Docker", "MLOps"]
     }
   ];
@@ -54,10 +59,10 @@ const SkillsGrid = () => {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-baseline mb-24 gap-8">
           <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-x-12 transition-transform duration-300">
-            Capability<br />Matrix
+            {t('skills.title').split(' ')[0]}<br />{t('skills.title').split(' ')[1]}
           </h2>
           <p className="max-w-md font-body text-lg text-pure-white/40 leading-relaxed">
-            A comprehensive overview of technical competencies categorized by system architecture and deployment readiness.
+            {t('skills.desc')}
           </p>
         </div>
 

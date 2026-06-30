@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const ContactPortal = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState('IDLE'); // IDLE, SENDING, SUCCESS, ERROR, COPIED
   const [copyStatus, setCopyStatus] = useState(false);
@@ -57,14 +59,14 @@ const ContactPortal = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
           <div>
             <span className="font-mono text-xs text-safety-orange mb-8 block uppercase tracking-widest">
-              [ESTABLISH_CONNECTION]
+              {t('portal.connection')}
             </span>
             <h2 className="text-huge font-headline font-black text-pure-white uppercase mb-12">
-              Start<br />Thread
+              {t('portal.title').split(' ')[0]}<br />{t('portal.title').split(' ')[1]}
             </h2>
             <div className="space-y-12">
                <div>
-                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">E-Mail</p>
+                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">{t('portal.email')}</p>
                   <div className="flex flex-col items-start gap-2">
                     <a href="mailto:harshil.gorasiya.0011@gmail.com" className="text-3xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">
                       harshil.gorasiya.0011@gmail.com
@@ -73,12 +75,12 @@ const ContactPortal = () => {
                       onClick={handleCopyEmail}
                       className="font-mono text-[10px] text-safety-orange/60 hover:text-safety-orange transition-colors uppercase tracking-widest"
                     >
-                      {copyStatus ? '[COPIED_TO_CLIPBOARD]' : '[COPY_ADDRESS]'}
+                      {copyStatus ? t('portal.copied') : t('portal.copy')}
                     </button>
                   </div>
                </div>
                <div>
-                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">Social_Nodes</p>
+                  <p className="font-mono text-[10px] text-pure-white/40 uppercase mb-4 tracking-widest">{t('portal.socials')}</p>
                   <div className="flex gap-8">
                     <a href="https://linkedin.com/in/harshil-gorasiya" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">LinkedIn</a>
                     <a href="https://github.com/N0t-Harshil" target="_blank" rel="noreferrer" className="text-xl font-headline font-black text-pure-white hover:text-safety-orange transition-colors uppercase">GitHub</a>
@@ -94,33 +96,33 @@ const ContactPortal = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-12">
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Identity'}</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{t('portal.identity')}</label>
                 <input
                   type="text"
                   required
-                  placeholder="NAME_OR_ORG"
+                  placeholder={t('portal.placeholderName')}
                   className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase"
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
               </div>
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Protocol'}</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{t('portal.protocol')}</label>
                 <input
                   type="email"
                   required
-                  placeholder="EMAIL@DOMAIN.COM"
+                  placeholder={t('portal.placeholderEmail')}
                   className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
               <div className="space-y-2 group">
-                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{'// Payload'}</label>
+                <label className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest block">{t('portal.payload')}</label>
                 <textarea
                   required
                   rows="4"
-                  placeholder="MESSAGE_CONTENT..."
+                  placeholder={t('portal.placeholderMessage')}
                   className="w-full bg-transparent border-b border-pure-white/10 py-4 font-headline text-2xl text-pure-white focus:outline-none focus:border-safety-orange transition-colors uppercase resize-none"
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -132,7 +134,7 @@ const ContactPortal = () => {
                 disabled={status === 'SENDING'}
                 className="w-full magnetic-button"
               >
-                {status === 'SENDING' ? 'TRANSMITTING...' : 'SEND_MESSAGE'}
+                {status === 'SENDING' ? t('portal.transmitting') : t('portal.send')}
               </button>
 
               <AnimatePresence>
@@ -142,7 +144,7 @@ const ContactPortal = () => {
                     animate={{ opacity: 1 }}
                     className="font-mono text-[10px] text-safety-orange text-center tracking-widest"
                   >
-                    TRANSMISSION_COMPLETE. I WILL RESPOND SHORTLY.
+                    {t('portal.success')}
                   </motion.p>
                 )}
                 {status === 'ERROR' && (
@@ -151,7 +153,7 @@ const ContactPortal = () => {
                     animate={{ opacity: 1 }}
                     className="font-mono text-[10px] text-red-500 text-center tracking-widest"
                   >
-                    TRANSMISSION_FAILED. PLEASE RETRY OR USE DIRECT EMAIL.
+                    {t('portal.error')}
                   </motion.p>
                 )}
               </AnimatePresence>
