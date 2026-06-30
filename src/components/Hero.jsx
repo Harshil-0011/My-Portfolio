@@ -2,6 +2,7 @@ import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial, PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const NeuralCore = () => {
   const mainRef = useRef();
@@ -61,6 +62,8 @@ const NeuralCore = () => {
 };
 
 const Hero = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="relative min-h-screen split-screen bg-obsidian overflow-hidden">
       <div className="scanning-line" />
@@ -73,14 +76,14 @@ const Hero = () => {
           transition={{ duration: 1, delay: 1 }}
         >
           <span className="text-technical text-safety-orange mb-6 block">
-            APPLIED AI ENGINEER // SYSTEMS ARCHITECT
+            {t('hero.role')}
           </span>
           <h1 className="text-huge font-headline font-black text-pure-white uppercase hover:text-safety-orange transition-colors duration-700 cursor-default">
-            Harshil<br />
-            Gorasiya
+            {t('hero.nameLine1')}<br />
+            {t('hero.nameLine2')}
           </h1>
           <p className="mt-12 text-xl font-body text-pure-white/60 max-w-lg leading-relaxed">
-            Architecting autonomous intelligence through RAG, Agentic Pipelines, and high-performance neural infrastructure.
+            {t('hero.bio')}
           </p>
 
           <div className="mt-16 flex flex-wrap gap-6">
@@ -98,11 +101,11 @@ const Hero = () => {
                 e.currentTarget.style.transform = `translate(0px, 0px)`;
               }}
             >
-              Download CV
+              {t('hero.download')}
             </a>
             <div className="flex items-center gap-4 text-technical text-pure-white/40">
               <span className="w-12 h-[1px] bg-pure-white/20" />
-              BASED IN GERMANY
+              {t('hero.location')}
             </div>
           </div>
         </motion.div>
@@ -134,7 +137,7 @@ const Hero = () => {
         {/* Interaction Prompt */}
         <div className="absolute bottom-10 right-10 pointer-events-none">
           <div className="font-mono text-[10px] text-pure-white/40 uppercase tracking-widest flex items-center gap-3">
-            Drag to orbit neural core
+            {t('hero.drag')}
             <div className="w-1 h-1 bg-safety-orange animate-pulse" />
           </div>
         </div>

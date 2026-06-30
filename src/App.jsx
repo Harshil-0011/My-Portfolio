@@ -8,8 +8,10 @@ import ExperienceLog from './components/ExperienceLog';
 import ContactPortal from './components/ContactPortal';
 import CustomCursor from './components/CustomCursor';
 import Logo from './components/Logo';
+import LanguageToggle from './components/LanguageToggle';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
-function App() {
+function AppContent() {
   const [loading, setLoading] = useState(true);
 
   // Refs for navigation targets
@@ -52,6 +54,8 @@ function App() {
     };
   }, []);
 
+  const { t } = useLanguage();
+
   const scrollTo = (target) => {
     if (lenisRef.current && target.current) {
       lenisRef.current.scrollTo(target.current);
@@ -74,13 +78,17 @@ function App() {
       </div>
 
       {/* Technical Navigation */}
-      <nav className="fixed top-10 left-10 z-[100] flex items-center gap-12 mix-blend-difference">
+      <nav className="fixed top-6 left-6 md:top-10 md:left-10 z-[100] flex flex-col md:flex-row md:items-center gap-6 md:gap-16 mix-blend-difference pointer-events-auto">
         <Logo />
-        <div className="flex gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
-           <button onClick={() => scrollTo(heroRef)} className="hover:text-safety-orange transition-colors">[IDENTITY]</button>
-           <button onClick={() => scrollTo(matrixRef)} className="hover:text-safety-orange transition-colors">[MATRIX]</button>
-           <button onClick={() => scrollTo(archiveRef)} className="hover:text-safety-orange transition-colors">[ARCHIVE]</button>
-           <button onClick={() => scrollTo(portalRef)} className="hover:text-safety-orange transition-colors">[PORTAL]</button>
+
+        <div className="flex items-center gap-8 md:gap-12">
+          <div className="flex gap-4 md:gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest overflow-x-auto no-scrollbar">
+             <button onClick={() => scrollTo(heroRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.identity')}</button>
+             <button onClick={() => scrollTo(matrixRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.matrix')}</button>
+             <button onClick={() => scrollTo(archiveRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.archive')}</button>
+             <button onClick={() => scrollTo(portalRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.portal')}</button>
+          </div>
+          <LanguageToggle />
         </div>
       </nav>
 
@@ -106,14 +114,22 @@ function App() {
               Harshil Gorasiya
             </div>
             <div className="font-mono text-[10px] text-pure-white/20 uppercase tracking-[0.5em]">
-              ©2026 // ALL_RIGHTS_RESERVED // ENGINEERED_BY_HG
+              {t('footer.rights')}
             </div>
             <div className="flex gap-6 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
-              <a href="#" className="hover:text-safety-orange transition-colors">BACK_TO_TOP</a>
+              <a href="#" className="hover:text-safety-orange transition-colors">{t('footer.top')}</a>
             </div>
          </div>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
 

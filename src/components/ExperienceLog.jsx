@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const LogEntry = ({ entry, index }) => (
   <motion.div
@@ -33,27 +34,22 @@ const LogEntry = ({ entry, index }) => (
 );
 
 const ExperienceLog = () => {
+  const { t } = useLanguage();
+
   const experiences = [
     {
-      title: "Deep Learning Intern",
-      company: "PD Avenue",
+      title: t('log.experiences.0.title'),
+      company: t('log.experiences.0.company'),
       duration: "2023_12 — 2024_04",
-      context: "Remote",
-      bullets: [
-        "Built custom classification heads using TensorFlow/Keras, achieving +8% validation accuracy.",
-        "Slashed baseline processing runtimes by 20% through adaptive scheduling.",
-        "Isolated structural overfitting patterns across 10+ core test branches."
-      ]
+      context: t('log.experiences.0.context'),
+      bullets: t('log.experiences.0.bullets')
     },
     {
-      title: "Machine Learning Intern",
-      company: "Dotcom IoT LLP",
+      title: t('log.experiences.1.title'),
+      company: t('log.experiences.1.company'),
       duration: "2023_05 — 2023_06",
-      context: "India",
-      bullets: [
-        "Deployed YOLOv8 tracking frameworks processing 35,000+ frames per hour on CPU-only hardware.",
-        "Curated and audited 3,000+ custom evaluation frames for model stabilization."
-      ]
+      context: t('log.experiences.1.context'),
+      bullets: t('log.experiences.1.bullets')
     }
   ];
 
@@ -62,12 +58,12 @@ const ExperienceLog = () => {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-y-3 transition-transform duration-300">
-            System<br />Log
+            {t('log.titleLine1')}<br />{t('log.titleLine2')}
           </h2>
           <div className="text-right">
-             <p className="font-mono text-[10px] text-pure-white/40 mb-2 uppercase">Current Environment</p>
-             <p className="font-headline font-black text-2xl text-pure-white uppercase">M.Sc. Software Engineering</p>
-             <p className="font-technical text-safety-orange">HEILBRONN, GERMANY</p>
+             <p className="font-mono text-[10px] text-pure-white/40 mb-2 uppercase">{t('log.environment')}</p>
+             <p className="font-headline font-black text-2xl text-pure-white uppercase">{t('log.degree')}</p>
+             <p className="font-technical text-safety-orange">{t('log.location')}</p>
           </div>
         </div>
 

@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProjectCard = ({ project, index }) => {
+  const { t } = useLanguage();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -22,7 +24,7 @@ const ProjectCard = ({ project, index }) => {
              viewport={{ once: true }}
           >
             <span className="font-mono text-xs text-safety-orange mb-4 block">
-              CASEFILE_0{index + 1}
+              {t('archive.casefile')}_0{index + 1}
             </span>
             <h3 className="text-5xl md:text-7xl font-headline font-black text-pure-white uppercase tracking-tighter mb-8 group-hover:text-safety-orange transition-colors duration-500">
               {project.title}
@@ -43,7 +45,7 @@ const ProjectCard = ({ project, index }) => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-4 font-mono text-xs text-pure-white group-hover:text-safety-orange transition-colors"
             >
-              ACCESS_REPOSITORY
+              {t('archive.access')}
               <span className="w-8 h-[1px] bg-pure-white/20 group-hover:bg-safety-orange transition-colors" />
             </a>
           </motion.div>
@@ -71,27 +73,29 @@ const ProjectCard = ({ project, index }) => {
 };
 
 const ProjectArchive = () => {
+  const { t } = useLanguage();
+
   const projects = [
     {
-      title: "Ardan-CLI",
-      overview: "Autonomous terminal-based AI software engineer utilizing a ReAct execution loop.",
+      title: t('archive.projects.0.title'),
+      overview: t('archive.projects.0.overview'),
       link: "https://github.com/N0t-Harshil/Ardan-CLI",
       tags: ["Python", "ReAct", "MCP"],
-      bullets: ["Supports 6 major LLM providers", "Parallel tool execution", "AES-encrypted keys"]
+      bullets: t('archive.projects.0.bullets')
     },
     {
-      title: "Graph RAG",
-      overview: "Hierarchical graph-based retrieval system replacing expensive graph calls with deterministic mappings.",
+      title: t('archive.projects.1.title'),
+      overview: t('archive.projects.1.overview'),
       link: "https://github.com/N0t-Harshil",
       tags: ["Python", "FAISS", "Ollama"],
-      bullets: ["5-level document indexing", "Sub-4s latency", "Zero infrastructure cost"]
+      bullets: t('archive.projects.1.bullets')
     },
     {
-      title: "Local Perplex",
-      overview: "Private multimodal AI research engine with custom native multi-threaded rankings.",
+      title: t('archive.projects.2.title'),
+      overview: t('archive.projects.2.overview'),
       link: "https://github.com/N0t-Harshil/Local-Perplex",
       tags: ["C++", "Ollama", "Multithreading"],
-      bullets: ["Sub-10ms ranking latency", "Zero data leakage", "Native OCR subsystem"]
+      bullets: t('archive.projects.2.bullets')
     }
   ];
 
@@ -99,7 +103,7 @@ const ProjectArchive = () => {
     <section className="bg-obsidian">
       <div className="py-32 px-8 border-y border-pure-white/10 overflow-hidden">
         <h2 className="text-huge font-headline font-black text-pure-white uppercase text-right hover:-skew-x-12 transition-transform duration-300">
-          The<br />{'Archive'}
+          {t('archive.title').split(' ')[0]}<br />{t('archive.title').split(' ')[1]}
         </h2>
       </div>
 
