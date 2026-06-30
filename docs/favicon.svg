@@ -1,7 +1,10 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="32" height="32" fill="#020617"/>
+  <!-- Outer Border -->
   <rect x="4" y="4" width="24" height="24" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1" />
+  <!-- Safety Orange Accent -->
   <rect x="12" y="12" width="8" height="8" fill="#FF3300" />
+  <!-- Corner Accents -->
   <rect x="4" y="4" width="4" height="4" fill="#FFFFFF" fill-opacity="0.1" />
   <rect x="24" y="24" width="4" height="4" fill="#FFFFFF" fill-opacity="0.1" />
 </svg>

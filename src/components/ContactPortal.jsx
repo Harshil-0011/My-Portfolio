@@ -62,7 +62,7 @@ const ContactPortal = () => {
               {t('portal.connection')}
             </span>
             <h2 className="text-huge font-headline font-black text-pure-white uppercase mb-12">
-              {t('portal.title').split(' ')[0]}<br />{t('portal.title').split(' ')[1]}
+              {t('portal.titleLine1')}<br />{t('portal.titleLine2')}
             </h2>
             <div className="space-y-12">
                <div>

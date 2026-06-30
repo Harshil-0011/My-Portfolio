@@ -79,8 +79,8 @@ const Hero = () => {
             {t('hero.role')}
           </span>
           <h1 className="text-huge font-headline font-black text-pure-white uppercase hover:text-safety-orange transition-colors duration-700 cursor-default">
-            {t('hero.name').split(' ')[0]}<br />
-            {t('hero.name').split(' ')[1]}
+            {t('hero.nameLine1')}<br />
+            {t('hero.nameLine2')}
           </h1>
           <p className="mt-12 text-xl font-body text-pure-white/60 max-w-lg leading-relaxed">
             {t('hero.bio')}

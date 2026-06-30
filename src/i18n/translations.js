@@ -8,7 +8,8 @@ export const translations = {
     },
     hero: {
       role: "APPLIED AI ENGINEER // SYSTEMS ARCHITECT",
-      name: "Harshil Gorasiya",
+      nameLine1: "Harshil",
+      nameLine2: "Gorasiya",
       bio: "Architecting autonomous intelligence through RAG, Agentic Pipelines, and high-performance neural infrastructure.",
       download: "Download CV",
       location: "BASED IN GERMANY",
@@ -48,7 +49,8 @@ export const translations = {
       ]
     },
     log: {
-      title: "System Log",
+      titleLine1: "System",
+      titleLine2: "Log",
       environment: "Current Environment",
       degree: "M.Sc. Software Engineering",
       location: "HEILBRONN, GERMANY",
@@ -76,7 +78,8 @@ export const translations = {
     },
     portal: {
       connection: "[ESTABLISH_CONNECTION]",
-      title: "Start Thread",
+      titleLine1: "Start",
+      titleLine2: "Thread",
       email: "E-Mail",
       copy: "[COPY_ADDRESS]",
       copied: "[COPIED_TO_CLIPBOARD]",
@@ -106,7 +109,8 @@ export const translations = {
     },
     hero: {
       role: "ANGEWANDTER KI-INGENIEUR // SYSTEMARCHITEKT",
-      name: "Harshil Gorasiya",
+      nameLine1: "Harshil",
+      nameLine2: "Gorasiya",
       bio: "Architektur autonomer Intelligenz durch RAG, Agentic Pipelines und Hochleistungs-Neural-Infrastruktur.",
       download: "Lebenslauf Herunterladen",
       location: "ANSÄSSIG IN DEUTSCHLAND",
@@ -146,7 +150,8 @@ export const translations = {
       ]
     },
     log: {
-      title: "System Protokoll",
+      titleLine1: "System",
+      titleLine2: "Protokoll",
       environment: "Aktuelle Umgebung",
       degree: "M.Sc. Software Engineering",
       location: "HEILBRONN, DEUTSCHLAND",
@@ -174,7 +179,8 @@ export const translations = {
     },
     portal: {
       connection: "[VERBINDUNG_HERSTELLEN]",
-      title: "Thread Starten",
+      titleLine1: "Thread",
+      titleLine2: "Starten",
       email: "E-Mail",
       copy: "[ADRESSE_KOPIEREN]",
       copied: "[IN_ZWISCHENABLAGE_KOPIERT]",

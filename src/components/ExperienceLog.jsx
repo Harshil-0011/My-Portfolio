@@ -58,7 +58,7 @@ const ExperienceLog = () => {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <h2 className="text-huge font-headline font-black text-pure-white uppercase hover:skew-y-3 transition-transform duration-300">
-            {t('log.title').split(' ')[0]}<br />{t('log.title').split(' ')[1]}
+            {t('log.titleLine1')}<br />{t('log.titleLine2')}
           </h2>
           <div className="text-right">
              <p className="font-mono text-[10px] text-pure-white/40 mb-2 uppercase">{t('log.environment')}</p>
