@@ -78,15 +78,25 @@ function AppContent() {
       </div>
 
       {/* Technical Navigation */}
-      <nav className="fixed top-10 left-10 z-[100] flex items-center gap-12 mix-blend-difference">
-        <Logo />
-        <div className="flex gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
-           <button onClick={() => scrollTo(heroRef)} className="hover:text-safety-orange transition-colors">{t('nav.identity')}</button>
-           <button onClick={() => scrollTo(matrixRef)} className="hover:text-safety-orange transition-colors">{t('nav.matrix')}</button>
-           <button onClick={() => scrollTo(archiveRef)} className="hover:text-safety-orange transition-colors">{t('nav.archive')}</button>
-           <button onClick={() => scrollTo(portalRef)} className="hover:text-safety-orange transition-colors">{t('nav.portal')}</button>
+      <nav className="fixed top-6 left-6 right-6 md:top-10 md:left-10 z-[100] flex flex-col md:flex-row md:items-center justify-between gap-6 mix-blend-difference pointer-events-none">
+        <div className="flex items-center justify-between w-full md:w-auto pointer-events-auto">
+          <Logo />
+          <div className="md:hidden">
+            <LanguageToggle />
+          </div>
         </div>
-        <LanguageToggle />
+
+        <div className="flex items-center gap-8 md:gap-12 pointer-events-auto">
+          <div className="flex gap-4 md:gap-8 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest overflow-x-auto no-scrollbar">
+             <button onClick={() => scrollTo(heroRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.identity')}</button>
+             <button onClick={() => scrollTo(matrixRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.matrix')}</button>
+             <button onClick={() => scrollTo(archiveRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.archive')}</button>
+             <button onClick={() => scrollTo(portalRef)} className="hover:text-safety-orange transition-colors whitespace-nowrap">{t('nav.portal')}</button>
+          </div>
+          <div className="hidden md:block">
+            <LanguageToggle />
+          </div>
+        </div>
       </nav>
 
       {/* Floating System Stats */}
