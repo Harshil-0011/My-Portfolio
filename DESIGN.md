@@ -1,6 +1,6 @@
 ---
 name: Universal Design System (UDS) Master Spec
-version: 3.0.0
+version: 3.1.0
 author: Universal Web & AI Architecture Lab
 description: Universal, project-agnostic design specification for AI coding agents (Claude, Cursor, v0, Bolt, Jules, GPT-4o) to generate distinctive, high-end web applications across any project archetype without AI slop or generic boilerplate.
 ---
@@ -29,9 +29,10 @@ description: Universal, project-agnostic design specification for AI coding agen
 7. [Elevation, Z-Index & Atmospheric Surface Treatments](#7-elevation-z-index--atmospheric-surface-treatments)
 8. [Component Specifications & Blueprints](#8-component-specifications--blueprints)
 9. [Physics, Motion Timing & Micro-Interactions](#9-physics-motion-timing--micro-interactions)
-10. [Accessibility, Performance & Reduced Motion](#10-accessibility-performance--reduced-motion)
-11. [Universal CSS Variables Engine (`:root`)](#11-universal-css-variables-engine-root)
-12. [AI Prompting Templates & Execution Instructions](#12-ai-prompting-templates--execution-instructions)
+10. [Explicit DOs and DON'Ts Directive](#10-explicit-dos-and-donts-directive)
+11. [Accessibility, Performance & Reduced Motion](#11-accessibility-performance--reduced-motion)
+12. [Universal CSS Variables Engine (`:root`)](#12-universal-css-variables-engine-root)
+13. [AI Prompting Templates & Execution Instructions](#13-ai-prompting-templates--execution-instructions)
 
 ---
 
@@ -184,7 +185,7 @@ Standard AI outputs overuse `grid-cols-1 md:grid-cols-3`. To create memorable, c
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
   <!-- Focal Feature (Span 8) -->
   <div class="lg:col-span-8 uds-glass p-8 rounded-2xl relative overflow-hidden">
-    <div class="font-mono text-xs text-cyan-400 mb-2">[ FEATURE Spotlight // 01 ]</div>
+    <div class="font-mono text-xs text-cyan-400 mb-2">[ FEATURE SPOTLIGHT // 01 ]</div>
     <h3 class="text-2xl font-bold text-slate-100 mb-4">Core Autonomous Engine</h3>
     <p class="text-slate-400 max-w-xl text-base leading-relaxed">
       High-density parallel processing pipeline with real-time vector indexing.
@@ -262,7 +263,31 @@ To prevent sterile dark voids, introduce structural background textures behind g
 
 ---
 
-## 10. ACCESSIBILITY, PERFORMANCE & REDUCED MOTION
+## 10. EXPLICIT DOs AND DON'Ts DIRECTIVE
+
+### ✅ DO (MANDATORY PRACTICES)
+1. **DO** use semantic CSS tokens (`var(--uds-canvas)`, `var(--uds-cyan)`) instead of hardcoded arbitrary hex codes in component files.
+2. **DO** enforce monospaced tabular figures (`font-mono tabular-nums`) on all numbers, pricing tables, KPI dashboards, and counters.
+3. **DO** use asymmetric grid proportions (e.g., 8-col / 4-col split or 7-col / 5-col split) to create visual interest.
+4. **DO** use hairline structural borders (`1px solid rgba(255, 255, 255, 0.08)`) combined with frosted glass (`backdrop-blur-md`) to separate UI surfaces.
+5. **DO** provide explicit hover, focus-visible, and active button feedback states (`hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2`).
+6. **DO** utilize micro-monospaced technical HUD chips (e.g., `[STATUS: VERIFIED]` or `// SEC_01`) to frame key content blocks.
+7. **DO** apply `text-wrap: balance` to titles and `text-wrap: pretty` to body text paragraphs.
+8. **DO** respect user system preferences (`prefers-reduced-motion` and `prefers-reduced-transparency`).
+
+### ❌ DON'T (STRICTLY FORBIDDEN)
+1. **DON'T** generate generic white cards with blurry drop-shadows on plain light gray backgrounds.
+2. **DON'T** use default AI purple-to-blue gradients (`from-purple-500 to-blue-500`) without intentional branding reasons.
+3. **DON'T** use `transition-all duration-300` as a blanket transition rule; explicitly target transformed properties (`transform, opacity`).
+4. **DON'T** hide scrollbars on interactive containers where users need scroll position awareness (use `.no-scrollbar` only for hero carousels or full-bleed horizontal sliders).
+5. **DON'T** bold body text paragraphs or overuse heavy font weights for long-form reading.
+6. **DON'T** use pure `#000000` pitch black or pure `#FFFFFF` white as uniform solid card fills without subtle tinting or glass translucency.
+7. **DON'T** create repetitive 3-column feature grids (`grid-cols-3`) without varying card sizes or adding focal visual anchors.
+8. **DON'T** apply `will-change: backdrop-filter` globally—apply performance hints only to active animating elements.
+
+---
+
+## 11. ACCESSIBILITY, PERFORMANCE & REDUCED MOTION
 
 - **Color Contrast**: All primary text against background surfaces must achieve a contrast ratio of at least `4.5:1` (WCAG AA Standard).
 - **Touch Targets**: Mobile buttons and clickable icons must have a minimum interactive surface area of `44px × 44px`.
@@ -280,7 +305,7 @@ To prevent sterile dark voids, introduce structural background textures behind g
 
 ---
 
-## 11. UNIVERSAL CSS VARIABLES ENGINE (`:root`)
+## 12. UNIVERSAL CSS VARIABLES ENGINE (`:root`)
 
 ```css
 :root {
@@ -324,11 +349,11 @@ To prevent sterile dark voids, introduce structural background textures behind g
 
 ---
 
-## 12. AI PROMPTING TEMPLATES & EXECUTION INSTRUCTIONS
+## 13. AI PROMPTING TEMPLATES & EXECUTION INSTRUCTIONS
 
 When instructing an AI coding agent to generate code using this master specification, copy and paste this system prompt:
 
 > **AI System Prompt for Universal Design System Compliance:**
-> *"You are a world-class principal frontend engineer and creative technologist. You must follow the Universal Design System (UDS) Master Specification in `DESIGN.md`. Ensure every component generated adheres strictly to the 4px baseline grid, glassmorphic depth rules, asymmetric layout grid, monospaced tabular numeric styling, precise cubic-bezier easing curves, and non-generic color tokens. Never generate plain gray cards with generic shadows. Treat every UI component as a precision-engineered piece of software."*
+> *"You are a world-class principal frontend engineer and creative technologist. You must follow the Universal Design System (UDS) Master Specification in `DESIGN.md`. Ensure every component generated adheres strictly to the 4px baseline grid, glassmorphic depth rules, asymmetric layout grid, monospaced tabular numeric styling, precise cubic-bezier easing curves, explicit DOs and DON'Ts, and non-generic color tokens. Never generate plain gray cards with generic shadows. Treat every UI component as a precision-engineered piece of software."*
 
 ---
