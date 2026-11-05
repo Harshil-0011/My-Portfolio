@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Built output — wiped every build; never committed
+docs/
+
+# Impeccable design-tool working files (local per session)
+.impeccable/

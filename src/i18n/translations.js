@@ -1,204 +1,511 @@
 export const translations = {
   en: {
+    meta: {
+      documentTitle: "Harshil Gorasiya — LLM & RAG Engineer",
+    },
     nav: {
-      identity: "[IDENTITY]",
-      matrix: "[MATRIX]",
-      archive: "[ARCHIVE]",
-      portal: "[PORTAL]"
+      projects: "Projects",
+      experience: "Experience",
+      skills: "Skills",
+      contact: "Contact",
+      cv: "CV (EN) ↓",
+      sheet: "BLATT 01/01",
+      proof: "Contour proof",
+      proofHint: "Toggle high-contrast black/white/red reading",
+      skip: "Skip to content",
+      tabs: "Sheet sections",
     },
     hero: {
-      role: "APPLIED AI ENGINEER // SYSTEMS ARCHITECT",
-      nameLine1: "Harshil",
-      nameLine2: "Gorasiya",
-      bio: "Architecting autonomous intelligence through RAG, Agentic Pipelines, and high-performance neural infrastructure.",
-      download: "Download CV",
-      location: "BASED IN GERMANY",
-      drag: "Drag to orbit neural core"
-    },
-    skills: {
-      title: "Capability Matrix",
-      desc: "A comprehensive overview of technical competencies categorized by system architecture and deployment readiness.",
-      categories: [
-        "Agentic Systems",
-        "Neural Engine",
-        "Core Architecture",
-        "Data Infrastructure"
+      kicker: "MEASUREMENTS · DATED 05.11.2026",
+      name: "HARSHIL GORASIYA",
+      roleA: "LLM & RAG Engineer — Heilbronn, DE",
+      kpiTitle: "Measured values",
+      seeking:
+        "SEEKING: WORKING STUDENT 20 H/WK · FULL-TIME DURING SEMESTER BREAKS · LLM/RAG FROM 2027 · AVAILABLE IMMEDIATELY",
+      stamp: ["GEPRÜFT", "05.11.2026"],
+      kpis: [
+        { value: "0.654", label: "nDCG@10 · BEIR SciFact · 300 queries", src: "Local Perplex" },
+        { value: "8.1 ms", label: "Overhead per agent step · laptop CPU", src: "Ardan-CLI" },
+        { value: "28–32 FPS", label: "YOLOv8n on CPU only · 720p", src: "Dotcom IoT" },
+        { value: "79 %", label: "Accuracy, up from 71 %", src: "PD Avenue" },
+        { value: "250 tests", label: "pytest suite · 4 defects found and fixed", src: "Ekdant" },
       ],
-      stack: "STACK"
+      indexTitle: "ITEM INDEX",
+      items: [
+        { pos: "01", name: "ardan-cli" },
+        { pos: "02", name: "local-perplexity" },
+        { pos: "03", name: "anvitha" },
+        { pos: "04", name: "ekdant" },
+        { pos: "05", name: "raslila" },
+        { pos: "06", name: "dhara" },
+      ],
+      titleblock: {
+        name: "HARSHIL GORASIYA",
+        domain: "LLM · RAG · RETRIEVAL",
+        method: "LOCAL-FIRST RAG · AGENTS · HYBRID SEARCH",
+        place: "HEILBRONN, DE",
+        date: "05.11.2026",
+        scale: "1:1 · SHEET 1/1",
+        language: "EN (DE AVAILABLE)",
+      },
+      dimension: "§ 1",
+      tbLabels: {
+        name: "Name",
+        domain: "Domain",
+        method: "Method",
+        place: "Place",
+        date: "Date",
+        scale: "Scale",
+        language: "Language",
+      },
     },
-    archive: {
-      title: "The Archive",
-      casefile: "CASEFILE",
-      access: "ACCESS_REPOSITORY",
-      projects: [
+    register: {
+      no: "§ 2",
+      title: "Register of executed work",
+      note: "Every pointer opens the real repository · every number was measured",
+      openRepo: "OPEN REPO ↗",
+      annexLabel: "Annex · further items",
+      items: [
         {
-          title: "Ardan-CLI",
-          overview: "Autonomous terminal-based AI software engineer utilizing a ReAct execution loop.",
-          bullets: ["Supports 6 major LLM providers", "Parallel tool execution", "AES-encrypted keys"]
+          pos: "01",
+          kind: "AI agent",
+          name: "Ardan-CLI",
+          full: "Autonomous terminal coding agent",
+          stack: "TypeScript (strict) · Node.js 24 · 0 runtime dependencies · MCP · LSP",
+          blurb:
+            "Agent loop with streaming, 35 tools, plan mode, sub-agents and checkpoints. Eight LLM providers with automatic failover; MCP and LSP clients built without SDKs, plus a fallback parser for models without function calling. CI on Linux, macOS and Windows.",
+          metric: "8.1 ms per agent step",
         },
         {
-          title: "Graph RAG",
-          overview: "Hierarchical graph-based retrieval system replacing expensive graph calls with deterministic mappings.",
-          bullets: ["5-level document indexing", "Sub-4s latency", "Zero infrastructure cost"]
+          pos: "02",
+          kind: "Research engine",
+          name: "Local Perplex",
+          full: "Local AI research assistant with citations",
+          stack: "Python · FastAPI · SSE · SQLite · Ollama · Docker",
+          blurb:
+            "Searches the web and your own documents, reads pages in parallel and streams cited answers. Own BM25 ranker scored against the Anserini reference; 26 LLM providers, 7 search backends, fully local if desired. Answer page in about 200 ms; SQLite knowledge graph with 77× faster writes. 55 tests, 76 % coverage.",
+          metric: "0.654 nDCG@10 · BEIR SciFact",
         },
         {
-          title: "Local Perplex",
-          overview: "Private multimodal AI research engine with custom native multi-threaded rankings.",
-          bullets: ["Sub-10ms ranking latency", "Zero data leakage", "Native OCR subsystem"]
-        }
-      ]
-    },
-    log: {
-      titleLine1: "System",
-      titleLine2: "Log",
-      environment: "Current Environment",
-      degree: "M.Sc. Software Engineering",
-      location: "HEILBRONN, GERMANY",
-      experiences: [
-        {
-          title: "Deep Learning Intern",
-          company: "PD Avenue",
-          context: "Remote",
-          bullets: [
-            "Built custom classification heads using TensorFlow/Keras, achieving +8% validation accuracy.",
-            "Slashed baseline processing runtimes by 20% through adaptive scheduling.",
-            "Isolated structural overfitting patterns across 10+ core test branches."
-          ]
+          pos: "03",
+          kind: "RAG system",
+          name: "ANVITHA",
+          full: "Local knowledge vault with grounded, cited answers",
+          stack: "Python · FastAPI · Ollama · SQLite · NumPy · BM25",
+          blurb:
+            "Turns PDF, TXT and Markdown files into a linked Markdown knowledge vault; answers come only from the vault and cite the original page. Facts are checked against source text before storing, and unsupported answer parts are removed afterwards. Tested with a local 0.8B model: 8 of 8 covered questions answered, median 7.4 s.",
+          metric: "Refuses off-vault questions < 0.3 s",
         },
         {
-          title: "Machine Learning Intern",
-          company: "Dotcom IoT LLP",
-          context: "India",
-          bullets: [
-            "Deployed YOLOv8 tracking frameworks processing 35,000+ frames per hour on CPU-only hardware.",
-            "Curated and audited 3,000+ custom evaluation frames for model stabilization."
-          ]
-        }
-      ]
+          pos: "04",
+          kind: "Master's thesis · ongoing",
+          name: "Ekdant",
+          full: "Debate-sandbox reasoning module for language models",
+          stack: "Hochschule Heilbronn, professor-supervised · Python · PyTorch · Hugging Face",
+          blurb:
+            "Does a parallel debate module (4 trajectories, 2 rounds, consensus) improve a model's reasoning? A zero-initialized residual module of +19.59 M parameters on pretrained SmolLM2-135M, A/B-tested against an architecture-matched baseline on PubMedQA and MedQuAD with leakage-free splits and paired-bootstrap intervals. Literature base: 66 papers.",
+          metric: "250 pytest tests",
+        },
+        {
+          pos: "05",
+          kind: "Research project · GitHub",
+          name: "Raslila",
+          full: "Brain-inspired deep-grid transformer",
+          stack: "Python · PyTorch · grid [layers, rows, cols]",
+          blurb:
+            "A 3D brain grid of transformer blocks with lateral and feedback messages, tested against a standard transformer trained under the same recipe, with matched pairs at 50 M, 125 M, 350 M and 1 B parameters. The scaling study that asks whether a structured grid beats the unstructured baseline.",
+          metric: "Matched pairs · 4× A100",
+        },
+        {
+          pos: "06",
+          kind: "Architecture experiment · GitHub",
+          name: "Dhara",
+          full: "Language-model architecture with O(1) memory",
+          stack: "Python · PyTorch 2.6 · CUDA 12.8 · trained for 4× A100 80 GB",
+          blurb:
+            "An NSLT-derived architecture whose memory does not grow with sequence length: pretrain, SFT and instruction tuning in one script, with auto-resolved tokenizer, streamed datasets and checkpoints every 1 000 steps.",
+          metric: "292 tests passing · 8 CLI commands",
+        },
+      ],
+      annex: [
+        {
+          pos: "A1",
+          name: "AI Video Upscaling",
+          note: "Windows desktop application comparing Real-ESRGAN variants by PSNR and SSIM, with model selection and runtime monitoring.",
+          stack: "Python · PyTorch",
+        },
+        {
+          pos: "A2",
+          name: "MNIST-MLOps",
+          note: "MLOps workflow demo: incremental training, metrics and model versions in SQLite, web dashboard.",
+          stack: "Python · PyTorch · Flask · SQLite",
+        },
+      ],
     },
-    portal: {
-      connection: "[ESTABLISH_CONNECTION]",
-      titleLine1: "Start",
-      titleLine2: "Thread",
-      email: "E-Mail",
-      copy: "[COPY_ADDRESS]",
-      copied: "[COPIED_TO_CLIPBOARD]",
-      socials: "Social_Nodes",
-      identity: "// Identity",
-      protocol: "// Protocol",
-      payload: "// Payload",
-      placeholderName: "NAME_OR_ORG",
-      placeholderEmail: "EMAIL@DOMAIN.COM",
-      placeholderMessage: "MESSAGE_CONTENT...",
-      send: "SEND_MESSAGE",
-      transmitting: "TRANSMITTING...",
-      success: "TRANSMISSION_COMPLETE. I WILL RESPOND SHORTLY.",
-      error: "TRANSMISSION_FAILED. PLEASE RETRY OR USE DIRECT EMAIL."
+    custody: {
+      no: "§ 3",
+      title: "Custody of assignments",
+      note: "Recorded positions · gaps stay visible",
+      educationLabel: "Education",
+      roles: [
+        {
+          date: "05/2024 – 02/2025",
+          role: "AI & Web Solutions Developer",
+          org: "Aani Brothers Infotech",
+          place: "Surat, IN · 10 months",
+          points: [
+            "Built web applications translating business requirements into interfaces and application workflows.",
+            "Contributed AI-enabled features to web projects; user research, wireframing and prototyping for usable, consistent designs.",
+          ],
+        },
+        {
+          date: "12/2023 – 04/2024",
+          role: "Deep Learning Intern",
+          org: "PD Avenue",
+          place: "Surat, IN · 5 months",
+          points: [
+            "Residual-block CNN (TensorFlow/Keras) for age and gender classification on 22 000+ images; validation accuracy raised from 71 % to 79 % through architecture optimization and class-balanced augmentation.",
+            "Cut training time on V100 GPUs by 20 % with cosine LR scheduling and larger batches, without accuracy loss.",
+            "Found and fixed a data-leakage issue; reliable across 10+ structured training runs.",
+          ],
+        },
+        {
+          date: "05/2023 – 06/2023",
+          role: "Machine Learning Intern",
+          org: "Dotcom IoT LLP",
+          place: "Surat, IN · 2 months",
+          points: [
+            "YOLOv8n object detection on a CPU-only edge device (Intel Core i7): 720p at 28–32 FPS, 2.4× the YOLOv5s baseline throughput.",
+            "Curated and annotated 3 000+ images across five vehicle classes; tuned IoU/NMS to cut low-light false positives by 18 % on a dedicated night-test set.",
+            "Packaged inference and visualization into a deployment-ready Python application with performance benchmarking.",
+          ],
+        },
+      ],
+      education: [
+        {
+          date: "since 03/2025",
+          title: "M.Sc. Software Engineering and Management",
+          org: "Hochschule Heilbronn",
+          note: "English-taught programme · GPA so far 1.9 · expected graduation 2027",
+        },
+        {
+          date: "2020 – 2024",
+          title: "B.Tech. Information Technology",
+          org: "A. D. Patel Institute of Technology, Gujarat",
+          note: "Grade 1.9 on the German scale",
+        },
+      ],
+    },
+    matrix: {
+      no: "§ 4",
+      title: "Instrument specification",
+      note: "Skills · certifications · languages",
+      rows: [
+        { cat: "LLM & RAG", stack: "RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering" },
+        { cat: "LLM research", stack: "Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers" },
+        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV" },
+        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)" },
+        { cat: "Evaluation", stack: "Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap" },
+      ],
+      certsTitle: "Certifications",
+      certs: [
+        { year: "2026", body: "Claude with the Anthropic API · Model Context Protocol: Advanced Topics (both Anthropic)" },
+        { year: "2025", body: "Machine Learning with Python (IBM) · Fundamentals of Data Science (Databricks)" },
+        { year: "Further", body: "CRISP-DM on the AWS stack · Big Data with Spark and Hadoop · AWS Academy Cloud" },
+      ],
+      languagesTitle: "Languages",
+      languages: "English fluent · German A2–B1 · Hindi fluent · Gujarati native",
+    },
+    exchange: {
+      no: "§ 5",
+      title: "Exchange",
+      note: "One click to the CV · one field to the message",
+      lead: "The records above come with sources. For the certified summary, take the CV; for everything else, write.",
+      cvLabel: "CV · sheet EN ↓",
+      germanCvLabel: "Lebenslauf · sheet DE ↓",
+      copy: "COPY ADDRESS",
+      copied: "COPIED",
+      emailLabel: "E-mail",
+      githubLabel: "GitHub",
+      linkedinLabel: "LinkedIn",
+      portfolioLabel: "Portfolio",
+      formTitle: "MESSPORTOKOLL · MESSAGE ON RECORD",
+      formNote: "Sent as plain record: your name, your address, your message.",
+      fields: {
+        name: "Identity",
+        namePh: "Your name",
+        email: "Return address",
+        emailPh: "you@company.com",
+        message: "Message",
+        messagePh: "The position, the project, the question",
+        send: "SEND RECORD",
+        sending: "SENDING …",
+      },
+      state: {
+        success: "Record received. I answer from this address within a few days.",
+        error: "Transmission failed. Send the message directly to harshil.gorasiya.0011@gmail.com.",
+      },
+      availability: "Available: immediately · Residence status: valid permit with work authorization",
     },
     footer: {
-      rights: "©2026 // ALL_RIGHTS_RESERVED // ENGINEERED_BY_HG",
-      top: "BACK_TO_TOP"
-    }
+      postal: "Heilbronn, 05.11.2026",
+      sources: "This sheet and its sources: github.com/Harshil-0011/My-Portfolio",
+      noPhone: "The only channel not printed on this sheet is the telephone — it lives in the CV.",
+    },
   },
+
   de: {
+    meta: {
+      documentTitle: "Harshil Gorasiya — LLM- & RAG-Engineer",
+    },
     nav: {
-      identity: "[IDENTITÄT]",
-      matrix: "[MATRIX]",
-      archive: "[ARCHIV]",
-      portal: "[PORTAL]"
+      projects: "Projekte",
+      experience: "Werdegang",
+      skills: "Kompetenzen",
+      contact: "Kontakt",
+      cv: "Lebenslauf (DE) ↓",
+      sheet: "BLATT 01/01",
+      proof: "Konturnachweis",
+      proofHint: "Hoher Kontrast umschalten: Schwarz/Weiß/Rot",
+      skip: "Zum Inhalt springen",
+      tabs: "Blatt-Bereiche",
     },
     hero: {
-      role: "ANGEWANDTER KI-INGENIEUR // SYSTEMARCHITEKT",
-      nameLine1: "Harshil",
-      nameLine2: "Gorasiya",
-      bio: "Architektur autonomer Intelligenz durch RAG, Agentic Pipelines und Hochleistungs-Neural-Infrastruktur.",
-      download: "Lebenslauf Herunterladen",
-      location: "ANSÄSSIG IN DEUTSCHLAND",
-      drag: "Ziehen, um den Neuralkern zu umkreisen"
-    },
-    skills: {
-      title: "Fähigkeits Matrix",
-      desc: "Ein umfassender Überblick über technische Kompetenzen, kategorisiert nach Systemarchitektur und Einsatzbereitschaft.",
-      categories: [
-        "Agentische Systeme",
-        "Neural Engine",
-        "Kernarchitektur",
-        "Dateninfrastruktur"
+      kicker: "MESSWERTE · STAND 05.11.2026",
+      name: "HARSHIL GORASIYA",
+      roleA: "LLM- & RAG-Engineer — Heilbronn, DE",
+      kpiTitle: "Messwerte",
+      seeking:
+        "GESUCHT: WERKSTUDENTENSTELLE 20 H/WOCHE · VOLLZEIT IN DER SEMESTERPAUSE · LLM/RAG AB 2027 · VERFÜGBAR AB SOFORT",
+      stamp: ["GEPRÜFT", "05.11.2026"],
+      kpis: [
+        { value: "0.654", label: "nDCG@10 · BEIR SciFact · 300 Abfragen", src: "Local Perplex" },
+        { value: "8.1 ms", label: "Overhead pro Agent-Schritt · Laptop-CPU", src: "Ardan-CLI" },
+        { value: "28–32 FPS", label: "YOLOv8n, nur CPU · 720p", src: "Dotcom IoT" },
+        { value: "79 %", label: "Genauigkeit, zuvor 71 %", src: "PD Avenue" },
+        { value: "250 Tests", label: "pytest-Suite · 4 Entwurfsfehler gefunden und behoben", src: "Ekdant" },
       ],
-      stack: "STACK"
+      indexTitle: "POSITIONSVERZEICHNIS",
+      items: [
+        { pos: "01", name: "ardan-cli" },
+        { pos: "02", name: "local-perplexity" },
+        { pos: "03", name: "anvitha" },
+        { pos: "04", name: "ekdant" },
+        { pos: "05", name: "raslila" },
+        { pos: "06", name: "dhara" },
+      ],
+      titleblock: {
+        name: "HARSHIL GORASIYA",
+        domain: "LLM · RAG · RETRIEVAL",
+        method: "LOCAL-FIRST RAG · AGENTEN · HYBRIDE SUCHE",
+        place: "HEILBRONN, DE",
+        date: "05.11.2026",
+        scale: "1:1 · BLATT 1/1",
+        language: "DE (EN VERFÜGBAR)",
+      },
+      dimension: "§ 1",
+      tbLabels: {
+        name: "Name",
+        domain: "Gebiet",
+        method: "Methode",
+        place: "Ort",
+        date: "Datum",
+        scale: "Maßstab",
+        language: "Sprache",
+      },
     },
-    archive: {
-      title: "Das Archiv",
-      casefile: "FALLDATEI",
-      access: "REPOSITORY_ZUGRIFF",
-      projects: [
+    register: {
+      no: "§ 2",
+      title: "Register ausgeführter Arbeiten",
+      note: "Jeder Verweis öffnet das echte Repository · jede Zahl ist gemessen",
+      openRepo: "REPO ÖFFNEN ↗",
+      annexLabel: "Anhang · weitere Positionen",
+      items: [
         {
-          title: "Ardan-CLI",
-          overview: "Autonomer terminalbasierter KI-Softwareingenieur unter Verwendung eines ReAct-Ausführungsloops.",
-          bullets: ["Unterstützt 6 große LLM-Anbieter", "Parallele Werkzeugausführung", "AES-verschlüsselte Schlüssel"]
+          pos: "01",
+          kind: "KI-Agent",
+          name: "Ardan-CLI",
+          full: "Autonomer terminalbasierter Coding-Agent",
+          stack: "TypeScript (strict) · Node.js 24 · 0 Runtime-Abhängigkeiten · MCP · LSP",
+          blurb:
+            "Agenten-Loop mit Streaming, 35 Werkzeugen, Plan-Modus, Sub-Agenten und Checkpoints. Acht LLM-Anbieter mit automatischem Failover; MCP- und LSP-Clients ohne SDK gebaut, dazu ein Fallback-Parser für Modelle ohne Function Calling. CI auf Linux, macOS und Windows.",
+          metric: "8.1 ms pro Agent-Schritt",
         },
         {
-          title: "Graph RAG",
-          overview: "Hierarchisches graphbasiertes Abrufsystem, das teure Graphaufrufe durch deterministische Mappings ersetzt.",
-          bullets: ["5-stufige Dokumentenindizierung", "Latenz unter 4s", "Null Infrastrukturkosten"]
+          pos: "02",
+          kind: "Recherche-Maschine",
+          name: "Local Perplex",
+          full: "Lokaler KI-Recherche-Assistent mit Belegen",
+          stack: "Python · FastAPI · SSE · SQLite · Ollama · Docker",
+          blurb:
+            "Durchsucht das Web und eigene Dokumente, liest Seiten parallel und streamt belegte Antworten. Eigener BM25-Ranker, gemessen gegen die Anserini-Referenz; 26 LLM-Anbieter, 7 Such-Backends, auf Wunsch vollständig lokal. Antwortseite in rund 200 ms; SQLite-Wissensgraph mit 77× schnelleren Schreibzugriffen. 55 Tests, 76 % Abdeckung.",
+          metric: "0.654 nDCG@10 · BEIR SciFact",
         },
         {
-          title: "Local Perplex",
-          overview: "Private multimodale KI-Forschungs-Engine mit benutzerdefinierten nativen Multi-Thread-Rankings.",
-          bullets: ["Ranking-Latenz unter 10ms", "Null Datenleckage", "Natives OCR-Subsystem"]
-        }
-      ]
-    },
-    log: {
-      titleLine1: "System",
-      titleLine2: "Protokoll",
-      environment: "Aktuelle Umgebung",
-      degree: "M.Sc. Software Engineering",
-      location: "HEILBRONN, DEUTSCHLAND",
-      experiences: [
-        {
-          title: "Deep Learning Praktikant",
-          company: "PD Avenue",
-          context: "Remote",
-          bullets: [
-            "Erstellung benutzerdefinierter Klassifizierungsköpfe mit TensorFlow/Keras, Erzielung von +8% Validierungsgenauigkeit.",
-            "Reduzierung der Basis-Verarbeitungszeiten um 20% durch adaptive Zeitplanung.",
-            "Isolierung struktureller Overfitting-Muster über 10+ Kern-Testzweige hinweg."
-          ]
+          pos: "03",
+          kind: "RAG-System",
+          name: "ANVITHA",
+          full: "Lokaler Wissensspeicher mit belegten Antworten",
+          stack: "Python · FastAPI · Ollama · SQLite · NumPy · BM25",
+          blurb:
+            "Verwandelt PDF-, TXT- und Markdown-Dateien in einen verlinkten Markdown-Wissensspeicher; Antworten stammen ausschließlich aus dem Speicher und zitieren die Original-Seite. Fakten werden vor dem Speichern gegen den Quelltext geprüft, unbelegte Antwortteile danach entfernt. Getestet mit lokalem 0.8B-Modell: 8 von 8 abgedeckten Fragen beantwortet, Median 7.4 s.",
+          metric: "Fragen außerhalb des Speichers verweigert in < 0.3 s",
         },
         {
-          title: "Machine Learning Praktikant",
-          company: "Dotcom IoT LLP",
-          context: "Indien",
-          bullets: [
-            "Einsatz von YOLOv8 Tracking-Frameworks zur Verarbeitung von 35.000+ Frames pro Stunde auf CPU-Hardware.",
-            "Kuratierung und Prüfung von 3.000+ benutzerdefinierten Evaluierungsframes zur Modellstabilisierung."
-          ]
-        }
-      ]
+          pos: "04",
+          kind: "Masterarbeit · laufend",
+          name: "Ekdant",
+          full: "Debatten-Sandbox als Reasoning-Modul für Sprachmodelle",
+          stack: "Hochschule Heilbronn, professoriell betreut · Python · PyTorch · Hugging Face",
+          blurb:
+            "Verbessert ein paralleles Debatten-Modul (4 Trajektorien, 2 Runden, Konsens) das Reasoning eines Modells? Ein null-initialisiertes Residualmodul mit +19,59 M Parametern auf vortrainiertem SmolLM2-135M, A/B gegen eine architekturgematchte Referenz auf PubMedQA und MedQuAD mit leckagefreien Splits und Paired-Bootstrap-Intervallen. Literaturbasis: 66 Arbeiten.",
+          metric: "250 pytest-Tests",
+        },
+        {
+          pos: "05",
+          kind: "Forschungsprojekt · GitHub",
+          name: "Raslila",
+          full: "Hirn-inspirierter Deep-Grid-Transformer",
+          stack: "Python · PyTorch · Raster [Layer, Zeilen, Spalten]",
+          blurb:
+            "Ein 3D-Hirnraster aus Transformer-Blöcken mit lateralen und Rückkopplungs-Nachrichten, gegen einen Standard-Transformer getestet, der nach demselben Rezept trainiert wurde, mit gepaarten Skalierungsstufen bei 50 M, 125 M, 350 M und 1 B Parametern.",
+          metric: "Gepaarte Paare · 4× A100",
+        },
+        {
+          pos: "06",
+          kind: "Architektur-Experiment · GitHub",
+          name: "Dhara",
+          full: "Sprachmodell-Architektur mit O(1)-Speicher",
+          stack: "Python · PyTorch 2.6 · CUDA 12.8 · ausgelegt für 4× A100 80 GB",
+          blurb:
+            "Eine NSLT-abgeleitete Architektur, deren Speicher nicht mit der Sequenzlänge wächst: Pretrain, SFT und Instruction-Tuning in einem Skript, mit automatisch aufgelöstem Tokenizer, gestreamten Datensätzen und Checkpoints alle 1 000 Schritte.",
+          metric: "292 Tests bestanden · 8 CLI-Befehle",
+        },
+      ],
+      annex: [
+        {
+          pos: "A1",
+          name: "K.I. Video-Upscaling",
+          note: "Windows-Desktop-Anwendung, die Real-ESRGAN-Varianten nach PSNR und SSIM vergleicht, mit Modellauswahl und Laufzeit-Überwachung.",
+          stack: "Python · PyTorch",
+        },
+        {
+          pos: "A2",
+          name: "MNIST-MLOps",
+          note: "MLOps-Demo: inkrementelles Training, Metriken und Modellversionen in SQLite, Web-Dashboard.",
+          stack: "Python · PyTorch · Flask · SQLite",
+        },
+      ],
     },
-    portal: {
-      connection: "[VERBINDUNG_HERSTELLEN]",
-      titleLine1: "Thread",
-      titleLine2: "Starten",
-      email: "E-Mail",
-      copy: "[ADRESSE_KOPIEREN]",
-      copied: "[IN_ZWISCHENABLAGE_KOPIERT]",
-      socials: "Soziale_Knoten",
-      identity: "// Identität",
-      protocol: "// Protokoll",
-      payload: "// Nutzlast",
-      placeholderName: "NAME_ODER_ORG",
-      placeholderEmail: "EMAIL@DOMAIN.COM",
-      placeholderMessage: "NACHRICHTENINHALT...",
-      send: "NACHRICHT_SENDEN",
-      transmitting: "ÜBERTRAGUNG...",
-      success: "ÜBERTRAGUNG_ABGESCHLOSSEN. ICH WERDE IN KÜRZE ANTWORTEN.",
-      error: "ÜBERTRAGUNG_FEHLGESCHLAGEN. BITTE ERNEUT VERSUCHEN ODER DIREKTE E-MAIL NUTZEN."
+    custody: {
+      no: "§ 3",
+      title: "Verwahrung der Mandate",
+      note: "Erfasste Positionen · Lücken bleiben sichtbar",
+      educationLabel: "Ausbildung",
+      roles: [
+        {
+          date: "05/2024 – 02/2025",
+          role: "KI- & Web-Solutions-Developer",
+          org: "Aani Brothers Infotech",
+          place: "Surat, IN · 10 Monate",
+          points: [
+            "Webanwendungen gebaut, die Unternehmensanforderungen in Interfaces und Abläufe übersetzen.",
+            "KI-gestützte Features in Webprojekten beigetragen; User Research, Wireframing und Prototyping für nutzbare, konsistente Gestaltung.",
+          ],
+        },
+        {
+          date: "12/2023 – 04/2024",
+          role: "Deep-Learning-Praktikant",
+          org: "PD Avenue",
+          place: "Surat, IN · 5 Monate",
+          points: [
+            "Residual-Block-CNN (TensorFlow/Keras) zur Alters- und Geschlechtsklassifikation auf 22 000+ Bildern; Validierungsgenauigkeit von 71 % auf 79 % durch Architekturoptimierung und klassenausgeglichene Augmentation.",
+            "Trainingszeit auf V100-GPUs um 20 % gesenkt (cosine LR, größere Batches) ohne Genauigkeitsverlust.",
+            "Datenleck gefunden und behoben; verlässlich über 10+ strukturierte Trainingsläufe.",
+          ],
+        },
+        {
+          date: "05/2023 – 06/2023",
+          role: "Machine-Learning-Praktikant",
+          org: "Dotcom IoT LLP",
+          place: "Surat, IN · 2 Monate",
+          points: [
+            "YOLOv8n-Objekterkennung auf einem reinen CPU-Edge (Intel Core i7): 720p bei 28–32 FPS, 2,4× der Durchsatz der YOLOv5s-Referenz.",
+            "3 000+ Bilder in fünf Fahrzeugklassen kuratiert und annotiert; IoU/NMS-Abstimmung senkte Nacht-Fehlalarme um 18 % (eigener Nachtsatz).",
+            "Inference und Visualisierung als deploymentsfertige Python-Anwendung mit Performance-Benchmarking verpackt.",
+          ],
+        },
+      ],
+      education: [
+        {
+          date: "seit 03/2025",
+          title: "M.Sc. Software Engineering and Management",
+          org: "Hochschule Heilbronn",
+          note: "Englischsprachiges Programm · GPA bisher 1,9 · Abschluss erwartet 2027",
+        },
+        {
+          date: "2020 – 2024",
+          title: "B.Tech. Information Technology",
+          org: "A. D. Patel Institute of Technology, Gujarat",
+          note: "Note 1,9 in deutscher Umrechnung",
+        },
+      ],
+    },
+    matrix: {
+      no: "§ 4",
+      title: "Instrumentenspezifikation",
+      note: "Kompetenzen · Zertifikate · Sprachen",
+      rows: [
+        { cat: "LLM & RAG", stack: "RAG-Pipelines, hybride Suche (BM25, Embeddings), belegte Antworten, Ollama, ReAct-Agenten und Tool-Use, Anthropic API, Model Context Protocol (MCP), Prompt-Engineering" },
+        { cat: "LLM-Forschung", stack: "Fine-Tuning, Transformer-Architekturen (GQA, SwiGLU), A/B-Experimentdesign, PyTorch, Hugging Face Transformers" },
+        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV" },
+        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST-APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (Grundlagen)" },
+        { cat: "Evaluation", stack: "Latenz- und Durchsatz-Benchmarking, nDCG@10 (BEIR), Validierungsgenauigkeit, False-Positive-Analyse, PSNR/SSIM, Perplexity, ROUGE-L, Token-F1, Paired Bootstrap" },
+      ],
+      certsTitle: "Zertifikate",
+      certs: [
+        { year: "2026", body: "Claude with the Anthropic API · Model Context Protocol: Advanced Topics (beide Anthropic)" },
+        { year: "2025", body: "Machine Learning with Python (IBM) · Fundamentals of Data Science (Databricks)" },
+        { year: "Weitere", body: "CRISP-DM auf dem AWS-Stack · Big Data mit Spark und Hadoop · AWS Academy Cloud" },
+      ],
+      languagesTitle: "Sprachen",
+      languages: "Englisch fließend · Deutsch A2–B1 · Hindi fließend · Gujarati Muttersprache",
+    },
+    exchange: {
+      no: "§ 5",
+      title: "Austausch",
+      note: "Ein Klick zum Lebenslauf · ein Feld zum Anschreiben",
+      lead: "Die Aufzeichnungen oben kommen mit Belegen. Für die beglaubigte Zusammenfassung: der Lebenslauf. Für alles andere: schreiben.",
+      cvLabel: "Lebenslauf · Blatt DE ↓",
+      germanCvLabel: "CV · sheet EN ↓",
+      copy: "ADRESSE KOPIEREN",
+      copied: "KOPIERT",
+      emailLabel: "E-Mail",
+      githubLabel: "GitHub",
+      linkedinLabel: "LinkedIn",
+      portfolioLabel: "Portfolio",
+      formTitle: "MESSPROTOKOLL · NACHRICHT ZU DEN AKTEN",
+      formNote: "Geht als schlichter Vermerk raus: Ihr Name, Ihre Adresse, Ihre Nachricht.",
+      fields: {
+        name: "Identität",
+        namePh: "Ihr Name",
+        email: "Rückadresse",
+        emailPh: "sie@firma.de",
+        message: "Nachricht",
+        messagePh: "Die Stelle, das Projekt, die Frage",
+        send: "VERMERK SENDEN",
+        sending: "SENDE …",
+      },
+      state: {
+        success: "Vermerk eingegangen. Ich antworte von dieser Adresse innerhalb weniger Tage.",
+        error: "Übergabe fehlgeschlagen. Schreiben Sie direkt an harshil.gorasiya.0011@gmail.com.",
+      },
+      availability: "Verfügbar: ab sofort · Aufenthaltsstatus: gültige Aufenthaltserlaubnis mit Arbeitserlaubnis",
     },
     footer: {
-      rights: "©2026 // ALLE_RECHTE_VORBEHALTEN // ENGINEERED_BY_HG",
-      top: "ZURÜCK_NACH_OBEN"
-    }
-  }
+      postal: "Heilbronn, 05.11.2026",
+      sources: "Dieses Blatt und seine Quellen: github.com/Harshil-0011/My-Portfolio",
+      noPhone: "Der einzige Kanal, den dieses Blatt nicht druckt, ist das Telefon — es steht im Lebenslauf.",
+    },
+  },
 };
