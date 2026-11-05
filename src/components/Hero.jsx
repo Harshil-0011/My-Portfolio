@@ -1,65 +1,8 @@
-import { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Sphere, MeshDistortMaterial, PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import { Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
-const NeuralCore = () => {
-  const mainRef = useRef();
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    if (mainRef.current) {
-      mainRef.current.rotation.y = time * 0.2;
-      mainRef.current.rotation.z = time * 0.1;
-    }
-  });
-
-  const dots = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < 50; i++) {
-      const t = Math.random() * Math.PI * 2;
-      const u = Math.random() * Math.PI * 2;
-      const r = 2 + Math.random() * 0.5;
-      temp.push([
-        r * Math.sin(t) * Math.cos(u),
-        r * Math.sin(t) * Math.sin(u),
-        r * Math.cos(t)
-      ]);
-    }
-    return temp;
-  }, []);
-
-  return (
-    <group ref={mainRef}>
-      <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-        <Sphere args={[1.5, 64, 64]}>
-          <MeshDistortMaterial
-            color="#FF3300"
-            speed={3}
-            distort={0.4}
-            radius={1}
-            emissive="#FF3300"
-            emissiveIntensity={0.5}
-            roughness={0.2}
-            metalness={0.8}
-          />
-        </Sphere>
-      </Float>
-
-      {dots.map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.02, 16, 16]} />
-          <meshBasicMaterial color="#FFFFFF" transparent opacity={0.5} />
-        </mesh>
-      ))}
-
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} color="#FF3300" />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#FFFFFF" />
-    </group>
-  );
-};
+const HeroCore = lazy(() => import('./HeroCore'));
 
 const Hero = () => {
   const { t } = useLanguage();
@@ -122,17 +65,15 @@ const Hero = () => {
 
       {/* Right Column: Neural Core */}
       <div className="relative h-[60vh] lg:h-full cursor-grab active:cursor-grabbing">
-        <Canvas shadows gl={{ antialias: true }}>
-          <PerspectiveCamera makeDefault position={[0, 0, 8]} />
-          <NeuralCore />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate={true}
-            autoRotateSpeed={0.5}
-            makeDefault
-          />
-        </Canvas>
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-48 h-48 rounded-full bg-safety-orange/10 border border-safety-orange/20 animate-pulse" />
+            </div>
+          }
+        >
+          <HeroCore />
+        </Suspense>
 
         {/* Interaction Prompt */}
         <div className="absolute bottom-10 right-10 pointer-events-none">

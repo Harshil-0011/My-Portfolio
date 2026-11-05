@@ -17,7 +17,7 @@ const LogEntry = ({ entry, index }) => (
         <h3 className="text-3xl font-headline font-black text-pure-white uppercase group-hover:text-safety-orange transition-colors">
           {entry.title}
         </h3>
-        <p className="font-technical text-safety-orange/60 mt-1">
+        <p className="font-mono text-safety-orange/60 mt-1">
           [{entry.company}] — {entry.context}
         </p>
       </div>
@@ -63,7 +63,7 @@ const ExperienceLog = () => {
           <div className="text-right">
              <p className="font-mono text-[10px] text-pure-white/40 mb-2 uppercase">{t('log.environment')}</p>
              <p className="font-headline font-black text-2xl text-pure-white uppercase">{t('log.degree')}</p>
-             <p className="font-technical text-safety-orange">{t('log.location')}</p>
+             <p className="font-mono text-safety-orange">{t('log.location')}</p>
           </div>
         </div>
 

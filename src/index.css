@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Geist:wght@100..900&display=swap');
-
 @theme {
   --color-obsidian: #050505;
   --color-pure-white: #FFFFFF;
@@ -26,6 +24,24 @@ body {
   color: #FFFFFF;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Theme-consistent scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF3300;
 }
 
 body::before {
@@ -68,6 +84,32 @@ body::after {
 /* Lenis Recommended Styles */
 html.lenis, html.lenis body {
   height: auto;
+}
+
+/* Hide scrollbar but keep scrollability (used by nav) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+
+  .scanning-line {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  .scanning-line::after {
+    content: "SCAN_MODE: STANDBY // REDUCED_MOTION";
+  }
 }
 
 .lenis.lenis-smooth {
@@ -200,10 +242,5 @@ html.lenis, html.lenis body {
     0% { transform: translateX(0); opacity: 0; }
     5%, 95% { opacity: 1; }
     100% { transform: translateX(100vw); opacity: 0; }
-  }
-
-  @keyframes flicker {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.6; }
   }
 }

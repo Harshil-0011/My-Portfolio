@@ -37,20 +37,9 @@ function AppContent() {
     }
     rafId = requestAnimationFrame(raf);
 
-    // Global CSS Variable Tracker (Optimized)
-    const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth).toFixed(3);
-      const y = (e.clientY / window.innerHeight).toFixed(3);
-      document.documentElement.style.setProperty('--cursor-x', x);
-      document.documentElement.style.setProperty('--cursor-y', y);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
     return () => {
       lenis.destroy();
       cancelAnimationFrame(rafId);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -63,7 +52,7 @@ function AppContent() {
   };
 
   return (
-    <div className="relative selection:bg-safety-orange selection:text-pure-white bg-obsidian cursor-none">
+    <div className="relative selection:bg-safety-orange selection:text-pure-white bg-obsidian md:cursor-none">
       <CustomCursor />
       {loading && <Loader onComplete={() => setLoading(false)} />}
 
@@ -117,7 +106,12 @@ function AppContent() {
               {t('footer.rights')}
             </div>
             <div className="flex gap-6 font-mono text-[10px] text-pure-white/40 uppercase tracking-widest">
-              <a href="#" className="hover:text-safety-orange transition-colors">{t('footer.top')}</a>
+              <button
+                onClick={() => lenisRef.current?.scrollTo(0, { duration: 1.6 })}
+                className="hover:text-safety-orange transition-colors cursor-pointer"
+              >
+                {t('footer.top')}
+              </button>
             </div>
          </div>
       </footer>
