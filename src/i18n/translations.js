@@ -14,6 +14,7 @@ export const translations = {
       proofHint: "Toggle high-contrast black/white/red reading",
       skip: "Skip to content",
       tabs: "Sheet sections",
+      close: "Close record",
     },
     hero: {
       kicker: "MEASUREMENTS · DATED 05.11.2026",
@@ -65,6 +66,21 @@ export const translations = {
       note: "Every pointer opens the real repository · every number was measured",
       openRepo: "OPEN REPO ↗",
       moreLabel: "From the record",
+      gh: {
+        label: "Live from GitHub",
+        pending: "Querying GitHub…",
+        fail: "GitHub not reachable — the printed record stands.",
+        created: "Created",
+        updated: "Updated",
+        stars: "Stars",
+        forks: "Forks",
+        issues: "Open issues",
+        branch: "Default branch",
+        license: "Licence",
+        size: "Repository size",
+        languages: "Languages",
+        topics: "Topics",
+      },
       annexLabel: "Annex · further items",
       items: [
         {
@@ -376,6 +392,7 @@ export const translations = {
       proofHint: "Hoher Kontrast umschalten: Schwarz/Weiß/Rot",
       skip: "Zum Inhalt springen",
       tabs: "Blatt-Bereiche",
+      close: "Vermerk schließen",
     },
     hero: {
       kicker: "MESSWERTE · STAND 05.11.2026",
@@ -427,6 +444,21 @@ export const translations = {
       note: "Jeder Verweis öffnet das echte Repository · jede Zahl ist gemessen",
       openRepo: "REPO ÖFFNEN ↗",
       moreLabel: "Aus den Akten",
+      gh: {
+        label: "Live von GitHub",
+        pending: "GitHub wird abgefragt…",
+        fail: "GitHub nicht erreichbar — der gedruckte Datensatz bleibt maßgeblich.",
+        created: "Erstellt",
+        updated: "Aktualisiert",
+        stars: "Sterne",
+        forks: "Forks",
+        issues: "Offene Issues",
+        branch: "Standard-Branch",
+        license: "Lizenz",
+        size: "Repositoriumsgröße",
+        languages: "Sprachen",
+        topics: "Topics",
+      },
       annexLabel: "Anhang · weitere Positionen",
       items: [
         {

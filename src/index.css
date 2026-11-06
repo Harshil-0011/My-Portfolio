@@ -173,19 +173,28 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
 .dimension { display: flex; align-items: center; gap: 8px; color: var(--color-graphite); font: 400 0.6rem var(--font-mono); letter-spacing: 0.3em; }
 .dimension::before, .dimension::after { content: ""; height: 1px; background: var(--color-graphite); flex: 1; }
 
-/* — Expandable record: click a card, the sheet opens further — */
-.panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 340ms cubic-bezier(0.16, 1, 0.3, 1); }
-.panel.is-open { grid-template-rows: 1fr; }
-.panel > * { overflow: hidden; min-height: 0; }
+/* — Record popout: a smaller sheet lifted above the drawing — */
+@keyframes sheet-lift {
+  from { opacity: 0; transform: translateY(26px) scale(0.975); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes sheet-fade { from { opacity: 0; } to { opacity: 1; } }
+.sheet-frame {
+  border: 1.5px solid var(--color-ink); background: var(--color-paper-hi);
+  box-shadow: 10px 12px 0 rgba(22, 19, 14, 0.18);
+  animation: sheet-lift 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.sheet-fade { animation: sheet-fade 220ms ease both; }
 
-/* — Disclosure kick: square mono [+], rotates to [x] when the record is open — */
+/* — Disclosure kick: square mono [+] affordance on a card that opens a record — */
 .disclose { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 1.6rem; height: 1.6rem; border: 1px solid var(--color-ink); background: var(--color-paper-hi); font: 600 0.85rem/1 var(--font-mono); color: var(--color-ink); transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease; }
-.disclose::before { content: "+"; transition: transform 340ms cubic-bezier(0.16, 1, 0.3, 1); }
+.disclose::before { content: "+"; }
 .disclose--sm { width: 1.2rem; height: 1.2rem; font-size: 0.66rem; }
-.disclose.is-open { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
-.disclose.is-open::before { transform: rotate(45deg); }
-.record-toggle:hover .disclose:not(.is-open) { border-color: var(--color-stamp); color: var(--color-stamp); background: var(--color-paper-lo); }
+.record-toggle:hover .disclose { border-color: var(--color-stamp); color: var(--color-stamp); background: var(--color-paper-lo); }
 .record-toggle:hover .toggle-title { color: var(--color-stamp); }
+
+/* — Popout close kick — */
+.close-kick:hover { background: var(--color-stamp); border-color: var(--color-stamp); color: var(--color-paper); }
 
 /* — Attestation language records: same level as the certificate rows — */
 #attestations .item + .item { margin-top: 0; }
@@ -200,6 +209,6 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
   html { scroll-behavior: auto; }
   .stamp-seen { animation: none; opacity: 1; transform: rotate(-11deg); }
   .tab, .item, .chip, .submit { transition: none; }
-  .panel { transition: none; }
-  .disclose, .disclose::before { transition: none; }
+  .sheet-frame, .sheet-fade { animation: none; }
+  .disclose { transition: none; }
 }
