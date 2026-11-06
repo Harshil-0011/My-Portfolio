@@ -15,7 +15,7 @@ export default function Attestations() {
         <p className="block-note hidden md:block">{at.note}</p>
       </div>
 
-      <div className="px-6 md:px-12 mt-6 grid gap-6 md:grid-cols-2 items-start">
+      <div className="px-6 md:px-12 mt-6 grid gap-6 md:grid-cols-2">
         <div className="item p-5 md:p-7">
           <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-4">
             {at.certsTitle}
@@ -30,15 +30,19 @@ export default function Attestations() {
           </ul>
         </div>
         <div className="item p-5 md:p-7">
-          <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-5">
+          <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-4">
             {at.languagesTitle}
           </p>
-          <ul className="space-y-2.5">
+          <ul className="space-y-3.5">
             {at.languages.map((row) => (
-              <li key={row.lang} className="leader">
-                <span className="uppercase text-ink">{row.lang}</span>
-                <span className="dots" aria-hidden="true" />
-                <span className="text-ink-soft">{row.level}</span>
+              <li key={row.lang} className="lang-row">
+                <span className="font-cond font-bold uppercase text-ink text-[1.05rem] leading-[1.2] tracking-[0.04em]">
+                  {row.lang}
+                </span>
+                <span className="lang-dots" aria-hidden="true" />
+                <span className="font-mono text-[0.72rem] tracking-[0.14em] uppercase text-ink-soft">
+                  {row.level}
+                </span>
               </li>
             ))}
           </ul>

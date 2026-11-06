@@ -64,6 +64,7 @@ export const translations = {
       title: "Register of executed work",
       note: "Every pointer opens the real repository · every number was measured",
       openRepo: "OPEN REPO ↗",
+      moreLabel: "From the record",
       annexLabel: "Annex · further items",
       items: [
         {
@@ -75,6 +76,12 @@ export const translations = {
           blurb:
             "Agent loop with streaming, 35 tools, plan mode, sub-agents and checkpoints. Eight LLM providers with automatic failover; MCP and LSP clients built without SDKs, plus a fallback parser for models without function calling. CI on Linux, macOS and Windows.",
           metric: "8.1 ms per agent step",
+          more: [
+            "35 tools · plan mode · sub-agents · checkpoints",
+            "8 LLM providers · automatic failover",
+            "MCP + LSP clients built without SDKs · fallback parser for models without function calling",
+            "CI: Linux · Windows · macOS",
+          ],
         },
         {
           pos: "02",
@@ -85,6 +92,13 @@ export const translations = {
           blurb:
             "Searches the web and your own documents, reads pages in parallel and streams cited answers. Own BM25 ranker scored against the Anserini reference; 26 LLM providers, 7 search backends, fully local if desired. Answer page in about 200 ms; SQLite knowledge graph with 77× faster writes. 55 tests, 76 % coverage.",
           metric: "0.654 nDCG@10 · BEIR SciFact",
+          more: [
+            "0.654 nDCG@10 · BEIR SciFact · 300 queries · 9.5 ms per query",
+            "Previous version 0.038 · Anserini reference 0.665",
+            "Reads pages in parallel · PDF, Word, Excel and more",
+            "26 LLM providers · 7 search backends · fully local if desired",
+            "55 tests · 76 % coverage · CI on Ubuntu and Windows",
+          ],
         },
         {
           pos: "03",
@@ -95,6 +109,12 @@ export const translations = {
           blurb:
             "Turns PDF, TXT and Markdown files into a linked Markdown knowledge vault; answers come only from the vault and cite the original page. Facts are checked against source text before storing, and unsupported answer parts are removed afterwards. Tested with a local 0.8B model: 8 of 8 covered questions answered, median 7.4 s.",
           metric: "Refuses off-vault questions < 0.3 s",
+          more: [
+            "Every answer sentence re-checked against the vault · unsupported parts removed",
+            "Off-vault questions refused in < 0.3 s · without a model call",
+            "Local 0.8B model: 8 of 8 covered questions answered (12 test questions) · median 7.4 s",
+            "26 automated tests · about 1.5 s",
+          ],
         },
         {
           pos: "04",
@@ -105,6 +125,14 @@ export const translations = {
           blurb:
             "Does a parallel debate module (4 trajectories, 2 rounds, consensus) improve a model's reasoning? A zero-initialized residual module of +19.59 M parameters on pretrained SmolLM2-135M, A/B-tested against an architecture-matched baseline on PubMedQA and MedQuAD with leakage-free splits and paired-bootstrap intervals. Literature base: 66 papers.",
           metric: "250 pytest tests",
+          more: [
+            "Research question: does parallel debate (4 trajectories · 2 rounds · consensus) improve reasoning?",
+            "+19.59 M parameters · zero-initialized residual module · SmolLM2-135M",
+            "PubMedQA · MedQuAD · leakage-free split by question",
+            "Perplexity · ROUGE-L · token F1 · paired-bootstrap intervals",
+            "Best variant beats the baseline on every metric — narrowly (3.783 → 3.776, one run) · second seed planned",
+            "Literature base: 66 papers",
+          ],
         },
         {
           pos: "05",
@@ -115,6 +143,11 @@ export const translations = {
           blurb:
             "A 3D brain grid of transformer blocks with lateral and feedback messages, tested against a standard transformer trained under the same recipe, with matched pairs at 50 M, 125 M, 350 M and 1 B parameters. The scaling study that asks whether a structured grid beats the unstructured baseline.",
           metric: "Matched pairs · 4× A100",
+          more: [
+            "3D brain grid of transformer blocks · lateral and feedback messages",
+            "Matched pairs at 50 M · 125 M · 350 M · 1 B parameters",
+            "Standard transformer trained under the same recipe",
+          ],
         },
         {
           pos: "06",
@@ -125,6 +158,12 @@ export const translations = {
           blurb:
             "An NSLT-derived architecture whose memory does not grow with sequence length: pretrain, SFT and instruction tuning in one script, with auto-resolved tokenizer, streamed datasets and checkpoints every 1 000 steps.",
           metric: "292 tests passing · 8 CLI commands",
+          more: [
+            "Memory does not grow with sequence length · O(1) · NSLT-derived",
+            "Pretrain · SFT · instruction tuning in one script",
+            "Auto-resolved tokenizer · streamed datasets · checkpoints every 1 000 steps",
+            "CUDA 12.8 · sized for 4× A100 80 GB",
+          ],
         },
       ],
       annex: [
@@ -147,6 +186,8 @@ export const translations = {
       title: "Custody of assignments",
       note: "Recorded positions · gaps stay visible",
       educationLabel: "Education",
+      moreLabel: "From the ledger",
+      cvRecord: "Full record: CV (EN) ↓",
       roles: [
         {
           date: "05/2024 – 02/2025",
@@ -156,6 +197,10 @@ export const translations = {
           points: [
             "Built web applications translating business requirements into interfaces and application workflows.",
             "Contributed AI-enabled features to web projects; user research, wireframing and prototyping for usable, consistent designs.",
+          ],
+          more: [
+            "AI-enabled features integrated into web projects; functional requirements went into the user experience.",
+            "Conducted user research, wireframing and prototyping; iterated designs for usability and consistency.",
           ],
         },
         {
@@ -168,6 +213,12 @@ export const translations = {
             "Cut training time on V100 GPUs by 20 % with cosine LR scheduling and larger batches, without accuracy loss.",
             "Found and fixed a data-leakage issue; reliable across 10+ structured training runs.",
           ],
+          more: [
+            "Stack: TensorFlow · Keras · V100 GPUs · Python",
+            "22 000+ images · age and gender classification",
+            "Gain driven by architecture optimization and class-balanced augmentation",
+            "Data-leakage defect verified over 10+ structured training runs",
+          ],
         },
         {
           date: "05/2023 – 06/2023",
@@ -179,6 +230,12 @@ export const translations = {
             "Curated and annotated 3 000+ images across five vehicle classes; tuned IoU/NMS to cut low-light false positives by 18 % on a dedicated night-test set.",
             "Packaged inference and visualization into a deployment-ready Python application with performance benchmarking.",
           ],
+          more: [
+            "2.4× throughput vs YOLOv5s · CPU-only · Intel Core i7",
+            "3 000+ images curated across five vehicle classes",
+            "IoU/NMS tuning: −18 % low-light false positives (dedicated night-test set)",
+            "Packaged as a deployment-ready Python application with benchmarking",
+          ],
         },
       ],
       education: [
@@ -187,12 +244,20 @@ export const translations = {
           title: "M.Sc. Software Engineering and Management",
           org: "Hochschule Heilbronn",
           note: "English-taught programme · GPA so far 1.9 · expected graduation 2027",
+          more: [
+            "Focus of the ongoing work: LLM applications — retrieval, agents, small-model research.",
+            "Includes the professor-supervised research project Ekdant (register 04).",
+          ],
         },
         {
           date: "2020 – 2024",
           title: "B.Tech. Information Technology",
           org: "A. D. Patel Institute of Technology, Gujarat",
           note: "Grade 1.9 on the German scale",
+          more: [
+            "Completed 2024 · grade 1.9 converted to the German scale.",
+            "Field of study: Information Technology.",
+          ],
         },
       ],
     },
@@ -200,12 +265,45 @@ export const translations = {
       no: "§ 4",
       title: "Instrument specification",
       note: "Skills only · instruments in daily use",
+      moreLabel: "In strata",
       rows: [
-        { cat: "LLM & RAG", stack: "RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering" },
-        { cat: "LLM research", stack: "Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers" },
-        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV" },
-        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)" },
-        { cat: "Evaluation", stack: "Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap" },
+        { cat: "LLM & RAG", stack: "RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering",
+          pairs: [
+            { k: "Retrieval", v: "Hybrid · BM25 + embeddings · grounded answering" },
+            { k: "Agents", v: "ReAct · tool use · MCP · Anthropic API · Ollama" },
+            { k: "Prompting", v: "prompt engineering" },
+            { k: "Proven in", v: "Local Perplex (02) · ANVITHA (03)" },
+          ] },
+        { cat: "LLM research", stack: "Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers",
+          pairs: [
+            { k: "Training", v: "fine-tuning · A/B experiment design" },
+            { k: "Architectures", v: "Transformer · GQA · SwiGLU" },
+            { k: "Tooling", v: "PyTorch · Hugging Face Transformers" },
+            { k: "Proven in", v: "Ekdant (04) · Raslila (05) · Dhara (06)" },
+          ] },
+        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV",
+          pairs: [
+            { k: "Vision", v: "YOLOv8 · CNNs · OpenCV" },
+            { k: "Frameworks", v: "PyTorch · TensorFlow/Keras · scikit-learn" },
+            { k: "Proven in", v: "PD Avenue (§ 3) · Dotcom IoT (§ 3) · Annex A1" },
+          ] },
+        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)",
+          pairs: [
+            { k: "Languages", v: "Python · TypeScript · SQL · Bash" },
+            { k: "Ops", v: "Git · Docker · Linux · CI (GitHub Actions) · AWS (basic)" },
+            { k: "Backends", v: "FastAPI · Flask · REST · SQLite · PostgreSQL · MongoDB · MLflow" },
+            { k: "Quality", v: "pytest" },
+            { k: "Proven in", v: "Ardan-CLI (01) · Local Perplex (02) · MNIST-MLOps (A2)" },
+          ] },
+        { cat: "Evaluation", stack: "Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap",
+          pairs: [
+            { k: "Retrieval", v: "nDCG@10 (BEIR)" },
+            { k: "Generation", v: "perplexity · ROUGE-L · token F1" },
+            { k: "Vision", v: "PSNR/SSIM · validation accuracy · false-positive analysis" },
+            { k: "Statistics", v: "paired bootstrap" },
+            { k: "Systems", v: "latency · throughput benchmarking" },
+            { k: "Proven in", v: "Local Perplex (02) · Ekdant (04) · PD Avenue (§ 3)" },
+          ] },
       ],
     },
     attestations: {
@@ -328,6 +426,7 @@ export const translations = {
       title: "Register ausgeführter Arbeiten",
       note: "Jeder Verweis öffnet das echte Repository · jede Zahl ist gemessen",
       openRepo: "REPO ÖFFNEN ↗",
+      moreLabel: "Aus den Akten",
       annexLabel: "Anhang · weitere Positionen",
       items: [
         {
@@ -339,6 +438,12 @@ export const translations = {
           blurb:
             "Agenten-Loop mit Streaming, 35 Werkzeugen, Plan-Modus, Sub-Agenten und Checkpoints. Acht LLM-Anbieter mit automatischem Failover; MCP- und LSP-Clients ohne SDK gebaut, dazu ein Fallback-Parser für Modelle ohne Function Calling. CI auf Linux, macOS und Windows.",
           metric: "8.1 ms pro Agent-Schritt",
+          more: [
+            "35 Tools · Plan-Modus · Sub-Agenten · Checkpoints",
+            "8 LLM-Anbieter · automatisches Failover",
+            "MCP + LSP ohne SDKs · Fallback-Parser für Modelle ohne Function Calling",
+            "CI: Linux · Windows · macOS",
+          ],
         },
         {
           pos: "02",
@@ -349,6 +454,13 @@ export const translations = {
           blurb:
             "Durchsucht das Web und eigene Dokumente, liest Seiten parallel und streamt belegte Antworten. Eigener BM25-Ranker, gemessen gegen die Anserini-Referenz; 26 LLM-Anbieter, 7 Such-Backends, auf Wunsch vollständig lokal. Antwortseite in rund 200 ms; SQLite-Wissensgraph mit 77× schnelleren Schreibzugriffen. 55 Tests, 76 % Abdeckung.",
           metric: "0.654 nDCG@10 · BEIR SciFact",
+          more: [
+            "0.654 nDCG@10 · BEIR SciFact · 300 Anfragen · 9.5 ms pro Anfrage",
+            "Vorversion 0.038 · Anserini-Referenz 0.665",
+            "Liest Seiten parallel · PDF, Word, Excel u. a.",
+            "26 LLM-Anbieter · 7 Suchbackends · auf Wunsch vollständig lokal",
+            "55 Tests · 76 % Abdeckung · CI unter Ubuntu und Windows",
+          ],
         },
         {
           pos: "03",
@@ -359,6 +471,12 @@ export const translations = {
           blurb:
             "Verwandelt PDF-, TXT- und Markdown-Dateien in einen verlinkten Markdown-Wissensspeicher; Antworten stammen ausschließlich aus dem Speicher und zitieren die Original-Seite. Fakten werden vor dem Speichern gegen den Quelltext geprüft, unbelegte Antwortteile danach entfernt. Getestet mit lokalem 0.8B-Modell: 8 von 8 abgedeckten Fragen beantwortet, Median 7.4 s.",
           metric: "Fragen außerhalb des Speichers verweigert in < 0.3 s",
+          more: [
+            "Jeder Antwortsatz gegen den Speicher geprüft · unbelegte Teile entfernt",
+            "Fragen außerhalb des Speichers in < 0.3 s verweigert · ohne Modellaufruf",
+            "Lokales 0.8B-Modell: 8 von 8 abgedeckten Fragen (12 Testfragen) · Median 7.4 s",
+            "26 automatisierte Tests · ca. 1.5 s",
+          ],
         },
         {
           pos: "04",
@@ -369,6 +487,14 @@ export const translations = {
           blurb:
             "Verbessert ein paralleles Debatten-Modul (4 Trajektorien, 2 Runden, Konsens) das Reasoning eines Modells? Ein null-initialisiertes Residualmodul mit +19,59 M Parametern auf vortrainiertem SmolLM2-135M, A/B gegen eine architekturgematchte Referenz auf PubMedQA und MedQuAD mit leckagefreien Splits und Paired-Bootstrap-Intervallen. Literaturbasis: 66 Arbeiten.",
           metric: "250 pytest-Tests",
+          more: [
+            "Forschungsfrage: Verbessert paralleles Debattieren (4 Trajektorien · 2 Runden · Konsens) das Reasoning?",
+            "+19,59 M Parameter · null-initialisiertes Residualmodul · SmolLM2-135M",
+            "PubMedQA · MedQuAD · leckagefreier Split nach Frage",
+            "Perplexity · ROUGE-L · Token-F1 · Paired-Bootstrap-Intervalle",
+            "Beste Variante schlägt die Baseline in allen Metriken — knapp (3,783 → 3,776, ein Lauf) · zweiter Seed geplant",
+            "Literaturbasis: 66 Arbeiten",
+          ],
         },
         {
           pos: "05",
@@ -379,6 +505,11 @@ export const translations = {
           blurb:
             "Ein 3D-Hirnraster aus Transformer-Blöcken mit lateralen und Rückkopplungs-Nachrichten, gegen einen Standard-Transformer getestet, der nach demselben Rezept trainiert wurde, mit gepaarten Skalierungsstufen bei 50 M, 125 M, 350 M und 1 B Parametern.",
           metric: "Gepaarte Paare · 4× A100",
+          more: [
+            "3D-Hirnraster aus Transformer-Blöcken · laterale und Rückkopplungs-Nachrichten",
+            "Gepaarte Stufen bei 50 M · 125 M · 350 M · 1 B Parametern",
+            "Standard-Transformer, nach demselben Rezept trainiert",
+          ],
         },
         {
           pos: "06",
@@ -389,6 +520,12 @@ export const translations = {
           blurb:
             "Eine NSLT-abgeleitete Architektur, deren Speicher nicht mit der Sequenzlänge wächst: Pretrain, SFT und Instruction-Tuning in einem Skript, mit automatisch aufgelöstem Tokenizer, gestreamten Datensätzen und Checkpoints alle 1 000 Schritte.",
           metric: "292 Tests bestanden · 8 CLI-Befehle",
+          more: [
+            "Speicher wächst nicht mit der Sequenzlänge · O(1) · NSLT-abgeleitet",
+            "Pretrain · SFT · Instruction-Tuning in einem Skript",
+            "Auto-aufgelöster Tokenizer · gestreamte Datensätze · Checkpoints alle 1 000 Schritte",
+            "CUDA 12.8 · ausgelegt für 4× A100 80 GB",
+          ],
         },
       ],
       annex: [
@@ -411,6 +548,8 @@ export const translations = {
       title: "Verwahrung der Mandate",
       note: "Erfasste Positionen · Lücken bleiben sichtbar",
       educationLabel: "Ausbildung",
+      moreLabel: "Aus dem Verzeichnis",
+      cvRecord: "Vollständiger Nachweis: Lebenslauf (DE) ↓",
       roles: [
         {
           date: "05/2024 – 02/2025",
@@ -420,6 +559,10 @@ export const translations = {
           points: [
             "Webanwendungen gebaut, die Unternehmensanforderungen in Interfaces und Abläufe übersetzen.",
             "KI-gestützte Features in Webprojekten beigetragen; User Research, Wireframing und Prototyping für nutzbare, konsistente Gestaltung.",
+          ],
+          more: [
+            "KI-gestützte Features in Webprojekte integriert; funktionale Anforderungen in die Nutzererfahrung überführt.",
+            "Nutzerforschung, Wireframing und Prototyping; Designs iterativ für Usability und Konsistenz optimiert.",
           ],
         },
         {
@@ -432,6 +575,12 @@ export const translations = {
             "Trainingszeit auf V100-GPUs um 20 % gesenkt (cosine LR, größere Batches) ohne Genauigkeitsverlust.",
             "Datenleck gefunden und behoben; verlässlich über 10+ strukturierte Trainingsläufe.",
           ],
+          more: [
+            "Stack: TensorFlow · Keras · V100-GPUs · Python",
+            "22.000+ Bilder · Alters- und Geschlechtsklassifikation",
+            "Zugewinn durch Architekturoptimierung und klassenausgeglichene Augmentierung",
+            "Datenleck über 10+ strukturierte Trainingsläufe verifiziert",
+          ],
         },
         {
           date: "05/2023 – 06/2023",
@@ -443,6 +592,12 @@ export const translations = {
             "3 000+ Bilder in fünf Fahrzeugklassen kuratiert und annotiert; IoU/NMS-Abstimmung senkte Nacht-Fehlalarme um 18 % (eigener Nachtsatz).",
             "Inference und Visualisierung als deploymentsfertige Python-Anwendung mit Performance-Benchmarking verpackt.",
           ],
+          more: [
+            "2,4× Durchsatz vs. YOLOv5s · rein CPU · Intel Core i7",
+            "3.000+ Bilder in fünf Fahrzeugklassen kuratiert",
+            "IoU-/NMS-Abstimmung: −18 % Fehlalarme bei wenig Licht (eigener Nachtsatz)",
+            "Als einsatzbereite Python-Anwendung mit Benchmarking gebündelt",
+          ],
         },
       ],
       education: [
@@ -451,12 +606,20 @@ export const translations = {
           title: "M.Sc. Software Engineering and Management",
           org: "Hochschule Heilbronn",
           note: "Englischsprachiges Programm · GPA bisher 1,9 · Abschluss erwartet 2027",
+          more: [
+            "Schwerpunkt der laufenden Arbeit: LLM-Anwendungen — Retrieval, Agenten, Small-Model-Research.",
+            "Umfasst das professoriell betreute Forschungsprojekt Ekdant (Register 04).",
+          ],
         },
         {
           date: "2020 – 2024",
           title: "B.Tech. Information Technology",
           org: "A. D. Patel Institute of Technology, Gujarat",
           note: "Note 1,9 in deutscher Umrechnung",
+          more: [
+            "Abschluss 2024 · Note 1,9 umgerechnet auf die deutsche Skala.",
+            "Fachrichtung: Information Technology.",
+          ],
         },
       ],
     },
@@ -464,12 +627,45 @@ export const translations = {
       no: "§ 4",
       title: "Instrumentenspezifikation",
       note: "Nur Kompetenzen · Werkzeuge im täglichen Einsatz",
+      moreLabel: "In Schichten",
       rows: [
-        { cat: "LLM & RAG", stack: "RAG-Pipelines, hybride Suche (BM25, Embeddings), belegte Antworten, Ollama, ReAct-Agenten und Tool-Use, Anthropic API, Model Context Protocol (MCP), Prompt-Engineering" },
-        { cat: "LLM-Forschung", stack: "Fine-Tuning, Transformer-Architekturen (GQA, SwiGLU), A/B-Experimentdesign, PyTorch, Hugging Face Transformers" },
-        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV" },
-        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST-APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (Grundlagen)" },
-        { cat: "Evaluation", stack: "Latenz- und Durchsatz-Benchmarking, nDCG@10 (BEIR), Validierungsgenauigkeit, False-Positive-Analyse, PSNR/SSIM, Perplexity, ROUGE-L, Token-F1, Paired Bootstrap" },
+        { cat: "LLM & RAG", stack: "RAG-Pipelines, hybride Suche (BM25, Embeddings), belegte Antworten, Ollama, ReAct-Agenten und Tool-Use, Anthropic API, Model Context Protocol (MCP), Prompt-Engineering",
+          pairs: [
+            { k: "Suche", v: "Hybrid · BM25 + Embeddings · belegte Antworten" },
+            { k: "Agenten", v: "ReAct · Tool-Use · MCP · Anthropic API · Ollama" },
+            { k: "Prompting", v: "Prompt-Engineering" },
+            { k: "Belegt in", v: "Local Perplex (02) · ANVITHA (03)" },
+          ] },
+        { cat: "LLM-Forschung", stack: "Fine-Tuning, Transformer-Architekturen (GQA, SwiGLU), A/B-Experimentdesign, PyTorch, Hugging Face Transformers",
+          pairs: [
+            { k: "Training", v: "Fine-Tuning · A/B-Experimentdesign" },
+            { k: "Architekturen", v: "Transformer · GQA · SwiGLU" },
+            { k: "Werkzeug", v: "PyTorch · Hugging Face Transformers" },
+            { k: "Belegt in", v: "Ekdant (04) · Raslila (05) · Dhara (06)" },
+          ] },
+        { cat: "ML & Vision", stack: "PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV",
+          pairs: [
+            { k: "Vision", v: "YOLOv8 · CNNs · OpenCV" },
+            { k: "Frameworks", v: "PyTorch · TensorFlow/Keras · scikit-learn" },
+            { k: "Belegt in", v: "PD Avenue (§ 3) · Dotcom IoT (§ 3) · A1 (Video-Upscaling)" },
+          ] },
+        { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST-APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (Grundlagen)",
+          pairs: [
+            { k: "Sprachen", v: "Python · TypeScript · SQL · Bash" },
+            { k: "Ops", v: "Git · Docker · Linux · CI (GitHub Actions) · AWS (Grundlagen)" },
+            { k: "Backends", v: "FastAPI · Flask · REST · SQLite · PostgreSQL · MongoDB · MLflow" },
+            { k: "Qualität", v: "pytest" },
+            { k: "Belegt in", v: "Ardan-CLI (01) · Local Perplex (02) · MNIST-MLOps (A2)" },
+          ] },
+        { cat: "Evaluation", stack: "Latenz- und Durchsatz-Benchmarking, nDCG@10 (BEIR), Validierungsgenauigkeit, False-Positive-Analyse, PSNR/SSIM, Perplexity, ROUGE-L, Token-F1, Paired Bootstrap",
+          pairs: [
+            { k: "Retrieval", v: "nDCG@10 (BEIR)" },
+            { k: "Generierung", v: "Perplexity · ROUGE-L · Token-F1" },
+            { k: "Vision", v: "PSNR/SSIM · Validierungsgenauigkeit · False-Positive-Analyse" },
+            { k: "Statistik", v: "Paired Bootstrap" },
+            { k: "Systeme", v: "Latenz · Durchsatz-Benchmarking" },
+            { k: "Belegt in", v: "Local Perplex (02) · Ekdant (04) · PD Avenue (§ 3)" },
+          ] },
       ],
     },
     attestations: {

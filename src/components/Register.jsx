@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { REPOS } from "../utils/links";
 
 export default function Register() {
   const { t } = useLanguage();
   const reg = t("register");
+  const [open, setOpen] = useState({});
+  const toggle = (k) => setOpen((o) => ({ ...o, [k]: !o[k] }));
 
   return (
     <section id="register" className="void scroll-mt-24" aria-labelledby="register-head">
@@ -18,16 +21,34 @@ export default function Register() {
 
       <div className="px-6 md:px-12 mt-6">
         {reg.items.map((item, i) => (
-          <article key={item.pos} className="item p-5 md:p-7">
+          <article
+            key={item.pos}
+            className="item p-5 md:p-7"
+            onClick={(e) => {
+              if (e.target.closest("a, button, input, textarea, select, label")) return;
+              toggle(item.pos);
+            }}
+          >
             <div className="grid gap-4 md:grid-cols-[3.8rem_minmax(0,1fr)]">
               <span className="item-pos text-stamp md:pt-1">{item.pos}</span>
               <div className="min-w-0">
                 <h3 className="font-cond font-bold uppercase text-ink text-[1.35rem] md:text-[1.6rem] leading-tight">
-                  {item.name}
-                  <span className="font-display font-medium normal-case text-ink-soft text-[0.95rem] md:text-[1.05rem] tracking-normal">
-                    {" "}
-                    — {item.full}
-                  </span>
+                  <button
+                    type="button"
+                    className="record-toggle group flex w-full flex-wrap items-baseline gap-x-2 gap-y-1 text-left cursor-pointer"
+                    aria-expanded={!!open[item.pos]}
+                    aria-controls={`rec-${item.pos}`}
+                    onClick={() => toggle(item.pos)}
+                  >
+                    <span className="toggle-title transition-colors">{item.name}</span>
+                    <span className="font-display font-medium normal-case text-ink-soft text-[0.95rem] md:text-[1.05rem] tracking-normal">
+                      — {item.full}
+                    </span>
+                    <span
+                      className={`disclose ml-auto self-center ${open[item.pos] ? "is-open" : ""}`}
+                      aria-hidden="true"
+                    />
+                  </button>
                 </h3>
                 <p className="stack-kind mt-2.5">{item.kind}</p>
                 <p className="stack mt-1">{item.stack}</p>
@@ -44,6 +65,26 @@ export default function Register() {
                   >
                     {reg.openRepo} {REPOS.register[i].replace("https://github.com/", "")}
                   </a>
+                </div>
+                <div
+                  id={`rec-${item.pos}`}
+                  className={`panel mt-3 ${open[item.pos] ? "is-open" : ""}`}
+                  aria-hidden={open[item.pos] ? undefined : true}
+                  inert={open[item.pos] ? undefined : true}
+                >
+                  <div className="pt-2">
+                    <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-2.5">
+                      {reg.moreLabel}
+                    </p>
+                    <ul className="space-y-2 border-l-[1.5px] border-ink pl-4">
+                      {item.more.map((line) => (
+                        <li key={line} className="flex gap-3 text-[0.85rem] leading-relaxed text-ink-soft">
+                          <span className="text-stamp font-mono text-[10px] pt-1.5 flex-none">■</span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
