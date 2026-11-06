@@ -79,7 +79,11 @@ export default function SheetHeader({ proof, onToggleProof }) {
             DE
           </button>
         </div>
-        <a className="tab tab--wide" href={`${base}files/CV_Harshil_Gorasiya_EN.pdf`} download>
+        <a
+          className="tab tab--wide"
+          href={`${base}files/${language === "en" ? "CV_Harshil_Gorasiya_EN" : "Lebenslauf_Harshil_Gorasiya"}.pdf`}
+          download
+        >
           {t("nav.cv")}
         </a>
       </div>

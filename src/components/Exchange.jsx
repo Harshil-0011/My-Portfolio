@@ -61,10 +61,18 @@ export default function Exchange() {
           <p className="text-[1rem] leading-relaxed text-ink-soft max-w-[52ch]">{ex.lead}</p>
 
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            <a className="chip chip--red" href={`${base}files/CV_Harshil_Gorasiya_EN.pdf`} download>
+            <a
+              className="chip chip--red"
+              href={`${base}files/${language === "en" ? "CV_Harshil_Gorasiya_EN" : "Lebenslauf_Harshil_Gorasiya"}.pdf`}
+              download
+            >
               {language === "en" ? ex.cvLabel : ex.germanCvLabel}
             </a>
-            <a className="chip chip--red" href={`${base}files/Lebenslauf_Harshil_Gorasiya.pdf`} download>
+            <a
+              className="chip chip--red"
+              href={`${base}files/${language === "en" ? "Lebenslauf_Harshil_Gorasiya" : "CV_Harshil_Gorasiya_EN"}.pdf`}
+              download
+            >
               {language === "en" ? ex.germanCvLabel : ex.cvLabel}
             </a>
           </div>
