@@ -20,12 +20,7 @@ export default function Register() {
         {reg.items.map((item, i) => (
           <article key={item.pos} className="item p-5 md:p-7">
             <div className="grid gap-4 md:grid-cols-[3.8rem_minmax(0,1fr)]">
-              <div className="flex md:flex-col gap-3 md:gap-4 items-baseline md:items-start">
-                <span className="item-pos text-stamp">{item.pos}</span>
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-graphite">
-                  {item.kind}
-                </span>
-              </div>
+              <span className="item-pos text-stamp md:pt-1">{item.pos}</span>
               <div className="min-w-0">
                 <h3 className="font-cond font-bold uppercase text-ink text-[1.35rem] md:text-[1.6rem] leading-tight">
                   {item.name}
@@ -34,7 +29,8 @@ export default function Register() {
                     — {item.full}
                   </span>
                 </h3>
-                <p className="stack mt-1.5">{item.stack}</p>
+                <p className="stack-kind mt-2.5">{item.kind}</p>
+                <p className="stack mt-1">{item.stack}</p>
                 <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft max-w-[65ch]">
                   {item.blurb}
                 </p>

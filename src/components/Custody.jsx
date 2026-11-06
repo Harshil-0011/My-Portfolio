@@ -46,14 +46,18 @@ export default function Custody() {
           {cust.educationLabel}
         </p>
         {cust.education.map((row) => (
-          <article key={row.date + row.title} className="item px-5 py-4 md:px-7">
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <span className="ledger-date text-ink">{row.date}</span>
-              <h3 className="font-cond font-bold uppercase text-ink text-[1.05rem]">{row.title}</h3>
-              <span className="stack">{row.org}</span>
-              <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-graphite basis-full">
-                {row.note}
-              </p>
+          <article key={row.date + row.title} className="item p-5 md:p-7">
+            <div className="grid gap-4 md:grid-cols-[10.5rem_minmax(0,1fr)]">
+              <p className="ledger-date text-ink md:pt-1">{row.date}</p>
+              <div className="ledger-rule pl-4 md:pl-5 -ml-2 md:ml-0 min-w-0">
+                <h3 className="font-cond font-bold uppercase text-ink text-[1.2rem] md:text-[1.35rem] leading-tight">
+                  {row.title}
+                </h3>
+                <p className="stack mt-1">{row.org}</p>
+                <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft max-w-[70ch]">
+                  {row.note}
+                </p>
+              </div>
             </div>
           </article>
         ))}

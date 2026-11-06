@@ -199,7 +199,7 @@ export const translations = {
     matrix: {
       no: "§ 4",
       title: "Instrument specification",
-      note: "Skills · certifications · languages",
+      note: "Skills only · instruments in daily use",
       rows: [
         { cat: "LLM & RAG", stack: "RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering" },
         { cat: "LLM research", stack: "Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers" },
@@ -207,6 +207,11 @@ export const translations = {
         { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)" },
         { cat: "Evaluation", stack: "Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap" },
       ],
+    },
+    attestations: {
+      no: "§ 5",
+      title: "Attestations & languages",
+      note: "Certified training · language levels",
       certsTitle: "Certifications",
       certs: [
         { year: "2026", body: "Claude with the Anthropic API · Model Context Protocol: Advanced Topics (both Anthropic)" },
@@ -214,10 +219,15 @@ export const translations = {
         { year: "Further", body: "CRISP-DM on the AWS stack · Big Data with Spark and Hadoop · AWS Academy Cloud" },
       ],
       languagesTitle: "Languages",
-      languages: "English fluent · German A2–B1 · Hindi fluent · Gujarati native",
+      languages: [
+        { lang: "English", level: "fluent" },
+        { lang: "German", level: "A2–B1" },
+        { lang: "Hindi", level: "fluent" },
+        { lang: "Gujarati", level: "native" },
+      ],
     },
     exchange: {
-      no: "§ 5",
+      no: "§ 6",
       title: "Exchange",
       note: "One click to the CV · one field to the message",
       lead: "The records above come with sources. For the certified summary, take the CV; for everything else, write.",
@@ -228,7 +238,6 @@ export const translations = {
       emailLabel: "E-mail",
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
-      portfolioLabel: "Portfolio",
       formTitle: "MESSPORTOKOLL · MESSAGE ON RECORD",
       formNote: "Sent as plain record: your name, your address, your message.",
       fields: {
@@ -454,7 +463,7 @@ export const translations = {
     matrix: {
       no: "§ 4",
       title: "Instrumentenspezifikation",
-      note: "Kompetenzen · Zertifikate · Sprachen",
+      note: "Nur Kompetenzen · Werkzeuge im täglichen Einsatz",
       rows: [
         { cat: "LLM & RAG", stack: "RAG-Pipelines, hybride Suche (BM25, Embeddings), belegte Antworten, Ollama, ReAct-Agenten und Tool-Use, Anthropic API, Model Context Protocol (MCP), Prompt-Engineering" },
         { cat: "LLM-Forschung", stack: "Fine-Tuning, Transformer-Architekturen (GQA, SwiGLU), A/B-Experimentdesign, PyTorch, Hugging Face Transformers" },
@@ -462,6 +471,11 @@ export const translations = {
         { cat: "Engineering", stack: "Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST-APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (Grundlagen)" },
         { cat: "Evaluation", stack: "Latenz- und Durchsatz-Benchmarking, nDCG@10 (BEIR), Validierungsgenauigkeit, False-Positive-Analyse, PSNR/SSIM, Perplexity, ROUGE-L, Token-F1, Paired Bootstrap" },
       ],
+    },
+    attestations: {
+      no: "§ 5",
+      title: "Beglaubigungen & Sprachen",
+      note: "Zertifizierte Weiterbildung · Sprachniveaus",
       certsTitle: "Zertifikate",
       certs: [
         { year: "2026", body: "Claude with the Anthropic API · Model Context Protocol: Advanced Topics (beide Anthropic)" },
@@ -469,10 +483,15 @@ export const translations = {
         { year: "Weitere", body: "CRISP-DM auf dem AWS-Stack · Big Data mit Spark und Hadoop · AWS Academy Cloud" },
       ],
       languagesTitle: "Sprachen",
-      languages: "Englisch fließend · Deutsch A2–B1 · Hindi fließend · Gujarati Muttersprache",
+      languages: [
+        { lang: "Englisch", level: "fließend" },
+        { lang: "Deutsch", level: "A2–B1" },
+        { lang: "Hindi", level: "fließend" },
+        { lang: "Gujarati", level: "Muttersprache" },
+      ],
     },
     exchange: {
-      no: "§ 5",
+      no: "§ 6",
       title: "Austausch",
       note: "Ein Klick zum Lebenslauf · ein Feld zum Anschreiben",
       lead: "Die Aufzeichnungen oben kommen mit Belegen. Für die beglaubigte Zusammenfassung: der Lebenslauf. Für alles andere: schreiben.",
@@ -483,7 +502,6 @@ export const translations = {
       emailLabel: "E-Mail",
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
-      portfolioLabel: "Portfolio",
       formTitle: "MESSPROTOKOLL · NACHRICHT ZU DEN AKTEN",
       formNote: "Geht als schlichter Vermerk raus: Ihr Name, Ihre Adresse, Ihre Nachricht.",
       fields: {

@@ -6,6 +6,7 @@ import TitleSheet from "./components/TitleSheet";
 import Register from "./components/Register";
 import Custody from "./components/Custody";
 import Matrix from "./components/Matrix";
+import Attestations from "./components/Attestations";
 import Exchange from "./components/Exchange";
 import { LINKS } from "./utils/links";
 
@@ -53,6 +54,7 @@ function AppBody() {
         <Register />
         <Custody />
         <Matrix />
+        <Attestations />
         <Exchange />
       </main>
       <footer className="relative z-10 mx-6 md:mx-12 mt-16 md:mt-24 border-t-[1.5px] border-ink py-7 flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">

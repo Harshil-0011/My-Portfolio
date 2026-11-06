@@ -106,14 +106,6 @@ export default function Exchange() {
                   </a>
                 </dd>
               </div>
-              <div>
-                <dt className="field-label">{ex.portfolioLabel}</dt>
-                <dd className="mt-1">
-                  <a className="chip w-full sm:w-auto justify-between" href={LINKS.portfolio}>
-                    harshil-0011.github.io/My-Portfolio
-                  </a>
-                </dd>
-              </div>
             </div>
           </dl>
 

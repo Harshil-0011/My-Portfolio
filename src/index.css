@@ -88,11 +88,14 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
 .tab--wide { font: 700 12px var(--font-display); letter-spacing: 0.1em; }
 .tab--proof[aria-pressed="true"] { background: transparent; color: var(--color-stamp); border-color: var(--color-stamp); box-shadow: inset 0 0 0 1px var(--color-stamp); }
 
-/* — GEPRÜFT stamp — */
+/* — GEPRÜFT stamp: a true inked circle, never a button — */
 .stamp {
+  width: 7.75rem; height: 7.75rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
   color: var(--color-stamp); border: 2.5px solid var(--color-stamp); border-radius: 9999px;
-  padding: 9px 13px; text-align: center; font: 600 9px var(--font-mono);
-  letter-spacing: 0.22em; text-transform: uppercase; line-height: 1.5;
+  font: 600 0.65rem var(--font-mono);
+  letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.7;
   position: relative; mix-blend-mode: multiply; background: transparent;
 }
 .stamp::before { content: ""; position: absolute; inset: 2.5px; border: 1px dashed var(--color-stamp); border-radius: 9999px; }
@@ -147,6 +150,7 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
 .repo-link { font: 600 0.72rem var(--font-mono); letter-spacing: 0.08em; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; word-break: break-all; }
 .repo-link:hover { color: var(--color-stamp); }
 .stack { font: 400 0.7rem var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-graphite); }
+.stack-kind { font: 600 0.7rem var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-stamp); }
 
 /* — Custody ledger rows — */
 .ledger-date { font: 700 0.8rem var(--font-cond); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }

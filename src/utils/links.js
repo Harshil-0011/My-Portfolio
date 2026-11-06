@@ -16,7 +16,6 @@ export const REPOS = {
 export const LINKS = {
   github: "https://github.com/N0t-Harshil",
   linkedin: "https://www.linkedin.com/in/harshil-gorasiya-054a58319",
-  portfolio: "https://harshil-0011.github.io/My-Portfolio/",
   sources: "https://github.com/Harshil-0011/My-Portfolio",
   email: "harshil.gorasiya.0011@gmail.com",
 };

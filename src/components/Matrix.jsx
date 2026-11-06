@@ -27,28 +27,6 @@ export default function Matrix() {
           </dl>
         </div>
       </div>
-
-      <div className="px-6 md:px-12 mt-8 grid gap-6 md:grid-cols-2">
-        <div className="item p-5 md:p-7">
-          <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-4">
-            {mx.certsTitle}
-          </p>
-          <ul className="space-y-3">
-            {mx.certs.map((cert) => (
-              <li key={cert.year} className="flex gap-4 text-[0.88rem] leading-relaxed text-ink-soft">
-                <span className="ledger-date text-stamp flex-none w-16 md:w-20">{cert.year}</span>
-                <span>{cert.body}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="item p-5 md:p-7 self-start">
-          <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-4">
-            {mx.languagesTitle}
-          </p>
-          <p className="text-[0.95rem] leading-relaxed text-ink-soft">{mx.languages}</p>
-        </div>
-      </div>
     </section>
   );
 }

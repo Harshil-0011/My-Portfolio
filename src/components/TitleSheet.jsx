@@ -52,7 +52,7 @@ export default function TitleSheet({ stampArmed }) {
               ))}
             </tbody>
           </table>
-          <div className="stamp-anchor absolute -top-4 right-2 md:right-6 md:top-1/2 md:-translate-y-1/2">
+          <div className="stamp-anchor absolute -top-2 right-0 md:top-2 md:-right-10">
             <Stamp lines={hero.stamp} armed={stampArmed} />
           </div>
         </div>
