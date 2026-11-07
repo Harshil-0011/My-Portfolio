@@ -1,209 +1,214 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Geist:wght@100..900&display=swap');
+/* ————————————————————————————————————————————————
+   Datenblatt — the sheet's own type
+   Barlow / Barlow Semi Condensed: DIN-1451-lineage grotesques.
+   Overpass Mono: tabular values. Self-hosted, latin subsets.
+———————————————————————————————————————————————— */
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/barlow-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/barlow-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/barlow-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/barlow-800.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("./assets/fonts/barlow-semi-condensed-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Barlow Semi Condensed"; src: url("./assets/fonts/barlow-semi-condensed-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Overpass Mono"; src: url("./assets/fonts/overpass-mono-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Overpass Mono"; src: url("./assets/fonts/overpass-mono-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 
 @theme {
-  --color-obsidian: #050505;
-  --color-pure-white: #FFFFFF;
-  --color-safety-orange: #FF3300;
-
-  --font-headline: "Inter Tight", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --font-body: "Geist", sans-serif;
-
-  --breakpoint-xs: 375px;
+  --color-paper: #F6F4EE;
+  --color-paper-hi: #FCFBF7;
+  --color-paper-lo: #ECE8DC;
+  --color-ink: #16130E;
+  --color-ink-soft: #453F33;
+  --color-graphite: #7C766A;
+  --color-stamp: #B3291E;
+  --font-display: "Barlow", "Arial Narrow", sans-serif;
+  --font-cond: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
+  --font-mono: "Overpass Mono", "Courier New", monospace;
 }
 
-:root {
-  font-family: 'Geist', sans-serif;
-  background-color: #050505;
-  color: #FFFFFF;
+/* — Contour proof: the guaranteed black/white/red reading — */
+html.proof {
+  --color-paper: #FFFFFF;
+  --color-paper-hi: #FFFFFF;
+  --color-paper-lo: #FFFFFF;
+  --color-ink: #000000;
+  --color-ink-soft: #000000;
+  --color-graphite: #000000;
+  --color-stamp: #C81000;
 }
-
-body {
-  margin: 0;
-  background-color: #050505;
-  color: #FFFFFF;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-  z-index: -1;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  top: -100%;
-  left: -100%;
-  width: 300%;
-  height: 300%;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 999;
-  animation: noise 8s steps(10) infinite;
-}
-
-@keyframes noise {
-  0%, 100% { transform:translate(0, 0); }
-  10% { transform:translate(-5%, -10%); }
-  20% { transform:translate(-15%, 5%); }
-  30% { transform:translate(7%, -25%); }
-  40% { transform:translate(-5%, 25%); }
-  50% { transform:translate(-15%, 10%); }
-  60% { transform:translate(15%, 0%); }
-  70% { transform:translate(0%, 15%); }
-  80% { transform:translate(3%, 35%); }
-  90% { transform:translate(-10%, 10%); }
-}
-
-/* Lenis Recommended Styles */
-html.lenis, html.lenis body {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* Grid Overlay */
-.grid-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 50;
-  opacity: 0.05;
-}
-
-.grid-line {
-  position: absolute;
-  background-color: #FFFFFF;
-}
-
-.grid-line-v {
-  top: 0;
-  bottom: 0;
-  width: 1px;
-}
-
-.grid-line-h {
-  left: 0;
-  right: 0;
-  height: 1px;
-}
-
-/* Custom Utilities */
-@layer utilities {
-  .text-huge {
-    font-size: clamp(4rem, 15vw, 12rem);
-    line-height: 0.9;
-    letter-spacing: -0.05em;
+@media (prefers-contrast: more) {
+  html:not(.proof) {
+    --color-paper: #FFFFFF;
+    --color-paper-hi: #FFFFFF;
+    --color-paper-lo: #FFFFFF;
+    --color-ink: #000000;
+    --color-ink-soft: #000000;
+    --color-graphite: #000000;
+    --color-stamp: #C81000;
   }
+  html:not(.proof) .grain { display: none; }
+}
 
-  .text-technical {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-  }
+html { scroll-behavior: smooth; }
+body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
+::selection { background: var(--color-stamp); color: var(--color-paper); }
+:focus-visible { outline: 2px solid var(--color-stamp); outline-offset: 2px; }
 
-  .split-screen {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
-  }
+/* — Fixed-pitch dot grain; the paper's own skin, never rescaled — */
+.grain {
+  position: fixed; inset: 0; z-index: 5; pointer-events: none;
+  background-image: radial-gradient(rgba(22, 19, 14, 0.05) 0.75px, transparent 0.9px);
+  background-size: 3.6px 3.6px;
+}
 
-  @media (max-width: 1024px) {
-    .split-screen {
-      grid-template-columns: 1fr;
-    }
-  }
+/* — Drawing frame — */
+.chrome { position: fixed; inset: 0; z-index: 30; pointer-events: none; }
+.chrome-border { position: absolute; inset: 0.75rem; border: 1.5px solid var(--color-ink); }
+.chrome-border::after { content: ""; position: absolute; inset: 3px; border: 0.5px solid rgba(22,19,14,0.35); }
+.crop { position: absolute; width: 14px; height: 14px; }
+.crop-tl { top: 2px; left: 2px; border-top: 1.5px solid var(--color-ink); border-left: 1.5px solid var(--color-ink); }
+.crop-tr { top: 2px; right: 2px; border-top: 1.5px solid var(--color-ink); border-right: 1.5px solid var(--color-ink); }
+.crop-bl { bottom: 2px; left: 2px; border-bottom: 1.5px solid var(--color-ink); border-left: 1.5px solid var(--color-ink); }
+.crop-br { bottom: 2px; right: 2px; border-bottom: 1.5px solid var(--color-ink); border-right: 1.5px solid var(--color-ink); }
+.coord { position: absolute; font: 400 8px var(--font-mono); color: var(--color-graphite); letter-spacing: 0.35em; user-select: none; }
 
-  .magnetic-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem 2rem;
-    background-color: #FFFFFF;
-    color: #050505;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+/* — Sheet header — */
+.sheet-head { position: sticky; top: 0; z-index: 40; background: var(--color-paper); }
 
-  .magnetic-button:hover {
-    background-color: #FF3300;
-    color: #FFFFFF;
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 51, 0, 0.4);
-  }
+/* — Index tabs (navigation) — */
+.tab {
+  font: 600 11px var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid var(--color-ink); padding: 7px 12px 6px; color: var(--color-ink);
+  background: transparent; white-space: nowrap; text-decoration: none; cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.tab:hover { background: var(--color-paper-lo); }
+.tab[aria-current="true"], .tab.is-active { background: var(--color-ink); color: var(--color-paper); }
+.tab--wide { font: 700 12px var(--font-display); letter-spacing: 0.1em; }
+.tab--proof[aria-pressed="true"] { background: transparent; color: var(--color-stamp); border-color: var(--color-stamp); box-shadow: inset 0 0 0 1px var(--color-stamp); }
 
-  .scanning-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(to bottom,
-      transparent 0%,
-      rgba(255, 51, 0, 0.05) 10%,
-      rgba(255, 51, 0, 0.6) 50%,
-      rgba(255, 51, 0, 0.05) 90%,
-      transparent 100%
-    );
-    box-shadow: 0 0 20px rgba(255, 51, 0, 0.4);
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 20;
-    animation: scanning-v 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  }
+/* — GEPRÜFT stamp: a true inked circle, never a button — */
+.stamp {
+  width: 7.75rem; height: 7.75rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  color: var(--color-stamp); border: 2.5px solid var(--color-stamp); border-radius: 9999px;
+  font: 600 0.65rem var(--font-mono);
+  letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.7;
+  position: relative; mix-blend-mode: multiply; background: transparent;
+}
+.stamp::before { content: ""; position: absolute; inset: 2.5px; border: 1px dashed var(--color-stamp); border-radius: 9999px; }
+@keyframes slam {
+  from { opacity: 0; transform: rotate(-11deg) scale(1.9); }
+  65% { opacity: 1; transform: rotate(-11deg) scale(0.93); }
+  to { opacity: 1; transform: rotate(-11deg) scale(1); }
+}
 
-  .scanning-line::after {
-    content: "SCAN_MODE: ACTIVE // DECRYPTING_IDENTITY";
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%) rotate(90deg);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    color: #FF3300;
-    white-space: nowrap;
-    letter-spacing: 0.2em;
-    opacity: 0.4;
-  }
+/* — KPI table — */
+.kpi-row { display: grid; grid-template-columns: 13rem 1fr auto; align-items: baseline; column-gap: 1.25rem; padding: 0.68rem 0.25rem; border-top: 1px solid rgba(22,19,14,0.28); }
+.kpi-row:first-child { border-top-width: 2px; border-top-color: var(--color-ink); }
+.kpi-row:last-child { border-bottom: 2px solid var(--color-ink); }
 
-  @keyframes scanning-v {
-    0% { transform: translateX(0); opacity: 0; }
-    5%, 95% { opacity: 1; }
-    100% { transform: translateX(100vw); opacity: 0; }
-  }
+.stamp-seen { animation: slam 420ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 250ms; }
+.kpi-value { font: 600 1.63rem var(--font-mono); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kpi-label { font: 500 0.72rem var(--font-mono); letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-ink-soft); }
+.kpi-src { font: 600 0.72rem var(--font-mono); letter-spacing: 0.13em; text-transform: uppercase; color: var(--color-stamp); }
+@media (max-width: 640px) {
+  .kpi-row { grid-template-columns: 1fr; row-gap: 0.2rem; padding: 0.6rem 0.25rem; }
+  .kpi-value { font-size: 1.35rem; }
+}
 
-  @keyframes flicker {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.6; }
-  }
+/* — Cut-block section head: the mass a section opens with — */
+.block-head { background: var(--color-ink); color: var(--color-paper); padding: 0.7rem 1.1rem 0.62rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.block-head h2 { font: 700 clamp(1.5rem, 2.6vw, 2.05rem) var(--font-cond); text-transform: uppercase; letter-spacing: 0.02em; }
+.block-head .no { font: 600 0.7rem var(--font-mono); letter-spacing: 0.3em; color: var(--color-paper); opacity: 0.75; }
+.block-note { font: 400 0.68rem var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-paper); opacity: 0.6; text-align: right; }
+.block-sq { width: 12px; height: 12px; background: var(--color-stamp); flex: none; transform: translateY(1px); }
+
+/* — Deep void gap between cut blocks — */
+.void { margin-top: 5.5rem; position: relative; }
+@media (min-width: 768px) { .void { margin-top: 7.5rem; } }
+.void::before {
+  content: ""; position: absolute; top: -1.5rem; left: 0; right: 0;
+  border-top: 1px dotted rgba(22,19,14,0.4);
+}
+
+/* — Title block (DIN) — */
+.titleblock { border: 1.5px solid var(--color-ink); background: var(--color-paper-hi); }
+.titleblock-row { display: grid; grid-template-columns: 7.5rem 1fr; border-top: 0.5px solid rgba(22,19,14,0.35); }
+.titleblock-row:first-child { border-top: none; }
+.titleblock-row dt { font: 600 0.58rem var(--font-mono); letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-graphite); padding: 7px 10px 6px 12px; border-right: 0.5px solid rgba(22,19,14,0.35); display: flex; align-items: center; }
+.titleblock-row dd { font: 600 0.78rem var(--font-mono); letter-spacing: 0.06em; color: var(--color-ink); padding: 7px 12px 6px; display: flex; align-items: center; min-width: 0; }
+
+/* — Register rows (projects) — */
+.item { border: 1.5px solid var(--color-ink); background: var(--color-paper-hi); transition: border-color 140ms ease, transform 140ms ease; }
+.item:hover { border-color: var(--color-stamp); }
+.item + .item { margin-top: 0.65rem; }
+.item-pos { font: 600 0.72rem var(--font-mono); letter-spacing: 0.2em; }
+.metric { display: inline-block; font: 600 0.72rem var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-stamp); border: 1px dashed var(--color-stamp); padding: 4px 8px 3px; }
+.repo-link { font: 600 0.72rem var(--font-mono); letter-spacing: 0.08em; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; word-break: break-all; }
+.repo-link:hover { color: var(--color-stamp); }
+.stack { font: 400 0.7rem var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-graphite); }
+.stack-kind { font: 600 0.7rem var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-stamp); }
+
+/* — Custody ledger rows — */
+.ledger-date { font: 700 0.8rem var(--font-cond); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ledger-rule { border-left: 2px solid var(--color-ink); }
+
+/* — Evidence chips — */
+.chip { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--color-ink); padding: 9px 14px 8px; font: 600 0.78rem var(--font-mono); letter-spacing: 0.06em; text-decoration: none; color: var(--color-ink); background: var(--color-paper-hi); cursor: pointer; transition: background-color 140ms ease; }
+.chip:hover { background: var(--color-paper-lo); }
+.chip--red { color: var(--color-stamp); border-color: var(--color-stamp); }
+
+/* — Form — */
+.field { width: 100%; background: transparent; border: none; border-bottom: 1.5px solid rgba(22,19,14,0.45); padding: 10px 2px; font: 400 0.95rem var(--font-mono); color: var(--color-ink); border-radius: 0; }
+.field:focus { outline: none; border-bottom-color: var(--color-stamp); box-shadow: 0 1.5px 0 0 var(--color-stamp); }
+.field-label { font: 600 0.6rem var(--font-mono); letter-spacing: 0.26em; text-transform: uppercase; color: var(--color-graphite); display: block; margin-bottom: 2px; }
+.submit { width: 100%; background: var(--color-ink); color: var(--color-paper); border: 1px solid var(--color-ink); padding: 13px 10px 12px; font: 700 0.8rem var(--font-cond); letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: background-color 140ms ease; }
+.submit:hover { background: var(--color-stamp); border-color: var(--color-stamp); }
+.submit:disabled { opacity: 0.6; cursor: wait; }
+
+/* — Dimension line §1 (hero ornament) — */
+.dimension { display: flex; align-items: center; gap: 8px; color: var(--color-graphite); font: 400 0.6rem var(--font-mono); letter-spacing: 0.3em; }
+.dimension::before, .dimension::after { content: ""; height: 1px; background: var(--color-graphite); flex: 1; }
+
+/* — Record popout: a smaller sheet lifted above the drawing — */
+@keyframes sheet-lift {
+  from { opacity: 0; transform: translateY(26px) scale(0.975); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes sheet-fade { from { opacity: 0; } to { opacity: 1; } }
+.sheet-frame {
+  border: 1.5px solid var(--color-ink); background: var(--color-paper-hi);
+  box-shadow: 10px 12px 0 rgba(22, 19, 14, 0.18);
+  animation: sheet-lift 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.sheet-fade { animation: sheet-fade 220ms ease both; }
+
+/* — Disclosure kick: square mono [+] affordance on a card that opens a record — */
+.disclose { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 1.6rem; height: 1.6rem; border: 1px solid var(--color-ink); background: var(--color-paper-hi); font: 600 0.85rem/1 var(--font-mono); color: var(--color-ink); transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease; }
+.disclose::before { content: "+"; }
+.disclose--sm { width: 1.2rem; height: 1.2rem; font-size: 0.66rem; }
+.record-toggle:hover .disclose { border-color: var(--color-stamp); color: var(--color-stamp); background: var(--color-paper-lo); }
+.record-toggle:hover .toggle-title { color: var(--color-stamp); }
+
+/* — Popout close kick — */
+.close-kick:hover { background: var(--color-stamp); border-color: var(--color-stamp); color: var(--color-paper); }
+
+/* — Attestation language records: same level as the certificate rows — */
+#attestations .item + .item { margin-top: 0; }
+.lang-row { display: flex; align-items: baseline; gap: 8px; }
+.lang-row .lang-dots { flex: 1; min-width: 2rem; border-bottom: 1px dotted rgba(22,19,14,0.5); transform: translateY(-3px); }
+
+/* — Leaders (dotted item index) — */
+.leader { display: flex; align-items: baseline; gap: 8px; font: 400 0.72rem var(--font-mono); letter-spacing: 0.14em; }
+.leader .dots { flex: 1; border-bottom: 1px dotted rgba(22,19,14,0.5); transform: translateY(-3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .stamp-seen { animation: none; opacity: 1; transform: rotate(-11deg); }
+  .tab, .item, .chip, .submit { transition: none; }
+  .sheet-frame, .sheet-fade { animation: none; }
+  .disclose { transition: none; }
 }

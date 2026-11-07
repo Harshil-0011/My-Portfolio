@@ -1,0 +1,217 @@
+% =====================================================================
+%  CV Harshil Gorasiya (English)
+%  Kompilieren mit pdflatex (zweimal). Legen Sie photo.png in denselben Ordner.
+%  Datei fuer den Versand umbenennen: Lebenslauf_Harshil_Gorasiya.pdf
+%  Layout bewusst ATS-freundlich: Standardschrift, Klartext, keine Icons,
+%  keine Fortschrittsbalken, einspaltiger Textfluss, eindeutige Ueberschriften.
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,left=1.7cm,right=1.7cm,top=1.1cm,bottom=1.35cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage[scaled=0.96]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\makeatletter
+
+\definecolor{navy}{HTML}{1B365D}
+\definecolor{mid}{HTML}{5A6472}
+\definecolor{tint}{HTML}{EEF2F7}
+
+\usepackage[unicode,colorlinks=true,urlcolor=navy,linkcolor=navy,
+  pdftitle={CV Harshil Gorasiya},
+  pdfauthor={Harshil Gorasiya},
+  pdfsubject={CV: AI/ML Engineering, LLM, RAG, AI agents},
+  pdfkeywords={working student, master thesis, AI, machine learning, LLM, RAG, Python, PyTorch}]{hyperref}
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+% Layout bleibt in jeder Umgebung identisch (keine Silbentrennung, Flattersatz)
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=3em
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\raggedright
+\newlength{\leftcol}\setlength{\leftcol}{2.45cm}
+\newcommand{\gap}{0.5em}
+\setlist[itemize]{leftmargin=*,labelindent=\dimexpr\leftcol+\gap\relax,labelwidth=0.55em,labelsep=0.4em,align=left,itemsep=0.6pt,topsep=1.5pt,parsep=0pt,partopsep=0pt,label={\color{navy}\textbullet}}
+
+
+% Fusszeile
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[C]{\footnotesize\color{mid}Harshil Gorasiya \textperiodcentered{} CV \textperiodcentered{} Page \thepage{} of \pageref{LastPage}}
+
+% Abschnittsueberschriften
+\titleformat{\section}{\normalfont\bfseries\color{navy}\normalsize}{}{0pt}
+  {\MakeUppercase}[\vspace{-0.45em}{\color{navy}\rule{\linewidth}{0.7pt}}]
+\titlespacing*{\section}{0pt}{9.5pt}{5pt}
+
+% Hilfsmakros
+\newcommand{\sep}{\hspace{0.45em}\textbar\hspace{0.45em}}
+\newcommand{\dotsep}{\hspace{0.3em}\textperiodcentered\hspace{0.3em}}
+\newcommand{\entry}[3]{%
+  \begingroup\raggedright\leftskip=\dimexpr\leftcol+\gap\relax\noindent
+  \hspace*{-\dimexpr\leftcol+\gap\relax}%
+  \vtop to 0pt{\hsize=\dimexpr\leftcol+\gap\relax\raggedright\small\color{mid}\noindent #1\par\vss}%
+  #2\par #3\par\endgroup\vspace{4pt}}
+\newcommand{\etitle}[2]{\textbf{#1}\ifx&#2&\else\textcolor{mid}{\sep}#2\fi}
+\newcommand{\stack}[1]{{\small\itshape\color{mid}#1}\par\vspace{1pt}}
+\newcommand{\kpi}[2]{\begin{minipage}[t]{\linewidth}\centering{\large\bfseries\color{navy}#1}\\[-1pt]{\scriptsize\color{mid}#2}\end{minipage}}
+
+\renewcommand\normalsize{\@setfontsize\normalsize{9.6}{11.3}}
+\makeatother
+\begin{document}
+\normalsize
+
+\noindent
+\begin{minipage}[t]{\dimexpr\textwidth-3.05cm\relax}
+  {\fontsize{25}{28}\selectfont\bfseries\color{navy}Harshil Gorasiya}\\[4pt]
+  {\bfseries LLM systems: retrieval, agents, and small-model research}\\[1pt]
+  {\color{navy}\bfseries LLM Applications\dotsep RAG\dotsep AI Agents\dotsep LLM Research}\\[5pt]
+  {\small
+  Heilbronn, Germany\sep +49 155 6351 7346\sep
+  \href{mailto:harshil.gorasiya.0011@gmail.com}{harshil.gorasiya.0011@gmail.com}\\[1pt]
+  LinkedIn: \href{https://www.linkedin.com/in/harshil-gorasiya-054a58319}{linkedin.com/in/harshil-gorasiya-054a58319}\\[1pt]
+  GitHub: \href{https://github.com/N0t-Harshil}{github.com/N0t-Harshil}\sep
+  Portfolio: \href{https://harshil-0011.github.io/My-Portfolio/}{harshil-0011.github.io/My-Portfolio}}
+\end{minipage}\hfill
+\begin{minipage}[t]{2.7cm}
+  \raggedleft
+  \IfFileExists{photo.png}{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}%
+    \fcolorbox{navy}{white}{\includegraphics[width=2.7cm]{photo.png}}}{}
+\end{minipage}
+
+\vspace{7pt}
+\noindent\colorbox{tint}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\small
+  \textbf{Seeking:} Working student position (20 hrs/week during semester)\dotsep
+  Full-time during semester breaks\dotsep LLM/RAG role after graduation (2027)\\[1pt]
+  \textbf{Available:} immediately\sep
+  \textbf{Residence status:} valid residence permit with work permit}}
+
+\vspace{6pt}
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}*{5}{>{\centering\arraybackslash}p{0.185\textwidth}}}
+  \kpi{0.654}{nDCG@10, BEIR SciFact, 300 queries} &
+  \kpi{8.1 ms}{overhead per agent step, laptop CPU} &
+  \kpi{28--32 FPS}{YOLOv8n on CPU only} &
+  \kpi{79\,\%}{accuracy (up from 71\,\%)} &
+  \kpi{250 tests}{pytest suite, Ekdant}
+\end{tabular*}
+
+\section*{Profile}
+Master's student at Heilbronn University focused on LLM applications. I build local RAG systems with hybrid retrieval and AI agents with tool use, and I research a reasoning module for language models in a supervised project. I also bring two ML internships and a role in AI-enabled web development.
+
+\section*{Education}
+\entry{since 03/2025}
+  {\etitle{M.Sc. Software Engineering and Management}{Hochschule Heilbronn}}
+  {\small English-taught programme\sep GPA so far: 1.9 (German scale)\sep expected graduation: 2027}
+\entry{2020 -- 2024}
+  {\etitle{B.Tech. Information Technology}{A.\,D. Patel Institute of Technology, Gujarat}}
+  {\small India\sep Grade: 1.9 (converted to German scale)}
+
+\section*{Projects}
+\entry{AI agent}
+  {\etitle{Ardan-CLI: Autonomous Terminal Coding Agent}{}}
+  {\stack{TypeScript (strict), Node.js 24, 0 runtime dependencies, MCP, LSP}
+  \begin{itemize}
+    \item Agent loop with streaming, \textbf{35 tools}, plan mode, sub-agents, and checkpoints; \textbf{8 LLM providers} with automatic failover.
+    \item SSE/NDJSON streaming, MCP and LSP clients without SDKs; fallback parser for models without function calling.
+    \item \textbf{8.1 ms} overhead per agent step (laptop CPU); CI on Linux, macOS, Windows.
+  \end{itemize}}
+\entry{Research engine}
+  {\etitle{Local Perplex: Local AI Research Assistant with Citations}{}}
+  {\stack{Python, FastAPI, SSE, SQLite, Ollama, Docker}
+  \begin{itemize}
+    \item Searches the web and your own documents (PDF, Word, Excel, and more), reads pages in parallel, and streams cited answers; \textbf{26 LLM providers}, 7 search backends, fully local if desired.
+    \item Own BM25 ranker: \textbf{0.654 nDCG@10} on BEIR SciFact, 300 queries (previous version 0.038; Anserini reference 0.665), 9.5 ms per query.
+    \item Answer page in about \textbf{200 ms}; SQLite knowledge graph (77\texttimes{} faster writes); \textbf{55 tests}, 76\,\% coverage, CI on Ubuntu and Windows.
+  \end{itemize}}
+\entry{RAG system}
+  {\etitle{ANVITHA: Local Knowledge Vault with Grounded, Cited Answers}{}}
+  {\stack{Python, FastAPI, Ollama, SQLite, NumPy, BM25}
+  \begin{itemize}
+    \item Turns PDF, TXT, and Markdown files into a linked Markdown knowledge vault; answers come only from the vault and cite the original page.
+    \item Facts are checked against the source text before they are stored; every answer sentence is checked against the vault afterwards, and unsupported parts are removed.
+    \item Questions outside the vault are refused in under 0.3 s without a model call.
+    \item Tested with a local 0.8B-parameter model (Ollama): 8 of 8 covered questions answered (12 test questions in total), median 7.4 s to full answer; 26 automated tests in about 1.5 s.
+  \end{itemize}}
+\newpage
+\entry{Master's thesis\\(ongoing)}
+  {\etitle{Ekdant: Debate-Sandbox Reasoning Module for Language Models}{}}
+  {\stack{Hochschule Heilbronn, supervised by a professor\sep Python, PyTorch, Hugging Face}
+  \begin{itemize}
+    \item Research question: does a parallel debate module (4 trajectories, 2 debate rounds, consensus) improve a language model's reasoning? Implemented in pure PyTorch as a zero-initialized residual module (\textbf{+19.59M parameters}) on a pretrained SmolLM2-135M.
+    \item Controlled A/B comparison against an architecture-matched baseline on generative medical QA (PubMedQA, MedQuAD); leakage-free split by question; evaluated with perplexity, ROUGE-L, token F1, and paired-bootstrap confidence intervals.
+    \item Best variant (module as final stage) beats the baseline on every metric, but only narrowly (perplexity \textbf{3.783 to 3.776}, one run); the from-scratch pilot showed no difference. Second seed planned to confirm.
+    \item \textbf{250 pytest tests}; found and fixed 4 design defects; literature base of 66 papers.
+  \end{itemize}}
+\entry{More projects}
+  {\etitle{AI Video Upscaling}{Python, PyTorch}}
+  {\small Windows desktop application for video super-resolution with model selection and runtime monitoring; compared Real-ESRGAN variants using PSNR and SSIM.}
+\entry{\strut}
+  {\etitle{MNIST-MLOps}{Python, PyTorch, Flask, SQLite}}
+  {\small Demo of an MLOps workflow: incremental training, metrics and model versions in SQLite, web dashboard.}
+
+\section*{Professional Experience}
+\entry{05/2024 -- 02/2025\\(10 months)}
+  {\etitle{AI \& Web Solutions Developer}{Aani Brothers Infotech, Surat, India}}
+  {\begin{itemize}
+    \item Built web applications that translate business requirements into user interfaces and application workflows.
+    \item Contributed to web projects with AI-enabled features; integrated functional requirements into the user experience.
+    \item Conducted user research, wireframing, and prototyping; iterated on designs to improve usability and consistency.
+  \end{itemize}}
+\entry{12/2023 -- 04/2024\\(5 months)}
+  {\etitle{Deep Learning Intern}{PD Avenue, Surat, India}}
+  {\begin{itemize}
+    \item Built a residual-block CNN (TensorFlow/Keras) for age and gender classification on \textbf{22,000+ images}; raised validation accuracy from \textbf{71\,\% to 79\,\%} (architecture optimization, class-balanced augmentation).
+    \item Cut training time on V100 GPUs by \textbf{20\,\%} (cosine learning-rate scheduling, larger batch size) with no loss of accuracy.
+    \item Found and fixed a data-leakage issue; ensured reliability across \textbf{10+ structured training runs}.
+  \end{itemize}}
+\entry{05/2023 -- 06/2023\\(2 months)}
+  {\etitle{Machine Learning Intern}{Dotcom IoT LLP, Surat, India}}
+  {\begin{itemize}
+    \item YOLOv8n object detection on a CPU-only edge device (Intel Core i7): 720p video at \textbf{28--32 FPS}; \textbf{2.4\texttimes{} higher throughput} than the YOLOv5s baseline.
+    \item Curated and annotated \textbf{3,000+ images} across five vehicle classes.
+    \item Tuned IoU and NMS parameters: reduced false positives in low light by \textbf{18\,\%} (dedicated night-test dataset).
+    \item Packaged inference and visualization into a deployment-ready Python application with performance benchmarking.
+  \end{itemize}}
+
+\section*{Skills}
+\entry{LLM \& RAG}
+  {\small RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering}{}
+\entry{LLM research}
+  {\small Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers}{}
+\entry{ML \& Vision}
+  {\small PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV}{}
+\entry{Engineering}
+  {\small Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)}{}
+\entry{Evaluation}
+  {\small Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap}{}
+
+\section*{Certifications}
+\entry{2026}{\small Claude with the Anthropic API\sep Model Context Protocol: Advanced Topics (both Anthropic)}{}
+\entry{2025}{\small Machine Learning with Python (IBM)\sep Fundamentals of Data Science (Databricks)}{}
+\entry{Further}{\small CRISP-DM on the AWS Stack\sep Big Data with Spark and Hadoop\sep AWS Academy Cloud}{}
+
+\section*{Languages}
+\entry{\strut}{\small \textbf{English:} fluent\sep \textbf{German:} A2--B1 (self-assessed)\sep \textbf{Hindi:} fluent\sep \textbf{Gujarati:} native}{}
+
+\vspace{2pt}
+{\small\color{mid}Heilbronn, 05.11.2026}
+
+\end{document}

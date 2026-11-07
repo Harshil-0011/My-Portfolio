@@ -1,0 +1,227 @@
+% =====================================================================
+%  Lebenslauf Harshil Gorasiya (Deutsch)
+%  Kompilieren mit pdflatex (zweimal). Legen Sie photo.png in denselben Ordner.
+%  Datei fuer den Versand umbenennen: Lebenslauf_Harshil_Gorasiya.pdf
+%  Layout bewusst ATS-freundlich: Standardschrift, Klartext, keine Icons,
+%  keine Fortschrittsbalken, einspaltiger Textfluss, eindeutige Ueberschriften.
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,left=1.7cm,right=1.7cm,top=1.1cm,bottom=1.35cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage[scaled=0.96]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\IfFileExists{ngerman.ldf}{\usepackage[ngerman]{babel}}{}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\makeatletter
+
+\definecolor{navy}{HTML}{1B365D}
+\definecolor{mid}{HTML}{5A6472}
+\definecolor{tint}{HTML}{EEF2F7}
+
+\usepackage[unicode,colorlinks=true,urlcolor=navy,linkcolor=navy,
+  pdftitle={Lebenslauf Harshil Gorasiya},
+  pdfauthor={Harshil Gorasiya},
+  pdfsubject={Lebenslauf: KI/ML-Engineering, LLM, RAG, KI-Agenten},
+  pdfkeywords={Werkstudent, Masterarbeit, KI, Machine Learning, LLM, RAG, Python, PyTorch}]{hyperref}
+
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+% Layout bleibt in jeder Umgebung identisch (keine Silbentrennung, Flattersatz)
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\emergencystretch=3em
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\raggedright
+\newlength{\leftcol}\setlength{\leftcol}{2.45cm}
+\newcommand{\gap}{0.5em}
+\setlist[itemize]{leftmargin=*,labelindent=\dimexpr\leftcol+\gap\relax,labelwidth=0.55em,labelsep=0.4em,align=left,itemsep=0.6pt,topsep=1.5pt,parsep=0pt,partopsep=0pt,label={\color{navy}\textbullet}}
+
+
+% Fusszeile
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[C]{\footnotesize\color{mid}Harshil Gorasiya \textperiodcentered{} Lebenslauf \textperiodcentered{} Seite \thepage{} von \pageref{LastPage}}
+
+% Abschnittsueberschriften
+\titleformat{\section}{\normalfont\bfseries\color{navy}\normalsize}{}{0pt}
+  {\MakeUppercase}[\vspace{-0.45em}{\color{navy}\rule{\linewidth}{0.7pt}}]
+\titlespacing*{\section}{0pt}{9.5pt}{5pt}
+
+% Hilfsmakros
+\newcommand{\sep}{\hspace{0.45em}\textbar\hspace{0.45em}}
+\newcommand{\dotsep}{\hspace{0.3em}\textperiodcentered\hspace{0.3em}}
+\newcommand{\entry}[3]{%
+  \begingroup\raggedright\leftskip=\dimexpr\leftcol+\gap\relax\noindent
+  \hspace*{-\dimexpr\leftcol+\gap\relax}%
+  \vtop to 0pt{\hsize=\dimexpr\leftcol+\gap\relax\raggedright\small\color{mid}\noindent #1\par\vss}%
+  #2\par #3\par\endgroup\vspace{4pt}}
+\newcommand{\etitle}[2]{\textbf{#1}\ifx&#2&\else\textcolor{mid}{\sep}#2\fi}
+\newcommand{\stack}[1]{{\small\itshape\color{mid}#1}\par\vspace{1pt}}
+\newcommand{\kpi}[2]{\begin{minipage}[t]{\linewidth}\centering{\large\bfseries\color{navy}#1}\\[-1pt]{\scriptsize\color{mid}#2}\end{minipage}}
+
+\renewcommand\normalsize{\@setfontsize\normalsize{9.6}{11.3}}
+\makeatother
+\begin{document}
+\normalsize
+
+% ------------------------------ KOPFZEILE ------------------------------
+\noindent
+\begin{minipage}[t]{\dimexpr\textwidth-3.05cm\relax}
+  {\fontsize{25}{28}\selectfont\bfseries\color{navy}Harshil Gorasiya}\\[4pt]
+  {\bfseries LLM-Systeme: Retrieval, Agenten und Forschung zu kleinen Modellen}\\[1pt]
+  {\color{navy}\bfseries LLM-Anwendungen\dotsep RAG\dotsep KI-Agenten\dotsep LLM-Forschung}\\[5pt]
+  {\small
+  Heilbronn, Deutschland\sep +49 155 6351 7346\sep
+  \href{mailto:harshil.gorasiya.0011@gmail.com}{harshil.gorasiya.0011@gmail.com}\\[1pt]
+  LinkedIn: \href{https://www.linkedin.com/in/harshil-gorasiya-054a58319}{linkedin.com/in/harshil-gorasiya-054a58319}\\[1pt]
+  GitHub: \href{https://github.com/N0t-Harshil}{github.com/N0t-Harshil}\sep
+  Portfolio: \href{https://harshil-0011.github.io/My-Portfolio/}{harshil-0011.github.io/My-Portfolio}}
+\end{minipage}\hfill
+\begin{minipage}[t]{2.7cm}
+  \raggedleft
+  \IfFileExists{photo.png}{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.6pt}%
+    \fcolorbox{navy}{white}{\includegraphics[width=2.7cm]{photo.png}}}{}
+\end{minipage}
+
+\vspace{7pt}
+% Gesuch / Verfuegbarkeit
+\noindent\colorbox{tint}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\small
+  \textbf{Gesucht:} Werkstudentenstelle (20 Std./Woche im Semester)\dotsep
+  Vollzeit in den Semesterferien\dotsep Berufseinstieg im Bereich LLM/RAG ab 2027\\[1pt]
+  \textbf{Verfügbar:} ab sofort\sep
+  \textbf{Aufenthaltstitel:} gültige Aufenthaltserlaubnis mit Arbeitserlaubnis}}
+
+\vspace{6pt}
+% Kennzahlen
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}*{5}{>{\centering\arraybackslash}p{0.185\textwidth}}}
+  \kpi{0,654}{nDCG@10, BEIR SciFact, 300 Anfragen} &
+  \kpi{8,1 ms}{Overhead je Agent-Schritt (Laptop-CPU)} &
+  \kpi{28--32 FPS}{YOLOv8n auf reiner CPU} &
+  \kpi{79\,\%}{Genauigkeit, zuvor 71\,\%} &
+  \kpi{250 Tests}{pytest-Suite, Ekdant}
+\end{tabular*}
+
+% ------------------------------ KURZPROFIL ------------------------------
+\section*{Kurzprofil}
+Masterstudent an der Hochschule Heilbronn mit Schwerpunkt auf LLM-Anwendungen. Ich entwickle lokale RAG-Systeme mit hybrider Suche, KI-Agenten mit Tool-Nutzung und forsche in einem betreuten Projekt an einem Reasoning-Modul für Sprachmodelle. Dazu kommen zwei ML-Praktika und eine Anstellung in der KI-gestützten Webentwicklung.
+
+% ------------------------------ STUDIUM ------------------------------
+\section*{Studium}
+\entry{seit 03/2025}
+  {\etitle{M.Sc. Software Engineering and Management}{Hochschule Heilbronn}}
+  {\small Englischsprachiges Studienprogramm\sep Notendurchschnitt bisher: 1,9\sep voraussichtlicher Abschluss: 2027}
+\entry{2020 -- 2024}
+  {\etitle{B.Tech. Information Technology}{A.\,D. Patel Institute of Technology, Gujarat}}
+  {\small Indien\sep Note: 1,9 (umgerechnet auf deutsche Skala)}
+
+% ------------------------------ PROJEKTE ------------------------------
+\section*{Projekte}
+\entry{KI-Agent}
+  {\etitle{Ardan-CLI: autonomer Coding-Agent für das Terminal}{}}
+  {\stack{TypeScript (strict), Node.js 24, 0 Laufzeit-Abhängigkeiten, MCP, LSP}
+  \begin{itemize}
+    \item Agent-Schleife mit Streaming, \textbf{35 Tools}, Plan-Modus, Sub-Agenten und Checkpoints; \textbf{8 LLM-Anbieter} mit automatischem Failover.
+    \item SSE/NDJSON-Streaming, MCP- und LSP-Client ohne SDKs; Fallback-Parser für Modelle ohne Function Calling.
+    \item \textbf{8,1 ms} Overhead pro Agent-Schritt (Benchmark auf Laptop-CPU); CI auf Linux, macOS, Windows.
+  \end{itemize}}
+\entry{Recherche-Engine}
+  {\etitle{Local Perplex: lokaler KI-Recherche-Assistent mit Quellenbelegen}{}}
+  {\stack{Python, FastAPI, SSE, SQLite, Ollama, Docker}
+  \begin{itemize}
+    \item Durchsucht Web und eigene Dokumente (PDF, Word, Excel u.\,a.), liest Seiten parallel und streamt Antworten mit Zitaten; \textbf{26 LLM-Anbieter}, 7 Suchbackends, auf Wunsch vollständig lokal.
+    \item Eigener BM25-Ranker: \textbf{nDCG@10 von 0,654} auf BEIR SciFact, 300 Anfragen (Vorversion 0,038; Anserini-Referenz 0,665), 9,5 ms pro Anfrage.
+    \item Antwortseite in ca.\ \textbf{200 ms}; Wissensgraph in SQLite (Schreiben 77\texttimes{} schneller); \textbf{55 Tests}, 76\,\% Abdeckung, CI unter Ubuntu und Windows.
+  \end{itemize}}
+\entry{RAG-System}
+  {\etitle{ANVITHA: lokale Wissensdatenbank mit belegten Antworten}{}}
+  {\stack{Python, FastAPI, Ollama, SQLite, NumPy, BM25}
+  \begin{itemize}
+    \item Macht aus PDF-, TXT- und Markdown-Dateien eine vernetzte Markdown-Wissensdatenbank; Antworten stammen nur daraus und verweisen auf die Seite der Originaldatei.
+    \item Fakten werden vor dem Speichern gegen den Quelltext geprüft; jeder Satz der Antwort wird danach gegen die Datenbank geprüft, nicht belegte Teile werden entfernt.
+    \item Fragen außerhalb der Datenbank werden in unter 0,3 s ohne Modellaufruf abgelehnt.
+    \item Getestet mit einem lokalen 0,8-Mrd.-Parameter-Modell (Ollama): 8 von 8 abgedeckten Fragen beantwortet (12 Testfragen insgesamt), Median 7,4 s bis zur vollständigen Antwort; 26 automatisierte Tests in ca. 1,5 s.
+  \end{itemize}}
+\newpage
+\entry{Masterarbeit\\(laufend)}
+  {\etitle{Ekdant: Reasoning-Modul (Debate-Sandbox) für Sprachmodelle}{}}
+  {\stack{Hochschule Heilbronn, betreut durch einen Professor\sep Python, PyTorch, Hugging Face}
+  \begin{itemize}
+    \item Forschungsfrage: Verbessert ein paralleles Debatten-Modul (4 Trajektorien, 2 Runden, Konsens) das Schlussfolgern eines LLM? Umsetzung in PyTorch als zero-initialisiertes Residual-Modul (\textbf{+19,59 Mio.\ Parameter}) auf SmolLM2-135M.
+    \item A/B-Vergleich mit architekturgleicher Baseline auf medizinischer QA (PubMedQA, MedQuAD), leckagefreier Split nach Frage; Metriken: Perplexität, ROUGE-L, Token-F1, gepaartes Bootstrap-Konfidenzintervall.
+    \item Beste Variante (Modul als letzte Stufe) schlägt die Baseline in allen Metriken, aber nur knapp (Perplexität \textbf{3,783 auf 3,776}, ein Lauf); Pilot von Grund auf ohne Unterschied; zweiter Seed geplant.
+    \item \textbf{250 pytest-Tests}; 4 Designfehler gefunden und behoben; Literaturbasis mit 66 Papern.
+  \end{itemize}}
+\entry{Weitere Projekte}
+  {\etitle{KI-Videohochskalierung}{Python, PyTorch}}
+  {\small Windows-Desktop-Anwendung für Video-Super-Resolution mit Modellauswahl und Laufzeit-Monitoring; Real-ESRGAN-Varianten mit PSNR und SSIM verglichen.}
+\entry{\strut}
+  {\etitle{MNIST-MLOps}{Python, PyTorch, Flask, SQLite}}
+  {\small Demo eines MLOps-Workflows: inkrementelles Training, Metriken und Modellversionen in SQLite, Web-Dashboard.}
+
+% ------------------------------ BERUFSERFAHRUNG ------------------------------
+\section*{Berufserfahrung}
+\entry{05/2024 -- 02/2025\\(10 Monate)}
+  {\etitle{AI \& Web Solutions Developer}{Aani Brothers Infotech, Surat, Indien}}
+  {\begin{itemize}
+    \item Entwicklung webbasierter Anwendungen: Geschäftsanforderungen in Benutzeroberflächen und Anwendungsabläufe übersetzt.
+    \item Mitarbeit an Webprojekten mit KI-Funktionen; Anforderungen in die Nutzererfahrung integriert.
+    \item Nutzerforschung, Wireframing, Prototyping; Designs iterativ für Usability und Konsistenz optimiert.
+  \end{itemize}}
+\entry{12/2023 -- 04/2024\\(5 Monate)}
+  {\etitle{Deep Learning Intern}{PD Avenue, Surat, Indien}}
+  {\begin{itemize}
+    \item CNN mit Residual-Blöcken (TensorFlow/Keras) zur Alters- und Geschlechtsklassifikation auf \textbf{22.000+ Bildern}; Validierungsgenauigkeit von \textbf{71\,\% auf 79\,\%} gesteigert (Architektur-Optimierung, klassenbalancierte Augmentierung).
+    \item Trainingszeit auf V100-GPUs um \textbf{20\,\%} gesenkt (Cosine-Learning-Rate-Scheduling, größere Batchgröße), ohne Genauigkeitsverlust.
+    \item Data-Leakage-Problem behoben; Zuverlässigkeit über \textbf{10+ Trainingsläufe} gesichert.
+  \end{itemize}}
+\entry{05/2023 -- 06/2023\\(2 Monate)}
+  {\etitle{Machine Learning Intern}{Dotcom IoT LLP, Surat, Indien}}
+  {\begin{itemize}
+    \item YOLOv8n-Objekterkennung auf CPU-Edge-Gerät (Intel Core i7): 720p-Video mit \textbf{28--32 FPS}; \textbf{2,4\texttimes{} höherer Durchsatz} als die YOLOv5s-Baseline.
+    \item \textbf{3.000+ Bilder} in fünf Fahrzeugklassen kuratiert und annotiert.
+    \item IoU- und NMS-Parameter optimiert: Falsch-Positive bei wenig Licht um \textbf{18\,\%} reduziert (eigener Nacht-Testdatensatz).
+    \item Inferenz und Visualisierung als einsatzbereite Python-Anwendung mit Benchmarking gebündelt.
+  \end{itemize}}
+
+% ------------------------------ KENNTNISSE ------------------------------
+\section*{Kenntnisse}
+\entry{LLM \& RAG}
+  {\small RAG, hybride Suche (BM25, Embeddings), fundierte Antworten, Ollama, ReAct-Agenten, Anthropic API, MCP, Prompt Engineering}{}
+\entry{LLM-Forschung}
+  {\small Fine-Tuning, Transformer-Architekturen (GQA, SwiGLU), A/B-Experimentdesign, PyTorch, Hugging Face Transformers}{}
+\entry{ML \& Vision}
+  {\small PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV}{}
+\entry{Engineering}
+  {\small Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST-APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (Grundkenntnisse)}{}
+\entry{Evaluation}
+  {\small Latenz- und Durchsatz-Benchmarking, nDCG@10 (BEIR), Validierungsgenauigkeit, Falsch-Positiv-Analyse, PSNR/SSIM, Perplexität, ROUGE-L, Token-F1, gepaarter Bootstrap}{}
+
+% ------------------------------ ZERTIFIKATE ------------------------------
+\section*{Zertifikate}
+\entry{2026}{\small Claude with the Anthropic API\sep Model Context Protocol: Advanced Topics (beide Anthropic)}{}
+\entry{2025}{\small Machine Learning with Python (IBM)\sep Fundamentals of Data Science (Databricks)}{}
+\entry{Weitere}{\small CRISP-DM on the AWS Stack\sep Big Data with Spark and Hadoop\sep AWS Academy Cloud}{}
+
+% ------------------------------ SPRACHEN ------------------------------
+\section*{Sprachen}
+\entry{\strut}{\small \textbf{Englisch:} fließend\sep \textbf{Deutsch:} A2--B1 (Selbsteinschätzung)\sep \textbf{Hindi:} fließend\sep \textbf{Gujarati:} Muttersprache}{}
+
+\vspace{2pt}
+{\small\color{mid}Heilbronn, 05.11.2026}
+
+\end{document}
