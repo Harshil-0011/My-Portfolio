@@ -123,9 +123,24 @@ export default function Custody() {
                 </li>
               ))}
             </ul>
+            {record.recruiter && (
+              <div className="mt-5">
+                <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-2.5">
+                  {t("register.recruiterLabel")}
+                </p>
+                <ul className="space-y-2 border-l-[1.5px] border-ink pl-4">
+                  {record.recruiter.map((line) => (
+                    <li key={line} className="flex gap-3 text-[0.85rem] leading-relaxed text-ink-soft">
+                      <span className="text-stamp font-mono text-[10px] pt-1.5 flex-none">■</span>
+                      <span>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {!isRole && (
               <a
-                className="repo-link mt-4 inline-block"
+                className="repo-link mt-5 inline-block"
                 href={`${base}files/${language === "en" ? "CV_Harshil_Gorasiya_EN" : "Lebenslauf_Harshil_Gorasiya"}.pdf`}
                 download
               >

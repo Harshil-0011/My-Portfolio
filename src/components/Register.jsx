@@ -3,11 +3,13 @@ import { useLanguage } from "../context/LanguageContext";
 import { REPOS } from "../utils/links";
 import RecordSheet from "./RecordSheet";
 import GithubLive from "./GithubLive";
+import LinkedInLive from "./LinkedInLive";
 
 export default function Register() {
   const { t } = useLanguage();
   const reg = t("register");
   const [open, setOpen] = useState(null);
+
   const close = () => setOpen(null);
 
   return (
@@ -103,7 +105,22 @@ export default function Register() {
             {reg.items[open].blurb}
           </p>
           <span className="metric">{reg.items[open].metric}</span>
-          <div>
+          {reg.items[open].recruiter && (
+            <div className="mt-5">
+              <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-2.5">
+                {t("register.recruiterLabel")}
+              </p>
+              <ul className="space-y-2 border-l-[1.5px] border-ink pl-4">
+                {reg.items[open].recruiter.map((line) => (
+                  <li key={line} className="flex gap-3 text-[0.85rem] leading-relaxed text-ink-soft">
+                    <span className="text-stamp font-mono text-[10px] pt-1.5 flex-none">■</span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className="mt-5">
             <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-graphite mb-2.5">
               {reg.moreLabel}
             </p>
@@ -117,6 +134,7 @@ export default function Register() {
             </ul>
           </div>
           <GithubLive url={REPOS.register[open]} />
+          <LinkedInLive />
         </RecordSheet>
       )}
     </section>

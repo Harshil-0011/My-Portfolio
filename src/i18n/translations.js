@@ -66,6 +66,7 @@ export const translations = {
       note: "Every pointer opens the real repository · every number was measured",
       openRepo: "OPEN REPO ↗",
       moreLabel: "From the record",
+      recruiterLabel: "Why it matters",
       gh: {
         label: "Live from GitHub",
         pending: "Querying GitHub…",
@@ -98,6 +99,11 @@ export const translations = {
             "MCP + LSP clients built without SDKs · fallback parser for models without function calling",
             "CI: Linux · Windows · macOS",
           ],
+          recruiter: [
+            "Built an autonomous coding agent from scratch — no MCP/LSP SDK dependency; works on any model, including those without function calling.",
+            "Shipped with CI on Linux, macOS and Windows; 8.1 ms overhead per agent step across 8 LLM providers with automatic failover.",
+            "Production-grade agent framework: streaming, plan mode, sub-agents and checkpoints — real tool use, not a chat wrapper.",
+          ],
         },
         {
           pos: "02",
@@ -115,6 +121,11 @@ export const translations = {
             "26 LLM providers · 7 search backends · fully local if desired",
             "55 tests · 76 % coverage · CI on Ubuntu and Windows",
           ],
+          recruiter: [
+            "Local-first research engine: answers cited to source pages, fully optional to run entirely on your own hardware.",
+            "Beats the Anserini reference on BEIR SciFact (0.654 nDCG@10 vs 0.665); answers stream in ~200 ms over a SQLite knowledge graph.",
+            "26 LLM providers and 7 search backends behind one retrieval API — built to scale across model ecosystems.",
+          ],
         },
         {
           pos: "03",
@@ -130,6 +141,11 @@ export const translations = {
             "Off-vault questions refused in < 0.3 s · without a model call",
             "Local 0.8B model: 8 of 8 covered questions answered (12 test questions) · median 7.4 s",
             "26 automated tests · about 1.5 s",
+          ],
+          recruiter: [
+            "Guardrails-first RAG: every answer re-checked against the vault, unsupported parts removed, off-vault questions refused in < 0.3 s.",
+            "No hallucinated answers by design — correctness before completeness, production-safe for regulated knowledge bases.",
+            "Cited answers with original page references — auditable AI, not a black box.",
           ],
         },
         {
@@ -149,6 +165,11 @@ export const translations = {
             "Best variant beats the baseline on every metric — narrowly (3.783 → 3.776, one run) · second seed planned",
             "Literature base: 66 papers",
           ],
+          recruiter: [
+            "Master's research at Hochschule Heilbronn, professor-supervised: does parallel debate improve model reasoning?",
+            "Zero-initialized residual module (+19.59 M parameters) on SmolLM2-135M, A/B tested on PubMedQA and MedQuAD with leakage-free splits.",
+            "66-paper literature base; paired-bootstrap intervals — academic rigor applied to LLM alignment.",
+          ],
         },
         {
           pos: "05",
@@ -163,6 +184,11 @@ export const translations = {
             "3D brain grid of transformer blocks · lateral and feedback messages",
             "Matched pairs at 50 M · 125 M · 350 M · 1 B parameters",
             "Standard transformer trained under the same recipe",
+          ],
+          recruiter: [
+            "Architecture research: a 3D brain grid of transformer blocks with lateral and feedback messages.",
+            "Trained matched pairs at 50 M – 1 B parameters on 4× A100 — distributed training at scale.",
+            "Asks whether structure beats the unstructured baseline — original research, not a tutorial project.",
           ],
         },
         {
@@ -180,6 +206,11 @@ export const translations = {
             "Auto-resolved tokenizer · streamed datasets · checkpoints every 1 000 steps",
             "CUDA 12.8 · sized for 4× A100 80 GB",
           ],
+          recruiter: [
+            "Novel NSLT-derived architecture whose memory does not grow with sequence length — O(1) inference memory.",
+            "Pretrain, SFT and instruction tuning in one script; checkpoints every 1 000 steps on 4× A100 80 GB.",
+            "Built to train large models on tight memory budgets — a systems-level LLM contribution.",
+          ],
         },
       ],
       annex: [
@@ -196,6 +227,14 @@ export const translations = {
           stack: "Python · PyTorch · Flask · SQLite",
         },
       ],
+    },
+    linkedin: {
+      label: "Live from LinkedIn",
+      pending: "Querying LinkedIn…",
+      fail: "LinkedIn not reachable — visit the profile for the full record.",
+      visit: "VIEW PROFILE ↗",
+      headline: "Professional headline",
+      about: "About",
     },
     custody: {
       no: "§ 3",
@@ -218,6 +257,10 @@ export const translations = {
             "AI-enabled features integrated into web projects; functional requirements went into the user experience.",
             "Conducted user research, wireframing and prototyping; iterated designs for usability and consistency.",
           ],
+          recruiter: [
+            "Translated business requirements into shipped interfaces and application workflows — end-to-end ownership from research to production.",
+            "Integrated AI-enabled features into web projects; led user research, wireframing and prototyping for usable, consistent designs.",
+          ],
         },
         {
           date: "12/2023 – 04/2024",
@@ -235,6 +278,11 @@ export const translations = {
             "Gain driven by architecture optimization and class-balanced augmentation",
             "Data-leakage defect verified over 10+ structured training runs",
           ],
+          recruiter: [
+            "Raised validation accuracy from 71 % to 79 % on age & gender classification (22 000+ images) through architecture optimization and class-balanced augmentation.",
+            "Cut V100 GPU training time by 20 % with cosine LR scheduling and larger batches — no accuracy loss.",
+            "Found and fixed a data-leakage defect, verified across 10+ structured training runs.",
+          ],
         },
         {
           date: "05/2023 – 06/2023",
@@ -251,6 +299,11 @@ export const translations = {
             "3 000+ images curated across five vehicle classes",
             "IoU/NMS tuning: −18 % low-light false positives (dedicated night-test set)",
             "Packaged as a deployment-ready Python application with benchmarking",
+          ],
+          recruiter: [
+            "Deployed YOLOv8n object detection on a CPU-only edge device: 720p at 28–32 FPS, 2.4× the YOLOv5s baseline.",
+            "Curated and annotated 3 000+ images across five vehicle classes; tuned IoU/NMS to cut low-light false positives by 18 %.",
+            "Packaged inference and visualization into a deployment-ready Python application with benchmarking.",
           ],
         },
       ],
@@ -444,6 +497,7 @@ export const translations = {
       note: "Jeder Verweis öffnet das echte Repository · jede Zahl ist gemessen",
       openRepo: "REPO ÖFFNEN ↗",
       moreLabel: "Aus den Akten",
+      recruiterLabel: "Warum es zählt",
       gh: {
         label: "Live von GitHub",
         pending: "GitHub wird abgefragt…",
@@ -476,6 +530,11 @@ export const translations = {
             "MCP + LSP ohne SDKs · Fallback-Parser für Modelle ohne Function Calling",
             "CI: Linux · Windows · macOS",
           ],
+          recruiter: [
+            "Einen autonomen Coding-Agenten von Grund auf gebaut — keine MCP/LSP-SDK-Abhängigkeit; funktioniert mit jedem Modell, inklusive solcher ohne Function Calling.",
+            "Mit CI auf Linux, macOS und Windows ausgeliefert; 8,1 ms Overhead pro Agent-Schritt über 8 LLM-Anbieter mit automatischem Failover.",
+            "Produktionsreifes Agenten-Framework: Streaming, Plan-Modus, Sub-Agenten und Checkpoints — echtes Tool-Use, kein Chat-Wrapper.",
+          ],
         },
         {
           pos: "02",
@@ -493,6 +552,11 @@ export const translations = {
             "26 LLM-Anbieter · 7 Suchbackends · auf Wunsch vollständig lokal",
             "55 Tests · 76 % Abdeckung · CI unter Ubuntu und Windows",
           ],
+          recruiter: [
+            "Lokal-first Recherche-Engine: Antworten mit Beleg auf Quellseiten, vollständig auf eigener Hardware ausführbar.",
+            "Schlägt die Anserini-Referenz bei BEIR SciFact (0,654 nDCG@10 vs 0,665); Antworten streamen in ca. 200 ms über einen SQLite-Wissensgraphen.",
+            "26 LLM-Anbieter und 7 Such-Backends hinter einer Retrieval-API — gebaut, um über Modell-Ökosysteme zu skalieren.",
+          ],
         },
         {
           pos: "03",
@@ -508,6 +572,11 @@ export const translations = {
             "Fragen außerhalb des Speichers in < 0.3 s verweigert · ohne Modellaufruf",
             "Lokales 0.8B-Modell: 8 von 8 abgedeckten Fragen (12 Testfragen) · Median 7.4 s",
             "26 automatisierte Tests · ca. 1.5 s",
+          ],
+          recruiter: [
+            "RAG mit Sicherheit an erster Stelle: jeder Antwortsatz wird gegen den Speicher geprüft, unbelegte Teile entfernt, Fragen außerhalb des Speichers in < 0,3 s verweigert.",
+            "Keine halluzinierten Antworten durch Design — Korrektheit vor Vollständigkeit, production-safe für regulierte Wissensbasen.",
+            "Zitierte Antworten mit Original-Seitenreferenz — prüfbare KI, keine Blackbox.",
           ],
         },
         {
@@ -527,6 +596,11 @@ export const translations = {
             "Beste Variante schlägt die Baseline in allen Metriken — knapp (3,783 → 3,776, ein Lauf) · zweiter Seed geplant",
             "Literaturbasis: 66 Arbeiten",
           ],
+          recruiter: [
+            "Master-Forschung an der Hochschule Heilbronn, professoriell betreut: verbessert paralleles Debattieren das Reasoning von Modellen?",
+            "Null-initialisiertes Residualmodul (+19,59 M Parameter) auf SmolLM2-135M, A/B-getestet auf PubMedQA und MedQuAD mit leckagefreien Splits.",
+            "Literaturbasis von 66 Arbeiten; Paired-Bootstrap-Intervalle — akademische Strenge auf LLM-Alignment angewendet.",
+          ],
         },
         {
           pos: "05",
@@ -541,6 +615,11 @@ export const translations = {
             "3D-Hirnraster aus Transformer-Blöcken · laterale und Rückkopplungs-Nachrichten",
             "Gepaarte Stufen bei 50 M · 125 M · 350 M · 1 B Parametern",
             "Standard-Transformer, nach demselben Rezept trainiert",
+          ],
+          recruiter: [
+            "Architektur-Forschung: ein 3D-Hirnraster aus Transformer-Blöcken mit lateralen und Rückkopplungs-Nachrichten.",
+            "Gepaarte Trainingsläufe bei 50 M – 1 B Parametern auf 4× A100 — verteiltes Training im großen Maßstab.",
+            "Fragt, ob Struktur den unstrukturierten Baseline schlägt — Originalforschung, kein Tutorial-Projekt.",
           ],
         },
         {
@@ -558,6 +637,11 @@ export const translations = {
             "Auto-aufgelöster Tokenizer · gestreamte Datensätze · Checkpoints alle 1 000 Schritte",
             "CUDA 12.8 · ausgelegt für 4× A100 80 GB",
           ],
+          recruiter: [
+            "Neue, aus NSLT abgeleitete Architektur, deren Speicher nicht mit der Sequenzlänge wächst — O(1)-Inferenzspeicher.",
+            "Pretrain, SFT und Instruction-Tuning in einem Skript; Checkpoints alle 1 000 Schritte auf 4× A100 80 GB.",
+            "Gebaut, um große Modelle bei knappem Speicher zu trainieren — ein LLM-Beitrag auf Systemebene.",
+          ],
         },
       ],
       annex: [
@@ -574,6 +658,14 @@ export const translations = {
           stack: "Python · PyTorch · Flask · SQLite",
         },
       ],
+    },
+    linkedin: {
+      label: "Live von LinkedIn",
+      pending: "LinkedIn wird abgefragt…",
+      fail: "LinkedIn nicht erreichbar — das Profil im Volltext besuchen.",
+      visit: "PROFIL ANSEHEN ↗",
+      headline: "Berufliche Schlagzeile",
+      about: "Über mich",
     },
     custody: {
       no: "§ 3",
@@ -596,6 +688,10 @@ export const translations = {
             "KI-gestützte Features in Webprojekte integriert; funktionale Anforderungen in die Nutzererfahrung überführt.",
             "Nutzerforschung, Wireframing und Prototyping; Designs iterativ für Usability und Konsistenz optimiert.",
           ],
+          recruiter: [
+            "Unternehmensanforderungen in ausgelieferte Interfaces und Abläufe übersetzt — Verantwortung von der Recherche bis in die Produktion.",
+            "KI-gestützte Features in Webprojekte integriert; User Research, Wireframing und Prototyping für nutzbare, konsistente Designs geführt.",
+          ],
         },
         {
           date: "12/2023 – 04/2024",
@@ -613,6 +709,11 @@ export const translations = {
             "Zugewinn durch Architekturoptimierung und klassenausgeglichene Augmentierung",
             "Datenleck über 10+ strukturierte Trainingsläufe verifiziert",
           ],
+          recruiter: [
+            "Validierungsgenauigkeit von 71 % auf 79 % bei Alters- und Geschlechtsklassifikation (22.000+ Bilder) durch Architekturoptimierung und klassenausgeglichene Augmentation gesteigert.",
+            "V100-GPU-Trainingszeit um 20 % gesenkt (cosine LR-Scheduling, größere Batches) ohne Genauigkeitsverlust.",
+            "Datenleck gefunden und behoben, verifiziert über 10+ strukturierte Trainingsläufe.",
+          ],
         },
         {
           date: "05/2023 – 06/2023",
@@ -629,6 +730,11 @@ export const translations = {
             "3.000+ Bilder in fünf Fahrzeugklassen kuratiert",
             "IoU-/NMS-Abstimmung: −18 % Fehlalarme bei wenig Licht (eigener Nachtsatz)",
             "Als einsatzbereite Python-Anwendung mit Benchmarking gebündelt",
+          ],
+          recruiter: [
+            "YOLOv8n-Objekterkennung auf rein CPU-basiertem Edge-Gerät deployed: 720p bei 28–32 FPS, 2,4× der YOLOv5s-Referenz.",
+            "3.000+ Bilder in fünf Fahrzeugklassen kuratiert und annotiert; IoU/NMS-Abstimmung senkte Nacht-Fehlalarme um 18 %.",
+            "Inference und Visualisierung als deploymentsfertige Python-Anwendung mit Benchmarking verpackt.",
           ],
         },
       ],
