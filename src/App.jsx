@@ -67,14 +67,18 @@ function AppBody() {
         <a href="#" className="cv-back" onClick={() => setCv(null)}>
           ← {language === "en" ? "Back to portfolio" : "Zurück zum Portfolio"}
         </a>
-        <button
-          type="button"
-          className="cv-back"
-          style={{ top: "auto", bottom: "1rem", right: "1rem" }}
-          onClick={() => window.print()}
-        >
-          {language === "en" ? "Print / Save as PDF" : "Drucken / Als PDF speichern"}
-        </button>
+        <div className="cv-actions">
+          <button type="button" className="cv-back" onClick={() => window.print()}>
+            {language === "en" ? "Print / Save as PDF" : "Drucken / Als PDF speichern"}
+          </button>
+          <a
+            className="cv-back cv-download"
+            href={cv === "en" ? "./files/CV_Harshil_Gorasiya_EN.pdf" : "./files/Lebenslauf_Harshil_Gorasiya.pdf"}
+            download
+          >
+            {language === "en" ? "Download PDF ↓" : "PDF herunterladen ↓"}
+          </a>
+        </div>
         <main className="relative z-10">
           <CvComponent />
         </main>
