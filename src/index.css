@@ -212,3 +212,61 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
   .sheet-frame, .sheet-fade { animation: none; }
   .disclose { transition: none; }
 }
+
+/* ————————————————————————————————————————————————
+   CV pages: Datenblatt print layout (A4 sheets) ——— */
+.cv-doc {
+  background: var(--color-paper-lo);
+  padding: 6mm 0;
+}
+.cv-sheet {
+  position: relative;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 6mm;
+  background: var(--color-paper);
+  box-sizing: border-box;
+}
+.cv-sheet:last-child { margin-bottom: 0; }
+.cv-frame { position: absolute; inset: 0; pointer-events: none; }
+.cv-border { position: absolute; inset: 12mm; border: 1.5px solid var(--color-ink); }
+.cv-border-inner { position: absolute; inset: 14.5mm; border: 0.5px solid rgba(22,19,14,0.35); }
+.cv-crop { position: absolute; width: 10mm; height: 10mm; }
+.cv-crop-tl { top: 3mm; left: 3mm; border-top: 1.5px solid var(--color-ink); border-left: 1.5px solid var(--color-ink); }
+.cv-crop-tr { top: 3mm; right: 3mm; border-top: 1.5px solid var(--color-ink); border-right: 1.5px solid var(--color-ink); }
+.cv-crop-bl { bottom: 3mm; left: 3mm; border-bottom: 1.5px solid var(--color-ink); border-left: 1.5px solid var(--color-ink); }
+.cv-crop-br { bottom: 3mm; right: 3mm; border-bottom: 1.5px solid var(--color-ink); border-right: 1.5px solid var(--color-ink); }
+.cv-coord { position: absolute; font: 400 7px var(--font-mono); color: var(--color-graphite); letter-spacing: 0.35em; text-transform: uppercase; user-select: none; }
+.cv-coord-tl { top: 7mm; left: 7mm; }
+.cv-coord-tr { top: 7mm; right: 7mm; }
+.cv-coord-bl { bottom: 7mm; left: 7mm; }
+.cv-coord-br { bottom: 7mm; right: 7mm; }
+.cv-content { position: relative; z-index: 10; padding: 16mm 17mm 20mm; }
+.cv-footer {
+  position: absolute; left: 17mm; right: 17mm; bottom: 9mm;
+  display: flex; justify-content: space-between;
+  border-top: 1.5px solid var(--color-ink); padding-top: 2mm;
+  font: 600 7px var(--font-mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-graphite);
+}
+.cv-stamp-circle {
+  width: 38mm; height: 38mm;
+  font: 600 0.55rem var(--font-mono);
+}
+.cv-back {
+  position: fixed; top: 1rem; right: 1rem; z-index: 60;
+  font: 600 0.72rem var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid var(--color-ink); background: var(--color-paper-hi); color: var(--color-ink);
+  padding: 8px 12px; text-decoration: none;
+}
+.cv-back:hover { background: var(--color-paper-lo); }
+
+/* Print output: one sheet = one A4 page, colours kept */
+@page { size: A4; margin: 0; }
+@media print {
+  html, body { background: var(--color-paper) !important; }
+  .cv-doc { padding: 0; background: var(--color-paper); }
+  .cv-sheet { margin: 0; page-break-after: always; break-after: page; }
+  .cv-sheet:last-child { page-break-after: auto; break-after: auto; }
+  .cv-back { display: none !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}

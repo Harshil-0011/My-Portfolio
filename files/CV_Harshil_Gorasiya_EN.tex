@@ -59,7 +59,7 @@
 % Abschnittsueberschriften
 \titleformat{\section}{\normalfont\bfseries\color{navy}\normalsize}{}{0pt}
   {\MakeUppercase}[\vspace{-0.45em}{\color{navy}\rule{\linewidth}{0.7pt}}]
-\titlespacing*{\section}{0pt}{9.5pt}{5pt}
+\titlespacing*{\section}{0pt}{11pt}{5pt}
 
 % Hilfsmakros
 \newcommand{\sep}{\hspace{0.45em}\textbar\hspace{0.45em}}
@@ -68,12 +68,12 @@
   \begingroup\raggedright\leftskip=\dimexpr\leftcol+\gap\relax\noindent
   \hspace*{-\dimexpr\leftcol+\gap\relax}%
   \vtop to 0pt{\hsize=\dimexpr\leftcol+\gap\relax\raggedright\small\color{mid}\noindent #1\par\vss}%
-  #2\par #3\par\endgroup\vspace{4pt}}
+  #2\par #3\par\endgroup\vspace{5pt}}
 \newcommand{\etitle}[2]{\textbf{#1}\ifx&#2&\else\textcolor{mid}{\sep}#2\fi}
-\newcommand{\stack}[1]{{\small\itshape\color{mid}#1}\par\vspace{1pt}}
+\newcommand{\stack}[1]{{\small\itshape\color{mid}#1}\par\vspace{5pt}}
 \newcommand{\kpi}[2]{\begin{minipage}[t]{\linewidth}\centering{\large\bfseries\color{navy}#1}\\[-1pt]{\scriptsize\color{mid}#2}\end{minipage}}
 
-\renewcommand\normalsize{\@setfontsize\normalsize{9.6}{11.3}}
+\renewcommand\normalsize{\@setfontsize\normalsize{10.4}{12.6}}
 \makeatother
 \begin{document}
 \normalsize
@@ -81,8 +81,8 @@
 \noindent
 \begin{minipage}[t]{\dimexpr\textwidth-3.05cm\relax}
   {\fontsize{25}{28}\selectfont\bfseries\color{navy}Harshil Gorasiya}\\[4pt]
-  {\bfseries LLM systems: retrieval, agents, and small-model research}\\[1pt]
-  {\color{navy}\bfseries LLM Applications\dotsep RAG\dotsep AI Agents\dotsep LLM Research}\\[5pt]
+  {\bfseries LLM systems: retrieval, AI agents, and small-model research}\\[1pt]
+  {\color{navy}\bfseries Python\dotsep PyTorch\dotsep LLM\dotsep RAG\dotsep Computer Vision}\\[5pt]
   {\small
   Heilbronn, Germany\sep +49 155 6351 7346\sep
   \href{mailto:harshil.gorasiya.0011@gmail.com}{harshil.gorasiya.0011@gmail.com}\\[1pt]
@@ -99,22 +99,22 @@
 \vspace{7pt}
 \noindent\colorbox{tint}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{\small
   \textbf{Seeking:} Working student position (20 hrs/week during semester)\dotsep
-  Full-time during semester breaks\dotsep LLM/RAG role after graduation (2027)\\[1pt]
+  Full-time during semester breaks\dotsep Entry-level LLM/RAG role from 2027\\[1pt]
   \textbf{Available:} immediately\sep
   \textbf{Residence status:} valid residence permit with work permit}}
 
 \vspace{6pt}
 \noindent
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}*{5}{>{\centering\arraybackslash}p{0.185\textwidth}}}
-  \kpi{0.654}{nDCG@10, BEIR SciFact, 300 queries} &
-  \kpi{8.1 ms}{overhead per agent step, laptop CPU} &
-  \kpi{28--32 FPS}{YOLOv8n on CPU only} &
-  \kpi{79\,\%}{accuracy (up from 71\,\%)} &
-  \kpi{250 tests}{pytest suite, Ekdant}
+  \kpi{+8 pts}{accuracy: 71\,\% to 79\,\%} &
+  \kpi{–20\,\%}{training time (V100 GPUs)} &
+  \kpi{2.4\texttimes}{throughput vs. YOLOv5s} &
+  \kpi{28--32 FPS}{real-time object detection on CPU} &
+  \kpi{8 providers}{LLMs with failover (Ardan-CLI)} \\
 \end{tabular*}
 
 \section*{Profile}
-Master's student at Heilbronn University focused on LLM applications. I build local RAG systems with hybrid retrieval and AI agents with tool use, and I research a reasoning module for language models in a supervised project. I also bring two ML internships and a role in AI-enabled web development.
+Master's student at Hochschule Heilbronn. I build LLM applications: local RAG systems with source citations, AI agents with tool use, and computer vision models that run on CPU. I also bring two ML internships, 10 months of AI-enabled web development, and a research project on reasoning modules for language models.
 
 \section*{Education}
 \entry{since 03/2025}
@@ -127,86 +127,84 @@ Master's student at Heilbronn University focused on LLM applications. I build lo
 \section*{Projects}
 \entry{AI agent}
   {\etitle{Ardan-CLI: Autonomous Terminal Coding Agent}{}}
-  {\stack{TypeScript (strict), Node.js 24, 0 runtime dependencies, MCP, LSP}
+  {\stack{TypeScript, Node.js, MCP, LSP}
   \begin{itemize}
-    \item Agent loop with streaming, \textbf{35 tools}, plan mode, sub-agents, and checkpoints; \textbf{8 LLM providers} with automatic failover.
-    \item SSE/NDJSON streaming, MCP and LSP clients without SDKs; fallback parser for models without function calling.
-    \item \textbf{8.1 ms} overhead per agent step (laptop CPU); CI on Linux, macOS, Windows.
+    \item Agent with streaming, plan mode, sub-agents, and checkpoints; \textbf{35 tools}.
+    \item \textbf{8 LLM providers} with automatic failover; \textbf{0 runtime dependencies}, MCP and LSP clients built by hand.
+    \item \textbf{8.1 ms} overhead per agent step (model time excluded); automated tests on Linux, macOS, and Windows.
   \end{itemize}}
 \entry{Research engine}
   {\etitle{Local Perplex: Local AI Research Assistant with Citations}{}}
   {\stack{Python, FastAPI, SSE, SQLite, Ollama, Docker}
   \begin{itemize}
-    \item Searches the web and your own documents (PDF, Word, Excel, and more), reads pages in parallel, and streams cited answers; \textbf{26 LLM providers}, 7 search backends, fully local if desired.
-    \item Own BM25 ranker: \textbf{0.654 nDCG@10} on BEIR SciFact, 300 queries (previous version 0.038; Anserini reference 0.665), 9.5 ms per query.
-    \item Answer page in about \textbf{200 ms}; SQLite knowledge graph (77\texttimes{} faster writes); \textbf{55 tests}, 76\,\% coverage, CI on Ubuntu and Windows.
+    \item Searches the web and your own documents (PDF, Word, Excel) and streams answers with citations.
+    \item \textbf{26 LLM providers}, 7 search backends, fully offline if desired.
+    \item \textbf{17\texttimes{} better retrieval quality} than my first version (BEIR SciFact); answer page in about \textbf{200 ms}; knowledge graph with \textbf{77\texttimes{}} faster writes.
   \end{itemize}}
 \entry{RAG system}
   {\etitle{ANVITHA: Local Knowledge Vault with Grounded, Cited Answers}{}}
-  {\stack{Python, FastAPI, Ollama, SQLite, NumPy, BM25}
+  {\stack{Python, FastAPI, Ollama, SQLite, BM25}
   \begin{itemize}
-    \item Turns PDF, TXT, and Markdown files into a linked Markdown knowledge vault; answers come only from the vault and cite the original page.
-    \item Facts are checked against the source text before they are stored; every answer sentence is checked against the vault afterwards, and unsupported parts are removed.
-    \item Questions outside the vault are refused in under 0.3 s without a model call.
-    \item Tested with a local 0.8B-parameter model (Ollama): 8 of 8 covered questions answered (12 test questions in total), median 7.4 s to full answer; 26 automated tests in about 1.5 s.
+    \item Turns PDF, text, and Markdown files into a linked knowledge vault; every answer cites the page of the original source.
+    \item Each answer sentence is checked against the sources; unsupported claims are removed.
+    \item Questions outside the topic are refused in under \textbf{0.3 s}, without a model call.
+    \item Notes stored as editable Markdown with a full change log; runs fully local via Ollama.
   \end{itemize}}
 \newpage
 \entry{Master's thesis\\(ongoing)}
-  {\etitle{Ekdant: Debate-Sandbox Reasoning Module for Language Models}{}}
-  {\stack{Hochschule Heilbronn, supervised by a professor\sep Python, PyTorch, Hugging Face}
+  {\etitle{Ekdant: Reasoning Module for Language Models}{}}
+  {\stack{Hochschule Heilbronn, supervised by a professor\sep PyTorch, Hugging Face}
   \begin{itemize}
-    \item Research question: does a parallel debate module (4 trajectories, 2 debate rounds, consensus) improve a language model's reasoning? Implemented in pure PyTorch as a zero-initialized residual module (\textbf{+19.59M parameters}) on a pretrained SmolLM2-135M.
-    \item Controlled A/B comparison against an architecture-matched baseline on generative medical QA (PubMedQA, MedQuAD); leakage-free split by question; evaluated with perplexity, ROUGE-L, token F1, and paired-bootstrap confidence intervals.
-    \item Best variant (module as final stage) beats the baseline on every metric, but only narrowly (perplexity \textbf{3.783 to 3.776}, one run); the from-scratch pilot showed no difference. Second seed planned to confirm.
-    \item \textbf{250 pytest tests}; found and fixed 4 design defects; literature base of 66 papers.
+    \item Parallel debate module (4 paths, consensus) added as a final stage to SmolLM2-135M; \textbf{+19.6M parameters}.
+    \item Controlled comparison against an architecture-matched baseline on medical question answering: the best variant leads on every metric, by a narrow margin.
+    \item Literature base of 66 research papers.
   \end{itemize}}
 \entry{More projects}
   {\etitle{AI Video Upscaling}{Python, PyTorch}}
-  {\small Windows desktop application for video super-resolution with model selection and runtime monitoring; compared Real-ESRGAN variants using PSNR and SSIM.}
+  {\small Windows desktop application for video super-resolution with model selection; compared Real-ESRGAN variants using PSNR and SSIM.}
 \entry{\strut}
   {\etitle{MNIST-MLOps}{Python, PyTorch, Flask, SQLite}}
-  {\small Demo of an MLOps workflow: incremental training, metrics and model versions in SQLite, web dashboard.}
+  {\small Incremental training, model version management, and a web dashboard.}
 
 \section*{Professional Experience}
 \entry{05/2024 -- 02/2025\\(10 months)}
   {\etitle{AI \& Web Solutions Developer}{Aani Brothers Infotech, Surat, India}}
   {\begin{itemize}
-    \item Built web applications that translate business requirements into user interfaces and application workflows.
-    \item Contributed to web projects with AI-enabled features; integrated functional requirements into the user experience.
-    \item Conducted user research, wireframing, and prototyping; iterated on designs to improve usability and consistency.
+    \item Built web applications that turn business requirements into user interfaces and workflows, including AI-enabled features.
+    \item Conducted user research, wireframing, and prototyping; optimized designs for usability.
   \end{itemize}}
 \entry{12/2023 -- 04/2024\\(5 months)}
   {\etitle{Deep Learning Intern}{PD Avenue, Surat, India}}
   {\begin{itemize}
-    \item Built a residual-block CNN (TensorFlow/Keras) for age and gender classification on \textbf{22,000+ images}; raised validation accuracy from \textbf{71\,\% to 79\,\%} (architecture optimization, class-balanced augmentation).
-    \item Cut training time on V100 GPUs by \textbf{20\,\%} (cosine learning-rate scheduling, larger batch size) with no loss of accuracy.
-    \item Found and fixed a data-leakage issue; ensured reliability across \textbf{10+ structured training runs}.
+    \item Built a residual-block CNN (TensorFlow/Keras) for age and gender classification on \textbf{22,000+ images}; raised accuracy from \textbf{71\,\% to 79\,\%}.
+    \item Cut training time on V100 GPUs by \textbf{20\,\%} (learning-rate scheduling, larger batch size) with no loss of accuracy.
+    \item Identified and fixed a data-leakage issue.
   \end{itemize}}
 \entry{05/2023 -- 06/2023\\(2 months)}
   {\etitle{Machine Learning Intern}{Dotcom IoT LLP, Surat, India}}
   {\begin{itemize}
-    \item YOLOv8n object detection on a CPU-only edge device (Intel Core i7): 720p video at \textbf{28--32 FPS}; \textbf{2.4\texttimes{} higher throughput} than the YOLOv5s baseline.
+    \item YOLOv8n object detection on a CPU-only edge device (Intel Core i7): 720p video at \textbf{28--32 FPS}; \textbf{2.4\texttimes{} higher throughput} than YOLOv5s.
     \item Curated and annotated \textbf{3,000+ images} across five vehicle classes.
-    \item Tuned IoU and NMS parameters: reduced false positives in low light by \textbf{18\,\%} (dedicated night-test dataset).
-    \item Packaged inference and visualization into a deployment-ready Python application with performance benchmarking.
+    \item Reduced false positives in low light by \textbf{18\,\%} through IoU and NMS tuning.
   \end{itemize}}
 
 \section*{Skills}
-\entry{LLM \& RAG}
-  {\small RAG pipelines, hybrid retrieval (BM25, embeddings), grounded answering, Ollama, ReAct agents and tool use, Anthropic API, Model Context Protocol (MCP), prompt engineering}{}
-\entry{LLM research}
-  {\small Fine-tuning, Transformer architectures (GQA, SwiGLU), A/B experiment design, PyTorch, Hugging Face Transformers}{}
-\entry{ML \& Vision}
-  {\small PyTorch, TensorFlow/Keras, scikit-learn, YOLOv8, CNNs, OpenCV}{}
+\entry{Programming}
+  {\small Python, TypeScript, Node.js, SQL, Bash}{}
 \entry{Engineering}
-  {\small Python, TypeScript, SQL, Bash, Git, Docker, Linux, pytest, CI (GitHub Actions), REST APIs, FastAPI, Flask, MLflow, SQLite, PostgreSQL, MongoDB, AWS (basic)}{}
-\entry{Evaluation}
-  {\small Latency and throughput benchmarking, nDCG@10 (BEIR), validation accuracy, false-positive analysis, PSNR/SSIM, perplexity, ROUGE-L, token F1, paired bootstrap}{}
+  {\small Git, GitHub Actions (CI/CD), Docker, Linux, pytest, REST APIs, FastAPI, Flask, streaming (SSE), JSON-RPC}{}
+\entry{ML \& vision}
+  {\small PyTorch, TensorFlow/Keras, Hugging Face Transformers, YOLOv8, CNNs with residual blocks, object detection, super-resolution (Real-ESRGAN), OpenCV, data annotation, hyperparameter tuning, learning-rate scheduling, overfitting analysis}{}
+\entry{LLM \& agents}
+  {\small RAG systems, retrieval (BM25, embeddings), knowledge graphs, source-grounded answering, prompt engineering, fine-tuning, small language models (SmolLM2), AI agents with tool use (ReAct), Model Context Protocol (MCP), Anthropic API, OpenAI-compatible APIs, Ollama}{}
+\entry{Evaluation \& research}
+  {\small A/B experiment design, model evaluation (accuracy, latency, throughput, PSNR/SSIM, perplexity, ROUGE-L), literature review}{}
+\entry{Databases \& UX}
+  {\small SQLite, PostgreSQL, MongoDB, NumPy\sep user research, wireframing, prototyping, usability}{}
 
 \section*{Certifications}
 \entry{2026}{\small Claude with the Anthropic API\sep Model Context Protocol: Advanced Topics (both Anthropic)}{}
 \entry{2025}{\small Machine Learning with Python (IBM)\sep Fundamentals of Data Science (Databricks)}{}
-\entry{Further}{\small CRISP-DM on the AWS Stack\sep Big Data with Spark and Hadoop\sep AWS Academy Cloud}{}
 
 \section*{Languages}
 \entry{\strut}{\small \textbf{English:} fluent\sep \textbf{German:} A2--B1 (self-assessed)\sep \textbf{Hindi:} fluent\sep \textbf{Gujarati:} native}{}
