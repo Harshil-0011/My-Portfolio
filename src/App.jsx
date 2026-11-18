@@ -8,24 +8,45 @@ import Custody from "./components/Custody";
 import Matrix from "./components/Matrix";
 import Attestations from "./components/Attestations";
 import Exchange from "./components/Exchange";
+import CV_EN from "./components/CV_EN";
+import CV_DE from "./components/CV_DE";
 import { LINKS } from "./utils/links";
 
 function AppBody() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [proof, setProof] = useState(false);
   const [stampArmed, setStampArmed] = useState(false);
+  const [cv, setCv] = useState(null); // null | 'en' | 'de'
 
   useEffect(() => {
     document.documentElement.classList.toggle("proof", proof);
   }, [proof]);
 
   useEffect(() => {
-    document.title = t("meta").documentTitle;
-  }, [t]);
+    document.title = cv
+      ? `CV ${language === "en" ? "EN" : "DE"} — Harshil Gorasiya`
+      : t("meta").documentTitle;
+  }, [cv, language, t]);
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash === "cv-en") setCv("en");
+    else if (hash === "cv-de") setCv("de");
+    else setCv(null);
+
+    const onHashChange = () => {
+      const h = window.location.hash.replace("#", "");
+      if (h === "cv-en") setCv("en");
+      else if (h === "cv-de") setCv("de");
+      else setCv(null);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, [language]);
 
   useEffect(() => {
     const anchor = document.querySelector(".stamp-anchor");
-    if (!anchor) return undefined;
+    if (!anchor || cv) return undefined;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -37,7 +58,29 @@ function AppBody() {
     );
     observer.observe(anchor);
     return () => observer.disconnect();
-  }, []);
+  }, [cv]);
+
+  if (cv) {
+    const CvComponent = cv === "en" ? CV_EN : CV_DE;
+    return (
+      <div className="relative min-h-screen overflow-x-clip">
+        <a href="#" className="cv-back" onClick={() => setCv(null)}>
+          ← {language === "en" ? "Back to portfolio" : "Zurück zum Portfolio"}
+        </a>
+        <button
+          type="button"
+          className="cv-back"
+          style={{ top: "auto", bottom: "1rem", right: "1rem" }}
+          onClick={() => window.print()}
+        >
+          {language === "en" ? "Print / Save as PDF" : "Drucken / Als PDF speichern"}
+        </button>
+        <main className="relative z-10">
+          <CvComponent />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen overflow-x-clip">

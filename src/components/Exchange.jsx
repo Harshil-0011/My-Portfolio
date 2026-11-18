@@ -75,6 +75,12 @@ export default function Exchange() {
             >
               {language === "en" ? ex.germanCvLabel : ex.cvLabel}
             </a>
+            <a
+              className="chip"
+              href={`#cv-${language === "en" ? "en" : "de"}`}
+            >
+              {language === "en" ? "View CV (web)" : "CV (Web) ansehen"}
+            </a>
           </div>
 
           <dl className="mt-8 space-y-5">
