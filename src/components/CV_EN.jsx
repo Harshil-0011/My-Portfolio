@@ -293,7 +293,7 @@ export default function CV_EN() {
               date=""
               meta={
                 <span>
-                  <strong>English:</strong> fluent · <strong>German:</strong> A2–B1 (self-assessed) · <strong>Hindi:</strong> fluent · <strong>Gujarati:</strong> native
+                  <strong>English:</strong> fluent · <strong>German:</strong> A2–B1 · <strong>Hindi:</strong> fluent · <strong>Gujarati:</strong> native
                 </span>
               }
             />

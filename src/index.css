@@ -242,6 +242,16 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
 .cv-coord-bl { bottom: 7mm; left: 7mm; }
 .cv-coord-br { bottom: 7mm; right: 7mm; }
 .cv-content { position: relative; z-index: 10; padding: 16mm 17mm 20mm; }
+/* Sheet 1 has fewer sections than sheet 2: distribute them evenly so the
+   first page reads as full as the second instead of ending in a big gap. */
+.cv-sheet:first-child .cv-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 297mm;
+  padding-bottom: 28mm;
+}
+.cv-sheet:first-child .cv-content > * { flex: 0 0 auto; }
 .cv-footer {
   position: absolute; left: 17mm; right: 17mm; bottom: 9mm;
   display: flex; justify-content: space-between;
@@ -259,6 +269,13 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
   padding: 8px 12px; text-decoration: none;
 }
 .cv-back:hover { background: var(--color-paper-lo); }
+.cv-actions {
+  position: fixed; top: auto; bottom: 1rem; right: 1rem; z-index: 60;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 7px;
+}
+.cv-actions .cv-back { position: static; }
+.cv-download { background: var(--color-stamp); border-color: var(--color-stamp); color: var(--color-paper); }
+.cv-download:hover { background: #8f2118; border-color: #8f2118; }
 
 /* Print output: one sheet = one A4 page, colours kept */
 @page { size: A4; margin: 0; }
@@ -267,6 +284,6 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
   .cv-doc { padding: 0; background: var(--color-paper); }
   .cv-sheet { margin: 0; page-break-after: always; break-after: page; }
   .cv-sheet:last-child { page-break-after: auto; break-after: auto; }
-  .cv-back { display: none !important; }
+  .cv-back, .cv-actions { display: none !important; }
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
