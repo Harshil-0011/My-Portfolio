@@ -242,16 +242,12 @@ body { @apply bg-paper text-ink font-display antialiased; font-size: 16px; }
 .cv-coord-bl { bottom: 7mm; left: 7mm; }
 .cv-coord-br { bottom: 7mm; right: 7mm; }
 .cv-content { position: relative; z-index: 10; padding: 16mm 17mm 20mm; }
-/* Sheet 1 has fewer sections than sheet 2: distribute them evenly so the
-   first page reads as full as the second instead of ending in a big gap. */
-.cv-sheet:first-child .cv-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 297mm;
-  padding-bottom: 28mm;
-}
-.cv-sheet:first-child .cv-content > * { flex: 0 0 auto; }
+/* Sheet 1 has fewer sections than sheet 2. A slightly wider, uniform gap
+   between its blocks fills the page without making the rhythm look uneven. */
+.cv-sheet:first-child .cv-content { min-height: 297mm; }
+.cv-sheet:first-child .cv-content > * + * { margin-top: 6.6mm; }
+/* Stamp-red emphasis for the key figures and terms in both CVs. */
+.cv-doc strong, .cv-doc .cv-em { color: var(--color-stamp); font-weight: 700; }
 .cv-footer {
   position: absolute; left: 17mm; right: 17mm; bottom: 9mm;
   display: flex; justify-content: space-between;

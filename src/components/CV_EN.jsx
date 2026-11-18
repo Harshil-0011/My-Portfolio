@@ -92,7 +92,7 @@ function Kpis() {
     <div className="grid grid-cols-5 border-t-[2px] border-b-[2px] border-ink">
       {kpis.map(([v, l], i) => (
         <div key={l} className={`flex flex-col items-center py-2 ${i > 0 ? "border-l-[1px] border-[rgba(22,19,14,0.28)]" : ""}`}>
-          <span className="font-mono text-[17px] font-bold text-ink leading-none tabular-nums">{v}</span>
+          <span className="cv-em font-mono text-[17px] font-bold text-ink leading-none tabular-nums">{v}</span>
           <span className="font-mono text-[7px] text-ink-soft uppercase tracking-[0.12em] mt-1 text-center leading-tight px-1">{l}</span>
         </div>
       ))}

@@ -24,7 +24,9 @@ function AppBody() {
 
   useEffect(() => {
     document.title = cv
-      ? `CV ${language === "en" ? "EN" : "DE"} — Harshil Gorasiya`
+      ? cv === "en"
+        ? "CV EN — Harshil Gorasiya"
+        : "Lebenslauf DE — Harshil Gorasiya"
       : t("meta").documentTitle;
   }, [cv, language, t]);
 
@@ -61,22 +63,31 @@ function AppBody() {
   }, [cv]);
 
   if (cv) {
-    const CvComponent = cv === "en" ? CV_EN : CV_DE;
+    const isEn = cv === "en";
+    const CvComponent = isEn ? CV_EN : CV_DE;
     return (
       <div className="relative min-h-screen overflow-x-clip">
-        <a href="#" className="cv-back" onClick={() => setCv(null)}>
-          ← {language === "en" ? "Back to portfolio" : "Zurück zum Portfolio"}
+        <a
+          href="#"
+          className="cv-back"
+          onClick={(event) => {
+            event.preventDefault();
+            window.location.hash = "";
+            setCv(null);
+          }}
+        >
+          ← {isEn ? "Back to portfolio" : "Zurück zum Portfolio"}
         </a>
         <div className="cv-actions">
           <button type="button" className="cv-back" onClick={() => window.print()}>
-            {language === "en" ? "Print / Save as PDF" : "Drucken / Als PDF speichern"}
+            {isEn ? "Print / Save as PDF" : "Drucken / Als PDF speichern"}
           </button>
           <a
             className="cv-back cv-download"
-            href={cv === "en" ? "./files/CV_Harshil_Gorasiya_EN.pdf" : "./files/Lebenslauf_Harshil_Gorasiya.pdf"}
+            href={isEn ? "./files/CV_Harshil_Gorasiya_EN.pdf" : "./files/Lebenslauf_Harshil_Gorasiya.pdf"}
             download
           >
-            {language === "en" ? "Download PDF ↓" : "PDF herunterladen ↓"}
+            {isEn ? "Download PDF ↓" : "PDF herunterladen ↓"}
           </a>
         </div>
         <main className="relative z-10">
